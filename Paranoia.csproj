@@ -87,6 +87,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="ShadowPerson.cs" />
     <Compile Include="ShadowPersonChaser.cs" />
+    <Compile Include="SpawnCircle.cs" />
     <Compile Include="SpriteBillboard.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

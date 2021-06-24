@@ -17,6 +17,9 @@ namespace NotEnoughPhotons.paranoia
 		public List<AudioClip> ambientChaser;
 		public List<AudioClip> ambientWatcher;
 		public List<AudioClip> ambientDarkVoices;
+		public List<AudioClip> radioTunes;
+
+		public AudioClip startingTune;
 
 		public System.Action<AudioSource, AudioClip> OnAudioPlay;
 

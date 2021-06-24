@@ -47,8 +47,8 @@ namespace NotEnoughPhotons.paranoia
 
         public bool hUsesDelay;
 
-        private AudioSource _source;
-        private AudioManager _manager;
+        public AudioSource source;
+        public AudioManager audioManager;
 
         public void Initialize(HallucinationType hType, HallucinationFlags hFlags, HallucinationClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime, bool usesDelay)
         {
@@ -68,21 +68,13 @@ namespace NotEnoughPhotons.paranoia
 
         public AudioSource GetSource()
         {
-            if (_source == null) { return null; }
+            if (source == null) { return null; }
 
-            return _source;
+            return source;
         }
 
         private void OnEnable()
         {
-            target = FindObjectOfType<Camera>().transform;
-
-            cameraTarget = FindObjectOfType<Camera>().transform;
-
-            SetSpawnPoint(target.GetComponent<PlayerUnitCircle>().CalculatePlayerCircle(Random.Range(0, 360)));
-
-            _manager = FindObjectOfType<AudioManager>();
-
             MelonLoader.MelonCoroutines.Start(CoUpdateHallucination(hType, hClass, hFlags));
         }
 
@@ -121,46 +113,46 @@ namespace NotEnoughPhotons.paranoia
 
             if (hType.HasFlag(HallucinationType.Auditory) && GetComponent<AudioSource>() != null)
             {
-                _source = GetComponent<AudioSource>();
-                _source.spatialBlend = 1f;
+                source = GetComponent<AudioSource>();
+                source.spatialBlend = 1f;
 
                 if (hClass == HallucinationClass.DarkVoice)
                 {
                     transform.position = target.forward * -2f;
 
-                    if(_manager.ambientDarkVoices.Count > 0)
+                    if(audioManager.ambientDarkVoices.Count > 0)
 					{
-                        _source.clip = _manager.ambientDarkVoices[Random.Range(0, _manager.ambientDarkVoices.Count)];
+                        source.clip = audioManager.ambientDarkVoices[Random.Range(0, audioManager.ambientDarkVoices.Count)];
                     }
                     
-                    _source.loop = false;
+                    source.loop = false;
 
-                    _source.Play();
+                    source.Play();
 
-                    yield return new WaitForSeconds(_source.clip.length);
+                    yield return new WaitForSeconds(source.clip.length);
                     gameObject.SetActive(false);
                 }
                 else if (hClass == HallucinationClass.Chaser)
                 {
-                    if(_manager.ambientChaser.Count > 0)
+                    if(audioManager.ambientChaser.Count > 0)
 					{
-                        _source.clip = _manager.ambientChaser[Random.Range(0, _manager.ambientChaser.Count)];
+                        source.clip = audioManager.ambientChaser[Random.Range(0, audioManager.ambientChaser.Count)];
                     }
                     
-                    _source.loop = true;
+                    source.loop = true;
 
-                    _source.Play();
+                    source.Play();
                 }
                 else if (hClass == HallucinationClass.Watcher)
                 {
-					if (_manager.ambientWatcher.Count > 0)
+					if (audioManager.ambientWatcher.Count > 0)
 					{
-                        _source.clip = _manager.ambientWatcher[Random.Range(0, _manager.ambientWatcher.Count)];
+                        source.clip = audioManager.ambientWatcher[Random.Range(0, audioManager.ambientWatcher.Count)];
                     }
                     
-                    _source.loop = true;
+                    source.loop = true;
 
-                    _source.Play();
+                    source.Play();
                 }
             }
 

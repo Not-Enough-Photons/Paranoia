@@ -23,28 +23,28 @@ namespace NotEnoughPhotons.paranoia
     public class Paranoia : MelonMod
     {
         public class Tick
-		{
+        {
             [System.Flags]
             public enum TickType
-			{
+            {
                 TT_LIGHT = 1,
                 TT_DARK = 2
-			}
+            }
 
             public Tick(float maxTick, TickType tickType)
-			{
+            {
                 this.maxTick = maxTick;
                 this.tickType = tickType;
 
                 if (tickType.HasFlag(TickType.TT_LIGHT))
-				{
+                {
                     instance.ticks.Add(this);
-				}
-				else if(tickType == TickType.TT_DARK)
-				{
+                }
+                else if (tickType == TickType.TT_DARK)
+                {
                     instance.darkTicks.Add(this);
-				}
-			}
+                }
+            }
 
             internal float tick = 0f;
             internal float maxTick = 5f;
@@ -54,7 +54,7 @@ namespace NotEnoughPhotons.paranoia
             internal System.Action OnTick;
 
             internal void Update()
-			{
+            {
                 tick += Time.deltaTime;
 
                 if (tick >= maxTick)
@@ -66,11 +66,11 @@ namespace NotEnoughPhotons.paranoia
         }
 
         public class SpawnCircle
-		{
+        {
             public SpawnCircle(Transform originTransform)
-			{
+            {
                 this.originTransform = originTransform;
-			}
+            }
 
             public Vector3 circle;
 
@@ -85,16 +85,16 @@ namespace NotEnoughPhotons.paranoia
                 // y position is 1 meter since we need the shadow beings to be on the ground directly
                 return new Vector3(
                     originTransform.position.x + Mathf.Sin(angle * Deg2Rad) * radius,
-                    1f,
+                    originTransform.position.y,
                     originTransform.position.z + Mathf.Cos(angle * Deg2Rad) * radius);
             }
 
             public Vector3 CalculatePlayerCircle(float angle, float radius)
-			{
+            {
                 // y position is 1 meter since we need the shadow beings to be on the ground directly
                 return new Vector3(
                     originTransform.position.x + Mathf.Sin(angle * Deg2Rad) * radius,
-                    1f,
+                    originTransform.position.y,
                     originTransform.position.z + Mathf.Cos(angle * Deg2Rad) * radius);
             }
         }
@@ -117,8 +117,9 @@ namespace NotEnoughPhotons.paranoia
 
         internal AudioClip startingTune;
 
-		internal GameObject shadowPersonObject;
+        internal GameObject shadowPersonObject;
         internal GameObject staringManObject;
+        internal GameObject ceilingManObject;
         internal GameObject radioObject;
 
         internal VLB.VolumetricLightBeam lightBeam;
@@ -128,7 +129,9 @@ namespace NotEnoughPhotons.paranoia
         internal ShadowPerson shadowPerson;
         internal ChaserMirage mirage;
         internal ShadowPersonChaser shadowPersonChaser;
+
         internal GameObject staringManClone;
+        internal GameObject ceilingManClone;
         internal GameObject radioClone;
 
         internal GameObject voiceOffset;
@@ -148,9 +151,11 @@ namespace NotEnoughPhotons.paranoia
 
         internal SpawnCircle[] spawnCircles = new SpawnCircle[3];
 
+        internal SpawnCircle ceilingManSpawnCircle;
+
         internal UnhollowerBaseLib.Il2CppReferenceArray<LightmapData> lightmaps;
         internal UnhollowerBaseLib.Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> bakedProbes;
- 
+
         internal bool isBlankBox;
 
         internal bool firstRadioSpawn = false;
@@ -175,10 +180,10 @@ namespace NotEnoughPhotons.paranoia
         // Dark ticks only
         private Tick dVoiceMirageTick;
 
-		public override void OnApplicationStart()
-		{
-			try
-			{
+        public override void OnApplicationStart()
+        {
+            try
+            {
                 if (instance == null)
                 {
                     instance = this;
@@ -194,12 +199,14 @@ namespace NotEnoughPhotons.paranoia
 
                 shadowPersonObject = bundle.LoadAsset("ShadowPerson").Cast<GameObject>();
                 staringManObject = bundle.LoadAsset("StaringMan").Cast<GameObject>();
+                ceilingManObject = bundle.LoadAsset("CeilingMan").Cast<GameObject>();
                 radioObject = bundle.LoadAsset("PRadio").Cast<GameObject>();
- 
+
                 FixObjectShader(radioObject);
 
                 staringManObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 shadowPersonObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
+                ceilingManObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 radioObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
 
                 genericAmbience = new List<AudioClip>();
@@ -212,21 +219,21 @@ namespace NotEnoughPhotons.paranoia
 
                 InitializeTicks();
             }
-			catch(System.Exception e)
-			{
+            catch (System.Exception e)
+            {
                 throw e;
-			}
+            }
         }
 
-		public override void OnApplicationQuit()
-		{
+        public override void OnApplicationQuit()
+        {
             Cleanup();
-		}
+        }
 
-		public override void OnSceneWasLoaded(int buildIndex, string sceneName)
-		{
+        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
+        {
             try
-			{
+            {
                 if (sceneName.ToLower() == "sandbox_blankbox")
                 {
                     isBlankBox = true;
@@ -272,24 +279,24 @@ namespace NotEnoughPhotons.paranoia
                     isBlankBox = false;
                 }
             }
-            catch(System.Exception e)
-			{
+            catch (System.Exception e)
+            {
                 throw e;
             }
-		}
+        }
 
-		public override void OnUpdate()
-		{
+        public override void OnUpdate()
+        {
             if (isBlankBox)
-			{
-				try
-				{
+            {
+                try
+                {
                     playerCircle.CalculatePlayerCircle(0f);
 
                     for (int i = 0; i < ticks.Count; i++) { ticks[i].Update(); }
 
-					if (isDark)
-					{
+                    if (isDark)
+                    {
                         for (int i = 0; i < darkTicks.Count; i++) { darkTicks[i].Update(); }
                     }
 
@@ -306,13 +313,13 @@ namespace NotEnoughPhotons.paranoia
                         }
                     }
                 }
-				catch(System.Exception e)
-				{
+                catch (System.Exception e)
+                {
                     throw e;
-				}
+                }
             }
-			else { return; }
-		}
+            else { return; }
+        }
 
         internal static void FixObjectShader(GameObject obj)
         {
@@ -348,59 +355,59 @@ namespace NotEnoughPhotons.paranoia
             }
         }
 
-		#region Events/Routines
+        #region Events/Routines
 
-		internal void AudioRoutine()
-		{
-			if (firstRadioSpawn) { return; }
+        internal void AudioRoutine()
+        {
+            if (firstRadioSpawn) { return; }
 
             audioTick.maxTick = Random.Range(rng, 150);
 
             bool isRareNumber = rng >= 20 && rng <= 45 || rng >= 50 && rng <= 75;
 
             if (isRareNumber)
-			{
+            {
                 manager.PlayOneShot(screamAmbience[Random.Range(0, screamAmbience.Count)]);
-			}
-			else
-			{
+            }
+            else
+            {
                 manager.PlayOneShot(genericAmbience[Random.Range(0, genericAmbience.Count)]);
             }
-		}
+        }
 
         internal void SpawnDarkVoice()
-		{
+        {
             manager.PlayOneShotAtPoint(voiceOffset.transform.position, darkVoices[Random.Range(0, darkVoices.Count)], true, false);
-		}
+        }
 
         internal void SpawnChaserMirage()
-		{
+        {
             chaserTick.maxTick = Random.Range(rng, 150);
             mirage.transform.position = Vector3.forward * Random.Range(-200, 200);
             mirage.gameObject.SetActive(true);
-		}
+        }
 
         internal void SpawnShadowPerson()
-		{
+        {
             shadowPersonTick.maxTick = Random.Range(rng, 150);
             bool isRareNumber = rng >= 25 && rng <= 43 || rng >= 50 && rng <= 75;
 
-			if (isRareNumber)
-			{
+            if (isRareNumber)
+            {
                 shadowPersonChaser.gameObject.SetActive(true);
                 shadowPersonChaser.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360));
                 shadowPersonChaser.target = FindPlayer();
-			}
-			else
-			{
+            }
+            else
+            {
                 shadowPerson.gameObject.SetActive(true);
                 shadowPerson.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360));
                 shadowPerson.target = FindPlayer();
-			}
-		}
+            }
+        }
 
         internal void SpawnStaringMan()
-		{
+        {
             staringManTick.maxTick = Random.Range(rng, 150);
             bool isRareNumber = rng >= 25 && rng <= 35 || rng >= 50 && rng <= 75;
 
@@ -409,24 +416,40 @@ namespace NotEnoughPhotons.paranoia
                 staringManClone.SetActive(true);
                 staringManClone.transform.position = spawnCircles[Random.Range(0, spawnCircles.Length)].CalculatePlayerCircle(Random.Range(0, 360));
             }
-			else
-			{
+            else
+            {
                 staringManClone.SetActive(false);
                 return;
-			}
+            }
+        }
+
+        internal void SpawnCeilingMan()
+		{
+            bool isRareNumber = rng >= 25 && rng <= 35 || rng >= 50 && rng <= 75;
+
+            if (isRareNumber)
+            {
+                ceilingManClone.SetActive(true);
+                ceilingManClone.transform.position = ceilingManSpawnCircle.CalculatePlayerCircle(Random.Range(0, 360));
+            }
+            else
+            {
+                staringManClone.SetActive(false);
+                return;
+            }
         }
 
         internal void TPoseEvent()
-		{
+        {
             tPoseTick.maxTick = Random.Range(rng, 150);
             bool isRareNumber = rng >= 20 && rng <= 29 || rng >= 25 && rng <= 30;
 
-			if (isRareNumber)
-			{
+            if (isRareNumber)
+            {
                 if (playerTrigger != null)
-				{
-					try
-					{
+                {
+                    try
+                    {
                         UnhollowerBaseLib.Il2CppArrayBase<StressLevelZero.AI.AIBrain> brains = GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>();
 
                         foreach (StressLevelZero.AI.AIBrain brain in brains)
@@ -465,17 +488,17 @@ namespace NotEnoughPhotons.paranoia
 
                         MelonCoroutines.Start(CoResetTPosedEnemies(5f));
                     }
-					catch
-					{
+                    catch
+                    {
 
-					}
-                    
-				}
-			}
-			else
-			{
+                    }
+
+                }
+            }
+            else
+            {
                 return;
-			}
+            }
         }
 
         internal void SpawnFirstRadio()
@@ -499,8 +522,8 @@ namespace NotEnoughPhotons.paranoia
         }
 
         internal void SpawnRadio()
-		{
-			if (firstRadioSpawn) { return; }
+        {
+            if (firstRadioSpawn) { return; }
 
             radioClone.SetActive(false);
 
@@ -514,12 +537,12 @@ namespace NotEnoughPhotons.paranoia
             radioClone.SetActive(true);
 
             MelonCoroutines.Start(CoRadioHide(radioSource.clip.length));
-		}
+        }
 
         internal void MoveAIToPoint(Vector3 point, bool fallThroughWorld)
-		{
-			try
-			{
+        {
+            try
+            {
                 UnhollowerBaseLib.Il2CppArrayBase<StressLevelZero.AI.AIBrain> brains = GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>();
 
                 foreach (StressLevelZero.AI.AIBrain brain in brains)
@@ -528,16 +551,16 @@ namespace NotEnoughPhotons.paranoia
                     MelonCoroutines.Start(CoMoveAIToPoint(ai, point, fallThroughWorld));
                 }
             }
-			catch
-			{
+            catch
+            {
 
-			}
-		}
+            }
+        }
 
         internal void MoveAIToPlayer()
-		{
-			try
-			{
+        {
+            try
+            {
                 if (GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>() != null)
                 {
                     UnhollowerBaseLib.Il2CppArrayBase<StressLevelZero.AI.AIBrain> brains = GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>();
@@ -549,16 +572,16 @@ namespace NotEnoughPhotons.paranoia
                     }
                 }
             }
-			catch
-			{
+            catch
+            {
 
-			}
+            }
         }
 
         internal void KillAIRandomly()
         {
-			try
-			{
+            try
+            {
                 if (GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>() != null)
                 {
                     UnhollowerBaseLib.Il2CppArrayBase<StressLevelZero.AI.AIBrain> brains = GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>();
@@ -580,14 +603,14 @@ namespace NotEnoughPhotons.paranoia
                     }
                 }
             }
-			catch
-			{
+            catch
+            {
 
-			}
+            }
         }
 
         internal void KillNimbus()
-		{
+        {
             if (GameObject.FindObjectOfType<StressLevelZero.Props.Weapons.FlyingGun>())
             {
                 StressLevelZero.Props.Weapons.FlyingGun nimbus = GameObject.FindObjectOfType<StressLevelZero.Props.Weapons.FlyingGun>();
@@ -597,7 +620,7 @@ namespace NotEnoughPhotons.paranoia
         }
 
         internal void KillWasp()
-		{
+        {
             if (GameObject.FindObjectOfType<PuppetMasta.BehaviourHovercraft>())
             {
                 PuppetMasta.BehaviourHovercraft wasp = GameObject.FindObjectOfType<PuppetMasta.BehaviourHovercraft>();
@@ -606,18 +629,18 @@ namespace NotEnoughPhotons.paranoia
         }
 
         internal void DropHeadItem()
-		{
+        {
             StressLevelZero.Props.Weapons.HandWeaponSlotReciever slot = GameObject.Find("[RigManager (Default Brett)]/[SkeletonRig (GameWorld Brett)]/Body/skull/Head/HeadSlotContainer/WeaponReciever").GetComponent<StressLevelZero.Props.Weapons.HandWeaponSlotReciever>();
-            
-            if(slot.m_WeaponHost != null)
-			{
+
+            if (slot.m_WeaponHost != null)
+            {
                 slot.GetHost().DisableColliders();
                 slot.DropWeapon();
             }
-		}
+        }
 
         internal void ChangeClipboardText()
-		{
+        {
             TextMeshPro tmp = GameObject.Find("prop_clipboard_MuseumBasement/TMP").GetComponent<TextMeshPro>();
 
             tmp.text = "TURN AROUND. NOT IN GAME.";
@@ -626,34 +649,34 @@ namespace NotEnoughPhotons.paranoia
         }
 
         internal IEnumerator CoLightFlickerRoutine(int iterations)
-		{
+        {
             int i = 0;
             bool isOn = false;
             float random = 0f;
 
-            if(GameObject.FindObjectOfType<PropFlashlight>() != null)
-			{
+            if (GameObject.FindObjectOfType<PropFlashlight>() != null)
+            {
                 flashlightObject = GameObject.FindObjectOfType<PropFlashlight>().gameObject;
-			}
+            }
 
-            for(i = 0; i < iterations; i++)
-			{
+            for (i = 0; i < iterations; i++)
+            {
                 yield return new WaitForSeconds(0.10f);
 
                 random = Random.Range(1, iterations);
 
-                if(blankBoxLight != null || lightBeam != null)
-				{
+                if (blankBoxLight != null || lightBeam != null)
+                {
                     if ((i * random / 2) % 2 == 0)
-					{
+                    {
                         isOn = false;
                         blankBoxLight.gameObject.SetActive(false);
                         lightBeam.gameObject.SetActive(false);
                         LightmapSettings.lightmaps = new LightmapData[0];
                         LightmapSettings.lightProbes.bakedProbes = null;
                     }
-					else
-					{
+                    else
+                    {
                         isOn = true;
                         blankBoxLight.gameObject.SetActive(true);
                         lightBeam.gameObject.SetActive(true);
@@ -663,7 +686,7 @@ namespace NotEnoughPhotons.paranoia
                     }
 
                     DynamicGI.UpdateEnvironment();
-				}
+                }
 
                 if (flashlightObject != null && flashlightObject.GetComponent<PropFlashlight>() != null)
                 {
@@ -684,28 +707,28 @@ namespace NotEnoughPhotons.paranoia
             }
 
             yield return null;
-		}
+        }
 
         internal IEnumerator CoRadioHide(float time)
-		{
+        {
             yield return new WaitForSeconds(time);
 
             firstRadioSpawn = false;
 
-			if (radioClone.activeInHierarchy)
-			{
+            if (radioClone.activeInHierarchy)
+            {
                 radioClone.SetActive(false);
-			}
-		}
+            }
+        }
 
         internal IEnumerator CoResetTPosedEnemies(float seconds)
-		{
+        {
             yield return new WaitForSeconds(seconds);
 
             UnhollowerBaseLib.Il2CppArrayBase<StressLevelZero.AI.AIBrain> brains = GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>();
 
             for (int i = 0; i < brains.Count; i++)
-			{
+            {
                 Transform t = brains[i].transform;
                 Transform physicsGrp = t.Find("Physics");
                 Transform aiGrp = t.Find("AiRig");
@@ -726,18 +749,18 @@ namespace NotEnoughPhotons.paranoia
 
                 t.gameObject.SetActive(false);
             }
-		}
+        }
 
         internal IEnumerator CoMoveAIToPoint(Transform ai, Vector3 point, bool fallThroughWorld)
-		{
+        {
             if (ai != null)
             {
-                if(ai.GetComponentInParent<StressLevelZero.AI.AIBrain>() != null)
-				{
+                if (ai.GetComponentInParent<StressLevelZero.AI.AIBrain>() != null)
+                {
                     Transform parent = ai.GetComponentInParent<StressLevelZero.AI.AIBrain>().transform;
 
-					if (parent.GetComponentInChildren<PuppetMasta.BehaviourBaseNav>())
-					{
+                    if (parent.GetComponentInChildren<PuppetMasta.BehaviourBaseNav>())
+                    {
                         PuppetMasta.BehaviourBaseNav baseNav = parent.GetComponentInChildren<PuppetMasta.BehaviourBaseNav>();
 
                         baseNav.sensors.hearingSensitivity = 0f;
@@ -774,15 +797,15 @@ namespace NotEnoughPhotons.paranoia
                         yield return null;
                     }
                 }
-				else
-				{
+                else
+                {
                     yield return null;
-				}
+                }
             }
         }
 
         internal IEnumerator CoMoveAIToPlayer(Transform ai)
-		{
+        {
             if (playerTrigger != null)
             {
                 if (ai.GetComponentInParent<StressLevelZero.AI.AIBrain>() != null)
@@ -795,11 +818,11 @@ namespace NotEnoughPhotons.paranoia
                     baseNav.sensors._visionSphere.enabled = false;
                     baseNav.breakAgroHomeDistance = 0f;
 
-                    if(baseNav.mentalState != PuppetMasta.BehaviourBaseNav.MentalState.Rest)
-					{
+                    if (baseNav.mentalState != PuppetMasta.BehaviourBaseNav.MentalState.Rest)
+                    {
                         baseNav.SwitchMentalState(PuppetMasta.BehaviourBaseNav.MentalState.Rest);
                     }
-                    
+
                     baseNav.SetHomePosition(FindPlayer().position, true);
 
                     while (Vector3.Distance(baseNav.transform.position, FindPlayer().position) > 0.25f) { yield return null; }
@@ -818,18 +841,18 @@ namespace NotEnoughPhotons.paranoia
         #region Utility
 
         private bool Is3AM()
-		{
+        {
             // 24 hour time, for consistency!
             int currentHour = int.Parse(System.DateTime.Now.ToString("HH", System.Globalization.CultureInfo.InvariantCulture));
 
             // 3 AM
-            if(currentHour == 03)
-			{
+            if (currentHour == 03)
+            {
                 return true;
-			}
+            }
 
             return false;
-		}
+        }
 
         private Transform FindPlayer()
         {
@@ -865,17 +888,17 @@ namespace NotEnoughPhotons.paranoia
             ticks = new List<Tick>();
             darkTicks = new List<Tick>();
 
-            audioTick           = new Tick(60f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            shadowPersonTick    = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            tPoseTick           = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            chaserTick          = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            staringManTick      = new Tick(180f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            radioTick           = new Tick(190f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            firstTimeRadioTick  = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            aiToOriginTick      = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            aiKillTick          = new Tick(240f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            dropItemTick        = new Tick(15f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            rngGeneratorTick    = new Tick(5f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            audioTick = new Tick(60f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            shadowPersonTick = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            tPoseTick = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            chaserTick = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            staringManTick = new Tick(180f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            radioTick = new Tick(190f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            firstTimeRadioTick = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            aiToOriginTick = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            aiKillTick = new Tick(240f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            dropItemTick = new Tick(15f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            rngGeneratorTick = new Tick(5f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
 
             Tick lightFlickerTick = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             lightFlickerTick.OnTick += new System.Action(() =>
@@ -886,21 +909,24 @@ namespace NotEnoughPhotons.paranoia
                 MelonCoroutines.Start(CoLightFlickerRoutine(Random.Range(15, 25)));
             });
 
-            dVoiceMirageTick    = new Tick(30f, Tick.TickType.TT_DARK);
+            Tick ceilingManTick = new Tick(30f, Tick.TickType.TT_DARK);
 
-            audioTick.OnTick            += AudioRoutine;
-            shadowPersonTick.OnTick     += SpawnShadowPerson;
-            tPoseTick.OnTick            += TPoseEvent;
-            chaserTick.OnTick           += SpawnChaserMirage;
-            staringManTick.OnTick       += SpawnStaringMan;
-            radioTick.OnTick            += new System.Action(() => { SpawnRadio();  MoveAIToPoint(radioClone.transform.position, false); });
-            firstTimeRadioTick.OnTick   += SpawnFirstRadio;
-            aiToOriginTick.OnTick       += new System.Action(() => MoveAIToPoint(Vector3.zero, true));
-            aiKillTick.OnTick           += KillAIRandomly;
-            dropItemTick.OnTick         += DropHeadItem;
-            rngGeneratorTick.OnTick     += new System.Action(() => rng = Random.Range(23, 150));
+            dVoiceMirageTick = new Tick(30f, Tick.TickType.TT_DARK);
 
-            dVoiceMirageTick.OnTick     += SpawnDarkVoice;
+            audioTick.OnTick += AudioRoutine;
+            shadowPersonTick.OnTick += SpawnShadowPerson;
+            tPoseTick.OnTick += TPoseEvent;
+            chaserTick.OnTick += SpawnChaserMirage;
+            staringManTick.OnTick += SpawnStaringMan;
+            radioTick.OnTick += new System.Action(() => { SpawnRadio(); MoveAIToPoint(radioClone.transform.position, false); });
+            firstTimeRadioTick.OnTick += SpawnFirstRadio;
+            aiToOriginTick.OnTick += new System.Action(() => MoveAIToPoint(Vector3.zero, true));
+            aiKillTick.OnTick += KillAIRandomly;
+            dropItemTick.OnTick += DropHeadItem;
+            ceilingManTick.OnTick += SpawnCeilingMan;
+            rngGeneratorTick.OnTick += new System.Action(() => rng = Random.Range(23, 150));
+
+            dVoiceMirageTick.OnTick += SpawnDarkVoice;
         }
 
         private void Cleanup()
@@ -933,9 +959,9 @@ namespace NotEnoughPhotons.paranoia
                     chaserAmbience.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
                 }
                 else if (bundle.LoadAllAssets()[i].name.StartsWith("amb_dark_voice"))
-				{
+                {
                     darkVoices.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
-				}
+                }
                 else if (bundle.LoadAllAssets()[i].name.StartsWith("radio_tune"))
                 {
                     radioTunes.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
@@ -956,8 +982,9 @@ namespace NotEnoughPhotons.paranoia
 
                 GameObject shadowPersonMirageClone = GameObject.Instantiate(shadowPersonObject, new Vector3(0f, 1f, 0f), Quaternion.identity);
                 GameObject shadowPersonChaserClone = GameObject.Instantiate(shadowPersonObject, new Vector3(0f, 1f, 0f), Quaternion.identity);
-                //grayManClone = GameObject.Instantiate(grayManObject);
+                
                 staringManClone = GameObject.Instantiate(staringManObject, new Vector3(0f, 1f, 0f), Quaternion.identity);
+                ceilingManClone = GameObject.Instantiate(ceilingManObject, new Vector3(0f, 1f, 0f), Quaternion.identity);
                 radioClone = GameObject.Instantiate(radioObject);
 
                 radioSource = radioClone.GetComponentInChildren<AudioSource>();
@@ -967,27 +994,31 @@ namespace NotEnoughPhotons.paranoia
                 shadowPersonChaser = shadowPersonChaserClone.AddComponent<ShadowPersonChaser>();
                 SpriteBillboard chaserBillboard = shadowPersonChaserClone.AddComponent<SpriteBillboard>();
                 SpriteBillboard staringManBillboard = staringManClone.AddComponent<SpriteBillboard>();
-                //GrayMan grayMan = grayManClone.AddComponent<GrayMan>();
-
+                SpriteBillboard ceilingManBillboard = ceilingManClone.AddComponent<SpriteBillboard>();
+                
                 shadowPerson.target = FindPlayer();
                 shadowPersonChaser.target = FindPlayer();
                 mirageBillboard.target = FindPlayer();
                 chaserBillboard.target = FindPlayer();
                 staringManBillboard.target = FindPlayer();
-                //grayMan.target = FindPlayer();
+                ceilingManBillboard.target = FindPlayer();
 
                 shadowPerson.gameObject.SetActive(false);
                 shadowPersonChaser.gameObject.SetActive(false);
                 staringManClone.SetActive(false);
-                //grayMan.gameObject.SetActive(false);
+                ceilingManClone.SetActive(false);
                 radioClone.SetActive(false);
 
                 playerCircle = new SpawnCircle(FindPlayer());
 
+                GameObject ceilingManSpawnPoint = new GameObject("Ceiling Man Spawn Point");
+                ceilingManSpawnPoint.transform.position = Vector3.up * 75f;
+                ceilingManSpawnCircle = new SpawnCircle(ceilingManSpawnPoint.transform);
+
                 for (int i = 0; i < spawnCircles.Length; i++)
                 {
                     spawnCircles[i] = new SpawnCircle(new GameObject("Spawn Circle").transform);
-                    spawnCircles[i].radius = 25f;
+                    spawnCircles[i].radius = 100f;
                     spawnCircles[i].originTransform.position = spawnPoints[i];
                 }
             }
@@ -1001,29 +1032,29 @@ namespace NotEnoughPhotons.paranoia
     }
 
     internal class CustomRadioModifications
-	{
+    {
         internal static string[] files;
 
         internal static void Initialize()
-		{
-			if (!HasCustomRadioDirectory() || !HasCustomRadios()) { return; }
+        {
+            if (!HasCustomRadioDirectory() || !HasCustomRadios()) { return; }
 
             string[] fileNames = System.IO.Directory.GetFiles("UserData/CustomRadios");
 
-            for(int i = 0; i < fileNames.Length; i++)
-			{
+            for (int i = 0; i < fileNames.Length; i++)
+            {
                 fileNames[i] = fileNames[i].Replace(@"UserData/CustomRadios\", string.Empty).Replace(".wav", string.Empty);
             }
 
             files = fileNames;
-		}
+        }
 
         internal static void SwapCustomRadios()
-		{
-            if(files.Length == 0 || files.Length == -1) { return; }
+        {
+            if (files.Length == 0 || files.Length == -1) { return; }
 
-			try
-			{
+            try
+            {
                 if (GameObject.FindObjectsOfType<AudioPlayer>() != null)
                 {
                     foreach (AudioPlayer player in GameObject.FindObjectsOfType<AudioPlayer>())
@@ -1041,17 +1072,17 @@ namespace NotEnoughPhotons.paranoia
                     }
                 }
             }
-			catch { }
-		}
+            catch { }
+        }
 
         internal static bool HasCustomRadioDirectory()
-		{
+        {
             return System.IO.Directory.Exists("UserData/CustomRadios");
-		}
+        }
 
         internal static bool HasCustomRadios()
-		{
+        {
             return System.AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(asm => asm.GetName().Name == "CustomRadios") != null;
         }
-	}
+    }
 }
