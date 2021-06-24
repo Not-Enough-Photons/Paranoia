@@ -130,8 +130,12 @@ namespace NotEnoughPhotons.paranoia
         internal ChaserMirage mirage;
         internal ShadowPersonChaser shadowPersonChaser;
 
-        internal GameObject staringManClone;
-        internal GameObject ceilingManClone;
+        internal Hallucination hChaserMirage;
+        internal Hallucination hShadowPersonChaser;
+        internal Hallucination hShadowPerson;
+        internal Hallucination hStaringMan;
+        internal Hallucination hCeilingMan;
+
         internal GameObject radioClone;
 
         internal GameObject voiceOffset;
@@ -299,19 +303,6 @@ namespace NotEnoughPhotons.paranoia
                     {
                         for (int i = 0; i < darkTicks.Count; i++) { darkTicks[i].Update(); }
                     }
-
-                    if (staringManClone.activeInHierarchy)
-                    {
-                        if (Vector3.Distance(staringManClone.transform.position, playerTrigger.transform.position) > 50f)
-                        {
-                            // creeping towards you, and you don't even know it
-                            staringManClone.transform.position += staringManClone.transform.forward * 1f * Time.deltaTime;
-                        }
-                        else
-                        {
-                            staringManClone.SetActive(false);
-                        }
-                    }
                 }
                 catch (System.Exception e)
                 {
@@ -413,12 +404,12 @@ namespace NotEnoughPhotons.paranoia
 
             if (isRareNumber)
             {
-                staringManClone.SetActive(true);
-                staringManClone.transform.position = spawnCircles[Random.Range(0, spawnCircles.Length)].CalculatePlayerCircle(Random.Range(0, 360));
+                hStaringMan.gameObject.SetActive(true);
+                hStaringMan.transform.position = spawnCircles[Random.Range(0, spawnCircles.Length)].CalculatePlayerCircle(Random.Range(0, 360));
             }
             else
             {
-                staringManClone.SetActive(false);
+                hStaringMan.gameObject.SetActive(false);
                 return;
             }
         }
@@ -429,12 +420,12 @@ namespace NotEnoughPhotons.paranoia
 
             if (isRareNumber)
             {
-                ceilingManClone.SetActive(true);
-                ceilingManClone.transform.position = ceilingManSpawnCircle.CalculatePlayerCircle(Random.Range(0, 360));
+                hCeilingMan.gameObject.SetActive(true);
+                hCeilingMan.gameObject.transform.position = ceilingManSpawnCircle.CalculatePlayerCircle(Random.Range(0, 360));
             }
             else
             {
-                staringManClone.SetActive(false);
+                hCeilingMan.gameObject.SetActive(false);
                 return;
             }
         }
@@ -840,6 +831,57 @@ namespace NotEnoughPhotons.paranoia
 
         #region Utility
 
+        internal Hallucination CreateHallucination(Vector3 position, Hallucination.HallucinationType hType, Hallucination.HallucinationFlags hFlags, Hallucination.HallucinationClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime)
+        {
+            Hallucination hallucination = new GameObject($"{hType} {hClass} Hallucination").AddComponent<Hallucination>();
+            SpriteBillboard billboard = hallucination.gameObject.AddComponent<SpriteBillboard>();
+
+            billboard.target = instance.FindPlayer();
+            hallucination.target = instance.FindPlayer();
+            hallucination.cameraTarget = instance.FindPlayer();
+            hallucination.audioManager = GameObject.FindObjectOfType<AudioManager>();
+
+            if (hType.HasFlag(Hallucination.HallucinationType.Auditory))
+            {
+                AudioSource source = hallucination.gameObject.AddComponent<AudioSource>();
+                hallucination.source = source;
+                source.dopplerLevel = 0;
+            }
+
+            hallucination.transform.position = position;
+            hallucination.gameObject.SetActive(false);
+            hallucination.Initialize(hType, hFlags, hClass, distanceToDisappear, chaseSpeed, delayTime);
+            return hallucination;
+        }
+
+        internal Hallucination CreateHallucination(Vector3 position, GameObject prefab, Hallucination.HallucinationType hType, Hallucination.HallucinationFlags hFlags, Hallucination.HallucinationClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime)
+        {
+            Hallucination hallucination = new GameObject($"{hType} {hClass} Hallucination").AddComponent<Hallucination>();
+            SpriteBillboard billboard = hallucination.gameObject.AddComponent<SpriteBillboard>();
+
+            billboard.target = instance.FindPlayer();
+            hallucination.target = instance.FindPlayer();
+            hallucination.cameraTarget = instance.FindPlayer();
+            hallucination.audioManager = GameObject.FindObjectOfType<AudioManager>();
+
+            if (prefab != null)
+            {
+                GameObject.Instantiate(prefab, hallucination.transform);
+            }
+
+            if (hType.HasFlag(Hallucination.HallucinationType.Auditory))
+            {
+                AudioSource source = hallucination.gameObject.AddComponent<AudioSource>();
+                hallucination.source = source;
+                source.dopplerLevel = 0;
+            }
+
+            hallucination.gameObject.transform.position = position;
+            hallucination.gameObject.SetActive(false);
+            hallucination.Initialize(hType, hFlags, hClass, distanceToDisappear, chaseSpeed, delayTime);
+            return hallucination;
+        }
+
         private bool Is3AM()
         {
             // 24 hour time, for consistency!
@@ -854,7 +896,7 @@ namespace NotEnoughPhotons.paranoia
             return false;
         }
 
-        private Transform FindPlayer()
+        public Transform FindPlayer()
         {
             // Code lifted from the Boneworks Modding Toolkit.
 
@@ -880,6 +922,7 @@ namespace NotEnoughPhotons.paranoia
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ChaserMirage>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ShadowPerson>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ShadowPersonChaser>();
+            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<Hallucination>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<SpriteBillboard>();
         }
 
@@ -980,33 +1023,21 @@ namespace NotEnoughPhotons.paranoia
                 mirage = new GameObject("Mirage").AddComponent<ChaserMirage>();
                 mirage.gameObject.SetActive(false);
 
-                GameObject shadowPersonMirageClone = GameObject.Instantiate(shadowPersonObject, new Vector3(0f, 1f, 0f), Quaternion.identity);
-                GameObject shadowPersonChaserClone = GameObject.Instantiate(shadowPersonObject, new Vector3(0f, 1f, 0f), Quaternion.identity);
-                
-                staringManClone = GameObject.Instantiate(staringManObject, new Vector3(0f, 1f, 0f), Quaternion.identity);
-                ceilingManClone = GameObject.Instantiate(ceilingManObject, new Vector3(0f, 1f, 0f), Quaternion.identity);
+                hShadowPerson = CreateHallucination(Vector3.up, shadowPersonObject, Hallucination.HallucinationType.Visual, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.Watcher, 30f, 0f, 0f);
+                hShadowPersonChaser = CreateHallucination(Vector3.up, shadowPersonObject, Hallucination.HallucinationType.Visual, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.Chaser, 1f, 50f, 5f);
+                hCeilingMan = CreateHallucination(Vector3.up, ceilingManObject, Hallucination.HallucinationType.Auditory | Hallucination.HallucinationType.Visual, Hallucination.HallucinationFlags.HideWhenSeen, Hallucination.HallucinationClass.Watcher, 30f, 0f, 0f);
+                hChaserMirage = CreateHallucination(Vector3.up, new GameObject("Mirage"), Hallucination.HallucinationType.Auditory, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.Chaser, 1f, 50f, 0f);
+                hStaringMan = CreateHallucination(Vector3.up, staringManObject, Hallucination.HallucinationType.Visual, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.Chaser, 30f, 1f, 0f);
+
                 radioClone = GameObject.Instantiate(radioObject);
 
                 radioSource = radioClone.GetComponentInChildren<AudioSource>();
-
-                shadowPerson = shadowPersonMirageClone.AddComponent<ShadowPerson>();
-                SpriteBillboard mirageBillboard = shadowPersonMirageClone.AddComponent<SpriteBillboard>();
-                shadowPersonChaser = shadowPersonChaserClone.AddComponent<ShadowPersonChaser>();
-                SpriteBillboard chaserBillboard = shadowPersonChaserClone.AddComponent<SpriteBillboard>();
-                SpriteBillboard staringManBillboard = staringManClone.AddComponent<SpriteBillboard>();
-                SpriteBillboard ceilingManBillboard = ceilingManClone.AddComponent<SpriteBillboard>();
                 
                 shadowPerson.target = FindPlayer();
                 shadowPersonChaser.target = FindPlayer();
-                mirageBillboard.target = FindPlayer();
-                chaserBillboard.target = FindPlayer();
-                staringManBillboard.target = FindPlayer();
-                ceilingManBillboard.target = FindPlayer();
 
                 shadowPerson.gameObject.SetActive(false);
                 shadowPersonChaser.gameObject.SetActive(false);
-                staringManClone.SetActive(false);
-                ceilingManClone.SetActive(false);
                 radioClone.SetActive(false);
 
                 playerCircle = new SpawnCircle(FindPlayer());

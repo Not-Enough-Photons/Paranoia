@@ -45,12 +45,10 @@ namespace NotEnoughPhotons.paranoia
         public float hChaseSpeed;
         public float hDelayTime;
 
-        public bool hUsesDelay;
-
         public AudioSource source;
         public AudioManager audioManager;
 
-        public void Initialize(HallucinationType hType, HallucinationFlags hFlags, HallucinationClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime, bool usesDelay)
+        public void Initialize(HallucinationType hType, HallucinationFlags hFlags, HallucinationClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime)
         {
             this.hType = hType;
             this.hFlags = hFlags;
@@ -58,7 +56,9 @@ namespace NotEnoughPhotons.paranoia
             this.hDistanceToDisappear = distanceToDisappear;
             this.hChaseSpeed = chaseSpeed;
             this.hDelayTime = delayTime;
-            this.hUsesDelay = usesDelay;
+
+            target = Paranoia.instance.FindPlayer();
+            cameraTarget = Paranoia.instance.FindPlayer();
         }
 
         public void SetSpawnPoint(Vector3 spawnPoint)
