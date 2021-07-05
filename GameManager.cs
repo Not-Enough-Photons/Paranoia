@@ -93,21 +93,26 @@ namespace NotEnoughPhotons.paranoia
         private GameObject radioClone;
         private AudioSource radioSource;
 
-        // Light/Dark ticks
-        private Tick audioTick;
-        private Tick shadowPersonTick;
-        private Tick tPoseTick;
-        private Tick chaserTick;
-        private Tick staringManTick;
-        private Tick radioTick;
-        private Tick firstTimeRadioTick;
-        private Tick aiToOriginTick;
-        private Tick aiKillTick;
-        private Tick dropItemTick;
+        // Audio ticks
+        private Tick aAmbienceTick;
+        private Tick aChaserTick;
+        private Tick aDarkVoiceTick;
+
+        // Visual ticks
+        private Tick vShadowManTick;
+        private Tick vStaringManTick;
+
+        // Event ticks
+        private Tick eTPoseTick;
+        private Tick eRadioTick;
+        private Tick eFirstRadioTick;
+        private Tick eAIOriginTick;
+        private Tick eKillAllTick;
+        private Tick eItemDropTick;
+        private Tick eLightFlickerTick;
+
         private Tick rngGeneratorTick;
 
-        // Dark ticks only
-        private Tick dVoiceMirageTick;
 
         private bool firstRadioSpawn = false;
         private bool isDark = false;
@@ -145,7 +150,7 @@ namespace NotEnoughPhotons.paranoia
 
             hallucination.transform.position = position;
             hallucination.gameObject.SetActive(false);
-            hallucination.Initialize(hType, hFlags, hClass, distanceToDisappear, chaseSpeed, delayTime, usesDelay);
+            hallucination.Initialize(hType, hFlags, hClass, distanceToDisappear, chaseSpeed, delayTime);
             return hallucination;
         }
 
@@ -173,7 +178,7 @@ namespace NotEnoughPhotons.paranoia
 
             hallucination.gameObject.transform.position = position;
             hallucination.gameObject.SetActive(false);
-            hallucination.Initialize(hType, hFlags, hClass, distanceToDisappear, chaseSpeed, delayTime, usesDelay);
+            hallucination.Initialize(hType, hFlags, hClass, distanceToDisappear, chaseSpeed, delayTime);
             return hallucination;
         }
 
@@ -187,10 +192,7 @@ namespace NotEnoughPhotons.paranoia
 			{
                 Destroy(gameObject);
 			}
-        }
 
-        private void Start()
-        {
             InitializeTicks();
 
             manager = FindObjectOfType<AudioManager>();
@@ -199,8 +201,7 @@ namespace NotEnoughPhotons.paranoia
 
             playerTrigger = FindPlayer();
 
-            blankBoxLight = GameObject.FindObjectOfType<CustomLightMachine>().light;
-            lightBeam = GameObject.FindObjectOfType<CustomLightMachine>().lightBeam;
+            
 
             playerCircle = new SpawnCircle(FindPlayer());
 
@@ -220,42 +221,54 @@ namespace NotEnoughPhotons.paranoia
             ticks = new List<Tick>();
             darkTicks = new List<Tick>();
 
-            audioTick = new Tick(60f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            shadowPersonTick    = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            tPoseTick           = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            chaserTick          = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            staringManTick      = new Tick(180f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            radioTick           = new Tick(190f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            firstTimeRadioTick  = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            aiToOriginTick      = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            aiKillTick          = new Tick(240f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            dropItemTick        = new Tick(15f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            // Audio tick initialization
+            aAmbienceTick       = new Tick(60f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            aChaserTick         = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            aDarkVoiceTick      = new Tick(30f, Tick.TickType.TT_DARK);
+
+            // Visual tick initialization
+            vShadowManTick      = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            vStaringManTick     = new Tick(180f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+
+            // Event tick initialization
+            eTPoseTick          = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            eRadioTick          = new Tick(190f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            eFirstRadioTick     = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            eAIOriginTick       = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            eKillAllTick        = new Tick(240f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            eItemDropTick       = new Tick(15f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            eLightFlickerTick   = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+
+
+            // Global tick initialization
             rngGeneratorTick    = new Tick(5f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
 
-            Tick lightFlickerTick = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            lightFlickerTick.OnTick += new System.Action(() =>
+            // Audio tick subscription
+            aAmbienceTick.OnTick += AudioRoutine;
+            aChaserTick.OnTick += new System.Action(() => hChaser.gameObject.SetActive(true));
+            aDarkVoiceTick.OnTick += new System.Action(() => hDarkVoice.gameObject.SetActive(true));
+
+            // Visual tick subscription
+            vShadowManTick.OnTick += new System.Action(() => hShadowPerson.gameObject.SetActive(true));
+            vStaringManTick.OnTick += new System.Action(() => hStaringMan.gameObject.SetActive(true));
+
+            // Event tick subscription
+            eTPoseTick.OnTick += TPoseEvent;
+            eRadioTick.OnTick += new System.Action(() => { SpawnRadio(); MoveAIToPoint(radioClone.transform.position, false); });
+            eFirstRadioTick.OnTick += SpawnFirstRadio;
+            eAIOriginTick.OnTick += new System.Action(() => MoveAIToPoint(Vector3.zero, true));
+            eKillAllTick.OnTick += KillAIRandomly;
+            eItemDropTick.OnTick += DropHeadItem;
+            eLightFlickerTick.OnTick += new System.Action(() =>
             {
                 KillNimbus();
                 KillWasp();
-                lightFlickerTick.maxTick = Random.Range(120f, 180f);
+                eLightFlickerTick.maxTick = Random.Range(120f, 180f);
                 MelonCoroutines.Start(CoLightFlickerRoutine(Random.Range(15, 25)));
             });
 
-            dVoiceMirageTick = new Tick(30f, Tick.TickType.TT_DARK);
-
-            audioTick.OnTick            += AudioRoutine;
-            shadowPersonTick.OnTick     += new System.Action(() => hShadowPerson.gameObject.SetActive(true));
-            tPoseTick.OnTick            += TPoseEvent;
-            chaserTick.OnTick           += new System.Action(() => hChaser.gameObject.SetActive(true));
-            staringManTick.OnTick       += new System.Action(() => hStaringMan.gameObject.SetActive(true));
-            radioTick.OnTick            += new System.Action(() => { SpawnRadio(); MoveAIToPoint(radioClone.transform.position, false); });
-            firstTimeRadioTick.OnTick   += SpawnFirstRadio;
-            aiToOriginTick.OnTick       += new System.Action(() => MoveAIToPoint(Vector3.zero, true));
-            aiKillTick.OnTick           += KillAIRandomly;
-            dropItemTick.OnTick         += DropHeadItem;
-            rngGeneratorTick.OnTick     += new System.Action(() => rng = Random.Range(23, 150));
-
-            dVoiceMirageTick.OnTick     += new System.Action(() => hDarkVoice.gameObject.SetActive(true));
+            // Global tick subscription
+            rngGeneratorTick.OnTick += new System.Action(() => rng = Random.Range(23, 150));
         }
 
         private void InitializeEntities()
@@ -329,7 +342,7 @@ namespace NotEnoughPhotons.paranoia
         {
             if (firstRadioSpawn) { return; }
 
-            audioTick.maxTick = Random.Range(rng, 150);
+            aAmbienceTick.maxTick = Random.Range(rng, 150);
 
             bool isRareNumber = rng >= 20 && rng <= 45 || rng >= 50 && rng <= 75;
 
@@ -345,7 +358,7 @@ namespace NotEnoughPhotons.paranoia
 
         internal void TPoseEvent()
         {
-            tPoseTick.maxTick = Random.Range(rng, 150);
+            eTPoseTick.maxTick = Random.Range(rng, 150);
             bool isRareNumber = rng >= 20 && rng <= 29 || rng >= 25 && rng <= 30;
 
             if (isRareNumber)
@@ -421,7 +434,7 @@ namespace NotEnoughPhotons.paranoia
 
             MelonLoader.MelonCoroutines.Start(CoRadioHide(radioSource.clip.length));
 
-            firstTimeRadioTick.OnTick -= SpawnFirstRadio;
+            eFirstRadioTick.OnTick -= SpawnFirstRadio;
         }
 
         internal void SpawnRadio()
@@ -501,7 +514,7 @@ namespace NotEnoughPhotons.paranoia
                             hp.Kill();
                             puppetMaster.Kill();
 
-                            aiKillTick.maxTick = Random.Range(180f, 280f);
+                            eKillAllTick.maxTick = Random.Range(180f, 280f);
                         }
                     }
                 }
@@ -557,49 +570,59 @@ namespace NotEnoughPhotons.paranoia
             bool isOn = false;
             float random = 0f;
 
-            if (GameObject.FindObjectOfType<PropFlashlight>() != null)
+            PropFlashlight[] flashlights;
+            VLB.VolumetricLightBeam[] lightbeams;
+
+            Light blankBoxLight;
+            VLB.VolumetricLightBeam centerLightBeam;
+
+            if (GameObject.FindObjectsOfType<PropFlashlight>() != null && GameObject.FindObjectsOfType<VLB.VolumetricLightBeam>() != null)
             {
-                flashlightObject = GameObject.FindObjectOfType<PropFlashlight>().gameObject;
-            }
+                flashlights = GameObject.FindObjectsOfType<PropFlashlight>();
+                lightbeams = GameObject.FindObjectsOfType<VLB.VolumetricLightBeam>();
 
-            for (i = 0; i < iterations; i++)
-            {
-                yield return new WaitForSeconds(0.10f);
+                blankBoxLight = GameObject.FindObjectOfType<CustomLightMachine>().light;
+                centerLightBeam = GameObject.FindObjectOfType<CustomLightMachine>().lightBeam;
 
-                random = Random.Range(1, iterations);
-
-                if (blankBoxLight != null || lightBeam != null)
+                foreach (PropFlashlight flashlight in flashlights)
                 {
-                    if ((i * random / 2) % 2 == 0)
+                    foreach (VLB.VolumetricLightBeam lightbeam in lightbeams)
                     {
-                        isOn = false;
-                        blankBoxLight.gameObject.SetActive(false);
-                        lightBeam.gameObject.SetActive(false);
-                        LightmapSettings.lightmaps = new LightmapData[0];
-                        LightmapSettings.lightProbes.bakedProbes = null;
-                    }
-                    else
-                    {
-                        isOn = true;
-                        blankBoxLight.gameObject.SetActive(true);
-                        lightBeam.gameObject.SetActive(true);
-                        LightmapSettings.lightmaps = lightmaps;
-                        LightmapSettings.lightProbes.bakedProbes = new UnhollowerBaseLib.Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2>(bakedProbes.Count);
-                        LightmapSettings.lightProbes.bakedProbes = bakedProbes;
-                    }
+                        for (i = 0; i < iterations; i++)
+                        {
+                            yield return new WaitForSeconds(0.10f);
 
-                    DynamicGI.UpdateEnvironment();
-                }
+                            random = Random.Range(1, iterations);
 
-                if (flashlightObject != null && flashlightObject.GetComponent<PropFlashlight>() != null)
-                {
-                    if ((i * random / 2) % 2 == 0)
-                    {
-                        flashlightObject?.GetComponent<PropFlashlight>().LightStuff.SetActive(false);
-                    }
-                    else
-                    {
-                        flashlightObject?.GetComponent<PropFlashlight>().LightStuff.SetActive(true);
+                            if (blankBoxLight != null || lightBeam != null)
+                            {
+                                if ((i * random / 2) % 2 == 0)
+                                {
+                                    isOn = false;
+                                    blankBoxLight.gameObject.SetActive(false);
+                                    lightBeam.gameObject.SetActive(false);
+                                    LightmapSettings.lightmaps = new LightmapData[0];
+                                    LightmapSettings.lightProbes.bakedProbes = null;
+                                }
+                                else
+                                {
+                                    isOn = true;
+                                    blankBoxLight.gameObject.SetActive(true);
+                                    lightBeam.gameObject.SetActive(true);
+                                    LightmapSettings.lightmaps = lightmaps;
+                                    LightmapSettings.lightProbes.bakedProbes = new UnhollowerBaseLib.Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2>(bakedProbes.Count);
+                                    LightmapSettings.lightProbes.bakedProbes = bakedProbes;
+                                }
+
+                                DynamicGI.UpdateEnvironment();
+                            }
+
+                            GameObject lightStuff = flashlight.GetComponent<PropFlashlight>().LightStuff;
+                            GameObject beam = lightBeam.gameObject;
+
+                            lightStuff.active = (i * random / 2) % 2 == 0;
+                            beam.active = (i * random / 2) % 2 == 0;
+                        }
                     }
                 }
             }

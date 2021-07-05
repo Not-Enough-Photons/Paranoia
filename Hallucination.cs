@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Log = MelonLoader.MelonLogger;
+
 namespace NotEnoughPhotons.paranoia
 {
     public class Hallucination : MonoBehaviour
@@ -109,61 +111,78 @@ namespace NotEnoughPhotons.paranoia
 
         private IEnumerator CoUpdateHallucination(HallucinationType hType, HallucinationClass hClass, HallucinationFlags hFlags)
         {
-            bool isFar = Vector3.Distance(target.position, transform.position) > hDistanceToDisappear;
-
             if (hType.HasFlag(HallucinationType.Auditory) && GetComponent<AudioSource>() != null)
             {
+                Log.Msg($"Hallucination type is {hType}");
+
                 source = GetComponent<AudioSource>();
+                Log.Msg($"Got {source.name} source");
                 source.spatialBlend = 1f;
+                Log.Msg($"Set spacial blend");
 
                 if (hClass == HallucinationClass.DarkVoice)
                 {
+                    Log.Msg($"Hallucination class is {hClass}");
                     transform.position = target.forward * -2f;
+                    Log.Msg($"Got {target.name}");
 
-                    if(audioManager.ambientDarkVoices.Count > 0)
+                    if (Paranoia.instance.darkVoices.Count > 0)
 					{
-                        source.clip = audioManager.ambientDarkVoices[Random.Range(0, audioManager.ambientDarkVoices.Count)];
+                        source.clip = Paranoia.instance.darkVoices[Random.Range(0, Paranoia.instance.darkVoices.Count)];
+                        Log.Msg($"Set up {source.clip}");
                     }
                     
                     source.loop = false;
 
                     source.Play();
+                    Log.Msg($"Playing...");
 
+                    Log.Msg($"Waiting for {source.clip.length} seconds before stopping");
                     yield return new WaitForSeconds(source.clip.length);
                     gameObject.SetActive(false);
                 }
                 else if (hClass == HallucinationClass.Chaser)
                 {
-                    if(audioManager.ambientChaser.Count > 0)
+                    Log.Msg($"Hallucination class is {hClass}");
+
+                    if (Paranoia.instance.chaserAmbience.Count > 0)
 					{
-                        source.clip = audioManager.ambientChaser[Random.Range(0, audioManager.ambientChaser.Count)];
+                        source.clip = Paranoia.instance.chaserAmbience[Random.Range(0, Paranoia.instance.chaserAmbience.Count)];
+                        Log.Msg($"Set up {source.clip}");
                     }
                     
                     source.loop = true;
 
                     source.Play();
+                    Log.Msg($"Playing...");
                 }
                 else if (hClass == HallucinationClass.Watcher)
                 {
-					if (audioManager.ambientWatcher.Count > 0)
+                    Log.Msg($"Hallucination class is {hClass}");
+                    if (Paranoia.instance.watcherAmbience.Count > 0)
 					{
-                        source.clip = audioManager.ambientWatcher[Random.Range(0, audioManager.ambientWatcher.Count)];
+                        source.clip = Paranoia.instance.watcherAmbience[Random.Range(0, Paranoia.instance.watcherAmbience.Count)];
+                        Log.Msg($"Set up {source.clip}");
                     }
                     
                     source.loop = true;
 
                     source.Play();
+                    Log.Msg($"Playing...");
                 }
             }
 
             if (hClass == HallucinationClass.Chaser)
             {
+                Log.Msg($"Hallucination class is {hClass}");
+
                 if (hDelayTime > 0)
                 {
+                    Log.Msg($"Waiting for {hDelayTime} seconds...");
                     yield return new WaitForSeconds(hDelayTime);
                 }
 
-                while (isFar)
+                while (Vector3.Distance(target.position, transform.position) > hDistanceToDisappear)
                 {
                     transform.position += transform.forward * hChaseSpeed * Time.deltaTime;
                     yield return null;
@@ -172,7 +191,9 @@ namespace NotEnoughPhotons.paranoia
 
             if (hClass == HallucinationClass.Watcher)
             {
-                while (!isFar)
+                Log.Msg($"Hallucination class is {hClass}");
+
+                while (Vector3.Distance(target.position, transform.position) < hDistanceToDisappear)
                 {
                     gameObject.SetActive(false);
                     yield return null;

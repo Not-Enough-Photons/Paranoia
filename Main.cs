@@ -104,7 +104,7 @@ namespace NotEnoughPhotons.paranoia
         internal AssetBundle bundle;
         internal AudioSource source;
 
-        internal AudioManager manager;
+        internal AudioManager audioManager;
 
         internal List<Tick> ticks;
         internal List<Tick> darkTicks;
@@ -112,6 +112,7 @@ namespace NotEnoughPhotons.paranoia
         internal List<AudioClip> genericAmbience;
         internal List<AudioClip> screamAmbience;
         internal List<AudioClip> chaserAmbience;
+        internal List<AudioClip> watcherAmbience;
         internal List<AudioClip> darkVoices;
         internal List<AudioClip> radioTunes;
 
@@ -135,6 +136,7 @@ namespace NotEnoughPhotons.paranoia
         internal Hallucination hShadowPerson;
         internal Hallucination hStaringMan;
         internal Hallucination hCeilingMan;
+        internal Hallucination hDarkVoice;
 
         internal GameObject radioClone;
 
@@ -216,6 +218,7 @@ namespace NotEnoughPhotons.paranoia
                 genericAmbience = new List<AudioClip>();
                 screamAmbience = new List<AudioClip>();
                 chaserAmbience = new List<AudioClip>();
+                watcherAmbience = new List<AudioClip>();
                 darkVoices = new List<AudioClip>();
                 radioTunes = new List<AudioClip>();
 
@@ -253,17 +256,17 @@ namespace NotEnoughPhotons.paranoia
                     voiceOffset.transform.position = Vector3.zero;
                     voiceOffset.transform.localPosition = Vector3.forward * -2f;
 
-                    manager = new GameObject("Manager").AddComponent<AudioManager>();
-                    ObjectPool pool = manager.gameObject.AddComponent<ObjectPool>();
+                    audioManager = new GameObject("Manager").AddComponent<AudioManager>();
+                    ObjectPool pool = audioManager.gameObject.AddComponent<ObjectPool>();
 
                     PrecacheAudioAssets();
 
-                    manager.ambientGeneric = genericAmbience;
-                    manager.ambientScreaming = screamAmbience;
-                    manager.ambientChaser = chaserAmbience;
-                    manager.ambientDarkVoices = darkVoices;
+                    audioManager.ambientGeneric = genericAmbience;
+                    audioManager.ambientScreaming = screamAmbience;
+                    audioManager.ambientChaser = chaserAmbience;
+                    audioManager.ambientDarkVoices = darkVoices;
 
-                    manager.pool = pool;
+                    audioManager.pool = pool;
 
                     pool.prefab = source.gameObject;
                     pool.poolSize = 10;
@@ -297,7 +300,7 @@ namespace NotEnoughPhotons.paranoia
                 {
                     playerCircle.CalculatePlayerCircle(0f);
 
-                    for (int i = 0; i < ticks.Count; i++) { ticks[i].Update(); }
+                    for (int i = 0; i < ticks.Count; i++) { try { ticks[i].Update(); } catch(System.Exception e) { MelonLogger.Msg(e); } }
 
                     if (isDark)
                     {
@@ -358,24 +361,25 @@ namespace NotEnoughPhotons.paranoia
 
             if (isRareNumber)
             {
-                manager.PlayOneShot(screamAmbience[Random.Range(0, screamAmbience.Count)]);
+                audioManager.PlayOneShot(screamAmbience[Random.Range(0, screamAmbience.Count)]);
             }
             else
             {
-                manager.PlayOneShot(genericAmbience[Random.Range(0, genericAmbience.Count)]);
+                audioManager.PlayOneShot(genericAmbience[Random.Range(0, genericAmbience.Count)]);
             }
         }
 
         internal void SpawnDarkVoice()
         {
-            manager.PlayOneShotAtPoint(voiceOffset.transform.position, darkVoices[Random.Range(0, darkVoices.Count)], true, false);
+            hDarkVoice.gameObject.SetActive(true);
+            //manager.PlayOneShotAtPoint(voiceOffset.transform.position, darkVoices[Random.Range(0, darkVoices.Count)], true, false);
         }
 
         internal void SpawnChaserMirage()
         {
             chaserTick.maxTick = Random.Range(rng, 150);
-            mirage.transform.position = Vector3.forward * Random.Range(-200, 200);
-            mirage.gameObject.SetActive(true);
+            hChaserMirage.transform.position = Vector3.forward * Random.Range(-200, 200);
+            hChaserMirage.gameObject.SetActive(true);
         }
 
         internal void SpawnShadowPerson()
@@ -385,15 +389,13 @@ namespace NotEnoughPhotons.paranoia
 
             if (isRareNumber)
             {
-                shadowPersonChaser.gameObject.SetActive(true);
-                shadowPersonChaser.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360));
-                shadowPersonChaser.target = FindPlayer();
+                hShadowPersonChaser.gameObject.SetActive(true);
+                hShadowPersonChaser.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360));
             }
             else
             {
-                shadowPerson.gameObject.SetActive(true);
-                shadowPerson.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360));
-                shadowPerson.target = FindPlayer();
+                hShadowPerson.gameObject.SetActive(true);
+                hShadowPerson.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360));
             }
         }
 
@@ -1001,6 +1003,10 @@ namespace NotEnoughPhotons.paranoia
                 {
                     chaserAmbience.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
                 }
+                else if (bundle.LoadAllAssets()[i].name.StartsWith("amb_watcher"))
+				{
+                    watcherAmbience.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
+                }
                 else if (bundle.LoadAllAssets()[i].name.StartsWith("amb_dark_voice"))
                 {
                     darkVoices.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
@@ -1024,20 +1030,22 @@ namespace NotEnoughPhotons.paranoia
                 mirage.gameObject.SetActive(false);
 
                 hShadowPerson = CreateHallucination(Vector3.up, shadowPersonObject, Hallucination.HallucinationType.Visual, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.Watcher, 30f, 0f, 0f);
+                MelonLogger.Msg($"Initialized {hShadowPerson.name}");
                 hShadowPersonChaser = CreateHallucination(Vector3.up, shadowPersonObject, Hallucination.HallucinationType.Visual, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.Chaser, 1f, 50f, 5f);
+                MelonLogger.Msg($"Initialized {hShadowPersonChaser.name}");
                 hCeilingMan = CreateHallucination(Vector3.up, ceilingManObject, Hallucination.HallucinationType.Auditory | Hallucination.HallucinationType.Visual, Hallucination.HallucinationFlags.HideWhenSeen, Hallucination.HallucinationClass.Watcher, 30f, 0f, 0f);
+                MelonLogger.Msg($"Initialized {hCeilingMan.name}");
                 hChaserMirage = CreateHallucination(Vector3.up, new GameObject("Mirage"), Hallucination.HallucinationType.Auditory, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.Chaser, 1f, 50f, 0f);
+                MelonLogger.Msg($"Initialized {hChaserMirage.name}");
                 hStaringMan = CreateHallucination(Vector3.up, staringManObject, Hallucination.HallucinationType.Visual, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.Chaser, 30f, 1f, 0f);
+                MelonLogger.Msg($"Initialized {hStaringMan.name}");
+                hDarkVoice = CreateHallucination(Vector3.up, new GameObject(), Hallucination.HallucinationType.Auditory, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.DarkVoice, 0f, 0f, 0f);
+                MelonLogger.Msg($"Initialized {hDarkVoice.name}");
 
                 radioClone = GameObject.Instantiate(radioObject);
 
                 radioSource = radioClone.GetComponentInChildren<AudioSource>();
-                
-                shadowPerson.target = FindPlayer();
-                shadowPersonChaser.target = FindPlayer();
 
-                shadowPerson.gameObject.SetActive(false);
-                shadowPersonChaser.gameObject.SetActive(false);
                 radioClone.SetActive(false);
 
                 playerCircle = new SpawnCircle(FindPlayer());
