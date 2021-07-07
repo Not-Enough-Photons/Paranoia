@@ -193,15 +193,13 @@ namespace NotEnoughPhotons.paranoia
                 Destroy(gameObject);
 			}
 
+            InitializeEntities();
+
             InitializeTicks();
 
             manager = FindObjectOfType<AudioManager>();
 
-            InitializeEntities();
-
             playerTrigger = FindPlayer();
-
-            
 
             playerCircle = new SpawnCircle(FindPlayer());
 

@@ -292,29 +292,6 @@ namespace NotEnoughPhotons.paranoia
             }
         }
 
-        public override void OnUpdate()
-        {
-            if (isBlankBox)
-            {
-                try
-                {
-                    playerCircle.CalculatePlayerCircle(0f);
-
-                    for (int i = 0; i < ticks.Count; i++) { try { ticks[i].Update(); } catch(System.Exception e) { MelonLogger.Msg(e); } }
-
-                    if (isDark)
-                    {
-                        for (int i = 0; i < darkTicks.Count; i++) { darkTicks[i].Update(); }
-                    }
-                }
-                catch (System.Exception e)
-                {
-                    throw e;
-                }
-            }
-            else { return; }
-        }
-
         internal static void FixObjectShader(GameObject obj)
         {
             if (obj != null)
@@ -350,87 +327,6 @@ namespace NotEnoughPhotons.paranoia
         }
 
         #region Events/Routines
-
-        internal void AudioRoutine()
-        {
-            if (firstRadioSpawn) { return; }
-
-            audioTick.maxTick = Random.Range(rng, 150);
-
-            bool isRareNumber = rng >= 20 && rng <= 45 || rng >= 50 && rng <= 75;
-
-            if (isRareNumber)
-            {
-                audioManager.PlayOneShot(screamAmbience[Random.Range(0, screamAmbience.Count)]);
-            }
-            else
-            {
-                audioManager.PlayOneShot(genericAmbience[Random.Range(0, genericAmbience.Count)]);
-            }
-        }
-
-        internal void SpawnDarkVoice()
-        {
-            hDarkVoice.gameObject.SetActive(true);
-            //manager.PlayOneShotAtPoint(voiceOffset.transform.position, darkVoices[Random.Range(0, darkVoices.Count)], true, false);
-        }
-
-        internal void SpawnChaserMirage()
-        {
-            chaserTick.maxTick = Random.Range(rng, 150);
-            hChaserMirage.transform.position = Vector3.forward * Random.Range(-200, 200);
-            hChaserMirage.gameObject.SetActive(true);
-        }
-
-        internal void SpawnShadowPerson()
-        {
-            shadowPersonTick.maxTick = Random.Range(rng, 150);
-            bool isRareNumber = rng >= 25 && rng <= 43 || rng >= 50 && rng <= 75;
-
-            if (isRareNumber)
-            {
-                hShadowPersonChaser.gameObject.SetActive(true);
-                hShadowPersonChaser.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360));
-            }
-            else
-            {
-                hShadowPerson.gameObject.SetActive(true);
-                hShadowPerson.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360));
-            }
-        }
-
-        internal void SpawnStaringMan()
-        {
-            staringManTick.maxTick = Random.Range(rng, 150);
-            bool isRareNumber = rng >= 25 && rng <= 35 || rng >= 50 && rng <= 75;
-
-            if (isRareNumber)
-            {
-                hStaringMan.gameObject.SetActive(true);
-                hStaringMan.transform.position = spawnCircles[Random.Range(0, spawnCircles.Length)].CalculatePlayerCircle(Random.Range(0, 360));
-            }
-            else
-            {
-                hStaringMan.gameObject.SetActive(false);
-                return;
-            }
-        }
-
-        internal void SpawnCeilingMan()
-		{
-            bool isRareNumber = rng >= 25 && rng <= 35 || rng >= 50 && rng <= 75;
-
-            if (isRareNumber)
-            {
-                hCeilingMan.gameObject.SetActive(true);
-                hCeilingMan.gameObject.transform.position = ceilingManSpawnCircle.CalculatePlayerCircle(Random.Range(0, 360));
-            }
-            else
-            {
-                hCeilingMan.gameObject.SetActive(false);
-                return;
-            }
-        }
 
         internal void TPoseEvent()
         {
