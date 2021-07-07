@@ -7,6 +7,8 @@ namespace NotEnoughPhotons.paranoia
 {
     public class MonitorVideo : MonoBehaviour
     {
+        public MonitorVideo(System.IntPtr ptr) : base(ptr) {}
+
         public VideoClip[] clips;
 
         private VideoPlayer player;

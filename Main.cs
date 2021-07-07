@@ -77,6 +77,7 @@ namespace NotEnoughPhotons.paranoia
         internal GameObject staringManObject;
         internal GameObject ceilingManObject;
         internal GameObject radioObject;
+        internal GameObject monitorObject;
 
         internal GameObject voiceOffset;
 
@@ -125,6 +126,7 @@ namespace NotEnoughPhotons.paranoia
                 staringManObject = bundle.LoadAsset("StaringMan").Cast<GameObject>();
                 ceilingManObject = bundle.LoadAsset("CeilingMan").Cast<GameObject>();
                 radioObject = bundle.LoadAsset("PRadio").Cast<GameObject>();
+                monitorObject = bundle.LoadAsset("MonitorVideoPlayer").Cast<GameObject>();
 
                 FixObjectShader(radioObject);
 
@@ -132,6 +134,7 @@ namespace NotEnoughPhotons.paranoia
                 shadowPersonObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 ceilingManObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 radioObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
+                monitorObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
 
                 genericAmbience = new List<AudioClip>();
                 screamAmbience = new List<AudioClip>();
@@ -267,6 +270,7 @@ namespace NotEnoughPhotons.paranoia
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ObjectPool>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<Hallucination>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ParanoiaGameManager>();
+            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<SpriteBillboard>();
         }
 
