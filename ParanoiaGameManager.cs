@@ -11,11 +11,16 @@ using UnhollowerRuntimeLib;
 
 using MelonLoader;
 
+using HName = NotEnoughPhotons.paranoia.Hallucination.HallucinationName;
+using HType = NotEnoughPhotons.paranoia.Hallucination.HallucinationType;
+using HClass = NotEnoughPhotons.paranoia.Hallucination.HallucinationClass;
+using HFlags = NotEnoughPhotons.paranoia.Hallucination.HallucinationFlags;
+
 namespace NotEnoughPhotons.paranoia
 {
-    public class GameManager : MonoBehaviour
+    public class ParanoiaGameManager : MonoBehaviour
     {
-        public GameManager(System.IntPtr ptr) : base(ptr) { }
+        public ParanoiaGameManager(System.IntPtr ptr) : base(ptr) { }
 
         public class Tick
         {
@@ -60,7 +65,7 @@ namespace NotEnoughPhotons.paranoia
             }
         }
 
-        public static GameManager instance;
+        public static ParanoiaGameManager instance;
 
         public List<Tick> ticks;
         public List<Tick> darkTicks;
@@ -72,6 +77,13 @@ namespace NotEnoughPhotons.paranoia
         public GameObject radioObject;
 
         public SpawnCircle playerCircle;
+
+        public Vector3[] staringManSpawns = new Vector3[3]
+        {
+            new Vector3(-53.9f, 1f, -55.1f),
+            new Vector3(-53.7f, 1f, 32.1f),
+            new Vector3(52.1f, 1f, 54.4f)
+        };
 
         private Transform playerTrigger;
         private Transform playerHead;
@@ -119,19 +131,13 @@ namespace NotEnoughPhotons.paranoia
 
         private int rng = 1;
 
-        private Vector3[] staringManSpawns = new Vector3[3]
-        {
-            new Vector3(-53.9f, 1f, -55.1f),
-            new Vector3(-53.7f, 1f, 32.1f),
-            new Vector3(52.1f, 1f, 54.4f)
-        };
 
         private SpawnCircle[] spawnCircles = new SpawnCircle[3];
 
         private Il2CppReferenceArray<LightmapData> lightmaps;
         private Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> bakedProbes;
 
-        public static Hallucination CreateHallucination(Vector3 position, Hallucination.HallucinationType hType, Hallucination.HallucinationFlags hFlags, Hallucination.HallucinationClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime, bool usesDelay)
+        public static Hallucination CreateHallucination(Vector3 position, HName hName, HType hType, HFlags hFlags, HClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime, bool usesDelay)
         {
             Hallucination hallucination = new GameObject($"{hType} {hClass} Hallucination").AddComponent<Hallucination>();
             SpriteBillboard billboard = hallucination.gameObject.AddComponent<SpriteBillboard>();
@@ -150,11 +156,11 @@ namespace NotEnoughPhotons.paranoia
 
             hallucination.transform.position = position;
             hallucination.gameObject.SetActive(false);
-            hallucination.Initialize(hType, hFlags, hClass, distanceToDisappear, chaseSpeed, delayTime);
+            hallucination.Initialize(hName, hType, hFlags, hClass, distanceToDisappear, chaseSpeed, delayTime);
             return hallucination;
         }
 
-        public static Hallucination CreateHallucination(Vector3 position, GameObject prefab, Hallucination.HallucinationType hType, Hallucination.HallucinationFlags hFlags, Hallucination.HallucinationClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime, bool usesDelay)
+        public static Hallucination CreateHallucination(Vector3 position, GameObject prefab, HName hName, HType hType, HFlags hFlags, HClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime, bool usesDelay)
         {
             Hallucination hallucination = new GameObject($"{hType} {hClass} Hallucination").AddComponent<Hallucination>();
             SpriteBillboard billboard = hallucination.gameObject.AddComponent<SpriteBillboard>();
@@ -178,7 +184,7 @@ namespace NotEnoughPhotons.paranoia
 
             hallucination.gameObject.transform.position = position;
             hallucination.gameObject.SetActive(false);
-            hallucination.Initialize(hType, hFlags, hClass, distanceToDisappear, chaseSpeed, delayTime);
+            hallucination.Initialize(hName, hType, hFlags, hClass, distanceToDisappear, chaseSpeed, delayTime);
             return hallucination;
         }
 
@@ -192,7 +198,10 @@ namespace NotEnoughPhotons.paranoia
 			{
                 Destroy(gameObject);
 			}
+        }
 
+        private void Start()
+        {
             InitializeEntities();
 
             InitializeTicks();
@@ -273,33 +282,19 @@ namespace NotEnoughPhotons.paranoia
 		{
             radioClone = GameObject.Instantiate(radioObject);
 
-            hChaser = CreateHallucination(Vector3.zero, Hallucination.HallucinationType.Auditory, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.Chaser, 1f, 30f, 0f, false);
-            hDarkVoice = CreateHallucination(Vector3.zero, Hallucination.HallucinationType.Auditory, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.DarkVoice, 0f, 0f, 0f, false);
-            hCeilingMan = CreateHallucination(Vector3.zero, ceilingWatcher, Hallucination.HallucinationType.Auditory | Hallucination.HallucinationType.Visual, Hallucination.HallucinationFlags.HideWhenSeen, Hallucination.HallucinationClass.Watcher, 0f, 0f, 0f, false);
-            hStaringMan = CreateHallucination(Vector3.zero, staringMan, Hallucination.HallucinationType.Visual, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.Chaser, 30f, 1f, 0f, false);
-            hShadowPerson = CreateHallucination(Vector3.zero, shadowMan, Hallucination.HallucinationType.Visual, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.Watcher, 0f, 0f, 0f, false);
-            hShadowPersonChaser = CreateHallucination(Vector3.zero, shadowMan, Hallucination.HallucinationType.Visual, Hallucination.HallucinationFlags.None, Hallucination.HallucinationClass.Chaser, 1f, 50f, 5f, true);
+            hChaser = CreateHallucination(Vector3.zero, HName.ChaserMirage, HType.Auditory, HFlags.None, HClass.Chaser, 1f, 30f, 0f, false);
+            hDarkVoice = CreateHallucination(Vector3.zero, HName.VoiceInTheDark, HType.Auditory, HFlags.None, HClass.DarkVoice, 0f, 0f, 0f, false);
+            hCeilingMan = CreateHallucination(Vector3.zero, ceilingWatcher, HName.CeilingMan, HType.Auditory | HType.Visual, HFlags.HideWhenSeen, HClass.Watcher, 0f, 0f, 0f, false);
+            hStaringMan = CreateHallucination(Vector3.zero, staringMan, HName.StaringMan, HType.Visual, HFlags.None, HClass.Chaser, 30f, 1f, 0f, false);
+            hShadowPerson = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.None, HClass.Watcher, 0f, 0f, 0f, false);
+            hShadowPersonChaser = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.None, HClass.Chaser, 1f, 50f, 5f, true);
 
             radioSource = radioClone.GetComponentInChildren<AudioSource>();
 
             radioClone.SetActive(false);
         }
 
-        private bool Is3AM()
-        {
-            // 24 hour time, for consistency!
-            int currentHour = int.Parse(System.DateTime.Now.ToString("HH", System.Globalization.CultureInfo.InvariantCulture));
-
-            // 3 AM
-            if (currentHour == 03)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private Transform FindPlayer()
+        public Transform FindPlayer()
         {
             // Code lifted from the Boneworks Modding Toolkit.
 
@@ -318,6 +313,20 @@ namespace NotEnoughPhotons.paranoia
             return null;
         }
 
+        private bool Is3AM()
+        {
+            // 24 hour time, for consistency!
+            int currentHour = int.Parse(System.DateTime.Now.ToString("HH", System.Globalization.CultureInfo.InvariantCulture));
+
+            // 3 AM
+            if (currentHour == 03)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private Transform FindHead()
 		{
             return GameObject.Find("[RigManager (Default Brett)]/[PhysicsRig]/").transform;
@@ -327,6 +336,8 @@ namespace NotEnoughPhotons.paranoia
         {
 			if (Paranoia.instance.isBlankBox)
 			{
+                playerCircle.CalculatePlayerCircle(0f);
+
                 for (int i = 0; i < ticks.Count; i++) { ticks[i].Update(); }
 
                 if (isDark)
@@ -417,21 +428,30 @@ namespace NotEnoughPhotons.paranoia
 
         internal void SpawnFirstRadio()
         {
+            MelonLogger.Msg("Setting inactive");
             radioClone.SetActive(false);
 
+            MelonLogger.Msg("Setting position");
             radioClone.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360), 10f);
 
+            MelonLogger.Msg("Looking at player");
             radioClone.transform.LookAt(FindPlayer());
 
+            MelonLogger.Msg("Setting clip");
             radioSource.clip = manager.startingTune;
+            MelonLogger.Msg("Setting spatial blend");
             radioSource.spatialBlend = 0.75f;
 
+            MelonLogger.Msg("Setting first radio spawn to true");
             firstRadioSpawn = true;
 
+            MelonLogger.Msg("Setting active");
             radioClone.SetActive(true);
 
+            MelonLogger.Msg("Starting coroutine");
             MelonLoader.MelonCoroutines.Start(CoRadioHide(radioSource.clip.length));
 
+            MelonLogger.Msg("Unsubscribing");
             eFirstRadioTick.OnTick -= SpawnFirstRadio;
         }
 
@@ -568,23 +588,54 @@ namespace NotEnoughPhotons.paranoia
             bool isOn = false;
             float random = 0f;
 
-            PropFlashlight[] flashlights;
-            VLB.VolumetricLightBeam[] lightbeams;
-
-            Light blankBoxLight;
-            VLB.VolumetricLightBeam centerLightBeam;
-
-            if (GameObject.FindObjectsOfType<PropFlashlight>() != null && GameObject.FindObjectsOfType<VLB.VolumetricLightBeam>() != null)
+            if (GameObject.FindObjectsOfType<VLB.VolumetricLightBeam>() != null)
             {
-                flashlights = GameObject.FindObjectsOfType<PropFlashlight>();
-                lightbeams = GameObject.FindObjectsOfType<VLB.VolumetricLightBeam>();
+                VLB.VolumetricLightBeam[] lightbeams = GameObject.FindObjectsOfType<VLB.VolumetricLightBeam>();
 
-                blankBoxLight = GameObject.FindObjectOfType<CustomLightMachine>().light;
-                centerLightBeam = GameObject.FindObjectOfType<CustomLightMachine>().lightBeam;
+                Light blankBoxLight = GameObject.FindObjectOfType<CustomLightMachine>().light;
+                //VLB.VolumetricLightBeam centerLightBeam = GameObject.FindObjectOfType<CustomLightMachine>().lightBeam;
 
-                foreach (PropFlashlight flashlight in flashlights)
+                foreach (VLB.VolumetricLightBeam lightbeam in lightbeams)
                 {
-                    foreach (VLB.VolumetricLightBeam lightbeam in lightbeams)
+                    for (i = 0; i < iterations; i++)
+                    {
+                        yield return new WaitForSeconds(0.10f);
+
+                        random = Random.Range(1, iterations);
+
+                        if (blankBoxLight != null || lightBeam != null)
+                        {
+                            if ((i * random / 2) % 2 == 0)
+                            {
+                                isOn = false;
+                                blankBoxLight.gameObject.SetActive(false);
+                                lightBeam.gameObject.SetActive(false);
+                                LightmapSettings.lightmaps = new LightmapData[0];
+                                LightmapSettings.lightProbes.bakedProbes = null;
+                            }
+                            else
+                            {
+                                isOn = true;
+                                blankBoxLight.gameObject.SetActive(true);
+                                lightBeam.gameObject.SetActive(true);
+                                LightmapSettings.lightmaps = lightmaps;
+                                LightmapSettings.lightProbes.bakedProbes = new UnhollowerBaseLib.Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2>(bakedProbes.Count);
+                                LightmapSettings.lightProbes.bakedProbes = bakedProbes;
+                            }
+
+                            DynamicGI.UpdateEnvironment();
+                        }
+
+                        GameObject beam = lightBeam.gameObject;
+                        beam.active = (i * random / 2) % 2 == 0;
+                    }
+                }
+
+                if (GameObject.FindObjectsOfType<PropFlashlight>() != null)
+                {
+                    PropFlashlight[] flashlights = GameObject.FindObjectsOfType<PropFlashlight>();
+
+                    foreach (PropFlashlight flashlight in flashlights)
                     {
                         for (i = 0; i < iterations; i++)
                         {
@@ -592,34 +643,11 @@ namespace NotEnoughPhotons.paranoia
 
                             random = Random.Range(1, iterations);
 
-                            if (blankBoxLight != null || lightBeam != null)
+                            if (flashlight != null)
                             {
-                                if ((i * random / 2) % 2 == 0)
-                                {
-                                    isOn = false;
-                                    blankBoxLight.gameObject.SetActive(false);
-                                    lightBeam.gameObject.SetActive(false);
-                                    LightmapSettings.lightmaps = new LightmapData[0];
-                                    LightmapSettings.lightProbes.bakedProbes = null;
-                                }
-                                else
-                                {
-                                    isOn = true;
-                                    blankBoxLight.gameObject.SetActive(true);
-                                    lightBeam.gameObject.SetActive(true);
-                                    LightmapSettings.lightmaps = lightmaps;
-                                    LightmapSettings.lightProbes.bakedProbes = new UnhollowerBaseLib.Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2>(bakedProbes.Count);
-                                    LightmapSettings.lightProbes.bakedProbes = bakedProbes;
-                                }
-
-                                DynamicGI.UpdateEnvironment();
+                                GameObject lightStuff = flashlight.LightStuff;
+                                lightStuff.active = (i * random / 2) % 2 == 0;
                             }
-
-                            GameObject lightStuff = flashlight.GetComponent<PropFlashlight>().LightStuff;
-                            GameObject beam = lightBeam.gameObject;
-
-                            lightStuff.active = (i * random / 2) % 2 == 0;
-                            beam.active = (i * random / 2) % 2 == 0;
                         }
                     }
                 }
@@ -635,8 +663,10 @@ namespace NotEnoughPhotons.paranoia
 
         internal IEnumerator CoRadioHide(float time)
         {
+            MelonLogger.Msg("Waiting for " + time + " seconds...");
             yield return new WaitForSeconds(time);
 
+            MelonLogger.Msg("First radio spawn is done for");
             firstRadioSpawn = false;
 
             if (radioClone.activeInHierarchy)

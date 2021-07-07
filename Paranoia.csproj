@@ -80,15 +80,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioManager.cs" />
-    <Compile Include="ChaserMirage.cs" />
-    <Compile Include="GameManager.cs" />
-    <Compile Include="GrayMan.cs" />
     <Compile Include="Hallucination.cs" />
     <Compile Include="ObjectPool.cs" />
+    <Compile Include="ParanoiaGameManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="ShadowPerson.cs" />
-    <Compile Include="ShadowPersonChaser.cs" />
     <Compile Include="SpawnCircle.cs" />
     <Compile Include="SpriteBillboard.cs" />
   </ItemGroup>
