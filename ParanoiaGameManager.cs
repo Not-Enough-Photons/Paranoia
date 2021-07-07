@@ -131,6 +131,7 @@ namespace NotEnoughPhotons.paranoia
 
         private int rng = 1;
 
+        internal int insanity;
 
         private SpawnCircle[] spawnCircles = new SpawnCircle[3];
 
