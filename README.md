@@ -1,4 +1,5 @@
-![Paranoia - An experimental horror mod for BONEWORKS.](https://i.imgur.com/MDBOooD.png)
+![Paranoia - An experimental horror mod for BONEWORKS.](https://i.imgur.com/F7dsyJn.png)
+### Paranoia - An experiemntal horror mod for BONEWORKS.
 ---
 
 ### LICENSING & CREDITS:
