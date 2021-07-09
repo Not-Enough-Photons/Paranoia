@@ -4,7 +4,7 @@
 ## Description:
 #### This is the official source code for the BONEWORKS mod, Paranoia.
 
-#### Paranoia is an experimental horror mod for BONEWORKS' Blankbox level. All items in this 
+#### Paranoia is an experimental horror mod for BONEWORKS' Blankbox level. All code in this project is subject to change with time.
 ---
 
 ### LICENSING & CREDITS:
