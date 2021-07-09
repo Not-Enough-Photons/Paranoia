@@ -1,7 +1,4 @@
-### GENERAL INFORMATION:
-
-- An Example Mod for [MelonLoader](https://github.com/LavaGang/MelonLoader).
-
+![Paranoia - An experimental horror mod for BONEWORKS.](https://i.imgur.com/MDBOooD.png)
 ---
 
 ### LICENSING & CREDITS:
