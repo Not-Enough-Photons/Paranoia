@@ -43,6 +43,9 @@
     <Reference Include="MelonLoader">
       <HintPath>E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\MelonLoader.dll</HintPath>
     </Reference>
+    <Reference Include="ModThatIsNotMod">
+      <HintPath>E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\Mods\ModThatIsNotMod.dll</HintPath>
+    </Reference>
     <Reference Include="SteamVR, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\SteamVR.dll</HintPath>
@@ -77,10 +80,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.VideoModule, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\UnityEngine.VideoModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioManager.cs" />
     <Compile Include="Hallucination.cs" />
+    <Compile Include="MonitorVideo.cs" />
     <Compile Include="ObjectPool.cs" />
     <Compile Include="ParanoiaGameManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

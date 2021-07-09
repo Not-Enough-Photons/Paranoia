@@ -122,7 +122,7 @@ namespace NotEnoughPhotons.paranoia
 
         private void Update()
         {
-            if (Vector3.Distance(target.position, transform.position) <= hDistanceToDisappear)
+            if (Vector3.Distance(target.position, transform.position) < hDistanceToDisappear)
             {
                 if (OnReachedTarget != null)
                 {
@@ -156,7 +156,7 @@ namespace NotEnoughPhotons.paranoia
 
                 if (hClass == HallucinationClass.DarkVoice)
                 {
-                    transform.position = target.forward * -0.25f;
+                    transform.position = target.forward * -0.05f;
 
                     if (Paranoia.instance.darkVoices.Count > 0)
 					{
@@ -168,6 +168,7 @@ namespace NotEnoughPhotons.paranoia
                     source.Play();
 
                     yield return new WaitForSeconds(source.clip.length);
+
                     gameObject.SetActive(false);
                 }
                 else if (hClass == HallucinationClass.Chaser)
@@ -221,13 +222,10 @@ namespace NotEnoughPhotons.paranoia
             {
                 transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0f, 360f));
 
-                // WaitUntil is stripped, so we gotta work with this
-                while (Vector3.Distance(target.position, transform.position) > hDistanceToDisappear)
+                if (hName == HallucinationName.CeilingMan)
                 {
-                    yield return null;
+                    transform.position = ParanoiaGameManager.instance.ceilingManSpawns[Random.Range(0, ParanoiaGameManager.instance.ceilingManSpawns.Length)];
                 }
-
-                gameObject.SetActive(false);
             }
 
             yield return null;

@@ -75,14 +75,24 @@ namespace NotEnoughPhotons.paranoia
         public GameObject staringMan;
         public GameObject ceilingWatcher;
         public GameObject radioObject;
+        public GameObject monitorObject;
 
         public SpawnCircle playerCircle;
+
+        public List<UnityEngine.Video.VideoClip> clipList;
 
         public Vector3[] staringManSpawns = new Vector3[3]
         {
             new Vector3(-53.9f, 1f, -55.1f),
             new Vector3(-53.7f, 1f, 32.1f),
             new Vector3(52.1f, 1f, 54.4f)
+        };
+
+        public Vector3[] ceilingManSpawns = new Vector3[3]
+        {
+            new Vector3(-53.9f, 75f, -55.1f),
+            new Vector3(-53.7f, 75f, 32.1f),
+            new Vector3(52.1f, 75f, 54.4f)
         };
 
         private Transform playerTrigger;
@@ -103,6 +113,7 @@ namespace NotEnoughPhotons.paranoia
         private GameObject flashlightObject;
 
         private GameObject radioClone;
+        private GameObject monitorClone;
         private AudioSource radioSource;
 
         // Audio ticks
@@ -113,10 +124,12 @@ namespace NotEnoughPhotons.paranoia
         // Visual ticks
         private Tick vShadowManTick;
         private Tick vStaringManTick;
+        private Tick vCeilingManTick;
 
         // Event ticks
         private Tick eTPoseTick;
         private Tick eRadioTick;
+        private Tick eMonitorTick;
         private Tick eFirstRadioTick;
         private Tick eAIOriginTick;
         private Tick eKillAllTick;
@@ -124,7 +137,6 @@ namespace NotEnoughPhotons.paranoia
         private Tick eLightFlickerTick;
 
         private Tick rngGeneratorTick;
-
 
         private bool firstRadioSpawn = false;
         private bool isDark = false;
@@ -237,16 +249,17 @@ namespace NotEnoughPhotons.paranoia
             // Visual tick initialization
             vShadowManTick      = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             vStaringManTick     = new Tick(180f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            vCeilingManTick     = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
 
             // Event tick initialization
             eTPoseTick          = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             eRadioTick          = new Tick(190f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            eMonitorTick        = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             eFirstRadioTick     = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             eAIOriginTick       = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             eKillAllTick        = new Tick(240f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             eItemDropTick       = new Tick(15f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             eLightFlickerTick   = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-
 
             // Global tick initialization
             rngGeneratorTick    = new Tick(5f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
@@ -257,12 +270,42 @@ namespace NotEnoughPhotons.paranoia
             aDarkVoiceTick.OnTick += new System.Action(() => hDarkVoice.gameObject.SetActive(true));
 
             // Visual tick subscription
-            vShadowManTick.OnTick += new System.Action(() => hShadowPerson.gameObject.SetActive(true));
-            vStaringManTick.OnTick += new System.Action(() => hStaringMan.gameObject.SetActive(true));
+            vShadowManTick.OnTick += new System.Action(() => 
+            {
+                if(insanity > 2)
+                {
+                    hShadowPerson.gameObject.SetActive(true);
+                }
+            });
+
+            vStaringManTick.OnTick += new System.Action(() => 
+            {
+                if(insanity > 1)
+                {
+                    hStaringMan.gameObject.SetActive(true);
+                }
+            });
+
+            vCeilingManTick.OnTick += new System.Action(() => 
+            {
+                if(insanity > 2)
+                {
+                    hCeilingMan.gameObject.SetActive(true);
+                }
+            });
 
             // Event tick subscription
             eTPoseTick.OnTick += TPoseEvent;
-            eRadioTick.OnTick += new System.Action(() => { SpawnRadio(); MoveAIToPoint(radioClone.transform.position, false); });
+            eRadioTick.OnTick += new System.Action(() => 
+            { 
+                if(insanity > 0)
+                {
+                    SpawnRadio();
+                    MoveAIToPoint(radioClone.transform.position, false);
+                }
+            });
+
+            eMonitorTick.OnTick += SpawnMonitor;
             eFirstRadioTick.OnTick += SpawnFirstRadio;
             eAIOriginTick.OnTick += new System.Action(() => MoveAIToPoint(Vector3.zero, true));
             eKillAllTick.OnTick += KillAIRandomly;
@@ -272,7 +315,7 @@ namespace NotEnoughPhotons.paranoia
                 KillNimbus();
                 KillWasp();
                 eLightFlickerTick.maxTick = Random.Range(120f, 180f);
-                MelonCoroutines.Start(CoLightFlickerRoutine(Random.Range(15, 25)));
+                MelonCoroutines.Start(CoLightFlickerRoutine(Random.Range(5, 6)));
             });
 
             // Global tick subscription
@@ -282,6 +325,7 @@ namespace NotEnoughPhotons.paranoia
         private void InitializeEntities()
 		{
             radioClone = GameObject.Instantiate(radioObject);
+            monitorClone = GameObject.Instantiate(monitorObject);
 
             hChaser = CreateHallucination(Vector3.zero, HName.ChaserMirage, HType.Auditory, HFlags.None, HClass.Chaser, 1f, 30f, 0f, false);
             hDarkVoice = CreateHallucination(Vector3.zero, HName.VoiceInTheDark, HType.Auditory, HFlags.None, HClass.DarkVoice, 0f, 0f, 0f, false);
@@ -291,8 +335,11 @@ namespace NotEnoughPhotons.paranoia
             hShadowPersonChaser = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.None, HClass.Chaser, 1f, 50f, 5f, true);
 
             radioSource = radioClone.GetComponentInChildren<AudioSource>();
+            MonitorVideo monitorVideo = monitorClone.AddComponent<MonitorVideo>();
+            monitorVideo.clips = clipList;
 
             radioClone.SetActive(false);
+            monitorClone.SetActive(false);
         }
 
         public Transform FindPlayer()
@@ -368,62 +415,65 @@ namespace NotEnoughPhotons.paranoia
 
         internal void TPoseEvent()
         {
-            eTPoseTick.maxTick = Random.Range(rng, 150);
-            bool isRareNumber = rng >= 20 && rng <= 29 || rng >= 25 && rng <= 30;
-
-            if (isRareNumber)
+            if(insanity > 1)
             {
-                if (playerTrigger != null)
+                eTPoseTick.maxTick = Random.Range(rng, 150);
+                bool isRareNumber = rng >= 20 && rng <= 29 || rng >= 25 && rng <= 30;
+
+                if (isRareNumber)
                 {
-                    try
+                    if (playerTrigger != null)
                     {
-                        UnhollowerBaseLib.Il2CppArrayBase<StressLevelZero.AI.AIBrain> brains = GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>();
-
-                        foreach (StressLevelZero.AI.AIBrain brain in brains)
+                        try
                         {
-                            Transform t = brain.transform;
+                            UnhollowerBaseLib.Il2CppArrayBase<StressLevelZero.AI.AIBrain> brains = GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>();
 
-                            if (t.gameObject != null)
+                            foreach (StressLevelZero.AI.AIBrain brain in brains)
                             {
-                                if (t.Find("Physics") && t.Find("AiRig"))
+                                Transform t = brain.transform;
+
+                                if (t.gameObject != null)
                                 {
-                                    Transform physicsGrp = t.Find("Physics");
-                                    Transform aiGrp = t.Find("AiRig");
-
-                                    physicsGrp.gameObject.SetActive(false);
-                                    aiGrp.gameObject.SetActive(false);
-
-                                    t.GetComponent<StressLevelZero.Combat.VisualDamageController>().enabled = false;
-                                    t.GetComponent<StressLevelZero.AI.AIBrain>().enabled = false;
-                                    t.GetComponent<Arena_EnemyReference>().enabled = false;
-
-                                    if (t.Find("Physics/Root_M/Spine_M/Chest_M/Head_M/Jaw_M/Head_JawEndSHJnt") != null)
+                                    if (t.Find("Physics") && t.Find("AiRig"))
                                     {
-                                        Material eyeMat = t.Find("brettEnemy@neutral/geoGrp/brett_face").GetComponent<SkinnedMeshRenderer>().materials.FirstOrDefault((mat) => mat.name.Contains("mat_Brett_eye"));
-                                        eyeMat.color = new Color(0f, 0f, 0f, 0f);
-                                        Transform jaw = t.Find("Physics/Root_M/Spine_M/Chest_M/Head_M/Jaw_M/Head_JawEndSHJnt");
-                                        jaw.localPosition = new Vector3(jaw.localPosition.x, -0.35f, jaw.localPosition.z);
+                                        Transform physicsGrp = t.Find("Physics");
+                                        Transform aiGrp = t.Find("AiRig");
+
+                                        physicsGrp.gameObject.SetActive(false);
+                                        aiGrp.gameObject.SetActive(false);
+
+                                        t.GetComponent<StressLevelZero.Combat.VisualDamageController>().enabled = false;
+                                        t.GetComponent<StressLevelZero.AI.AIBrain>().enabled = false;
+                                        t.GetComponent<Arena_EnemyReference>().enabled = false;
+
+                                        if (t.Find("Physics/Root_M/Spine_M/Chest_M/Head_M/Jaw_M/Head_JawEndSHJnt") != null)
+                                        {
+                                            Material eyeMat = t.Find("brettEnemy@neutral/geoGrp/brett_face").GetComponent<SkinnedMeshRenderer>().materials.FirstOrDefault((mat) => mat.name.Contains("mat_Brett_eye"));
+                                            eyeMat.color = new Color(0f, 0f, 0f, 0f);
+                                            Transform jaw = t.Find("Physics/Root_M/Spine_M/Chest_M/Head_M/Jaw_M/Head_JawEndSHJnt");
+                                            jaw.localPosition = new Vector3(jaw.localPosition.x, -0.35f, jaw.localPosition.z);
+                                        }
+
+                                        t.localPosition = new Vector3(t.localPosition.x, 0f, t.localPosition.z);
+
+                                        Vector3 lookRotation = Quaternion.LookRotation(FindPlayer().forward).eulerAngles;
+                                        t.eulerAngles = new Vector3(t.eulerAngles.x, lookRotation.y, t.eulerAngles.z);
                                     }
-
-                                    t.localPosition = new Vector3(t.localPosition.x, 0f, t.localPosition.z);
-
-                                    Vector3 lookRotation = Quaternion.LookRotation(FindPlayer().forward).eulerAngles;
-                                    t.eulerAngles = new Vector3(t.eulerAngles.x, lookRotation.y, t.eulerAngles.z);
                                 }
                             }
+
+                            MelonCoroutines.Start(CoResetTPosedEnemies(5f));
                         }
+                        catch
+                        {
 
-                        MelonCoroutines.Start(CoResetTPosedEnemies(5f));
-                    }
-                    catch
-                    {
-
+                        }
                     }
                 }
-            }
-            else
-            {
-                return;
+                else
+                {
+                    return;
+                }
             }
         }
 
@@ -472,6 +522,21 @@ namespace NotEnoughPhotons.paranoia
             radioClone.SetActive(true);
 
             MelonCoroutines.Start(CoRadioHide(radioSource.clip.length));
+        }
+
+        internal void SpawnMonitor()
+        {
+            //if (firstRadioSpawn) { return; }
+
+            monitorClone.SetActive(false);
+
+            monitorClone.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360), 10f);
+
+            monitorClone.transform.LookAt(FindPlayer());
+
+            monitorClone.SetActive(true);
+
+            insanity++;
         }
 
         internal void MoveAIToPoint(Vector3 point, bool fallThroughWorld)
@@ -591,10 +656,10 @@ namespace NotEnoughPhotons.paranoia
 
             if (GameObject.FindObjectsOfType<VLB.VolumetricLightBeam>() != null)
             {
+                Renderer[] renderers = GameObject.FindObjectsOfType<Renderer>();
                 VLB.VolumetricLightBeam[] lightbeams = GameObject.FindObjectsOfType<VLB.VolumetricLightBeam>();
 
                 Light blankBoxLight = GameObject.FindObjectOfType<CustomLightMachine>().light;
-                //VLB.VolumetricLightBeam centerLightBeam = GameObject.FindObjectOfType<CustomLightMachine>().lightBeam;
 
                 foreach (VLB.VolumetricLightBeam lightbeam in lightbeams)
                 {
@@ -610,7 +675,6 @@ namespace NotEnoughPhotons.paranoia
                             {
                                 isOn = false;
                                 blankBoxLight.gameObject.SetActive(false);
-                                lightBeam.gameObject.SetActive(false);
                                 LightmapSettings.lightmaps = new LightmapData[0];
                                 LightmapSettings.lightProbes.bakedProbes = null;
                             }
@@ -618,37 +682,12 @@ namespace NotEnoughPhotons.paranoia
                             {
                                 isOn = true;
                                 blankBoxLight.gameObject.SetActive(true);
-                                lightBeam.gameObject.SetActive(true);
                                 LightmapSettings.lightmaps = lightmaps;
                                 LightmapSettings.lightProbes.bakedProbes = new UnhollowerBaseLib.Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2>(bakedProbes.Count);
                                 LightmapSettings.lightProbes.bakedProbes = bakedProbes;
                             }
 
                             DynamicGI.UpdateEnvironment();
-                        }
-
-                        GameObject beam = lightBeam.gameObject;
-                        beam.active = (i * random / 2) % 2 == 0;
-                    }
-                }
-
-                if (GameObject.FindObjectsOfType<PropFlashlight>() != null)
-                {
-                    PropFlashlight[] flashlights = GameObject.FindObjectsOfType<PropFlashlight>();
-
-                    foreach (PropFlashlight flashlight in flashlights)
-                    {
-                        for (i = 0; i < iterations; i++)
-                        {
-                            yield return new WaitForSeconds(0.10f);
-
-                            random = Random.Range(1, iterations);
-
-                            if (flashlight != null)
-                            {
-                                GameObject lightStuff = flashlight.LightStuff;
-                                lightStuff.active = (i * random / 2) % 2 == 0;
-                            }
                         }
                     }
                 }

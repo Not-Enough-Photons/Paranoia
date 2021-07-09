@@ -9,7 +9,7 @@ namespace NotEnoughPhotons.paranoia
     {
         public MonitorVideo(System.IntPtr ptr) : base(ptr) {}
 
-        public VideoClip[] clips;
+        public List<VideoClip> clips;
 
         private VideoPlayer player;
 
@@ -20,8 +20,11 @@ namespace NotEnoughPhotons.paranoia
 
         private void OnEnable()
         {
-            player.clip = clips[ParanoiaGameManager.instance.insanity];
-            MelonLoader.MelonCoroutines.Start(CoHideMonitor());
+            if (clips != null || player != null)
+            {
+                player.clip = clips[ParanoiaGameManager.instance.insanity];
+                MelonLoader.MelonCoroutines.Start(CoHideMonitor());
+            }
         }
 
         private IEnumerator CoHideMonitor()

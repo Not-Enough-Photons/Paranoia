@@ -1,6 +1,7 @@
 ﻿using MelonLoader;
 
 using UnityEngine;
+using UnityEngine.Video;
 
 using TMPro;
 
@@ -22,40 +23,6 @@ namespace NotEnoughPhotons.paranoia
 
     public class Paranoia : MelonMod
     {
-        public class SpawnCircle
-        {
-            public SpawnCircle(Transform originTransform)
-            {
-                this.originTransform = originTransform;
-            }
-
-            public Vector3 circle;
-
-            public Transform originTransform;
-
-            public float radius = 75f;
-
-            private const float Deg2Rad = 0.0174532924f;
-
-            public Vector3 CalculatePlayerCircle(float angle)
-            {
-                // y position is 1 meter since we need the shadow beings to be on the ground directly
-                return new Vector3(
-                    originTransform.position.x + Mathf.Sin(angle * Deg2Rad) * radius,
-                    originTransform.position.y,
-                    originTransform.position.z + Mathf.Cos(angle * Deg2Rad) * radius);
-            }
-
-            public Vector3 CalculatePlayerCircle(float angle, float radius)
-            {
-                // y position is 1 meter since we need the shadow beings to be on the ground directly
-                return new Vector3(
-                    originTransform.position.x + Mathf.Sin(angle * Deg2Rad) * radius,
-                    originTransform.position.y,
-                    originTransform.position.z + Mathf.Cos(angle * Deg2Rad) * radius);
-            }
-        }
-
         public static Paranoia instance;
 
         internal AssetBundle bundle;
@@ -70,6 +37,8 @@ namespace NotEnoughPhotons.paranoia
         internal List<AudioClip> watcherAmbience;
         internal List<AudioClip> darkVoices;
         internal List<AudioClip> radioTunes;
+
+        internal List<VideoClip> videoClips;
 
         internal AudioClip startingTune;
 
@@ -126,9 +95,10 @@ namespace NotEnoughPhotons.paranoia
                 staringManObject = bundle.LoadAsset("StaringMan").Cast<GameObject>();
                 ceilingManObject = bundle.LoadAsset("CeilingMan").Cast<GameObject>();
                 radioObject = bundle.LoadAsset("PRadio").Cast<GameObject>();
-                monitorObject = bundle.LoadAsset("MonitorVideoPlayer").Cast<GameObject>();
+                monitorObject = bundle.LoadAsset("MonitorPlayer").Cast<GameObject>();
 
                 FixObjectShader(radioObject);
+                //FixObjectShader(monitorObject);
 
                 staringManObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 shadowPersonObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
@@ -142,6 +112,8 @@ namespace NotEnoughPhotons.paranoia
                 watcherAmbience = new List<AudioClip>();
                 darkVoices = new List<AudioClip>();
                 radioTunes = new List<AudioClip>();
+
+                videoClips = new List<VideoClip>();
             }
             catch (System.Exception e)
             {
@@ -158,6 +130,8 @@ namespace NotEnoughPhotons.paranoia
                     isBlankBox = true;
 
                     PrecacheAudioAssets();
+
+                    PrecacheVideoAssets();
 
                     playerTrigger = FindPlayer();
 
@@ -228,6 +202,8 @@ namespace NotEnoughPhotons.paranoia
             gameManager.shadowMan = shadowPersonObject;
             gameManager.staringMan = staringManObject;
             gameManager.ceilingWatcher = ceilingManObject;
+            gameManager.monitorObject = monitorObject;
+            gameManager.clipList = videoClips;
         }
 
         internal static void FixObjectShader(GameObject obj)
@@ -305,6 +281,17 @@ namespace NotEnoughPhotons.paranoia
                 else if (bundle.LoadAllAssets()[i].name.StartsWith("radio_start"))
                 {
                     startingTune = bundle.LoadAllAssets()[i].Cast<AudioClip>();
+                }
+            }
+        }
+
+        private void PrecacheVideoAssets()
+        {
+            for(int i = 0; i < bundle.LoadAllAssets().Count; i++)
+            {
+                if (bundle.LoadAllAssets()[i].name.StartsWith("video_screen"))
+                {
+                    videoClips.Add(bundle.LoadAllAssets()[i].Cast<VideoClip>());
                 }
             }
         }
