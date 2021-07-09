@@ -133,7 +133,7 @@ namespace NotEnoughPhotons.paranoia
 
                     PrecacheVideoAssets();
 
-                    playerTrigger = FindPlayer();
+                    playerTrigger = ParanoiaUtilities.FindPlayer();
 
                     gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
 
@@ -177,23 +177,9 @@ namespace NotEnoughPhotons.paranoia
             }
         }
 
-        public Transform FindPlayer()
+        public override void OnUpdate()
         {
-            // Code lifted from the Boneworks Modding Toolkit.
 
-            GameObject[] array = GameObject.FindGameObjectsWithTag("Player");
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                bool isTrigger = array[i].name == "PlayerTrigger";
-
-                if (isTrigger)
-                {
-                    return array[i].transform;
-                }
-            }
-
-            return null;
         }
 
         internal void InitializeGameManager()

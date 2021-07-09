@@ -91,6 +91,7 @@
     <Compile Include="MonitorVideo.cs" />
     <Compile Include="ObjectPool.cs" />
     <Compile Include="ParanoiaGameManager.cs" />
+    <Compile Include="ParanoiaUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="SpawnCircle.cs" />
