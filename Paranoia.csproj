@@ -97,6 +97,9 @@
     <Compile Include="SpawnCircle.cs" />
     <Compile Include="SpriteBillboard.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>COPY "$(TargetPath)" "E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\Mods"

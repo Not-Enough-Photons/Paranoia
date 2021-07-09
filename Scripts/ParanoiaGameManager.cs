@@ -155,9 +155,9 @@ namespace NotEnoughPhotons.paranoia
             Hallucination hallucination = new GameObject($"{hType} {hClass} Hallucination").AddComponent<Hallucination>();
             SpriteBillboard billboard = hallucination.gameObject.AddComponent<SpriteBillboard>();
 
-            billboard.target = instance.FindPlayer();
-            hallucination.target = instance.FindPlayer();
-            hallucination.cameraTarget = instance.FindHead();
+            billboard.target = ParanoiaUtilities.FindPlayer();
+            hallucination.target = ParanoiaUtilities.FindPlayer();
+            hallucination.cameraTarget = ParanoiaUtilities.FindHead();
             hallucination.audioManager = FindObjectOfType<AudioManager>();
 
             if (hType.HasFlag(Hallucination.HallucinationType.Auditory))
@@ -178,9 +178,9 @@ namespace NotEnoughPhotons.paranoia
             Hallucination hallucination = new GameObject($"{hType} {hClass} Hallucination").AddComponent<Hallucination>();
             SpriteBillboard billboard = hallucination.gameObject.AddComponent<SpriteBillboard>();
 
-            billboard.target = instance.FindPlayer();
-            hallucination.target = instance.FindPlayer();
-            hallucination.cameraTarget = instance.FindHead();
+            billboard.target = ParanoiaUtilities.FindPlayer();
+            hallucination.target = ParanoiaUtilities.FindPlayer();
+            hallucination.cameraTarget = ParanoiaUtilities.FindHead();
             hallucination.audioManager = FindObjectOfType<AudioManager>();
 
             if (prefab != null)
@@ -221,9 +221,9 @@ namespace NotEnoughPhotons.paranoia
 
             manager = FindObjectOfType<AudioManager>();
 
-            playerTrigger = FindPlayer();
+            playerTrigger = ParanoiaUtilities.FindPlayer();
 
-            playerCircle = new SpawnCircle(FindPlayer());
+            playerCircle = new SpawnCircle(ParanoiaUtilities.FindPlayer());
 
             for (int i = 0; i < spawnCircles.Length; i++)
             {
@@ -341,44 +341,7 @@ namespace NotEnoughPhotons.paranoia
             radioClone.SetActive(false);
             monitorClone.SetActive(false);
         }
-
-        public Transform FindPlayer()
-        {
-            // Code lifted from the Boneworks Modding Toolkit.
-
-            GameObject[] array = GameObject.FindGameObjectsWithTag("Player");
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                bool isTrigger = array[i].name == "PlayerTrigger";
-
-                if (isTrigger)
-                {
-                    return array[i].transform;
-                }
-            }
-
-            return null;
-        }
-
-        private bool Is3AM()
-        {
-            // 24 hour time, for consistency!
-            int currentHour = int.Parse(System.DateTime.Now.ToString("HH", System.Globalization.CultureInfo.InvariantCulture));
-
-            // 3 AM
-            if (currentHour == 03)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private Transform FindHead()
-		{
-            return GameObject.Find("[RigManager (Default Brett)]/[PhysicsRig]/").transform;
-		}
+       
 
         private void Update()
         {
@@ -456,7 +419,7 @@ namespace NotEnoughPhotons.paranoia
 
                                         t.localPosition = new Vector3(t.localPosition.x, 0f, t.localPosition.z);
 
-                                        Vector3 lookRotation = Quaternion.LookRotation(FindPlayer().forward).eulerAngles;
+                                        Vector3 lookRotation = Quaternion.LookRotation(ParanoiaUtilities.FindPlayer().forward).eulerAngles;
                                         t.eulerAngles = new Vector3(t.eulerAngles.x, lookRotation.y, t.eulerAngles.z);
                                     }
                                 }
@@ -486,7 +449,7 @@ namespace NotEnoughPhotons.paranoia
             radioClone.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360), 10f);
 
             MelonLogger.Msg("Looking at player");
-            radioClone.transform.LookAt(FindPlayer());
+            radioClone.transform.LookAt(ParanoiaUtilities.FindPlayer());
 
             MelonLogger.Msg("Setting clip");
             radioSource.clip = manager.startingTune;
@@ -514,7 +477,7 @@ namespace NotEnoughPhotons.paranoia
 
             radioClone.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360), 10f);
 
-            radioClone.transform.LookAt(FindPlayer());
+            radioClone.transform.LookAt(ParanoiaUtilities.FindPlayer());
 
             radioSource.clip = manager.radioTunes[Random.Range(0, manager.radioTunes.Count)];
             radioSource.spatialBlend = 1f;
@@ -532,7 +495,7 @@ namespace NotEnoughPhotons.paranoia
 
             monitorClone.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360), 10f);
 
-            monitorClone.transform.LookAt(FindPlayer());
+            monitorClone.transform.LookAt(ParanoiaUtilities.FindPlayer());
 
             monitorClone.SetActive(true);
 
@@ -817,9 +780,9 @@ namespace NotEnoughPhotons.paranoia
                         baseNav.SwitchMentalState(PuppetMasta.BehaviourBaseNav.MentalState.Rest);
                     }
 
-                    baseNav.SetHomePosition(FindPlayer().position, true);
+                    baseNav.SetHomePosition(ParanoiaUtilities.FindPlayer().position, true);
 
-                    while (Vector3.Distance(baseNav.transform.position, FindPlayer().position) > 0.25f) { yield return null; }
+                    while (Vector3.Distance(baseNav.transform.position, ParanoiaUtilities.FindPlayer().position) > 0.25f) { yield return null; }
 
                     yield return null;
                 }

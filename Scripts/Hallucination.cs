@@ -70,32 +70,13 @@ namespace NotEnoughPhotons.paranoia
             this.hChaseSpeed = chaseSpeed;
             this.hDelayTime = delayTime;
 
-            target = FindPlayer();
-            cameraTarget = FindPlayer();
+            target = ParanoiaUtilities.FindPlayer();
+            cameraTarget = ParanoiaUtilities.FindPlayer();
         }
 
         public void SetSpawnPoint(Vector3 spawnPoint)
         {
             transform.position = spawnPoint;
-        }
-
-        public Transform FindPlayer()
-        {
-            // Code lifted from the Boneworks Modding Toolkit.
-
-            GameObject[] array = GameObject.FindGameObjectsWithTag("Player");
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                bool isTrigger = array[i].name == "PlayerTrigger";
-
-                if (isTrigger)
-                {
-                    return array[i].transform;
-                }
-            }
-
-            return null;
         }
 
         public AudioSource GetSource()
@@ -107,7 +88,7 @@ namespace NotEnoughPhotons.paranoia
 
         private void Awake()
         {
-            target = FindPlayer();
+            target = ParanoiaUtilities.FindPlayer();
         }
 
         private void OnEnable()
