@@ -45,6 +45,7 @@ namespace NotEnoughPhotons.paranoia
         internal GameObject shadowPersonObject;
         internal GameObject staringManObject;
         internal GameObject ceilingManObject;
+        internal GameObject observerObject;
         internal GameObject radioObject;
         internal GameObject monitorObject;
 
@@ -94,6 +95,7 @@ namespace NotEnoughPhotons.paranoia
                 shadowPersonObject = bundle.LoadAsset("ShadowPerson").Cast<GameObject>();
                 staringManObject = bundle.LoadAsset("StaringMan").Cast<GameObject>();
                 ceilingManObject = bundle.LoadAsset("CeilingMan").Cast<GameObject>();
+                observerObject = bundle.LoadAsset("Observer").Cast<GameObject>();
                 radioObject = bundle.LoadAsset("PRadio").Cast<GameObject>();
                 monitorObject = bundle.LoadAsset("MonitorPlayer").Cast<GameObject>();
 
@@ -177,15 +179,11 @@ namespace NotEnoughPhotons.paranoia
             }
         }
 
-        public override void OnUpdate()
-        {
-
-        }
-
         internal void InitializeGameManager()
         {
             gameManager.radioObject = radioObject;
             gameManager.shadowMan = shadowPersonObject;
+            gameManager.observer = observerObject;
             gameManager.staringMan = staringManObject;
             gameManager.ceilingWatcher = ceilingManObject;
             gameManager.monitorObject = monitorObject;
@@ -233,7 +231,7 @@ namespace NotEnoughPhotons.paranoia
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<Hallucination>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ParanoiaGameManager>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<SpriteBillboard>();
+            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<PBillboard>();
         }
 
         private void PrecacheAudioAssets()

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 using TMPro;
 
@@ -74,6 +75,7 @@ namespace NotEnoughPhotons.paranoia
         public GameObject shadowMan;
         public GameObject staringMan;
         public GameObject ceilingWatcher;
+        public GameObject observer;
         public GameObject radioObject;
         public GameObject monitorObject;
 
@@ -107,6 +109,7 @@ namespace NotEnoughPhotons.paranoia
         private Hallucination hStaringMan;
         private Hallucination hShadowPerson;
         private Hallucination hShadowPersonChaser;
+        private Hallucination hObserver;
 
         private VLB.VolumetricLightBeam lightBeam;
         private Light blankBoxLight;
@@ -125,6 +128,7 @@ namespace NotEnoughPhotons.paranoia
         private Tick vShadowManTick;
         private Tick vStaringManTick;
         private Tick vCeilingManTick;
+        private Tick vObserverTick;
 
         // Event ticks
         private Tick eTPoseTick;
@@ -153,7 +157,7 @@ namespace NotEnoughPhotons.paranoia
         public static Hallucination CreateHallucination(Vector3 position, HName hName, HType hType, HFlags hFlags, HClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime, bool usesDelay)
         {
             Hallucination hallucination = new GameObject($"{hType} {hClass} Hallucination").AddComponent<Hallucination>();
-            SpriteBillboard billboard = hallucination.gameObject.AddComponent<SpriteBillboard>();
+            PBillboard billboard = hallucination.gameObject.AddComponent<PBillboard>();
 
             billboard.target = ParanoiaUtilities.FindPlayer();
             hallucination.target = ParanoiaUtilities.FindPlayer();
@@ -176,7 +180,7 @@ namespace NotEnoughPhotons.paranoia
         public static Hallucination CreateHallucination(Vector3 position, GameObject prefab, HName hName, HType hType, HFlags hFlags, HClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime, bool usesDelay)
         {
             Hallucination hallucination = new GameObject($"{hType} {hClass} Hallucination").AddComponent<Hallucination>();
-            SpriteBillboard billboard = hallucination.gameObject.AddComponent<SpriteBillboard>();
+            PBillboard billboard = hallucination.gameObject.AddComponent<PBillboard>();
 
             billboard.target = ParanoiaUtilities.FindPlayer();
             hallucination.target = ParanoiaUtilities.FindPlayer();
@@ -250,6 +254,7 @@ namespace NotEnoughPhotons.paranoia
             vShadowManTick      = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             vStaringManTick     = new Tick(180f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             vCeilingManTick     = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            vObserverTick       = new Tick(360f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
 
             // Event tick initialization
             eTPoseTick          = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
@@ -294,6 +299,14 @@ namespace NotEnoughPhotons.paranoia
                 }
             });
 
+            vObserverTick.OnTick += new System.Action(() => 
+            { 
+                if(insanity > 3)
+                {
+                    hObserver.gameObject.SetActive(true);
+                }
+            });
+
             // Event tick subscription
             eTPoseTick.OnTick += TPoseEvent;
             eRadioTick.OnTick += new System.Action(() => 
@@ -333,6 +346,7 @@ namespace NotEnoughPhotons.paranoia
             hStaringMan = CreateHallucination(Vector3.zero, staringMan, HName.StaringMan, HType.Visual, HFlags.None, HClass.Chaser, 30f, 1f, 0f, false);
             hShadowPerson = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.None, HClass.Watcher, 0f, 0f, 0f, false);
             hShadowPersonChaser = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.None, HClass.Chaser, 1f, 50f, 5f, true);
+            hObserver = CreateHallucination(Vector3.zero, observer, HName.Observer, HType.Visual, HFlags.HideWhenSeen, HClass.Watcher, 0f, 0f, 0f, false);
 
             radioSource = radioClone.GetComponentInChildren<AudioSource>();
             MonitorVideo monitorVideo = monitorClone.AddComponent<MonitorVideo>();
@@ -341,7 +355,6 @@ namespace NotEnoughPhotons.paranoia
             radioClone.SetActive(false);
             monitorClone.SetActive(false);
         }
-       
 
         private void Update()
         {
@@ -628,7 +641,7 @@ namespace NotEnoughPhotons.paranoia
                 {
                     for (i = 0; i < iterations; i++)
                     {
-                        yield return new WaitForSeconds(0.10f);
+                        yield return new WaitForSeconds(0.05f);
 
                         random = Random.Range(1, iterations);
 

@@ -2,6 +2,8 @@
 using System;
 using System.Globalization;
 
+using Tick = NotEnoughPhotons.paranoia.ParanoiaGameManager.Tick;
+
 namespace NotEnoughPhotons.paranoia
 {
     public class ParanoiaUtilities
@@ -44,9 +46,14 @@ namespace NotEnoughPhotons.paranoia
             return true;
         }
 
+        public static Tick GetTick(string name)
+        {
+            return ParanoiaGameManager.instance.GetType().GetField(name, System.Reflection.BindingFlags.NonPublic).GetValue(nameof(name)) as Tick;
+        }
+
         public static DateTime CalculateTargetTimeDifference(DateTime targetTime)
         {
-            TimeSpan difference = targetTime - DateTime.Now;
+            TimeSpan difference = DateTime.Now - targetTime;
 
             return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, difference.Hours, difference.Minutes, difference.Seconds);
         }

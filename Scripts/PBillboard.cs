@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace NotEnoughPhotons.paranoia
 {
-	public class SpriteBillboard : MonoBehaviour
+	public class PBillboard : MonoBehaviour
 	{
-		public SpriteBillboard(System.IntPtr ptr) : base(ptr) { }
+		public PBillboard(System.IntPtr ptr) : base(ptr) { }
 
 		public Transform target;
 

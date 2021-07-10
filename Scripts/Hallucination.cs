@@ -16,7 +16,8 @@ namespace NotEnoughPhotons.paranoia
             StaringMan,
             CeilingMan,
             ChaserMirage,
-            VoiceInTheDark
+            VoiceInTheDark,
+            Observer
         }
 
         [System.Flags]
@@ -30,7 +31,8 @@ namespace NotEnoughPhotons.paranoia
         public enum HallucinationFlags
         {
             None,
-            HideWhenSeen = 1
+            HideWhenSeen = 1,
+            HideWhenClose = 2
         }
 
         public enum HallucinationClass
@@ -103,14 +105,17 @@ namespace NotEnoughPhotons.paranoia
 
         private void Update()
         {
-            if (Vector3.Distance(target.position, transform.position) < hDistanceToDisappear)
+            if (hFlags.HasFlag(HallucinationFlags.HideWhenClose))
             {
-                if (OnReachedTarget != null)
+                if (Vector3.Distance(target.position, transform.position) < hDistanceToDisappear)
                 {
-                    OnReachedTarget();
-                }
+                    if (OnReachedTarget != null)
+                    {
+                        OnReachedTarget();
+                    }
 
-                gameObject.SetActive(false);
+                    gameObject.SetActive(false);
+                }
             }
 
             if (hFlags.HasFlag(HallucinationFlags.HideWhenSeen))
@@ -206,6 +211,12 @@ namespace NotEnoughPhotons.paranoia
                 if (hName == HallucinationName.CeilingMan)
                 {
                     transform.position = ParanoiaGameManager.instance.ceilingManSpawns[Random.Range(0, ParanoiaGameManager.instance.ceilingManSpawns.Length)];
+                }
+                else if(hName == HallucinationName.Observer)
+                {
+                    Transform player = ParanoiaUtilities.FindPlayer();
+                    Vector3 behind = new Vector3(player.position.x, 0f, player.position.z - 1f);
+                    transform.position = behind;
                 }
             }
 
