@@ -186,7 +186,7 @@ namespace NotEnoughPhotons.paranoia
 
             if (hClass == HallucinationClass.Chaser)
             {
-                if(hName == HallucinationName.StaringMan)
+                if (hName == HallucinationName.StaringMan)
                 {
                     transform.position = ParanoiaGameManager.instance.staringManSpawns[Random.Range(0, ParanoiaGameManager.instance.staringManSpawns.Length)];
                 }
@@ -208,14 +208,18 @@ namespace NotEnoughPhotons.paranoia
             {
                 transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0f, 360f));
 
-                if (hName == HallucinationName.CeilingMan)
+                if (hName == HallucinationName.ShadowMan)
+                {
+                    transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0f, 360f));
+                }
+                else if (hName == HallucinationName.CeilingMan)
                 {
                     transform.position = ParanoiaGameManager.instance.ceilingManSpawns[Random.Range(0, ParanoiaGameManager.instance.ceilingManSpawns.Length)];
                 }
-                else if(hName == HallucinationName.Observer)
+                else if (hName == HallucinationName.Observer)
                 {
                     Transform player = ParanoiaUtilities.FindPlayer();
-                    Vector3 behind = new Vector3(player.position.x, 0f, player.position.z - 1f);
+                    Vector3 behind = new Vector3(player.position.x, 0f, player.position.z - 10f);
                     transform.position = behind;
                 }
             }

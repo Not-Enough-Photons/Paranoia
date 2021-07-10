@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+using ModThatIsNotMod.BoneMenu;
+
 using TMPro;
 
 using UnityEngine;
@@ -67,6 +69,8 @@ namespace NotEnoughPhotons.paranoia
         }
 
         public static ParanoiaGameManager instance;
+
+        internal static bool debug = true;
 
         public List<Tick> ticks;
         public List<Tick> darkTicks;
@@ -139,6 +143,7 @@ namespace NotEnoughPhotons.paranoia
         private Tick eKillAllTick;
         private Tick eItemDropTick;
         private Tick eLightFlickerTick;
+        private Tick eMapGeoFlickerTick;
 
         private Tick rngGeneratorTick;
 
@@ -223,6 +228,8 @@ namespace NotEnoughPhotons.paranoia
 
             InitializeTicks();
 
+            InitializeSettings();
+
             manager = FindObjectOfType<AudioManager>();
 
             playerTrigger = ParanoiaUtilities.FindPlayer();
@@ -238,6 +245,31 @@ namespace NotEnoughPhotons.paranoia
 
             lightmaps = LightmapSettings.lightmaps;
             bakedProbes = LightmapSettings.lightProbes.bakedProbes;
+        }
+
+        private void InitializeSettings()
+        {
+            MenuCategory mainCategory = MenuManager.CreateCategory("Paranoia", Color.gray);
+            MenuCategory debugMenu = mainCategory.CreateSubCategory("Debug", Color.red);
+
+            debugMenu.CreateFunctionElement("Start Ambience", Color.white, new System.Action(() => AudioRoutine()));
+            debugMenu.CreateFunctionElement("Start Chaser", Color.white, new System.Action(() => hChaser.gameObject.SetActive(true)));
+            debugMenu.CreateFunctionElement("Start Dark Voice", Color.white, new System.Action(() => hDarkVoice.gameObject.SetActive(true)));
+
+            debugMenu.CreateFunctionElement("Create Shadow Person", Color.white, new System.Action(() => hShadowPerson.gameObject.SetActive(true)));
+            debugMenu.CreateFunctionElement("Create Shadow Person Chaser", Color.white, new System.Action(() => hShadowPersonChaser.gameObject.SetActive(true)));
+            debugMenu.CreateFunctionElement("Create Ceiling Man", Color.white, new System.Action(() => hCeilingMan.gameObject.SetActive(true)));
+            debugMenu.CreateFunctionElement("Create Observer", Color.white, new System.Action(() => hObserver.gameObject.SetActive(true)));
+
+            debugMenu.CreateFunctionElement("Start T Pose Event", Color.white, new System.Action(() => TPoseEvent()));
+            debugMenu.CreateFunctionElement("Start Radio Event", Color.white, new System.Action(() => SpawnRadio()));
+            debugMenu.CreateFunctionElement("Start Monitor Event", Color.white, new System.Action(() => SpawnMonitor()));
+            debugMenu.CreateFunctionElement("Start First Radio", Color.white, new System.Action(() => SpawnFirstRadio()));
+            debugMenu.CreateFunctionElement("Start AI Origin", Color.white, new System.Action(() => MoveAIToPoint(Vector3.zero, true)));
+            debugMenu.CreateFunctionElement("Start Kill All AI", Color.white, new System.Action(() => KillAIRandomly()));
+            debugMenu.CreateFunctionElement("Start Item Drop", Color.white, new System.Action(() => DropHeadItem()));
+            debugMenu.CreateFunctionElement("Start Light Flicker", Color.white, new System.Action(() => MelonCoroutines.Start(CoLightFlickerRoutine(5))));
+            debugMenu.CreateFunctionElement("Start Geo Flicker", Color.white, new System.Action(() => MelonCoroutines.Start(CoFlickerMapGeometry(5))));
         }
 
         private void InitializeTicks()
@@ -259,15 +291,16 @@ namespace NotEnoughPhotons.paranoia
             // Event tick initialization
             eTPoseTick          = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             eRadioTick          = new Tick(190f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            eMonitorTick        = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            eMonitorTick        = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             eFirstRadioTick     = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             eAIOriginTick       = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             eKillAllTick        = new Tick(240f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             eItemDropTick       = new Tick(15f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
             eLightFlickerTick   = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            eMapGeoFlickerTick  = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
 
             // Global tick initialization
-            rngGeneratorTick    = new Tick(5f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            rngGeneratorTick    = new Tick(1f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
 
             // Audio tick subscription
             aAmbienceTick.OnTick += AudioRoutine;
@@ -279,7 +312,14 @@ namespace NotEnoughPhotons.paranoia
             {
                 if(insanity > 2)
                 {
-                    hShadowPerson.gameObject.SetActive(true);
+                    if(rng >= 25 || rng <= 30)
+                    {
+                        hShadowPersonChaser.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        hShadowPerson.gameObject.SetActive(true);
+                    }
                 }
             });
 
@@ -318,7 +358,14 @@ namespace NotEnoughPhotons.paranoia
                 }
             });
 
-            eMonitorTick.OnTick += SpawnMonitor;
+            eMonitorTick.OnTick += new System.Action(() =>
+            {
+                if(insanity != 5)
+                {
+                    SpawnMonitor();
+                }
+            });
+
             eFirstRadioTick.OnTick += SpawnFirstRadio;
             eAIOriginTick.OnTick += new System.Action(() => MoveAIToPoint(Vector3.zero, true));
             eKillAllTick.OnTick += KillAIRandomly;
@@ -328,11 +375,12 @@ namespace NotEnoughPhotons.paranoia
                 KillNimbus();
                 KillWasp();
                 eLightFlickerTick.maxTick = Random.Range(120f, 180f);
-                MelonCoroutines.Start(CoLightFlickerRoutine(Random.Range(5, 6)));
+                MelonCoroutines.Start(CoLightFlickerRoutine(Random.Range(4, 8)));
             });
+            eMapGeoFlickerTick.OnTick += new System.Action(() => MelonCoroutines.Start(CoFlickerMapGeometry(Random.Range(4, 8))));
 
             // Global tick subscription
-            rngGeneratorTick.OnTick += new System.Action(() => rng = Random.Range(23, 150));
+            rngGeneratorTick.OnTick += new System.Action(() => rng = Random.Range(1, 300));
         }
 
         private void InitializeEntities()
@@ -340,11 +388,11 @@ namespace NotEnoughPhotons.paranoia
             radioClone = GameObject.Instantiate(radioObject);
             monitorClone = GameObject.Instantiate(monitorObject);
 
-            hChaser = CreateHallucination(Vector3.zero, HName.ChaserMirage, HType.Auditory, HFlags.None, HClass.Chaser, 1f, 30f, 0f, false);
+            hChaser = CreateHallucination(Vector3.zero, HName.ChaserMirage, HType.Auditory, HFlags.HideWhenClose, HClass.Chaser, 0.5f, 50f, 0f, false);
             hDarkVoice = CreateHallucination(Vector3.zero, HName.VoiceInTheDark, HType.Auditory, HFlags.None, HClass.DarkVoice, 0f, 0f, 0f, false);
             hCeilingMan = CreateHallucination(Vector3.zero, ceilingWatcher, HName.CeilingMan, HType.Auditory | HType.Visual, HFlags.HideWhenSeen, HClass.Watcher, 0f, 0f, 0f, false);
-            hStaringMan = CreateHallucination(Vector3.zero, staringMan, HName.StaringMan, HType.Visual, HFlags.None, HClass.Chaser, 30f, 1f, 0f, false);
-            hShadowPerson = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.None, HClass.Watcher, 0f, 0f, 0f, false);
+            hStaringMan = CreateHallucination(Vector3.zero, staringMan, HName.StaringMan, HType.Visual, HFlags.HideWhenClose, HClass.Chaser, 30f, 1f, 0f, false);
+            hShadowPerson = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.None, HClass.Watcher, 30f, 0f, 0f, false);
             hShadowPersonChaser = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.None, HClass.Chaser, 1f, 50f, 5f, true);
             hObserver = CreateHallucination(Vector3.zero, observer, HName.Observer, HType.Visual, HFlags.HideWhenSeen, HClass.Watcher, 0f, 0f, 0f, false);
 
@@ -361,6 +409,8 @@ namespace NotEnoughPhotons.paranoia
 			if (Paranoia.instance.isBlankBox)
 			{
                 playerCircle.CalculatePlayerCircle(0f);
+
+                if (debug) { return; }
 
                 for (int i = 0; i < ticks.Count; i++) { ticks[i].Update(); }
 
@@ -504,8 +554,6 @@ namespace NotEnoughPhotons.paranoia
         {
             //if (firstRadioSpawn) { return; }
 
-            monitorClone.SetActive(false);
-
             monitorClone.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360), 10f);
 
             monitorClone.transform.LookAt(ParanoiaUtilities.FindPlayer());
@@ -647,7 +695,7 @@ namespace NotEnoughPhotons.paranoia
 
                         if (blankBoxLight != null || lightBeam != null)
                         {
-                            if ((i * random / 2) % 2 == 0)
+                            if ((i * random / 2) * rng % 2 == 0)
                             {
                                 isOn = false;
                                 blankBoxLight.gameObject.SetActive(false);
@@ -672,6 +720,27 @@ namespace NotEnoughPhotons.paranoia
             if (!isOn)
             {
                 isDark = true;
+            }
+
+            yield return null;
+        }
+
+        internal IEnumerator CoFlickerMapGeometry(int iterations)
+        {
+            List<GameObject> staticObjects = ParanoiaUtilities.FindGameObjectsWithLayer("Static");
+
+            for (int j = 0; j < iterations; j++)
+            {
+                int random = iterations * Random.RandomRange(1, 300);
+
+                if ((j * random) * iterations % 2 == 0)
+                {
+                    staticObjects[Random.Range(0, staticObjects.Count)].SetActive(false);
+                }
+                else
+                {
+                    staticObjects[Random.Range(0, staticObjects.Count)].SetActive(true);
+                }
             }
 
             yield return null;

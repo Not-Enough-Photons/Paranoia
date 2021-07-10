@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 
 using Tick = NotEnoughPhotons.paranoia.ParanoiaGameManager.Tick;
@@ -30,6 +32,22 @@ namespace NotEnoughPhotons.paranoia
             }
 
             return null;
+        }
+
+        public static List<GameObject> FindGameObjectsWithLayer(string layerName)
+        {
+            GameObject[] objectsInScene = GameObject.FindObjectsOfType<GameObject>();
+            List<GameObject> layerObjects = new List<GameObject>();
+
+            for(int i = 0; i < objectsInScene.Length; i++)
+            {
+                if(objectsInScene[i].layer == LayerMask.NameToLayer("Static"))
+                {
+                    layerObjects?.Add(objectsInScene[i]);
+                }
+            }
+
+            return layerObjects;
         }
 
         public static bool IsTargetHour(int hour)

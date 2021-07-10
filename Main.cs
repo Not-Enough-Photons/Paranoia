@@ -105,6 +105,7 @@ namespace NotEnoughPhotons.paranoia
                 staringManObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 shadowPersonObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 ceilingManObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
+                observerObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 radioObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 monitorObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
 
