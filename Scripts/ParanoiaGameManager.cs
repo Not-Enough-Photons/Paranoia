@@ -261,6 +261,7 @@ namespace NotEnoughPhotons.paranoia
 
             debugMenu.CreateFunctionElement("Create Shadow Person", Color.white, new System.Action(() => hShadowPerson.gameObject.SetActive(true)));
             debugMenu.CreateFunctionElement("Create Shadow Person Chaser", Color.white, new System.Action(() => hShadowPersonChaser.gameObject.SetActive(true)));
+            debugMenu.CreateFunctionElement("Create Staring Man", Color.white, new System.Action(() => hStaringMan.gameObject.SetActive(true)));
             debugMenu.CreateFunctionElement("Create Ceiling Man", Color.white, new System.Action(() => hCeilingMan.gameObject.SetActive(true)));
             debugMenu.CreateFunctionElement("Create Observer", Color.white, new System.Action(() => hObserver.gameObject.SetActive(true)));
 
@@ -395,7 +396,7 @@ namespace NotEnoughPhotons.paranoia
             hChaser = CreateHallucination(Vector3.zero, HName.ChaserMirage, HType.Auditory, HFlags.HideWhenClose, HClass.Chaser, 0.5f, 50f, 0f, false);
             hDarkVoice = CreateHallucination(Vector3.zero, HName.VoiceInTheDark, HType.Auditory, HFlags.None, HClass.DarkVoice, 0f, 0f, 0f, false);
             hCeilingMan = CreateHallucination(Vector3.zero, ceilingWatcher, HName.CeilingMan, HType.Auditory | HType.Visual, HFlags.HideWhenSeen, HClass.Watcher, 0f, 0f, 0f, false);
-            hStaringMan = CreateHallucination(Vector3.zero, staringMan, HName.StaringMan, HType.Visual, HFlags.HideWhenClose, HClass.Chaser, 30f, 1f, 0f, false);
+            hStaringMan = CreateHallucination(Vector3.zero, staringMan, HName.StaringMan, HType.Visual, HFlags.HideWhenSeen, HClass.Chaser, 30f, 1f, 0f, false);
             hShadowPerson = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.HideWhenClose, HClass.Watcher, 30f, 0f, 0f, false);
             hShadowPersonChaser = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.HideWhenClose, HClass.Chaser, 1f, 50f, 5f, true);
             hObserver = CreateHallucination(Vector3.zero, observer, HName.Observer, HType.Visual, HFlags.HideWhenSeen, HClass.Watcher, 0f, 0f, 0f, false);

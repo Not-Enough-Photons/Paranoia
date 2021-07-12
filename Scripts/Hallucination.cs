@@ -59,6 +59,8 @@ namespace NotEnoughPhotons.paranoia
         public float hChaseSpeed;
         public float hDelayTime;
 
+        public float hViewingDeadzone = 0.85f;
+
         public AudioSource source;
         public AudioManager audioManager;
 
@@ -122,7 +124,7 @@ namespace NotEnoughPhotons.paranoia
             {
                 if (cameraTarget != null)
                 {
-                    if (Vector3.Dot(cameraTarget.forward, transform.forward) <= -0.95f)
+                    if (Vector3.Dot(cameraTarget.forward, transform.forward) <= -hViewingDeadzone)
                     {
                         gameObject.SetActive(false);
                     }
@@ -140,9 +142,10 @@ namespace NotEnoughPhotons.paranoia
                 source.maxVolume = 15f;
                 source.volume = 15f;
 
+                // Dark Voice
                 if (hClass == HallucinationClass.DarkVoice)
                 {
-                    transform.position = target.forward * -0.05f;
+                    transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0, 360f), 0.75f);
 
                     if (Paranoia.instance.darkVoices.Count > 0)
 					{
@@ -157,6 +160,7 @@ namespace NotEnoughPhotons.paranoia
 
                     gameObject.SetActive(false);
                 }
+                // Chaser audio
                 else if (hClass == HallucinationClass.Chaser)
                 {
                     if (Paranoia.instance.chaserAmbience.Count > 0)
@@ -165,12 +169,13 @@ namespace NotEnoughPhotons.paranoia
                         Log.Msg($"Set up {source.clip}");
                     }
 
-                    transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0, 360f), 300f);
+                    transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0, 360f), 250f);
                     
                     source.loop = true;
 
                     source.Play();
                 }
+                // Watcher ambient audio
                 else if (hClass == HallucinationClass.Watcher)
                 {
                     if (Paranoia.instance.watcherAmbience.Count > 0)
@@ -184,8 +189,11 @@ namespace NotEnoughPhotons.paranoia
                 }
             }
 
+            // Chaser
             if (hClass == HallucinationClass.Chaser)
             {
+                transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0f, 360f), 100f);
+
                 if (hName == HallucinationName.StaringMan)
                 {
                     transform.position = ParanoiaGameManager.instance.staringManSpawns[Random.Range(0, ParanoiaGameManager.instance.staringManSpawns.Length)];
@@ -201,7 +209,6 @@ namespace NotEnoughPhotons.paranoia
                     transform.position += transform.forward * hChaseSpeed * Time.deltaTime;
                     yield return null;
                 }
-
             }
 
             if (hClass == HallucinationClass.Watcher)
