@@ -250,7 +250,10 @@ namespace NotEnoughPhotons.paranoia
         private void InitializeSettings()
         {
             MenuCategory mainCategory = MenuManager.CreateCategory("Paranoia", Color.gray);
+            MenuCategory optionsMenu = mainCategory.CreateSubCategory("Options", Color.cyan);
             MenuCategory debugMenu = mainCategory.CreateSubCategory("Debug", Color.red);
+
+            optionsMenu.CreateBoolElement("Debug Mode", Color.blue, debug, null);
 
             debugMenu.CreateFunctionElement("Start Ambience", Color.white, new System.Action(() => AudioRoutine()));
             debugMenu.CreateFunctionElement("Start Chaser", Color.white, new System.Action(() => hChaser.gameObject.SetActive(true)));
@@ -270,6 +273,7 @@ namespace NotEnoughPhotons.paranoia
             debugMenu.CreateFunctionElement("Start Item Drop", Color.white, new System.Action(() => DropHeadItem()));
             debugMenu.CreateFunctionElement("Start Light Flicker", Color.white, new System.Action(() => MelonCoroutines.Start(CoLightFlickerRoutine(5))));
             debugMenu.CreateFunctionElement("Start Geo Flicker", Color.white, new System.Action(() => MelonCoroutines.Start(CoFlickerMapGeometry(5))));
+            debugMenu.CreateFunctionElement("Start RNG", Color.white, new System.Action(() => rng = Random.Range(1, 300)));
         }
 
         private void InitializeTicks()
@@ -392,8 +396,8 @@ namespace NotEnoughPhotons.paranoia
             hDarkVoice = CreateHallucination(Vector3.zero, HName.VoiceInTheDark, HType.Auditory, HFlags.None, HClass.DarkVoice, 0f, 0f, 0f, false);
             hCeilingMan = CreateHallucination(Vector3.zero, ceilingWatcher, HName.CeilingMan, HType.Auditory | HType.Visual, HFlags.HideWhenSeen, HClass.Watcher, 0f, 0f, 0f, false);
             hStaringMan = CreateHallucination(Vector3.zero, staringMan, HName.StaringMan, HType.Visual, HFlags.HideWhenClose, HClass.Chaser, 30f, 1f, 0f, false);
-            hShadowPerson = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.None, HClass.Watcher, 30f, 0f, 0f, false);
-            hShadowPersonChaser = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.None, HClass.Chaser, 1f, 50f, 5f, true);
+            hShadowPerson = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.HideWhenClose, HClass.Watcher, 30f, 0f, 0f, false);
+            hShadowPersonChaser = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.HideWhenClose, HClass.Chaser, 1f, 50f, 5f, true);
             hObserver = CreateHallucination(Vector3.zero, observer, HName.Observer, HType.Visual, HFlags.HideWhenSeen, HClass.Watcher, 0f, 0f, 0f, false);
 
             radioSource = radioClone.GetComponentInChildren<AudioSource>();
