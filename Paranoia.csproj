@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Scripts\AudioManager.cs" />
+    <Compile Include="Scripts\CursedDoorController.cs" />
     <Compile Include="Scripts\Hallucination.cs" />
     <Compile Include="Scripts\MonitorVideo.cs" />
     <Compile Include="Scripts\Note00001.cs" />

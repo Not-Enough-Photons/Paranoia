@@ -80,5 +80,50 @@ namespace NotEnoughPhotons.paranoia
         {
             return int.Parse(DateTime.Now.ToString("HH", CultureInfo.InvariantCulture));
         }
+
+        internal static void FixObjectShader(GameObject obj)
+        {
+            if (obj != null)
+            {
+                Shader valveShader = Shader.Find("Valve/vr_standard");
+
+                foreach (SkinnedMeshRenderer smr in obj.GetComponentsInChildren<SkinnedMeshRenderer>())
+                {
+                    try
+                    {
+                        foreach (Material m in smr.sharedMaterials)
+                            m.shader = valveShader;
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+
+                foreach (MeshRenderer smr in obj.GetComponentsInChildren<MeshRenderer>())
+                {
+                    try
+                    {
+                        foreach (Material m in smr.sharedMaterials)
+                            m.shader = valveShader;
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
+
+        internal static void RegisterTypesInIL2CPP()
+        {
+            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<AudioManager>();
+            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ObjectPool>();
+            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<Hallucination>();
+            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ParanoiaGameManager>();
+            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();
+            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<CursedDoorController>();
+            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<PBillboard>();
+        }
     }
 }

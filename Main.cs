@@ -3,11 +3,10 @@
 using UnityEngine;
 using UnityEngine.Video;
 
-using TMPro;
-
-using System.Linq;
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace NotEnoughPhotons.paranoia
 {
@@ -48,6 +47,7 @@ namespace NotEnoughPhotons.paranoia
         internal GameObject observerObject;
         internal GameObject radioObject;
         internal GameObject monitorObject;
+        internal GameObject cursedDoorObject;
 
         internal GameObject voiceOffset;
 
@@ -84,7 +84,7 @@ namespace NotEnoughPhotons.paranoia
                     instance = this;
                 }
 
-                RegisterTypesInIL2CPP();
+                ParanoiaUtilities.RegisterTypesInIL2CPP();
 
                 bundle = AssetBundle.LoadFromFile("UserData/paranoia/paranoia.pack");
 
@@ -98,8 +98,9 @@ namespace NotEnoughPhotons.paranoia
                 observerObject = bundle.LoadAsset("Observer").Cast<GameObject>();
                 radioObject = bundle.LoadAsset("PRadio").Cast<GameObject>();
                 monitorObject = bundle.LoadAsset("MonitorPlayer").Cast<GameObject>();
+                cursedDoorObject = bundle.LoadAsset("CursedDoor").Cast<GameObject>();
 
-                FixObjectShader(radioObject);
+                ParanoiaUtilities.FixObjectShader(radioObject);
                 //FixObjectShader(monitorObject);
 
                 staringManObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
@@ -108,6 +109,7 @@ namespace NotEnoughPhotons.paranoia
                 observerObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 radioObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 monitorObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
+                cursedDoorObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
 
                 genericAmbience = new List<AudioClip>();
                 screamAmbience = new List<AudioClip>();
@@ -188,51 +190,8 @@ namespace NotEnoughPhotons.paranoia
             gameManager.staringMan = staringManObject;
             gameManager.ceilingWatcher = ceilingManObject;
             gameManager.monitorObject = monitorObject;
+            gameManager.cursedDoorObject = cursedDoorObject;
             gameManager.clipList = videoClips;
-        }
-
-        internal static void FixObjectShader(GameObject obj)
-        {
-            if (obj != null)
-            {
-                Shader valveShader = Shader.Find("Valve/vr_standard");
-
-                foreach (SkinnedMeshRenderer smr in obj.GetComponentsInChildren<SkinnedMeshRenderer>())
-                {
-                    try
-                    {
-                        foreach (Material m in smr.sharedMaterials)
-                            m.shader = valveShader;
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-                }
-
-                foreach (MeshRenderer smr in obj.GetComponentsInChildren<MeshRenderer>())
-                {
-                    try
-                    {
-                        foreach (Material m in smr.sharedMaterials)
-                            m.shader = valveShader;
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-                }
-            }
-        }
-
-        private void RegisterTypesInIL2CPP()
-        {
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<AudioManager>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ObjectPool>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<Hallucination>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ParanoiaGameManager>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<PBillboard>();
         }
 
         private void PrecacheAudioAssets()
@@ -279,6 +238,14 @@ namespace NotEnoughPhotons.paranoia
                     videoClips.Add(bundle.LoadAllAssets()[i].Cast<VideoClip>());
                 }
             }
+        }
+    }
+
+    internal class CustomLoadScreenSupport
+    {
+        internal static void Initialize()
+        {
+            Assembly loadScreenAsm = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault((asm) => asm.GetName().Name == "CustomLoadScreens");
         }
     }
 }

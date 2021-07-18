@@ -82,6 +82,7 @@ namespace NotEnoughPhotons.paranoia
         public GameObject observer;
         public GameObject radioObject;
         public GameObject monitorObject;
+        public GameObject cursedDoorObject;
 
         public SpawnCircle playerCircle;
 
@@ -121,6 +122,7 @@ namespace NotEnoughPhotons.paranoia
 
         private GameObject radioClone;
         private GameObject monitorClone;
+        private GameObject cursedDoorClone;
         private AudioSource radioSource;
 
         // Audio ticks
@@ -264,6 +266,7 @@ namespace NotEnoughPhotons.paranoia
             debugMenu.CreateFunctionElement("Create Staring Man", Color.white, new System.Action(() => hStaringMan.gameObject.SetActive(true)));
             debugMenu.CreateFunctionElement("Create Ceiling Man", Color.white, new System.Action(() => hCeilingMan.gameObject.SetActive(true)));
             debugMenu.CreateFunctionElement("Create Observer", Color.white, new System.Action(() => hObserver.gameObject.SetActive(true)));
+            debugMenu.CreateFunctionElement("Create Cursed Door", Color.white, new System.Action(() => cursedDoorObject.SetActive(true)));
 
             debugMenu.CreateFunctionElement("Start T Pose Event", Color.white, new System.Action(() => TPoseEvent()));
             debugMenu.CreateFunctionElement("Start Radio Event", Color.white, new System.Action(() => SpawnRadio()));
@@ -392,6 +395,7 @@ namespace NotEnoughPhotons.paranoia
 		{
             radioClone = GameObject.Instantiate(radioObject);
             monitorClone = GameObject.Instantiate(monitorObject);
+            cursedDoorClone = GameObject.Instantiate(cursedDoorObject);
 
             hChaser = CreateHallucination(Vector3.zero, HName.ChaserMirage, HType.Auditory, HFlags.HideWhenClose, HClass.Chaser, 0.5f, 50f, 0f, false);
             hDarkVoice = CreateHallucination(Vector3.zero, HName.VoiceInTheDark, HType.Auditory, HFlags.None, HClass.DarkVoice, 0f, 0f, 0f, false);
@@ -405,8 +409,12 @@ namespace NotEnoughPhotons.paranoia
             MonitorVideo monitorVideo = monitorClone.AddComponent<MonitorVideo>();
             monitorVideo.clips = clipList;
 
+            CursedDoorController cursedDoorCtrlr = cursedDoorClone.AddComponent<CursedDoorController>();
+            cursedDoorCtrlr.faceTransform = cursedDoorCtrlr.transform.Find("scaler/Art/Face");
+
             radioClone.SetActive(false);
             monitorClone.SetActive(false);
+            cursedDoorClone.SetActive(false);
         }
 
         private void Update()
