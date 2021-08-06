@@ -15,16 +15,19 @@ namespace NotEnoughPhotons.paranoia
 
         private void Awake()
         {
-            player = GetComponent<VideoPlayer>();
+            if(GetComponent<VideoPlayer>() != null)
+            {
+                player = GetComponent<VideoPlayer>();
+            }
         }
 
         private void OnEnable()
         {
-            if (clips != null || player != null)
-            {
-                player.clip = clips[ParanoiaGameManager.instance.insanity];
-                MelonLoader.MelonCoroutines.Start(CoHideMonitor());
-            }
+            if(clips == null) { return; }
+            if(player == null) { return; }
+
+            player.clip = clips[ParanoiaGameManager.instance.insanity];
+            MelonLoader.MelonCoroutines.Start(CoHideMonitor());
         }
 
         private IEnumerator CoHideMonitor()

@@ -110,6 +110,7 @@ namespace NotEnoughPhotons.paranoia
         private BaseHallucination hShadowPerson;
         private BaseHallucination hShadowPersonChaser;
         private BaseHallucination hObserver;
+        private BaseHallucination hCursedDoor;
 
         private VLB.VolumetricLightBeam lightBeam;
         private Light blankBoxLight;
@@ -210,7 +211,7 @@ namespace NotEnoughPhotons.paranoia
             debugMenu.CreateFunctionElement("Create Staring Man", Color.white, new System.Action(() => hStaringMan.gameObject.SetActive(true)));
             debugMenu.CreateFunctionElement("Create Ceiling Man", Color.white, new System.Action(() => hCeilingMan.gameObject.SetActive(true)));
             debugMenu.CreateFunctionElement("Create Observer", Color.white, new System.Action(() => hObserver.gameObject.SetActive(true)));
-            debugMenu.CreateFunctionElement("Create Cursed Door", Color.white, new System.Action(() => cursedDoorObject.SetActive(true)));
+            debugMenu.CreateFunctionElement("Create Cursed Door", Color.white, new System.Action(() => hCursedDoor.gameObject.SetActive(true)));
 
             debugMenu.CreateFunctionElement("Start T Pose Event", Color.white, new System.Action(() => TPoseEvent()));
             debugMenu.CreateFunctionElement("Start Radio Event", Color.white, new System.Action(() => SpawnRadio()));
@@ -337,32 +338,19 @@ namespace NotEnoughPhotons.paranoia
 
         private void InitializeEntities()
 		{
-            MelonLogger.Msg("1");
             radioClone = GameObject.Instantiate(radioObject);
-            MelonLogger.Msg("2");
             monitorClone = GameObject.Instantiate(monitorObject);
-            MelonLogger.Msg("3");
-            cursedDoorClone = GameObject.Instantiate(cursedDoorObject);
 
-            MelonLogger.Msg("4");
             SetupHallucinations();
 
-            MelonLogger.Msg("5");
             radioSource = radioClone.GetComponentInChildren<AudioSource>();
-            MelonLogger.Msg("6");
             MonitorVideo monitorVideo = monitorClone.AddComponent<MonitorVideo>();
-            MelonLogger.Msg("7");
             monitorVideo.clips = clipList;
 
-            MelonLogger.Msg("8");
             CursedDoorController cursedDoorCtrlr = cursedDoorClone.AddComponent<CursedDoorController>();
 
-            MelonLogger.Msg("9");
             radioClone.SetActive(false);
-            MelonLogger.Msg("10");
             monitorClone.SetActive(false);
-            MelonLogger.Msg("11");
-            cursedDoorClone.SetActive(false);
         }
 
         private void SetupHallucinations()
@@ -374,6 +362,7 @@ namespace NotEnoughPhotons.paranoia
             GameObject ceilingManClone = GameObject.Instantiate(ceilingWatcher, Vector3.zero, Quaternion.identity);
             GameObject staringManClone = GameObject.Instantiate(staringMan, Vector3.zero, Quaternion.identity);
             GameObject observerClone = GameObject.Instantiate(observer, Vector3.zero, Quaternion.identity);
+            cursedDoorClone = GameObject.Instantiate(cursedDoorObject);
 
             chaserAudio.AddComponent<AudioSource>();
             darkVoiceAudio.AddComponent<AudioSource>();
@@ -384,6 +373,7 @@ namespace NotEnoughPhotons.paranoia
             hCeilingMan = ceilingManClone.AddComponent<BaseHallucination>();
             hStaringMan = staringManClone.AddComponent<BaseHallucination>();
             hObserver = observerClone.AddComponent<BaseHallucination>();
+            hCursedDoor = cursedDoorClone.AddComponent<CursedDoorController>();
 
             hChaser.gameObject.SetActive(false);
             hDarkVoice.gameObject.SetActive(false);
@@ -392,6 +382,7 @@ namespace NotEnoughPhotons.paranoia
             hCeilingMan.gameObject.SetActive(false);
             hStaringMan.gameObject.SetActive(false);
             hObserver.gameObject.SetActive(false);
+            hCursedDoor.gameObject.SetActive(false);
 
             hChaser.auditoryType = AudioHallucination.AuditoryType.Chaser;
             hChaser.startFlags = BaseHallucination.StartFlags.SpawnAroundPlayer;
@@ -412,7 +403,7 @@ namespace NotEnoughPhotons.paranoia
             hDarkVoice.clips = Paranoia.instance.darkVoices.ToArray();
             hDarkVoice.useRandomSpawnAngle = true;
             hDarkVoice.spawnRadius = 1f;
-
+            
             hObserver.flags = BaseHallucination.HallucinationFlags.HideWhenSeen | BaseHallucination.HallucinationFlags.LookAtTarget;
             hObserver.startFlags = BaseHallucination.StartFlags.SpawnAroundPlayer;
             hObserver.useRandomSpawnAngle = true;
@@ -438,6 +429,11 @@ namespace NotEnoughPhotons.paranoia
             hStaringMan.spawnPoints = staringManSpawns;
             hStaringMan.moveSpeed = 1f;
             hStaringMan.disableDistance = 30f;
+
+            hCursedDoor.flags = BaseHallucination.HallucinationFlags.None;
+            hCursedDoor.startFlags = BaseHallucination.StartFlags.LookAtTarget | BaseHallucination.StartFlags.SpawnAroundPlayer;
+            hCursedDoor.spawnRadius = 15f;
+            hCursedDoor.useRandomSpawnAngle = true;
         }
 
         private void Update()
@@ -446,7 +442,7 @@ namespace NotEnoughPhotons.paranoia
 			{
                 playerCircle.CalculatePlayerCircle(0f);
 
-                if (debug) { return; }
+                if (debug || Time.timeScale == 0) { return; }
 
                 for (int i = 0; i < ticks.Count; i++) { ticks[i].Update(); }
 

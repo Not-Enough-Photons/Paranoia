@@ -11,12 +11,13 @@ namespace NotEnoughPhotons.paranoia
         [System.Flags]
         public enum HallucinationFlags
         {
-            None = 0,
+            None,
             HideWhenSeen = (1 << 0),
             HideWhenClose = (1 << 1),
             LookAtTarget = (1 << 2),
             Moving = (1 << 3),
-            Damaging = (1 << 4)
+            Damaging = (1 << 4),
+            SpinAroundPlayer = (1 << 5)
         }
 
         [System.Flags]
@@ -24,7 +25,8 @@ namespace NotEnoughPhotons.paranoia
         {
             None = 0,
             SpawnAroundPlayer = (1 << 0),
-            SpawnAtPoints = (1 << 1)
+            SpawnAtPoints = (1 << 1),
+            LookAtTarget = (1 << 2)
         }
 
         public HallucinationFlags flags
@@ -160,6 +162,12 @@ namespace NotEnoughPhotons.paranoia
 
                 transform.position = m_spawnPoints[Random.Range(0, m_spawnPoints.Length)];
             }
+
+            if (m_startFlags.HasFlag(StartFlags.LookAtTarget))
+            {
+                Vector3 lookAtEuler = Quaternion.LookRotation(playerTarget.position - -transform.forward).eulerAngles;
+                transform.eulerAngles = Vector3.up * lookAtEuler.y;
+            }
         }
 
         protected virtual void Update()
@@ -207,7 +215,12 @@ namespace NotEnoughPhotons.paranoia
 
             if (m_flags.HasFlag(HallucinationFlags.Damaging))
             {
-                // do damaging stuff
+                
+            }
+
+            if (m_flags.HasFlag(HallucinationFlags.SpinAroundPlayer))
+            {
+                transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Time.time, m_spawnRadius);
             }
         }
     }
