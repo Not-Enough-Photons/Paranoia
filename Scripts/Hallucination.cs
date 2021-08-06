@@ -64,6 +64,8 @@ namespace NotEnoughPhotons.paranoia
         public AudioSource source;
         public AudioManager audioManager;
 
+        private IEnumerator m_iter;
+
         public void Initialize(HallucinationName hName, HallucinationType hType, HallucinationFlags hFlags, HallucinationClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime)
         {
             this.hName = hName;
@@ -73,9 +75,6 @@ namespace NotEnoughPhotons.paranoia
             this.hDistanceToDisappear = distanceToDisappear;
             this.hChaseSpeed = chaseSpeed;
             this.hDelayTime = delayTime;
-
-            target = ParanoiaUtilities.FindPlayer();
-            cameraTarget = ParanoiaUtilities.FindPlayer();
         }
 
         public void SetSpawnPoint(Vector3 spawnPoint)
@@ -92,17 +91,28 @@ namespace NotEnoughPhotons.paranoia
 
         private void Awake()
         {
+            if(GetComponent<AudioSource>() != null)
+            {
+                source = GetComponent<AudioSource>();
+            }
+
+            if(FindObjectOfType<AudioManager>() != null)
+            {
+                audioManager = FindObjectOfType<AudioManager>();
+            }
+
             target = ParanoiaUtilities.FindPlayer();
+            cameraTarget = ParanoiaUtilities.FindPlayer();
         }
 
         private void OnEnable()
         {
-            MelonLoader.MelonCoroutines.Start(CoUpdateHallucination(hName, hType, hClass, hFlags));
+            m_iter = MelonLoader.MelonCoroutines.Start(CoUpdateHallucination(hName, hType, hClass, hFlags)) as IEnumerator;
         }
 
         private void OnDisable()
         {
-            MelonLoader.MelonCoroutines.Stop(CoUpdateHallucination(hName, hType, hClass, hFlags));
+            MelonLoader.MelonCoroutines.Stop(m_iter);
         }
 
         private void Update()
@@ -166,7 +176,6 @@ namespace NotEnoughPhotons.paranoia
                     if (Paranoia.instance.chaserAmbience.Count > 0)
 					{
                         source.clip = Paranoia.instance.chaserAmbience[Random.Range(0, Paranoia.instance.chaserAmbience.Count)];
-                        Log.Msg($"Set up {source.clip}");
                     }
 
                     transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0, 360f), 250f);
@@ -234,5 +243,4 @@ namespace NotEnoughPhotons.paranoia
             yield return null;
         }
     }
-
 }

@@ -14,11 +14,6 @@ using UnhollowerRuntimeLib;
 
 using MelonLoader;
 
-using HName = NotEnoughPhotons.paranoia.Hallucination.HallucinationName;
-using HType = NotEnoughPhotons.paranoia.Hallucination.HallucinationType;
-using HClass = NotEnoughPhotons.paranoia.Hallucination.HallucinationClass;
-using HFlags = NotEnoughPhotons.paranoia.Hallucination.HallucinationFlags;
-
 namespace NotEnoughPhotons.paranoia
 {
     public class ParanoiaGameManager : MonoBehaviour
@@ -108,13 +103,13 @@ namespace NotEnoughPhotons.paranoia
         private AudioManager manager;
 
         // Hallucinations
-        private Hallucination hChaser;
-        private Hallucination hDarkVoice;
-        private Hallucination hCeilingMan;
-        private Hallucination hStaringMan;
-        private Hallucination hShadowPerson;
-        private Hallucination hShadowPersonChaser;
-        private Hallucination hObserver;
+        private AudioHallucination hChaser;
+        private AudioHallucination hDarkVoice;
+        private BaseHallucination hCeilingMan;
+        private BaseHallucination hStaringMan;
+        private BaseHallucination hShadowPerson;
+        private BaseHallucination hShadowPersonChaser;
+        private BaseHallucination hObserver;
 
         private VLB.VolumetricLightBeam lightBeam;
         private Light blankBoxLight;
@@ -161,57 +156,6 @@ namespace NotEnoughPhotons.paranoia
         private Il2CppReferenceArray<LightmapData> lightmaps;
         private Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> bakedProbes;
 
-        public static Hallucination CreateHallucination(Vector3 position, HName hName, HType hType, HFlags hFlags, HClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime, bool usesDelay)
-        {
-            Hallucination hallucination = new GameObject($"{hType} {hClass} Hallucination").AddComponent<Hallucination>();
-            PBillboard billboard = hallucination.gameObject.AddComponent<PBillboard>();
-
-            billboard.target = ParanoiaUtilities.FindPlayer();
-            hallucination.target = ParanoiaUtilities.FindPlayer();
-            hallucination.cameraTarget = ParanoiaUtilities.FindHead();
-            hallucination.audioManager = FindObjectOfType<AudioManager>();
-
-            if (hType.HasFlag(Hallucination.HallucinationType.Auditory))
-            {
-                AudioSource source = hallucination.gameObject.AddComponent<AudioSource>();
-                hallucination.source = source;
-                source.dopplerLevel = 0;
-            }
-
-            hallucination.transform.position = position;
-            hallucination.gameObject.SetActive(false);
-            hallucination.Initialize(hName, hType, hFlags, hClass, distanceToDisappear, chaseSpeed, delayTime);
-            return hallucination;
-        }
-
-        public static Hallucination CreateHallucination(Vector3 position, GameObject prefab, HName hName, HType hType, HFlags hFlags, HClass hClass, float distanceToDisappear, float chaseSpeed, float delayTime, bool usesDelay)
-        {
-            Hallucination hallucination = new GameObject($"{hType} {hClass} Hallucination").AddComponent<Hallucination>();
-            PBillboard billboard = hallucination.gameObject.AddComponent<PBillboard>();
-
-            billboard.target = ParanoiaUtilities.FindPlayer();
-            hallucination.target = ParanoiaUtilities.FindPlayer();
-            hallucination.cameraTarget = ParanoiaUtilities.FindHead();
-            hallucination.audioManager = FindObjectOfType<AudioManager>();
-
-            if (prefab != null)
-            {
-                GameObject.Instantiate(prefab, hallucination.transform);
-            }
-
-            if (hType.HasFlag(Hallucination.HallucinationType.Auditory))
-            {
-                AudioSource source = hallucination.gameObject.AddComponent<AudioSource>();
-                hallucination.source = source;
-                source.dopplerLevel = 0;
-            }
-
-            hallucination.gameObject.transform.position = position;
-            hallucination.gameObject.SetActive(false);
-            hallucination.Initialize(hName, hType, hFlags, hClass, distanceToDisappear, chaseSpeed, delayTime);
-            return hallucination;
-        }
-
         private void Awake()
 		{
             if(instance == null)
@@ -226,9 +170,9 @@ namespace NotEnoughPhotons.paranoia
 
         private void Start()
         {
-            InitializeEntities();
-
             InitializeTicks();
+
+            InitializeEntities();
 
             InitializeSettings();
 
@@ -393,28 +337,107 @@ namespace NotEnoughPhotons.paranoia
 
         private void InitializeEntities()
 		{
+            MelonLogger.Msg("1");
             radioClone = GameObject.Instantiate(radioObject);
+            MelonLogger.Msg("2");
             monitorClone = GameObject.Instantiate(monitorObject);
+            MelonLogger.Msg("3");
             cursedDoorClone = GameObject.Instantiate(cursedDoorObject);
 
-            hChaser = CreateHallucination(Vector3.zero, HName.ChaserMirage, HType.Auditory, HFlags.HideWhenClose, HClass.Chaser, 0.5f, 50f, 0f, false);
-            hDarkVoice = CreateHallucination(Vector3.zero, HName.VoiceInTheDark, HType.Auditory, HFlags.None, HClass.DarkVoice, 0f, 0f, 0f, false);
-            hCeilingMan = CreateHallucination(Vector3.zero, ceilingWatcher, HName.CeilingMan, HType.Auditory | HType.Visual, HFlags.HideWhenSeen, HClass.Watcher, 0f, 0f, 0f, false);
-            hStaringMan = CreateHallucination(Vector3.zero, staringMan, HName.StaringMan, HType.Visual, HFlags.HideWhenSeen, HClass.Chaser, 30f, 1f, 0f, false);
-            hShadowPerson = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.HideWhenClose, HClass.Watcher, 30f, 0f, 0f, false);
-            hShadowPersonChaser = CreateHallucination(Vector3.zero, shadowMan, HName.ShadowMan, HType.Visual, HFlags.HideWhenClose, HClass.Chaser, 1f, 50f, 5f, true);
-            hObserver = CreateHallucination(Vector3.zero, observer, HName.Observer, HType.Visual, HFlags.HideWhenSeen, HClass.Watcher, 0f, 0f, 0f, false);
+            MelonLogger.Msg("4");
+            SetupHallucinations();
 
+            MelonLogger.Msg("5");
             radioSource = radioClone.GetComponentInChildren<AudioSource>();
+            MelonLogger.Msg("6");
             MonitorVideo monitorVideo = monitorClone.AddComponent<MonitorVideo>();
+            MelonLogger.Msg("7");
             monitorVideo.clips = clipList;
 
+            MelonLogger.Msg("8");
             CursedDoorController cursedDoorCtrlr = cursedDoorClone.AddComponent<CursedDoorController>();
-            cursedDoorCtrlr.faceTransform = cursedDoorCtrlr.transform.Find("scaler/Art/Face");
 
+            MelonLogger.Msg("9");
             radioClone.SetActive(false);
+            MelonLogger.Msg("10");
             monitorClone.SetActive(false);
+            MelonLogger.Msg("11");
             cursedDoorClone.SetActive(false);
+        }
+
+        private void SetupHallucinations()
+        {
+            GameObject chaserAudio = new GameObject("ChaserMirage");
+            GameObject darkVoiceAudio = new GameObject("DarkVoice");
+            GameObject shadowManClone = GameObject.Instantiate(shadowMan, Vector3.zero, Quaternion.identity);
+            GameObject shadowManChaserClone = GameObject.Instantiate(shadowMan, Vector3.zero, Quaternion.identity);
+            GameObject ceilingManClone = GameObject.Instantiate(ceilingWatcher, Vector3.zero, Quaternion.identity);
+            GameObject staringManClone = GameObject.Instantiate(staringMan, Vector3.zero, Quaternion.identity);
+            GameObject observerClone = GameObject.Instantiate(observer, Vector3.zero, Quaternion.identity);
+
+            chaserAudio.AddComponent<AudioSource>();
+            darkVoiceAudio.AddComponent<AudioSource>();
+            hChaser = chaserAudio.AddComponent<AudioHallucination>();
+            hDarkVoice = darkVoiceAudio.AddComponent<AudioHallucination>();
+            hShadowPerson = shadowManClone.AddComponent<BaseHallucination>();
+            hShadowPersonChaser = shadowManChaserClone.AddComponent<BaseHallucination>();
+            hCeilingMan = ceilingManClone.AddComponent<BaseHallucination>();
+            hStaringMan = staringManClone.AddComponent<BaseHallucination>();
+            hObserver = observerClone.AddComponent<BaseHallucination>();
+
+            hChaser.gameObject.SetActive(false);
+            hDarkVoice.gameObject.SetActive(false);
+            hShadowPerson.gameObject.SetActive(false);
+            hShadowPersonChaser.gameObject.SetActive(false);
+            hCeilingMan.gameObject.SetActive(false);
+            hStaringMan.gameObject.SetActive(false);
+            hObserver.gameObject.SetActive(false);
+
+            hChaser.auditoryType = AudioHallucination.AuditoryType.Chaser;
+            hChaser.startFlags = BaseHallucination.StartFlags.SpawnAroundPlayer;
+            hChaser.flags = BaseHallucination.HallucinationFlags.LookAtTarget | BaseHallucination.HallucinationFlags.Moving | BaseHallucination.HallucinationFlags.HideWhenClose;
+            hChaser.clips = Paranoia.instance.chaserAmbience.ToArray();
+            hChaser.disableDistance = 1f;
+            hChaser.moveSpeed = 50f;
+            hChaser.useRandomSpawnAngle = true;
+            hChaser.spawnRadius = 200f;
+
+            hCeilingMan.flags = BaseHallucination.HallucinationFlags.LookAtTarget;
+            hCeilingMan.startFlags = BaseHallucination.StartFlags.SpawnAtPoints;
+            hCeilingMan.spawnPoints = ceilingManSpawns;
+
+            hDarkVoice.auditoryType = AudioHallucination.AuditoryType.Darkness;
+            hDarkVoice.startFlags = BaseHallucination.StartFlags.SpawnAroundPlayer;
+            hDarkVoice.flags = BaseHallucination.HallucinationFlags.None;
+            hDarkVoice.clips = Paranoia.instance.darkVoices.ToArray();
+            hDarkVoice.useRandomSpawnAngle = true;
+            hDarkVoice.spawnRadius = 1f;
+
+            hObserver.flags = BaseHallucination.HallucinationFlags.HideWhenSeen | BaseHallucination.HallucinationFlags.LookAtTarget;
+            hObserver.startFlags = BaseHallucination.StartFlags.SpawnAroundPlayer;
+            hObserver.useRandomSpawnAngle = true;
+            hObserver.spawnRadius = 10f;
+
+            hShadowPerson.flags = BaseHallucination.HallucinationFlags.HideWhenClose | BaseHallucination.HallucinationFlags.LookAtTarget;
+            hShadowPerson.startFlags = BaseHallucination.StartFlags.SpawnAroundPlayer;
+            hShadowPerson.useRandomSpawnAngle = true;
+            hShadowPerson.spawnRadius = 100f;
+            hShadowPerson.disableDistance = 50f;
+
+            hShadowPersonChaser.flags = BaseHallucination.HallucinationFlags.HideWhenClose | BaseHallucination.HallucinationFlags.LookAtTarget | BaseHallucination.HallucinationFlags.Moving;
+            hShadowPersonChaser.startFlags = BaseHallucination.StartFlags.SpawnAroundPlayer;
+            hShadowPersonChaser.usesDelay = true;
+            hShadowPersonChaser.maxTime = 3f;
+            hShadowPersonChaser.moveSpeed = 50f;
+            hShadowPersonChaser.disableDistance = 1f;
+            hShadowPersonChaser.useRandomSpawnAngle = true;
+            hShadowPersonChaser.spawnRadius = 100f;
+
+            hStaringMan.flags = BaseHallucination.HallucinationFlags.HideWhenClose | BaseHallucination.HallucinationFlags.LookAtTarget | BaseHallucination.HallucinationFlags.Moving;
+            hStaringMan.startFlags = BaseHallucination.StartFlags.SpawnAtPoints;
+            hStaringMan.spawnPoints = staringManSpawns;
+            hStaringMan.moveSpeed = 1f;
+            hStaringMan.disableDistance = 30f;
         }
 
         private void Update()
@@ -518,30 +541,21 @@ namespace NotEnoughPhotons.paranoia
 
         internal void SpawnFirstRadio()
         {
-            MelonLogger.Msg("Setting inactive");
             radioClone.SetActive(false);
 
-            MelonLogger.Msg("Setting position");
             radioClone.transform.position = playerCircle.CalculatePlayerCircle(Random.Range(0, 360), 10f);
 
-            MelonLogger.Msg("Looking at player");
             radioClone.transform.LookAt(ParanoiaUtilities.FindPlayer());
 
-            MelonLogger.Msg("Setting clip");
             radioSource.clip = manager.startingTune;
-            MelonLogger.Msg("Setting spatial blend");
             radioSource.spatialBlend = 0.75f;
 
-            MelonLogger.Msg("Setting first radio spawn to true");
             firstRadioSpawn = true;
 
-            MelonLogger.Msg("Setting active");
             radioClone.SetActive(true);
 
-            MelonLogger.Msg("Starting coroutine");
             MelonLoader.MelonCoroutines.Start(CoRadioHide(radioSource.clip.length));
 
-            MelonLogger.Msg("Unsubscribing");
             eFirstRadioTick.OnTick -= SpawnFirstRadio;
         }
 

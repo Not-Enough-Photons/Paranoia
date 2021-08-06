@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 
+using StressLevelZero.Rig;
+
 using Tick = NotEnoughPhotons.paranoia.ParanoiaGameManager.Tick;
 
 namespace NotEnoughPhotons.paranoia
@@ -32,6 +34,13 @@ namespace NotEnoughPhotons.paranoia
             }
 
             return null;
+        }
+
+        public static SkeletonRig GetGameWorldRig()
+        {
+            RigManager rigManager = ModThatIsNotMod.Player.GetRigManager().GetComponent<RigManager>();
+
+            return rigManager.gameWorldSkeletonRig;
         }
 
         public static List<GameObject> FindGameObjectsWithLayer(string layerName)
@@ -119,7 +128,8 @@ namespace NotEnoughPhotons.paranoia
         {
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<AudioManager>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ObjectPool>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<Hallucination>();
+            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<BaseHallucination>();
+            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<AudioHallucination>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ParanoiaGameManager>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<CursedDoorController>();

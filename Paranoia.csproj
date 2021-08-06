@@ -86,13 +86,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Scripts\AudioHallucination.cs" />
     <Compile Include="Scripts\AudioManager.cs" />
+    <Compile Include="Scripts\BaseHallucination.cs" />
     <Compile Include="Scripts\CursedDoorController.cs" />
-    <Compile Include="Scripts\Hallucination.cs" />
     <Compile Include="Scripts\MonitorVideo.cs" />
     <Compile Include="Scripts\Note00001.cs" />
     <Compile Include="Scripts\ObjectPool.cs" />
-    <Compile Include="Scripts\ParanoiaEvents.cs" />
     <Compile Include="Scripts\ParanoiaGameManager.cs" />
     <Compile Include="Scripts\ParanoiaUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

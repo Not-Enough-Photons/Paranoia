@@ -14,16 +14,14 @@ namespace NotEnoughPhotons.paranoia
 
         private void Awake()
         {
-            MeshRenderer renderer = faceTransform.GetComponent<MeshRenderer>();
-            faceMaterial = renderer.material;
-
+            faceTransform = transform.Find("scaler/Art/Face");
             initialFaceSpawn = faceTransform.position;
+            faceMaterial = faceTransform.GetComponent<MeshRenderer>().material;
         }
 
         private void OnEnable()
         {
             faceTransform.position = initialFaceSpawn;
-            faceMaterial.color = Color.clear;
         }
 
         private void Update()

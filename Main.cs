@@ -84,7 +84,14 @@ namespace NotEnoughPhotons.paranoia
                     instance = this;
                 }
 
+                ParanoiaUtilities utils = new ParanoiaUtilities();
+
                 ParanoiaUtilities.RegisterTypesInIL2CPP();
+
+                if (!System.IO.Directory.Exists("UserData/paranoia"))
+                {
+                    System.IO.Directory.CreateDirectory("UserData/paranoia");
+                }
 
                 bundle = AssetBundle.LoadFromFile("UserData/paranoia/paranoia.pack");
 
