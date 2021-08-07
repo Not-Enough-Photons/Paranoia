@@ -3,6 +3,8 @@
 using UnityEngine;
 using UnityEngine.Video;
 
+using Valve.VR;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,6 +85,8 @@ namespace NotEnoughPhotons.paranoia
                 {
                     instance = this;
                 }
+
+
 
                 ParanoiaUtilities utils = new ParanoiaUtilities();
 

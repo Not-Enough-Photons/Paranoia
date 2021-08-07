@@ -46,6 +46,9 @@
     <Reference Include="ModThatIsNotMod">
       <HintPath>E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\Mods\ModThatIsNotMod.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\UserData\paranoia\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SteamVR, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\SteamVR.dll</HintPath>
@@ -76,6 +79,10 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Boneworks Assemblies\UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\UnityEngine.PhysicsModule.dll</HintPath>
@@ -90,6 +97,7 @@
     <Compile Include="Scripts\AudioManager.cs" />
     <Compile Include="Scripts\BaseHallucination.cs" />
     <Compile Include="Scripts\CursedDoorController.cs" />
+    <Compile Include="Scripts\HMDType.cs" />
     <Compile Include="Scripts\MonitorVideo.cs" />
     <Compile Include="Scripts\Note00001.cs" />
     <Compile Include="Scripts\ObjectPool.cs" />

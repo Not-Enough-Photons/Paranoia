@@ -8,6 +8,25 @@ namespace NotEnoughPhotons.paranoia
     {
         public BaseHallucination(System.IntPtr ptr) : base(ptr) { }
 
+        public struct Settings
+        {
+            public string baseFlags;
+            public string startFlags;
+
+            public bool useRandomSpawnAngle;
+            public float spawnRadius;
+            public float spawnAngle;
+
+            public bool usesDelay;
+            public float maxTime;
+
+            public float moveSpeed;
+
+            public float disableDistance;
+            public float lookAtDisableDistance;
+            public float damage;
+        }
+
         [System.Flags]
         public enum HallucinationFlags
         {
@@ -28,6 +47,8 @@ namespace NotEnoughPhotons.paranoia
             SpawnAtPoints = (1 << 1),
             LookAtTarget = (1 << 2)
         }
+
+        public Settings settings { get; set; }
 
         public HallucinationFlags flags
         { 
@@ -133,6 +154,20 @@ namespace NotEnoughPhotons.paranoia
 
         private float timer;
         private bool reachedTimer;
+
+        public void ReadValuesFromJSON(string json)
+        {
+            Settings mySettings = Newtonsoft.Json.JsonConvert.DeserializeObject<Settings>(json);
+
+            string baseFlagsDirty = mySettings.baseFlags.Replace(" ", string.Empty);
+            string[] flagsTxt = baseFlagsDirty.Split('|');
+
+            string startFlagsDirty = mySettings.startFlags.Replace(" ", string.Empty);
+            string[] startFlagsTxt = startFlagsDirty.Split('|');
+
+            foreach (string value in flagsTxt) { flags ^= (HallucinationFlags)System.Enum.Parse(typeof(HallucinationFlags), value); }
+            foreach (string value in startFlagsTxt) { startFlags ^= (StartFlags)System.Enum.Parse(typeof(StartFlags), value); }
+        }
 
         protected virtual void Awake()
         {

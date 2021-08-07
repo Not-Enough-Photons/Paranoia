@@ -7,11 +7,18 @@ using System.Globalization;
 using StressLevelZero.Rig;
 
 using Tick = NotEnoughPhotons.paranoia.ParanoiaGameManager.Tick;
+using MelonLoader;
+using Valve.VR;
 
 namespace NotEnoughPhotons.paranoia
 {
     public class ParanoiaUtilities
     {
+        public static HMDType GetHMD()
+        {
+            return (HMDType)Enum.Parse(typeof(HMDType), SteamVR.instance.hmd_ModelNumber);
+        }
+
         public static Transform FindHead()
         {
             return GameObject.Find("[RigManager (Default Brett)]/[PhysicsRig]/").transform;

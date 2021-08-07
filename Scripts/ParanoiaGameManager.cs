@@ -13,6 +13,7 @@ using UnhollowerBaseLib;
 using UnhollowerRuntimeLib;
 
 using MelonLoader;
+using Harmony;
 
 namespace NotEnoughPhotons.paranoia
 {
@@ -103,6 +104,9 @@ namespace NotEnoughPhotons.paranoia
         private AudioManager manager;
 
         // Hallucinations
+        private List<BaseHallucination> baseHallucinations;
+        private List<AudioHallucination> audioHallucinations;
+
         private AudioHallucination hChaser;
         private AudioHallucination hDarkVoice;
         private BaseHallucination hCeilingMan;
@@ -171,6 +175,9 @@ namespace NotEnoughPhotons.paranoia
 
         private void Start()
         {
+            baseHallucinations = new List<BaseHallucination>();
+            audioHallucinations = new List<AudioHallucination>();
+
             InitializeTicks();
 
             InitializeEntities();
@@ -367,73 +374,54 @@ namespace NotEnoughPhotons.paranoia
             chaserAudio.AddComponent<AudioSource>();
             darkVoiceAudio.AddComponent<AudioSource>();
             hChaser = chaserAudio.AddComponent<AudioHallucination>();
+            audioHallucinations.Add(hChaser);
             hDarkVoice = darkVoiceAudio.AddComponent<AudioHallucination>();
+            audioHallucinations.Add(hDarkVoice);
             hShadowPerson = shadowManClone.AddComponent<BaseHallucination>();
+            baseHallucinations.Add(hShadowPerson);
             hShadowPersonChaser = shadowManChaserClone.AddComponent<BaseHallucination>();
+            baseHallucinations.Add(hShadowPersonChaser);
             hCeilingMan = ceilingManClone.AddComponent<BaseHallucination>();
+            baseHallucinations.Add(hCeilingMan);
             hStaringMan = staringManClone.AddComponent<BaseHallucination>();
+            baseHallucinations.Add(hStaringMan);
             hObserver = observerClone.AddComponent<BaseHallucination>();
+            baseHallucinations.Add(hObserver);
             hCursedDoor = cursedDoorClone.AddComponent<CursedDoorController>();
 
-            hChaser.gameObject.SetActive(false);
-            hDarkVoice.gameObject.SetActive(false);
-            hShadowPerson.gameObject.SetActive(false);
-            hShadowPersonChaser.gameObject.SetActive(false);
-            hCeilingMan.gameObject.SetActive(false);
-            hStaringMan.gameObject.SetActive(false);
-            hObserver.gameObject.SetActive(false);
-            hCursedDoor.gameObject.SetActive(false);
+            hChaser.name = "Chaser";
+            hDarkVoice.name = "DarkVoice";
+            hShadowPerson.name = "ShadowPerson";
+            hShadowPersonChaser.name = "ShadowPersonChaser";
+            hCeilingMan.name = "CeilingMan";
+            hStaringMan.name = "StaringMan";
+            hObserver.name = "Observer";
 
-            hChaser.auditoryType = AudioHallucination.AuditoryType.Chaser;
-            hChaser.startFlags = BaseHallucination.StartFlags.SpawnAroundPlayer;
-            hChaser.flags = BaseHallucination.HallucinationFlags.LookAtTarget | BaseHallucination.HallucinationFlags.Moving | BaseHallucination.HallucinationFlags.HideWhenClose;
-            hChaser.clips = Paranoia.instance.chaserAmbience.ToArray();
-            hChaser.disableDistance = 1f;
-            hChaser.moveSpeed = 50f;
-            hChaser.useRandomSpawnAngle = true;
-            hChaser.spawnRadius = 200f;
+            ApplyHallucinationSettings();
+        }
 
-            hCeilingMan.flags = BaseHallucination.HallucinationFlags.LookAtTarget;
-            hCeilingMan.startFlags = BaseHallucination.StartFlags.SpawnAtPoints;
-            hCeilingMan.spawnPoints = ceilingManSpawns;
+        private void ApplyHallucinationSettings()
+        {
+            string[] fileDirectories = System.IO.Directory.GetFileSystemEntries(@"UserData\paranoia\json\");
+            List<string> baseHallucinationJSONs = new List<string>();
 
-            hDarkVoice.auditoryType = AudioHallucination.AuditoryType.Darkness;
-            hDarkVoice.startFlags = BaseHallucination.StartFlags.SpawnAroundPlayer;
-            hDarkVoice.flags = BaseHallucination.HallucinationFlags.None;
-            hDarkVoice.clips = Paranoia.instance.darkVoices.ToArray();
-            hDarkVoice.useRandomSpawnAngle = true;
-            hDarkVoice.spawnRadius = 1f;
-            
-            hObserver.flags = BaseHallucination.HallucinationFlags.HideWhenSeen | BaseHallucination.HallucinationFlags.LookAtTarget;
-            hObserver.startFlags = BaseHallucination.StartFlags.SpawnAroundPlayer;
-            hObserver.useRandomSpawnAngle = true;
-            hObserver.spawnRadius = 10f;
+            for(int i = 0; i < fileDirectories.Length; i++)
+            {
+                for(int j = 0; j < System.IO.Directory.GetFiles(fileDirectories[i]).Length; j++)
+                {
+                    baseHallucinationJSONs.Add(System.IO.Directory.GetFiles(fileDirectories[i])[j]);
+                }
+            }
 
-            hShadowPerson.flags = BaseHallucination.HallucinationFlags.HideWhenClose | BaseHallucination.HallucinationFlags.LookAtTarget;
-            hShadowPerson.startFlags = BaseHallucination.StartFlags.SpawnAroundPlayer;
-            hShadowPerson.useRandomSpawnAngle = true;
-            hShadowPerson.spawnRadius = 100f;
-            hShadowPerson.disableDistance = 50f;
-
-            hShadowPersonChaser.flags = BaseHallucination.HallucinationFlags.HideWhenClose | BaseHallucination.HallucinationFlags.LookAtTarget | BaseHallucination.HallucinationFlags.Moving;
-            hShadowPersonChaser.startFlags = BaseHallucination.StartFlags.SpawnAroundPlayer;
-            hShadowPersonChaser.usesDelay = true;
-            hShadowPersonChaser.maxTime = 3f;
-            hShadowPersonChaser.moveSpeed = 50f;
-            hShadowPersonChaser.disableDistance = 1f;
-            hShadowPersonChaser.useRandomSpawnAngle = true;
-            hShadowPersonChaser.spawnRadius = 100f;
-
-            hStaringMan.flags = BaseHallucination.HallucinationFlags.HideWhenClose | BaseHallucination.HallucinationFlags.LookAtTarget | BaseHallucination.HallucinationFlags.Moving;
-            hStaringMan.startFlags = BaseHallucination.StartFlags.SpawnAtPoints;
-            hStaringMan.spawnPoints = staringManSpawns;
-            hStaringMan.moveSpeed = 1f;
-            hStaringMan.disableDistance = 30f;
-
-            hCursedDoor.flags = BaseHallucination.HallucinationFlags.None;
-            hCursedDoor.startFlags = BaseHallucination.StartFlags.LookAtTarget | BaseHallucination.StartFlags.SpawnAroundPlayer;
-            hCursedDoor.spawnRadius = 15f;
-            hCursedDoor.useRandomSpawnAngle = true;
+            for(int i = 0; i < baseHallucinations.Count; i++)
+            {
+                string jsonFile = baseHallucinationJSONs[i].Substring(baseHallucinationJSONs[i].IndexOf(@"UserData\paranoia\json\BaseHallucination")).Replace(".json", string.Empty);
+                Newtonsoft.Json.JsonReader reader = new Newtonsoft.Json.JsonReader();
+                if(baseHallucinations[i].name == jsonFile)
+                {
+                    baseHallucinations[i].settings = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseHallucination.Settings>(jsonFile);
+                }
+            }
         }
 
         private void Update()
