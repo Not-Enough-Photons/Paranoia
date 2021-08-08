@@ -374,54 +374,36 @@ namespace NotEnoughPhotons.paranoia
             chaserAudio.AddComponent<AudioSource>();
             darkVoiceAudio.AddComponent<AudioSource>();
             hChaser = chaserAudio.AddComponent<AudioHallucination>();
-            audioHallucinations.Add(hChaser);
             hDarkVoice = darkVoiceAudio.AddComponent<AudioHallucination>();
-            audioHallucinations.Add(hDarkVoice);
             hShadowPerson = shadowManClone.AddComponent<BaseHallucination>();
-            baseHallucinations.Add(hShadowPerson);
             hShadowPersonChaser = shadowManChaserClone.AddComponent<BaseHallucination>();
-            baseHallucinations.Add(hShadowPersonChaser);
             hCeilingMan = ceilingManClone.AddComponent<BaseHallucination>();
-            baseHallucinations.Add(hCeilingMan);
             hStaringMan = staringManClone.AddComponent<BaseHallucination>();
-            baseHallucinations.Add(hStaringMan);
             hObserver = observerClone.AddComponent<BaseHallucination>();
-            baseHallucinations.Add(hObserver);
             hCursedDoor = cursedDoorClone.AddComponent<CursedDoorController>();
 
-            hChaser.name = "Chaser";
-            hDarkVoice.name = "DarkVoice";
-            hShadowPerson.name = "ShadowPerson";
-            hShadowPersonChaser.name = "ShadowPersonChaser";
-            hCeilingMan.name = "CeilingMan";
-            hStaringMan.name = "StaringMan";
-            hObserver.name = "Observer";
+            hChaser.clips = Paranoia.instance.chaserAmbience.ToArray();
+            hDarkVoice.clips = Paranoia.instance.darkVoices.ToArray();
+
+            hStaringMan.spawnPoints = staringManSpawns;
+            hCeilingMan.spawnPoints = ceilingManSpawns;
 
             ApplyHallucinationSettings();
         }
 
         private void ApplyHallucinationSettings()
         {
-            string[] fileDirectories = System.IO.Directory.GetFileSystemEntries(@"UserData\paranoia\json\");
-            List<string> baseHallucinationJSONs = new List<string>();
+            string baseJsonDir = "UserData/paranoia/json/BaseHallucination";
+            string audioJsonDir = "UserData/paranoia/json/AudioHallucination";
 
-            for(int i = 0; i < fileDirectories.Length; i++)
-            {
-                for(int j = 0; j < System.IO.Directory.GetFiles(fileDirectories[i]).Length; j++)
-                {
-                    baseHallucinationJSONs.Add(System.IO.Directory.GetFiles(fileDirectories[i])[j]);
-                }
-            }
+            hShadowPerson.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/ShadowMan.json"));
+            hShadowPersonChaser.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/ShadowManChaser.json"));
+            hCeilingMan.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/CeilingMan.json"));
+            hStaringMan.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/StaringMan.json"));
+            hObserver.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/Observer.json"));
 
-            for(int i = 0; i < baseHallucinations.Count; i++)
-            {
-                string jsonFile = baseHallucinationJSONs[i].Substring(baseHallucinationJSONs[i].IndexOf(@"UserData\paranoia\json\BaseHallucination")).Replace(".json", string.Empty);
-                Newtonsoft.Json.JsonReader reader = new Newtonsoft.Json.JsonReader();
-                if(baseHallucinations[i].name == jsonFile)
-                {
-                    baseHallucinations[i].settings = Newtonsoft.Json.JsonConvert.DeserializeObject<BaseHallucination.Settings>(jsonFile);
-                }
-            }
+            hChaser.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/Chaser.json"));
+            hDarkVoice.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/DarkVoice.json"));
         }
 
         private void Update()

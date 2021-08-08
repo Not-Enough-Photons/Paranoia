@@ -36,7 +36,8 @@ namespace NotEnoughPhotons.paranoia
             LookAtTarget = (1 << 2),
             Moving = (1 << 3),
             Damaging = (1 << 4),
-            SpinAroundPlayer = (1 << 5)
+            DamageThenHide = (1 << 5),
+            SpinAroundPlayer = (1 << 6)
         }
 
         [System.Flags]
@@ -155,24 +156,39 @@ namespace NotEnoughPhotons.paranoia
         private float timer;
         private bool reachedTimer;
 
-        public void ReadValuesFromJSON(string json)
+        public virtual void ReadValuesFromJSON(string json)
         {
-            Settings mySettings = Newtonsoft.Json.JsonConvert.DeserializeObject<Settings>(json);
+            settings = Newtonsoft.Json.JsonConvert.DeserializeObject<Settings>(json);
 
-            string baseFlagsDirty = mySettings.baseFlags.Replace(" ", string.Empty);
+            string baseFlagsDirty = settings.baseFlags.Replace(" ", string.Empty);
             string[] flagsTxt = baseFlagsDirty.Split('|');
 
-            string startFlagsDirty = mySettings.startFlags.Replace(" ", string.Empty);
+            string startFlagsDirty = settings.startFlags.Replace(" ", string.Empty);
             string[] startFlagsTxt = startFlagsDirty.Split('|');
 
             foreach (string value in flagsTxt) { flags ^= (HallucinationFlags)System.Enum.Parse(typeof(HallucinationFlags), value); }
             foreach (string value in startFlagsTxt) { startFlags ^= (StartFlags)System.Enum.Parse(typeof(StartFlags), value); }
+
+            m_useRandomSpawnAngle = settings.useRandomSpawnAngle;
+            m_spawnRadius = settings.spawnRadius;
+            m_spawnAngle = settings.spawnAngle;
+
+            m_usesDelay = settings.usesDelay;
+            m_maxTime = settings.maxTime;
+
+            m_moveSpeed = settings.moveSpeed;
+
+            m_disableDistance = settings.disableDistance;
+            m_lookAtDisableDistance = settings.lookAtDisableDistance;
+            m_damage = settings.damage;
         }
 
         protected virtual void Awake()
         {
             m_playerTarget = ModThatIsNotMod.Player.GetPlayerHead().transform;
             m_playerTargetHead = ModThatIsNotMod.Player.GetPlayerHead().transform;
+
+            gameObject.SetActive(false);
         }
 
         protected virtual void OnEnable()
@@ -193,7 +209,8 @@ namespace NotEnoughPhotons.paranoia
 
             if (m_startFlags.HasFlag(StartFlags.SpawnAtPoints))
             {
-                if(m_spawnPoints.Length == -1 || m_spawnPoints == null) { return; }
+                if(m_spawnPoints == null) { return; }
+                if(m_spawnPoints.Length == 0) { return; }
 
                 transform.position = m_spawnPoints[Random.Range(0, m_spawnPoints.Length)];
             }
@@ -248,9 +265,13 @@ namespace NotEnoughPhotons.paranoia
                 transform.position += transform.forward * (m_moveSpeed * Time.deltaTime);
             }
 
-            if (m_flags.HasFlag(HallucinationFlags.Damaging))
+            if (m_flags.HasFlag(HallucinationFlags.DamageThenHide))
             {
-                
+                if (Vector3.Distance(m_playerTarget.position, transform.position) < m_disableDistance)
+                {
+                    playerTarget.GetComponentInParent<Player_Health>().TAKEDAMAGE(m_damage);
+                    gameObject.SetActive(false);
+                }
             }
 
             if (m_flags.HasFlag(HallucinationFlags.SpinAroundPlayer))

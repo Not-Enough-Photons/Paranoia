@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json.Linq;
 
 namespace NotEnoughPhotons.paranoia
 {
     public class AudioHallucination : BaseHallucination
     {
         public AudioHallucination(System.IntPtr ptr) : base(ptr) { }
+
+        public struct AudioSettings
+        {
+            public AuditoryType auditoryType { get; set; }
+        }
 
         public enum AuditoryType
         {
@@ -23,6 +29,13 @@ namespace NotEnoughPhotons.paranoia
         private AudioSource source;
 
         private float audioTimer = 0f;
+
+        public override void ReadValuesFromJSON(string json)
+        {
+            JObject obj = JObject.Parse(json);
+            auditoryType = (AuditoryType)System.Enum.Parse(typeof(AuditoryType), obj["auditoryType"].ToString());
+            base.ReadValuesFromJSON(json);
+        }
 
         protected override void Awake()
         {
