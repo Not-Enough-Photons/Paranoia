@@ -4,13 +4,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 
+using NotEnoughPhotons.Paranoia.Entities;
+using NotEnoughPhotons.Paranoia.Managers;
+
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
+
 using StressLevelZero.Rig;
 
-using Tick = NotEnoughPhotons.paranoia.ParanoiaGameManager.Tick;
-using MelonLoader;
+using Tick = NotEnoughPhotons.Paranoia.Managers.ParanoiaGameManager.Tick;
 using Valve.VR;
 
-namespace NotEnoughPhotons.paranoia
+namespace NotEnoughPhotons.Paranoia.Utilities
 {
     public class ParanoiaUtilities
     {
@@ -141,6 +146,21 @@ namespace NotEnoughPhotons.paranoia
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<CursedDoorController>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<PBillboard>();
+        }
+    }
+
+    public class HalContractResolver : DefaultContractResolver
+    {
+        protected override IList<JsonProperty> CreateProperties(Type type, Newtonsoft.Json.MemberSerialization memberSerialization)
+        {
+            IList<JsonProperty> list = base.CreateProperties(type, memberSerialization);
+
+            foreach(JsonProperty property in list)
+            {
+                property.Ignored = true;
+            }
+
+            return list;
         }
     }
 }

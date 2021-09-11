@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace NotEnoughPhotons.paranoia
+namespace NotEnoughPhotons.Paranoia.Entities
 {
 	public class SpawnCircle
 	{

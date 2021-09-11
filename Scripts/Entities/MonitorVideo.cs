@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
+using NotEnoughPhotons.Paranoia.Managers;
+
 using UnityEngine;
 using UnityEngine.Video;
 
-namespace NotEnoughPhotons.paranoia
+namespace NotEnoughPhotons.Paranoia.Entities
 {
     public class MonitorVideo : MonoBehaviour
     {

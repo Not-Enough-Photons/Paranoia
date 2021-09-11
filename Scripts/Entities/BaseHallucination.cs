@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace NotEnoughPhotons.paranoia
+using NotEnoughPhotons.Paranoia.Managers;
+
+namespace NotEnoughPhotons.Paranoia.Entities
 {
     public class BaseHallucination : MonoBehaviour
     {
@@ -21,6 +21,7 @@ namespace NotEnoughPhotons.paranoia
             public float maxTime;
 
             public float moveSpeed;
+            public float maxTeleportDelay;
 
             public float disableDistance;
             public float lookAtDisableDistance;
@@ -37,7 +38,8 @@ namespace NotEnoughPhotons.paranoia
             Moving = (1 << 3),
             Damaging = (1 << 4),
             DamageThenHide = (1 << 5),
-            SpinAroundPlayer = (1 << 6)
+            SpinAroundPlayer = (1 << 6),
+            Teleporting = (1 << 7)
         }
 
         [System.Flags]
@@ -98,6 +100,12 @@ namespace NotEnoughPhotons.paranoia
             set { m_moveSpeed = value; }
         }
 
+        public float maxTeleportDelay
+        {
+            get { return m_maxTeleportDelay; }
+            set { m_maxTeleportDelay = value; }
+        }
+
         public float disableDistance
         {
             get { return m_disableDistance; }
@@ -143,6 +151,7 @@ namespace NotEnoughPhotons.paranoia
         protected float m_maxTime = 1f;
 
         protected float m_moveSpeed = 1f;
+        protected float m_maxTeleportDelay = 1f;
 
         protected float m_disableDistance = 1f;
         protected float m_lookAtDisableDistance = 1f;
@@ -153,8 +162,16 @@ namespace NotEnoughPhotons.paranoia
 
         protected Vector3[] m_spawnPoints;
 
-        private float timer;
-        private bool reachedTimer;
+        private float startDelayTimer;
+        private float teleportDelayTimer;
+
+        private bool reachedDelayTimer;
+        private bool reachedTeleportDelayTimer = false;
+
+        protected bool GetReachedTeleportDelay()
+        {
+            return reachedTeleportDelayTimer;
+        }
 
         public virtual void ReadValuesFromJSON(string json)
         {
@@ -177,6 +194,7 @@ namespace NotEnoughPhotons.paranoia
             m_maxTime = settings.maxTime;
 
             m_moveSpeed = settings.moveSpeed;
+            m_maxTeleportDelay = settings.maxTeleportDelay;
 
             m_disableDistance = settings.disableDistance;
             m_lookAtDisableDistance = settings.lookAtDisableDistance;
@@ -250,14 +268,14 @@ namespace NotEnoughPhotons.paranoia
 
             if (m_usesDelay)
             {
-                timer += Time.deltaTime;
+                startDelayTimer += Time.deltaTime;
 
-                if (timer >= m_maxTime)
+                if (startDelayTimer >= m_maxTime)
                 {
-                    reachedTimer = true;
+                    reachedDelayTimer = true;
                 }
 
-                if (!reachedTimer) { return; }
+                if (!reachedDelayTimer) { return; }
             }
 
             if (m_flags.HasFlag(HallucinationFlags.Moving))
@@ -277,6 +295,24 @@ namespace NotEnoughPhotons.paranoia
             if (m_flags.HasFlag(HallucinationFlags.SpinAroundPlayer))
             {
                 transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Time.time, m_spawnRadius);
+            }
+
+            if (flags.HasFlag(HallucinationFlags.Teleporting))
+            {
+                teleportDelayTimer += Time.deltaTime;
+
+                if (reachedTeleportDelayTimer)
+                {
+                    transform.position += transform.forward * moveSpeed;
+                }
+
+                reachedTeleportDelayTimer = false;
+
+                if (teleportDelayTimer >= maxTeleportDelay)
+                {
+                    reachedTeleportDelayTimer = true;
+                    teleportDelayTimer = 0f;
+                }
             }
         }
     }

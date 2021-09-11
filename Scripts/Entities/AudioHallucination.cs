@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 
-namespace NotEnoughPhotons.paranoia
+namespace NotEnoughPhotons.Paranoia.Entities
 {
     public class AudioHallucination : BaseHallucination
     {
@@ -19,12 +19,15 @@ namespace NotEnoughPhotons.paranoia
             None,
             Chaser,
             Ambient,
-            Darkness
+            Darkness,
+            Teleporting
         }
 
         public AuditoryType auditoryType;
 
         public AudioClip[] clips;
+
+        public bool timerUsesAudioLength;
 
         private AudioSource source;
 
@@ -33,7 +36,17 @@ namespace NotEnoughPhotons.paranoia
         public override void ReadValuesFromJSON(string json)
         {
             JObject obj = JObject.Parse(json);
-            auditoryType = (AuditoryType)System.Enum.Parse(typeof(AuditoryType), obj["auditoryType"].ToString());
+
+            if(obj["auditoryType"] != null)
+            {
+                auditoryType = (AuditoryType)System.Enum.Parse(typeof(AuditoryType), obj["auditoryType"].ToString());
+            }
+            
+            if(obj["timerUsesAudioLength"] != null)
+            {
+                timerUsesAudioLength = bool.Parse(obj["timerUsesAudioLength"].ToString());
+            }
+            
             base.ReadValuesFromJSON(json);
         }
 
@@ -70,6 +83,14 @@ namespace NotEnoughPhotons.paranoia
                 source.loop = true;
             }
 
+            if (auditoryType == AuditoryType.Teleporting)
+            {
+                if (timerUsesAudioLength)
+                {
+                    maxTeleportDelay = source.clip.length;
+                }
+            }
+
             source.Play();
         }
 
@@ -77,7 +98,12 @@ namespace NotEnoughPhotons.paranoia
         {
             base.Update();
 
-            if (!source.loop)
+            if (GetReachedTeleportDelay())
+            {
+                source.Play();
+            }
+
+            if (!source.loop && auditoryType == AuditoryType.Chaser)
             {
                 if (source.clip == null) { return; }
 

@@ -1,16 +1,18 @@
 ﻿using MelonLoader;
 
+using NotEnoughPhotons.Paranoia.Entities;
+using NotEnoughPhotons.Paranoia.Managers;
+using NotEnoughPhotons.Paranoia.Utilities;
+
 using UnityEngine;
 using UnityEngine.Video;
-
-using Valve.VR;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace NotEnoughPhotons.paranoia
+namespace NotEnoughPhotons.Paranoia
 {
     public static class BuildInfo
     {
@@ -35,6 +37,7 @@ namespace NotEnoughPhotons.paranoia
         internal List<AudioClip> genericAmbience;
         internal List<AudioClip> screamAmbience;
         internal List<AudioClip> chaserAmbience;
+        internal List<AudioClip> teleporterAmbience;
         internal List<AudioClip> watcherAmbience;
         internal List<AudioClip> darkVoices;
         internal List<AudioClip> radioTunes;
@@ -47,6 +50,7 @@ namespace NotEnoughPhotons.paranoia
         internal GameObject staringManObject;
         internal GameObject ceilingManObject;
         internal GameObject observerObject;
+        internal GameObject teleportingEntityObject;
         internal GameObject radioObject;
         internal GameObject monitorObject;
         internal GameObject cursedDoorObject;
@@ -86,8 +90,6 @@ namespace NotEnoughPhotons.paranoia
                     instance = this;
                 }
 
-
-
                 ParanoiaUtilities utils = new ParanoiaUtilities();
 
                 ParanoiaUtilities.RegisterTypesInIL2CPP();
@@ -107,6 +109,7 @@ namespace NotEnoughPhotons.paranoia
                 staringManObject = bundle.LoadAsset("StaringMan").Cast<GameObject>();
                 ceilingManObject = bundle.LoadAsset("CeilingMan").Cast<GameObject>();
                 observerObject = bundle.LoadAsset("Observer").Cast<GameObject>();
+                teleportingEntityObject = bundle.LoadAsset("GrayMan").Cast<GameObject>();
                 radioObject = bundle.LoadAsset("PRadio").Cast<GameObject>();
                 monitorObject = bundle.LoadAsset("MonitorPlayer").Cast<GameObject>();
                 cursedDoorObject = bundle.LoadAsset("CursedDoor").Cast<GameObject>();
@@ -118,6 +121,7 @@ namespace NotEnoughPhotons.paranoia
                 shadowPersonObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 ceilingManObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 observerObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
+                teleportingEntityObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 radioObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 monitorObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
                 cursedDoorObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
@@ -126,6 +130,7 @@ namespace NotEnoughPhotons.paranoia
                 screamAmbience = new List<AudioClip>();
                 chaserAmbience = new List<AudioClip>();
                 watcherAmbience = new List<AudioClip>();
+                teleporterAmbience = new List<AudioClip>();
                 darkVoices = new List<AudioClip>();
                 radioTunes = new List<AudioClip>();
 
@@ -200,6 +205,7 @@ namespace NotEnoughPhotons.paranoia
             gameManager.observer = observerObject;
             gameManager.staringMan = staringManObject;
             gameManager.ceilingWatcher = ceilingManObject;
+            gameManager.teleportingEntity = teleportingEntityObject;
             gameManager.monitorObject = monitorObject;
             gameManager.cursedDoorObject = cursedDoorObject;
             gameManager.clipList = videoClips;
@@ -224,6 +230,10 @@ namespace NotEnoughPhotons.paranoia
                 else if (bundle.LoadAllAssets()[i].name.StartsWith("amb_watcher"))
 				{
                     watcherAmbience.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
+                }
+                else if (bundle.LoadAllAssets()[i].name.StartsWith("amb_teleportingthing"))
+                {
+                    teleporterAmbience.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
                 }
                 else if (bundle.LoadAllAssets()[i].name.StartsWith("amb_dark_voice"))
                 {

@@ -93,19 +93,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Scripts\AudioHallucination.cs" />
-    <Compile Include="Scripts\AudioManager.cs" />
-    <Compile Include="Scripts\BaseHallucination.cs" />
-    <Compile Include="Scripts\CursedDoorController.cs" />
-    <Compile Include="Scripts\HMDType.cs" />
-    <Compile Include="Scripts\MonitorVideo.cs" />
+    <Compile Include="Scripts\Entities\AudioHallucination.cs" />
+    <Compile Include="Scripts\Managers\AudioManager.cs" />
+    <Compile Include="Scripts\Entities\BaseHallucination.cs" />
+    <Compile Include="Scripts\Entities\CursedDoorController.cs" />
+    <Compile Include="Scripts\Managers\Events\DisableNimbus.cs" />
+    <Compile Include="Scripts\Managers\Events\DisableWasp.cs" />
+    <Compile Include="Scripts\Managers\Events\DropHeadItem.cs" />
+    <Compile Include="Scripts\Managers\Events\KillAI.cs" />
+    <Compile Include="Scripts\Managers\Events\MoveAIToPlayer.cs" />
+    <Compile Include="Scripts\Managers\Events\MoveAIToRadio.cs" />
+    <Compile Include="Scripts\Managers\Events\SpawnFirstRadio.cs" />
+    <Compile Include="Scripts\Managers\Events\SpawnRadio.cs" />
+    <Compile Include="Scripts\Managers\ParanoiaEvent.cs" />
+    <Compile Include="Scripts\Utilities\HMDType.cs" />
+    <Compile Include="Scripts\Entities\MonitorVideo.cs" />
     <Compile Include="Scripts\Note00001.cs" />
-    <Compile Include="Scripts\ObjectPool.cs" />
-    <Compile Include="Scripts\ParanoiaGameManager.cs" />
-    <Compile Include="Scripts\ParanoiaUtilities.cs" />
+    <Compile Include="Scripts\Managers\ObjectPool.cs" />
+    <Compile Include="Scripts\Managers\ParanoiaGameManager.cs" />
+    <Compile Include="Scripts\Utilities\ParanoiaUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Scripts\SpawnCircle.cs" />
+    <Compile Include="Scripts\Entities\SpawnCircle.cs" />
     <Compile Include="Scripts\PBillboard.cs" />
   </ItemGroup>
   <ItemGroup />
