@@ -8,7 +8,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-           /* GameObject radioClone = ParanoiaGameManager.instance.radioClone;
+            GameObject radioClone = ParanoiaGameManager.instance.radioClone;
             AudioSource radioSource = ParanoiaGameManager.instance.radioSource;
             AudioManager audioManager = ParanoiaGameManager.instance.audioManager;
 
@@ -25,19 +25,19 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
 
             radioClone.SetActive(true);
 
-            MelonLoader.MelonCoroutines.Start(CoRadioHide(radioSource.clip.length));*/
+            MelonLoader.MelonCoroutines.Start(CoRadioHide(radioSource.clip.length));
         }
 
         private System.Collections.IEnumerator CoRadioHide(float time)
         {
             yield return new WaitForSeconds(time);
-            /*
+            
             ParanoiaGameManager.instance.SetFirstRadioSpawn(false);
 
             if (ParanoiaGameManager.instance.radioClone.activeInHierarchy)
             {
                 ParanoiaGameManager.instance.radioClone.SetActive(false);
-            }*/
+            }
         }
     }
 }

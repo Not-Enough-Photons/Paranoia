@@ -7,8 +7,6 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Mirages
     {
         public override void Start()
         {
-            if (ParanoiaGameManager.instance.firstRadioSpawn) { return; }
-
             AudioManager audioManager = ParanoiaGameManager.instance.audioManager;
 
             int rng = ParanoiaGameManager.instance.rng;

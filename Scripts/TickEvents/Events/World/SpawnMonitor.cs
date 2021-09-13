@@ -8,8 +8,6 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            /*if (firstRadioSpawn) { return; }
-
             GameObject monitorClone = ParanoiaGameManager.instance.monitorObject;
 
             monitorClone.transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), 10f);
@@ -18,7 +16,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
 
             monitorClone.SetActive(true);
 
-            ParanoiaGameManager.instance.insanity++;*/
+            ParanoiaGameManager.instance.insanity++;
         }
     }
 }

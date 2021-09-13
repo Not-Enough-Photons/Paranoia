@@ -293,7 +293,6 @@ namespace NotEnoughPhotons.Paranoia.Managers
             eTPoseTick          = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new TPose());
             eRadioTick          = new Tick(190f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnRadio());
             eMonitorTick        = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnMonitor());
-            eFirstRadioTick     = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnFirstRadio());
             eAIOriginTick       = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new MoveAIToPlayer());
             eKillAllTick        = new Tick(240f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new KillAI());
             eItemDropTick       = new Tick(15f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new DropHeadItem());
@@ -384,7 +383,7 @@ namespace NotEnoughPhotons.Paranoia.Managers
 
         private void Update()
         {
-			/*if (Paranoia.instance.isBlankBox)
+			if (Paranoia.instance.isBlankBox)
 			{
                 playerCircle.CalculatePlayerCircle(0f);
 
@@ -396,7 +395,7 @@ namespace NotEnoughPhotons.Paranoia.Managers
                 {
                     for (int i = 0; i < darkTicks.Count; i++) { darkTicks[i].Update(); }
                 }
-            }*/
+            }
         }
 
         internal void ChangeClipboardText()

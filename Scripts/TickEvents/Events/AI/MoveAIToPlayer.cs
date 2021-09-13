@@ -30,7 +30,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
 
         private System.Collections.IEnumerator CoMoveAIToPlayer(Transform ai)
         {
-            /*if (ParanoiaGameManager.instance.playerTrigger != null)
+            if (ParanoiaGameManager.instance.playerTrigger != null)
             {
                 if (ai.GetComponentInParent<StressLevelZero.AI.AIBrain>() != null)
                 {
@@ -57,7 +57,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
                 {
                     yield return null;
                 }
-            }*/
+            }
 
             yield return null;
         }
