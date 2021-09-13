@@ -14,8 +14,6 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
         public override void Start()
         {
             physicsRig = Object.FindObjectOfType<PhysicsRig>();
-
-            new AmbientParalyzerSpawn().Start();
             MelonLoader.MelonCoroutines.Start(CoParalysisRoutine());
         }
 
@@ -33,6 +31,10 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
         {
             ParanoiaGameManager.instance.paralysisMode = true;
             FreezePlayer(physicsRig, true);
+
+            yield return new WaitForSeconds(Random.Range(1f, 6f));
+
+            new AmbientParalyzerSpawn().Start();
 
             while (ParanoiaGameManager.instance.hParalyzer.isActiveAndEnabled)
             {
