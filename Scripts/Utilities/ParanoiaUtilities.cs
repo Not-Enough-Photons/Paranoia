@@ -4,19 +4,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 
-using NotEnoughPhotons.Paranoia.Entities;
-using NotEnoughPhotons.Paranoia.Managers;
-using NotEnoughPhotons.Paranoia.TickEvents;
+using NEP.Paranoia.Entities;
+using NEP.Paranoia.Managers;
+using NEP.Paranoia.TickEvents;
 
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 using StressLevelZero.Rig;
 
-using Tick = NotEnoughPhotons.Paranoia.Managers.ParanoiaGameManager.Tick;
+using Tick = NEP.Paranoia.Managers.ParanoiaGameManager.Tick;
 using Valve.VR;
 
-namespace NotEnoughPhotons.Paranoia.Utilities
+namespace NEP.Paranoia.Utilities
 {
     public class ParanoiaUtilities
     {

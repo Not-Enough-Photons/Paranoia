@@ -1,7 +1,7 @@
-﻿using NotEnoughPhotons.Paranoia.Managers;
+﻿using NEP.Paranoia.Managers;
 using UnityEngine;
 
-namespace NotEnoughPhotons.Paranoia.TickEvents.Mirages
+namespace NEP.Paranoia.TickEvents.Mirages
 {
     public class AmbientAudioSpawn : ParanoiaEvent
     {

@@ -1,8 +1,8 @@
 ﻿using StressLevelZero.Rig;
-using NotEnoughPhotons.Paranoia.Managers;
+using NEP.Paranoia.Managers;
 using UnityEngine;
 
-namespace NotEnoughPhotons.Paranoia.TickEvents.Events
+namespace NEP.Paranoia.TickEvents.Events
 {
     public class LightFlickering : ParanoiaEvent
     {

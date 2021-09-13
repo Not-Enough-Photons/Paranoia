@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 
-namespace NotEnoughPhotons.Paranoia.Entities
+namespace NEP.Paranoia.Entities
 {
     public class AudioHallucination : BaseHallucination
     {

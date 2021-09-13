@@ -1,5 +1,5 @@
-﻿using NotEnoughPhotons.Paranoia.Utilities;
-using NotEnoughPhotons.Paranoia.Managers;
+﻿using NEP.Paranoia.Utilities;
+using NEP.Paranoia.Managers;
 
 using System.Linq;
 
@@ -9,7 +9,7 @@ using UnhollowerBaseLib;
 using StressLevelZero.AI;
 using StressLevelZero.Combat;
 
-namespace NotEnoughPhotons.Paranoia.TickEvents.Events
+namespace NEP.Paranoia.TickEvents.Events
 {
     public class TPose : ParanoiaEvent
     {

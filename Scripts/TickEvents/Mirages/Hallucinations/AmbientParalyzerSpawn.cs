@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using NotEnoughPhotons.Paranoia.Managers;
+using NEP.Paranoia.Managers;
 
-namespace NotEnoughPhotons.Paranoia.TickEvents.Mirages
+namespace NEP.Paranoia.TickEvents.Mirages
 {
     public class AmbientParalyzerSpawn : ParanoiaEvent
     {

@@ -6,11 +6,11 @@ using ModThatIsNotMod.BoneMenu;
 
 using NotEnoughPhotons.Paranoia.Entities;
 
-using NotEnoughPhotons.Paranoia.TickEvents;
-using NotEnoughPhotons.Paranoia.TickEvents.Events;
-using NotEnoughPhotons.Paranoia.TickEvents.Mirages;
+using NEP.Paranoia.TickEvents;
+using NEP.Paranoia.TickEvents.Events;
+using NEP.Paranoia.TickEvents.Mirages;
 
-using NotEnoughPhotons.Paranoia.Utilities;
+using NEP.Paranoia.Utilities;
 
 using TMPro;
 
@@ -20,7 +20,7 @@ using UnhollowerBaseLib;
 
 using MelonLoader;
 
-namespace NotEnoughPhotons.Paranoia.Managers
+namespace NEP.Paranoia.Managers
 {
     public class ParanoiaGameManager : MonoBehaviour
     {

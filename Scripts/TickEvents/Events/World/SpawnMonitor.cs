@@ -1,8 +1,8 @@
-﻿using NotEnoughPhotons.Paranoia.Utilities;
-using NotEnoughPhotons.Paranoia.Managers;
+﻿using NEP.Paranoia.Utilities;
+using NEP.Paranoia.Managers;
 using UnityEngine;
 
-namespace NotEnoughPhotons.Paranoia.TickEvents.Events
+namespace NEP.Paranoia.TickEvents.Events
 {
     public class SpawnMonitor : ParanoiaEvent
     {

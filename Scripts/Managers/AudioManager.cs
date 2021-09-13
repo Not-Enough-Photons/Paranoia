@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace NotEnoughPhotons.Paranoia.Managers
+namespace NEP.Paranoia.Managers
 {
 	public class AudioManager : MonoBehaviour
 	{

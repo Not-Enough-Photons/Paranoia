@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace NotEnoughPhotons.Paranoia.Managers
+namespace NEP.Paranoia.Managers
 {
     public class ObjectPool : MonoBehaviour
     {

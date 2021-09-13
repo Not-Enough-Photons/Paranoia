@@ -3,7 +3,7 @@ using UnhollowerBaseLib;
 using StressLevelZero.AI;
 using PuppetMasta;
 
-namespace NotEnoughPhotons.Paranoia.TickEvents.Events
+namespace NEP.Paranoia.TickEvents.Events
 {
     public class KillAI : ParanoiaEvent
     {

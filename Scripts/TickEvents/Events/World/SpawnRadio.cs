@@ -1,10 +1,10 @@
 ﻿using MelonLoader;
 using ModThatIsNotMod.RandomShit;
 using NotEnoughPhotons.Paranoia.Utilities;
-using NotEnoughPhotons.Paranoia.Managers;
+using NEP.Paranoia.Managers;
 using UnityEngine;
 
-namespace NotEnoughPhotons.Paranoia.TickEvents.Events
+namespace NEP.Paranoia.TickEvents.Events
 {
     public class SpawnRadio : ParanoiaEvent
     {

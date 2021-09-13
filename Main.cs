@@ -1,8 +1,8 @@
 ﻿using MelonLoader;
 
-using NotEnoughPhotons.Paranoia.Entities;
-using NotEnoughPhotons.Paranoia.Managers;
-using NotEnoughPhotons.Paranoia.Utilities;
+using NEP.Paranoia.Entities;
+using NEP.Paranoia.Managers;
+using NEP.Paranoia.Utilities;
 
 using UnityEngine;
 using UnityEngine.Video;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace NotEnoughPhotons.Paranoia
+namespace NEP.Paranoia
 {
 	public static class BuildInfo
 	{

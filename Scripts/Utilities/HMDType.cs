@@ -1,4 +1,4 @@
-﻿namespace NotEnoughPhotons.Paranoia.Utilities
+﻿namespace NEP.Paranoia.Utilities
 {
     public enum HMDType
     {

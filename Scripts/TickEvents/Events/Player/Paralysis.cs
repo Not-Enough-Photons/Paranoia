@@ -5,7 +5,7 @@ using StressLevelZero.Rig;
 using NotEnoughPhotons.Paranoia.TickEvents.Mirages;
 using NotEnoughPhotons.Paranoia.Managers;
 
-namespace NotEnoughPhotons.Paranoia.TickEvents.Events
+namespace NEP.Paranoia.TickEvents.Events
 {
     public class Paralysis : ParanoiaEvent
     {

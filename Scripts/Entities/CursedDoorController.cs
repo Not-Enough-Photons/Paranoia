@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace NotEnoughPhotons.Paranoia.Entities
+namespace NEP.Paranoia.Entities
 {
     public class CursedDoorController : BaseHallucination
     {

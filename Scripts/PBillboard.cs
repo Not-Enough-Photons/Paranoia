@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NotEnoughPhotons.Paranoia
+namespace NEP.Paranoia
 {
 	public class PBillboard : MonoBehaviour
 	{
