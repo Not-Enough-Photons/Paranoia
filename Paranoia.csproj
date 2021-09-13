@@ -108,6 +108,7 @@
     <Compile Include="Scripts\TickEvents\Events\AI\MoveAIToPlayer.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\MoveAIToRadio.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnFirstRadio.cs" />
+    <Compile Include="Scripts\TickEvents\Events\World\SpawnInvisibleForce.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnMonitor.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnRadio.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\TPose.cs" />

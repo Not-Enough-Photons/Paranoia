@@ -162,6 +162,9 @@ namespace NEP.Paranoia.Managers
         
         private BaseHallucination _hCursedDoor;
         public BaseHallucination hCursedDoor { get => _hCursedDoor; }
+
+        private BaseHallucination _invisibleForce;
+        public BaseHallucination invisibleForce { get => _invisibleForce; }
         
         private VLB.VolumetricLightBeam _lightBeam;
         public VLB.VolumetricLightBeam lightBeam { get { return _lightBeam; } }
@@ -191,6 +194,7 @@ namespace NEP.Paranoia.Managers
         private Tick vObserverTick;
 
         // Event ticks
+        private Tick eInvisForceTick;
         private Tick eTPoseTick;
         private Tick eRadioTick;
         private Tick eMonitorTick;
@@ -285,19 +289,20 @@ namespace NEP.Paranoia.Managers
             darkTicks = new List<Tick>();
 
             // Audio tick initialization
-            aAmbienceTick       = new Tick(Random.Range(60f, 95f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new AmbientAudioSpawn());
+            aAmbienceTick       = new Tick(Random.Range(90f, 130f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new AmbientAudioSpawn());
             aChaserTick         = new Tick(Random.Range(90f, 125f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new AmbientChaserSpawn());
             aDarkVoiceTick      = new Tick(Random.Range(15f, 20f), Tick.TickType.TT_DARK, new AmbientDarkVoiceSpawn());
             aTeleportingManTick = new Tick(Random.Range(120f, 165f), Tick.TickType.TT_DARK | Tick.TickType.TT_LIGHT, new AmbientTeleEntSpawn());
-            aParalyzerTick      = new Tick(Random.Range(30f, 75f), Tick.TickType.TT_DARK, new Paralysis());
+            aParalyzerTick      = new Tick(Random.Range(265f, 360f), Tick.TickType.TT_DARK, new Paralysis());
 
             // Visual tick initialization
-            vShadowManTick      = new Tick(Random.Range(90f, 125f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new ShadowSpawn());
+            vShadowManTick      = new Tick(Random.Range(175f, 265f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new ShadowSpawn());
             vStaringManTick     = new Tick(Random.Range(180f, 210f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new StaringManSpawn());
             vCeilingManTick     = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new CeilingManSpawn());
             vObserverTick       = new Tick(360f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new ObserverSpawn());
-            
+
             // Event tick initialization
+            eInvisForceTick     = new Tick(360f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnInvisibleForce());
             eTPoseTick          = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new TPose());
             eCursedDoorTick     = new Tick(90f, Tick.TickType.TT_LIGHT, new CursedDoorSpawn());
             eRadioTick          = new Tick(190f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnRadio());
@@ -338,7 +343,8 @@ namespace NEP.Paranoia.Managers
         {
             GameObject chaserAudio, darkVoiceAudio, shadowManClone,
                        shadowManChaserClone, ceilingManClone, staringManClone,
-                       observerClone, teleportingEntityClone, paralyzerEntityClone;
+                       observerClone, teleportingEntityClone, paralyzerEntityClone,
+                       invisibleForceObject;
 
             chaserAudio = new GameObject("ChaserMirage");
             darkVoiceAudio = new GameObject("DarkVoice");
@@ -349,6 +355,7 @@ namespace NEP.Paranoia.Managers
             observerClone = SpawnPrefab(observer);
             teleportingEntityClone = SpawnPrefab(teleportingEntity);
             paralyzerEntityClone = SpawnPrefab(paralyzerEntity);
+            invisibleForceObject = new GameObject("Invisible Force");
 
             cursedDoorClone = SpawnPrefab(cursedDoorObject);
 
@@ -366,6 +373,9 @@ namespace NEP.Paranoia.Managers
             _hStaringMan = staringManClone.AddComponent<BaseHallucination>();
             _hObserver = observerClone.AddComponent<BaseHallucination>();
             _hCursedDoor = cursedDoorClone.AddComponent<CursedDoorController>();
+            _invisibleForce = invisibleForceObject.AddComponent<BaseHallucination>();
+
+            _invisibleForce.gameObject.AddComponent<SphereCollider>().radius = 0.5f;
             
             _hChaser.clips = Paranoia.instance.chaserAmbience.ToArray();
             _hDarkVoice.clips = Paranoia.instance.darkVoices.ToArray();
@@ -389,6 +399,7 @@ namespace NEP.Paranoia.Managers
             _hStaringMan.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/StaringMan.json"));
             _hObserver.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/Observer.json"));
             _hCursedDoor.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/CursedDoor.json"));
+            _invisibleForce.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/InvisibleForce.json"));
 
             _hChaser.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/Chaser.json"));
             _hDarkVoice.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/DarkVoice.json"));
