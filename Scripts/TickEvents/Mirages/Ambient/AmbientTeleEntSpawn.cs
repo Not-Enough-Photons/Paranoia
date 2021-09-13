@@ -6,6 +6,8 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Mirages
     {
         public override void Start()
         {
+            if (ParanoiaGameManager.instance.paralysisMode) { return; }
+
             ParanoiaGameManager.instance.hTeleportingEntity.gameObject.SetActive(true);
         }
     }

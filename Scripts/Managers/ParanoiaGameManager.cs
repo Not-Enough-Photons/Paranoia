@@ -98,6 +98,7 @@ namespace NotEnoughPhotons.Paranoia.Managers
         public GameObject ceilingWatcher;
         public GameObject observer;
         public GameObject teleportingEntity;
+        public GameObject paralyzerEntity;
         public GameObject radioObject;
         public GameObject monitorObject;
         public GameObject cursedDoorObject;
@@ -140,7 +141,10 @@ namespace NotEnoughPhotons.Paranoia.Managers
         
         private AudioHallucination _hTeleportingEntity;
         public AudioHallucination hTeleportingEntity { get => _hTeleportingEntity; }
-        
+
+        private AudioHallucination _hParalyzer;
+        public AudioHallucination hParalyzer { get => _hParalyzer; }
+
         private BaseHallucination _hCeilingMan;
         public BaseHallucination hCeilingMan { get => _hCeilingMan; }
         
@@ -164,9 +168,8 @@ namespace NotEnoughPhotons.Paranoia.Managers
         
         private Light blankBoxLight;
         private GameObject flashlightObject;
-        
-        private GameObject _radioClone;
-        public GameObject radioClone { get { return _radioClone; } }
+
+        public GameObject radioClone;
         
         private GameObject monitorClone;
         private GameObject cursedDoorClone;
@@ -178,7 +181,8 @@ namespace NotEnoughPhotons.Paranoia.Managers
         private Tick aAmbienceTick;
         private Tick aChaserTick;
         private Tick aDarkVoiceTick;
-        private Tick aTeleportingEntTick;
+        private Tick aTeleportingManTick;
+        private Tick aParalyzerTick;
 
         // Visual ticks
         private Tick vShadowManTick;
@@ -207,6 +211,8 @@ namespace NotEnoughPhotons.Paranoia.Managers
 
         private int _rng = 1;
         public int rng {  get { return _rng; } }
+
+        public bool paralysisMode;
 
         internal int insanity;
 
@@ -281,7 +287,8 @@ namespace NotEnoughPhotons.Paranoia.Managers
             aAmbienceTick       = new Tick(Random.Range(60f, 95f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new AmbientAudioSpawn());
             aChaserTick         = new Tick(Random.Range(90f, 125f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new AmbientChaserSpawn());
             aDarkVoiceTick      = new Tick(Random.Range(15f, 20f), Tick.TickType.TT_DARK, new AmbientDarkVoiceSpawn());
-            aTeleportingEntTick = new Tick(Random.Range(120f, 165f), Tick.TickType.TT_DARK | Tick.TickType.TT_LIGHT, new AmbientTeleEntSpawn());
+            aTeleportingManTick = new Tick(Random.Range(120f, 165f), Tick.TickType.TT_DARK | Tick.TickType.TT_LIGHT, new AmbientTeleEntSpawn());
+            aParalyzerTick      = new Tick(Random.Range(30f, 75f), Tick.TickType.TT_DARK, new Paralysis());
 
             // Visual tick initialization
             vShadowManTick      = new Tick(Random.Range(90f, 125f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new ShadowSpawn());
@@ -305,18 +312,18 @@ namespace NotEnoughPhotons.Paranoia.Managers
 
         private void InitializeEntities()
 		{
-            _radioClone = GameObject.Instantiate(radioObject);
+            radioClone = GameObject.Instantiate(radioObject);
             monitorClone = GameObject.Instantiate(monitorObject);
 
             SetupHallucinations();
 
-            _radioSource = _radioClone.GetComponentInChildren<AudioSource>();
+            _radioSource = radioClone.GetComponentInChildren<AudioSource>();
             MonitorVideo monitorVideo = monitorClone.AddComponent<MonitorVideo>();
             monitorVideo.clips = clipList;
 
             CursedDoorController cursedDoorCtrlr = cursedDoorClone.AddComponent<CursedDoorController>();
 
-            _radioClone.SetActive(false);
+            radioClone.SetActive(false);
             monitorClone.SetActive(false);
         }
 
@@ -329,7 +336,7 @@ namespace NotEnoughPhotons.Paranoia.Managers
         {
             GameObject chaserAudio, darkVoiceAudio, shadowManClone,
                        shadowManChaserClone, ceilingManClone, staringManClone,
-                       observerClone, teleportingEntityClone;
+                       observerClone, teleportingEntityClone, paralyzerEntityClone;
 
             chaserAudio = new GameObject("ChaserMirage");
             darkVoiceAudio = new GameObject("DarkVoice");
@@ -339,14 +346,17 @@ namespace NotEnoughPhotons.Paranoia.Managers
             staringManClone = SpawnPrefab(staringMan);
             observerClone = SpawnPrefab(observer);
             teleportingEntityClone = SpawnPrefab(teleportingEntity);
+            paralyzerEntityClone = SpawnPrefab(paralyzerEntity);
 
             cursedDoorClone = SpawnPrefab(cursedDoorObject);
 
             chaserAudio.AddComponent<AudioSource>();
             darkVoiceAudio.AddComponent<AudioSource>();
+            paralyzerEntityClone.AddComponent<AudioSource>();
             _hChaser = chaserAudio.AddComponent<AudioHallucination>();
             _hDarkVoice = darkVoiceAudio.AddComponent<AudioHallucination>();
             _hTeleportingEntity = teleportingEntityClone.AddComponent<AudioHallucination>();
+            _hParalyzer = paralyzerEntityClone.AddComponent<AudioHallucination>();
             
             _hShadowPerson = shadowManClone.AddComponent<BaseHallucination>();
             _hShadowPersonChaser = shadowManChaserClone.AddComponent<BaseHallucination>();
@@ -358,6 +368,7 @@ namespace NotEnoughPhotons.Paranoia.Managers
             _hChaser.clips = Paranoia.instance.chaserAmbience.ToArray();
             _hDarkVoice.clips = Paranoia.instance.darkVoices.ToArray();
             _hTeleportingEntity.clips = Paranoia.instance.teleporterAmbience.ToArray();
+            _hParalyzer.clips = Paranoia.instance.paralyzerAmbience.ToArray();
             
             _hStaringMan.spawnPoints = staringManSpawns;
             _hCeilingMan.spawnPoints = ceilingManSpawns;
@@ -379,6 +390,7 @@ namespace NotEnoughPhotons.Paranoia.Managers
             _hChaser.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/Chaser.json"));
             _hDarkVoice.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/DarkVoice.json"));
             _hTeleportingEntity.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/TeleportingEntity.json"));
+            _hParalyzer.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/TeleportingEntity.json"));
         }
 
         private void Update()

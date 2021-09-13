@@ -22,7 +22,37 @@ namespace NotEnoughPhotons.Paranoia.Utilities
     {
         public static HMDType GetHMD()
         {
-            return (HMDType)Enum.Parse(typeof(HMDType), SteamVR.instance.hmd_ModelNumber);
+            HMDType hmdModel;
+
+            switch (SteamVR.instance.hmd_ModelNumber)
+            {
+                case "Index":
+                    hmdModel = HMDType.Index;
+                    break;
+                case "Vive":
+                    hmdModel = HMDType.Vive;
+                    break;
+                case "VIVE_Pro MV":
+                    hmdModel = HMDType.VivePro;
+                    break;
+                case "vive_cosmos":
+                    hmdModel = HMDType.ViveCosmos;
+                    break;
+                case "Oculus Quest":
+                    hmdModel = HMDType.Quest;
+                    break;
+                case "Oculus Rift CV1":
+                    hmdModel = HMDType.Rift;
+                    break;
+                case "Oculus Rift S":
+                    hmdModel = HMDType.RiftS;
+                    break;
+                default:
+                    hmdModel = HMDType.Unknown;
+                    break;
+            }
+
+            return hmdModel;
         }
 
         public static Transform FindHead()

@@ -7,7 +7,7 @@
     <ProjectGuid>{788BC472-59F7-46F6-B760-65C18BA74389}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Paranoia</RootNamespace>
+    <RootNamespace>NotEnoughPhotons.Paranoia</RootNamespace>
     <AssemblyName>Paranoia</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -97,6 +97,7 @@
     <Compile Include="Scripts\Managers\AudioManager.cs" />
     <Compile Include="Scripts\Entities\BaseHallucination.cs" />
     <Compile Include="Scripts\Entities\CursedDoorController.cs" />
+    <Compile Include="Scripts\TickEvents\Events\Player\Paralysis.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\ChangeRNG.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\DisableNimbus.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\DisableWasp.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Scripts\TickEvents\Mirages\Ambient\AmbientAudioSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Hallucinations\ObserverSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Hallucinations\CeilingManSpawn.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\Hallucinations\AmbientParalyzerSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Hallucinations\StaringManSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Hallucinations\ShadowSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Ambient\AmbientTeleEntSpawn.cs" />
@@ -129,7 +131,9 @@
     <Compile Include="Scripts\Entities\SpawnCircle.cs" />
     <Compile Include="Scripts\PBillboard.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Scripts\TickEvents\Events\VFX\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>COPY "$(TargetPath)" "E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\Mods"

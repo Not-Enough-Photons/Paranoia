@@ -5,6 +5,11 @@
         None,
         Index,
         Vive,
-        Oculus
+        VivePro,
+        ViveCosmos,
+        Rift,
+        RiftS,
+        Quest,
+        Unknown
     }
-}
+} 

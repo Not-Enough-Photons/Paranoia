@@ -3,6 +3,11 @@ using NotEnoughPhotons.Paranoia.Utilities;
 using NotEnoughPhotons.Paranoia.Managers;
 using UnityEngine;
 
+using StressLevelZero.AI;
+using PuppetMasta;
+
+using UnhollowerBaseLib;
+
 namespace NotEnoughPhotons.Paranoia.TickEvents.Events
 {
     public class MoveAIToPlayer : ParanoiaEvent
@@ -11,11 +16,11 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
         {
             try
             {
-                if (GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>() != null)
+                if (GameObject.FindObjectsOfType<AIBrain>() != null)
                 {
-                    UnhollowerBaseLib.Il2CppArrayBase<StressLevelZero.AI.AIBrain> brains = GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>();
+                    Il2CppArrayBase<AIBrain> brains = GameObject.FindObjectsOfType<AIBrain>();
 
-                    foreach (StressLevelZero.AI.AIBrain brain in brains)
+                    foreach (AIBrain brain in brains)
                     {
                         Transform t = brain.transform;
                         MelonCoroutines.Start(CoMoveAIToPlayer(t));
@@ -30,21 +35,23 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
 
         private System.Collections.IEnumerator CoMoveAIToPlayer(Transform ai)
         {
-            if (ParanoiaGameManager.instance.playerTrigger != null)
+            ParanoiaGameManager manager = ParanoiaGameManager.instance;
+
+            if (manager.playerTrigger != null)
             {
-                if (ai.GetComponentInParent<StressLevelZero.AI.AIBrain>() != null)
+                if (ai.GetComponentInParent<AIBrain>() != null)
                 {
-                    Transform parent = ai.GetComponentInParent<StressLevelZero.AI.AIBrain>().transform;
-                    PuppetMasta.BehaviourBaseNav baseNav = parent.GetComponentInChildren<PuppetMasta.BehaviourBaseNav>();
+                    Transform parent = ai.GetComponentInParent<AIBrain>().transform;
+                    BehaviourBaseNav baseNav = parent.GetComponentInChildren<BehaviourBaseNav>();
 
                     baseNav.sensors.hearingSensitivity = 0f;
                     baseNav.sensors.visionFov = 0f;
                     baseNav.sensors._visionSphere.enabled = false;
                     baseNav.breakAgroHomeDistance = 0f;
 
-                    if (baseNav.mentalState != PuppetMasta.BehaviourBaseNav.MentalState.Rest)
+                    if (baseNav.mentalState != BehaviourBaseNav.MentalState.Rest)
                     {
-                        baseNav.SwitchMentalState(PuppetMasta.BehaviourBaseNav.MentalState.Rest);
+                        baseNav.SwitchMentalState(BehaviourBaseNav.MentalState.Rest);
                     }
 
                     baseNav.SetHomePosition(ParanoiaUtilities.FindPlayer().position, true);

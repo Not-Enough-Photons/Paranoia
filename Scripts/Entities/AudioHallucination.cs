@@ -20,7 +20,8 @@ namespace NotEnoughPhotons.Paranoia.Entities
             Chaser,
             Ambient,
             Darkness,
-            Teleporting
+            Teleporting,
+            Paralyzer
         }
 
         public AuditoryType auditoryType;

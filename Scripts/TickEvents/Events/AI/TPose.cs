@@ -5,16 +5,22 @@ using System.Linq;
 
 using UnityEngine;
 
+using UnhollowerBaseLib;
+using StressLevelZero.AI;
+using StressLevelZero.Combat;
+
 namespace NotEnoughPhotons.Paranoia.TickEvents.Events
 {
     public class TPose : ParanoiaEvent
     {
         public override void Start()
         {
-            if (ParanoiaGameManager.instance.insanity > 1)
+            ParanoiaGameManager manager = ParanoiaGameManager.instance;
+
+            if (manager.insanity > 1)
             {
-                Transform playerTrigger = ParanoiaGameManager.instance.playerTrigger;
-                int rng = ParanoiaGameManager.instance.rng;
+                Transform playerTrigger = manager.playerTrigger;
+                int rng = manager.rng;
                 bool isRareNumber = rng >= 20 && rng <= 29 || rng >= 25 && rng <= 30;
 
                 if (isRareNumber)
@@ -23,9 +29,9 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
                     {
                         try
                         {
-                            UnhollowerBaseLib.Il2CppArrayBase<StressLevelZero.AI.AIBrain> brains = GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>();
+                            Il2CppArrayBase<AIBrain> brains = GameObject.FindObjectsOfType<AIBrain>();
 
-                            foreach (StressLevelZero.AI.AIBrain brain in brains)
+                            foreach (AIBrain brain in brains)
                             {
                                 Transform t = brain.transform;
 
@@ -39,8 +45,8 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
                                         physicsGrp.gameObject.SetActive(false);
                                         aiGrp.gameObject.SetActive(false);
 
-                                        t.GetComponent<StressLevelZero.Combat.VisualDamageController>().enabled = false;
-                                        t.GetComponent<StressLevelZero.AI.AIBrain>().enabled = false;
+                                        t.GetComponent<VisualDamageController>().enabled = false;
+                                        t.GetComponent<AIBrain>().enabled = false;
                                         t.GetComponent<Arena_EnemyReference>().enabled = false;
 
                                         if (t.Find("Physics/Root_M/Spine_M/Chest_M/Head_M/Jaw_M/Head_JawEndSHJnt") != null)
@@ -78,7 +84,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
         {
             yield return new WaitForSeconds(seconds);
 
-            UnhollowerBaseLib.Il2CppArrayBase<StressLevelZero.AI.AIBrain> brains = GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>();
+            Il2CppArrayBase<AIBrain> brains = GameObject.FindObjectsOfType<AIBrain>();
 
             for (int i = 0; i < brains.Count; i++)
             {
@@ -89,8 +95,8 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
                 physicsGrp.gameObject.SetActive(true);
                 aiGrp.gameObject.SetActive(true);
 
-                t.GetComponent<StressLevelZero.Combat.VisualDamageController>().enabled = true;
-                t.GetComponent<StressLevelZero.AI.AIBrain>().enabled = true;
+                t.GetComponent<VisualDamageController>().enabled = true;
+                t.GetComponent<AIBrain>().enabled = true;
                 t.GetComponent<Arena_EnemyReference>().enabled = true;
 
                 if (t.Find("Physics/Root_M/Spine_M/Chest_M/Head_M/Jaw_M/Head_JawEndSHJnt") != null)
