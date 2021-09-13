@@ -1,15 +1,15 @@
 ﻿using System.Reflection;
 using MelonLoader;
 
-[assembly: AssemblyTitle(NotEnoughPhotons.Paranoia.BuildInfo.Description)]
-[assembly: AssemblyDescription(NotEnoughPhotons.Paranoia.BuildInfo.Description)]
-[assembly: AssemblyCompany(NotEnoughPhotons.Paranoia.BuildInfo.Company)]
-[assembly: AssemblyProduct(NotEnoughPhotons.Paranoia.BuildInfo.Name)]
-[assembly: AssemblyCopyright("Created by " + NotEnoughPhotons.Paranoia.BuildInfo.Author)]
-[assembly: AssemblyTrademark(NotEnoughPhotons.Paranoia.BuildInfo.Company)]
-[assembly: AssemblyVersion(NotEnoughPhotons.Paranoia.BuildInfo.Version)]
-[assembly: AssemblyFileVersion(NotEnoughPhotons.Paranoia.BuildInfo.Version)]
-[assembly: MelonInfo(typeof(NotEnoughPhotons.Paranoia.Paranoia), NotEnoughPhotons.Paranoia.BuildInfo.Name, NotEnoughPhotons.Paranoia.BuildInfo.Version, NotEnoughPhotons.Paranoia.BuildInfo.Author, NotEnoughPhotons.Paranoia.BuildInfo.DownloadLink)]
+[assembly: AssemblyTitle(NEP.Paranoia.BuildInfo.Description)]
+[assembly: AssemblyDescription(NEP.Paranoia.BuildInfo.Description)]
+[assembly: AssemblyCompany(NEP.Paranoia.BuildInfo.Company)]
+[assembly: AssemblyProduct(NEP.Paranoia.BuildInfo.Name)]
+[assembly: AssemblyCopyright("Created by " + NEP.Paranoia.BuildInfo.Author)]
+[assembly: AssemblyTrademark(NEP.Paranoia.BuildInfo.Company)]
+[assembly: AssemblyVersion(NEP.Paranoia.BuildInfo.Version)]
+[assembly: AssemblyFileVersion(NEP.Paranoia.BuildInfo.Version)]
+[assembly: MelonInfo(typeof(NEP.Paranoia.Paranoia), NEP.Paranoia.BuildInfo.Name, NEP.Paranoia.BuildInfo.Version, NEP.Paranoia.BuildInfo.Author, NEP.Paranoia.BuildInfo.DownloadLink)]
 [assembly: MelonColor(System.ConsoleColor.DarkGray)]
 
 // Create and Setup a MelonGame Attribute to mark a Melon as Universal or Compatible with specific Games.

@@ -1,6 +1,6 @@
 ﻿using MelonLoader;
 using ModThatIsNotMod.RandomShit;
-using NotEnoughPhotons.Paranoia.Utilities;
+using NEP.Paranoia.Utilities;
 using NEP.Paranoia.Managers;
 using UnityEngine;
 

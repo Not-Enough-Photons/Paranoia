@@ -176,7 +176,6 @@ namespace NEP.Paranoia.Utilities
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ParanoiaGameManager>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<CursedDoorController>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<PBillboard>();
         }
     }
 

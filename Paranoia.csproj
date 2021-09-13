@@ -7,7 +7,7 @@
     <ProjectGuid>{788BC472-59F7-46F6-B760-65C18BA74389}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NotEnoughPhotons.Paranoia</RootNamespace>
+    <RootNamespace>NEP.Paranoia</RootNamespace>
     <AssemblyName>Paranoia</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -103,6 +103,7 @@
     <Compile Include="Scripts\TickEvents\Events\Player\DisableWasp.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\DropHeadItem.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\KillAI.cs" />
+    <Compile Include="Scripts\TickEvents\Events\World\CursedDoorSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\LightFlickering.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\MoveAIToPlayer.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\MoveAIToRadio.cs" />
@@ -129,7 +130,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Scripts\Entities\SpawnCircle.cs" />
-    <Compile Include="Scripts\PBillboard.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\TickEvents\Events\VFX\" />

@@ -4,7 +4,7 @@ using System.Linq;
 
 using ModThatIsNotMod.BoneMenu;
 
-using NotEnoughPhotons.Paranoia.Entities;
+using NEP.Paranoia.Entities;
 
 using NEP.Paranoia.TickEvents;
 using NEP.Paranoia.TickEvents.Events;
@@ -194,6 +194,7 @@ namespace NEP.Paranoia.Managers
         private Tick eTPoseTick;
         private Tick eRadioTick;
         private Tick eMonitorTick;
+        private Tick eCursedDoorTick;
         private Tick eFirstRadioTick;
         private Tick eAIOriginTick;
         private Tick eKillAllTick;
@@ -298,6 +299,7 @@ namespace NEP.Paranoia.Managers
             
             // Event tick initialization
             eTPoseTick          = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new TPose());
+            eCursedDoorTick     = new Tick(90f, Tick.TickType.TT_LIGHT, new CursedDoorSpawn());
             eRadioTick          = new Tick(190f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnRadio());
             eMonitorTick        = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnMonitor());
             eAIOriginTick       = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new MoveAIToPlayer());
@@ -386,11 +388,12 @@ namespace NEP.Paranoia.Managers
             _hCeilingMan.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/CeilingMan.json"));
             _hStaringMan.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/StaringMan.json"));
             _hObserver.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/Observer.json"));
+            _hCursedDoor.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/CursedDoor.json"));
 
             _hChaser.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/Chaser.json"));
             _hDarkVoice.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/DarkVoice.json"));
             _hTeleportingEntity.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/TeleportingEntity.json"));
-            _hParalyzer.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/TeleportingEntity.json"));
+            _hParalyzer.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/Paralyzer.json"));
         }
 
         private void Update()
@@ -417,27 +420,6 @@ namespace NEP.Paranoia.Managers
             tmp.text = "TURN AROUND. NOT IN GAME.";
             tmp.old_text = "TURN AROUND. NOT IN GAME.";
             tmp.m_text = tmp.text;
-        }
-
-        internal IEnumerator CoFlickerMapGeometry(int iterations)
-        {
-            List<GameObject> staticObjects = ParanoiaUtilities.FindGameObjectsWithLayer("Static");
-
-            for (int j = 0; j < iterations; j++)
-            {
-                int random = iterations * Random.RandomRange(1, 300);
-
-                if ((j * random) * iterations % 2 == 0)
-                {
-                    staticObjects[Random.Range(0, staticObjects.Count)].SetActive(false);
-                }
-                else
-                {
-                    staticObjects[Random.Range(0, staticObjects.Count)].SetActive(true);
-                }
-            }
-
-            yield return null;
         }
 
         internal IEnumerator CoMoveAIToPoint(Transform ai, Vector3 point, bool fallThroughWorld)

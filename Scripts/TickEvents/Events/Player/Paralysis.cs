@@ -2,8 +2,8 @@
 
 using StressLevelZero.Rig;
 
-using NotEnoughPhotons.Paranoia.TickEvents.Mirages;
-using NotEnoughPhotons.Paranoia.Managers;
+using NEP.Paranoia.TickEvents.Mirages;
+using NEP.Paranoia.Managers;
 
 namespace NEP.Paranoia.TickEvents.Events
 {

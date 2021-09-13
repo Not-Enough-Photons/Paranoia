@@ -16,7 +16,7 @@ namespace NEP.Paranoia.Entities
         {
             base.Awake();
 
-            faceTransform = transform.Find("scaler/Art/Face");
+            faceTransform = transform.Find("GameObject/scaler/Art/Face");
             initialFaceSpawn = faceTransform.position;
             faceMaterial = faceTransform.GetComponent<MeshRenderer>().material;
         }
