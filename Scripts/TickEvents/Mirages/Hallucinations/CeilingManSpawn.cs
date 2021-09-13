@@ -2,11 +2,11 @@
 
 namespace NotEnoughPhotons.Paranoia.TickEvents.Mirages
 {
-    public class StaringManSpawn : ParanoiaEvent
+    public class CeilingManSpawn : ParanoiaEvent
     {
         public override void Start()
         {
-            //ParanoiaGameManager.instance.hStaringMan.gameObject.SetActive(true);
+            ParanoiaGameManager.instance.hCeilingMan.gameObject.SetActive(true);
         }
     }
 }

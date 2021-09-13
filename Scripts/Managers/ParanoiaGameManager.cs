@@ -199,29 +199,6 @@ namespace NotEnoughPhotons.Paranoia.Managers
 
         private Tick rngGeneratorTick;
 
-        private ParanoiaEvent ambientAudioSpawn;
-        private ParanoiaEvent ambientChaserSpawn;
-        private ParanoiaEvent ambientDarkVoiceSpawn;
-        private ParanoiaEvent ambientTeleEntSpawn;
-
-        private ParanoiaEvent shadowSpawn;
-        private ParanoiaEvent staringManSpawn;
-        private ParanoiaEvent ceilingManSpawn;
-        private ParanoiaEvent observerSpawn;
-
-        private ParanoiaEvent changeRNG;
-        private ParanoiaEvent disableNimbus;
-        private ParanoiaEvent disableWasp;
-        private ParanoiaEvent dropHeadItem;
-        private ParanoiaEvent killAI;
-        private ParanoiaEvent lightFlickering;
-        private ParanoiaEvent moveAIToPlayer;
-        private ParanoiaEvent moveAIToRadio;
-        private ParanoiaEvent spawnFirstRadio;
-        private ParanoiaEvent spawnMonitor;
-        private ParanoiaEvent spawnRadio;
-        private ParanoiaEvent tPose;
-
         private bool _firstRadioSpawn = false;
         public bool firstRadioSpawn { get { return _firstRadioSpawn; } }
 
@@ -295,28 +272,16 @@ namespace NotEnoughPhotons.Paranoia.Managers
             _bakedProbes = LightmapSettings.lightProbes.bakedProbes;
         }
 
-        private void InitializeEvents()
-        {
-            ambientAudioSpawn = new AmbientAudioSpawn();
-            ambientChaserSpawn = new AmbientChaserSpawn();
-            ambientDarkVoiceSpawn = new AmbientDarkVoiceSpawn();
-            ambientTeleEntSpawn = new AmbientTeleEntSpawn();
-
-
-        }
-
         private void InitializeTicks()
         {
             ticks = new List<Tick>();
             darkTicks = new List<Tick>();
 
-            InitializeEvents();
-
             // Audio tick initialization
-            aAmbienceTick       = new Tick(Random.Range(60f, 95f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, ambientAudioSpawn);
-            aChaserTick         = new Tick(Random.Range(90f, 125f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, ambientChaserSpawn);
-            aDarkVoiceTick      = new Tick(Random.Range(15f, 20f), Tick.TickType.TT_DARK, ambientDarkVoiceSpawn);
-            aTeleportingEntTick = new Tick(Random.Range(120f, 165f), Tick.TickType.TT_DARK | Tick.TickType.TT_LIGHT, ambientTeleEntSpawn);
+            aAmbienceTick       = new Tick(Random.Range(60f, 95f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new AmbientAudioSpawn());
+            aChaserTick         = new Tick(Random.Range(90f, 125f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new AmbientChaserSpawn());
+            aDarkVoiceTick      = new Tick(Random.Range(15f, 20f), Tick.TickType.TT_DARK, new AmbientDarkVoiceSpawn());
+            aTeleportingEntTick = new Tick(Random.Range(120f, 165f), Tick.TickType.TT_DARK | Tick.TickType.TT_LIGHT, new AmbientTeleEntSpawn());
 
             // Visual tick initialization
             vShadowManTick      = new Tick(Random.Range(90f, 125f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new ShadowSpawn());
@@ -328,7 +293,7 @@ namespace NotEnoughPhotons.Paranoia.Managers
             eTPoseTick          = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new TPose());
             eRadioTick          = new Tick(190f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnRadio());
             eMonitorTick        = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnMonitor());
-            eFirstRadioTick     = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, spawnFirstRadio);
+            eFirstRadioTick     = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnFirstRadio());
             eAIOriginTick       = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new MoveAIToPlayer());
             eKillAllTick        = new Tick(240f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new KillAI());
             eItemDropTick       = new Tick(15f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new DropHeadItem());
