@@ -20,7 +20,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
 
         private System.Collections.IEnumerator CoLightFlicker()
         {
-            int iterations = Random.Range(2, 5);
+            /*int iterations = Random.Range(2, 5);
             int rng = ParanoiaGameManager.instance.rng;
             int i = 0;
             bool isOn = false;
@@ -69,7 +69,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
             {
                 ParanoiaGameManager.instance.SetIsDark(true);
             }
-
+            */
             yield return null;
         }
     }

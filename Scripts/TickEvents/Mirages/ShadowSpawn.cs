@@ -6,7 +6,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Mirages
     {
         public override void Start()
         {
-            int rng = ParanoiaGameManager.instance.rng;
+            /*int rng = ParanoiaGameManager.instance.rng;
 
             if (rng >= 25 || rng <= 30)
             {
@@ -15,7 +15,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Mirages
             else
             {
                 ParanoiaGameManager.instance.hShadowPerson.gameObject.SetActive(true);
-            }
+            }*/
         }
     }
 }

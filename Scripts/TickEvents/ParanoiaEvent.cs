@@ -1,4 +1,6 @@
-﻿namespace NotEnoughPhotons.Paranoia.TickEvents
+﻿using UnityEngine;
+
+namespace NotEnoughPhotons.Paranoia.TickEvents
 {
     public class ParanoiaEvent
     {

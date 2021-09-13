@@ -121,59 +121,59 @@ namespace NotEnoughPhotons.Paranoia.Managers
         };
 
         private Transform _playerTrigger;
-        public Transform playerTrigger { get { return playerTrigger; } }
+        public Transform playerTrigger { get { return _playerTrigger; } }
 
         private Transform playerHead;
-
+        
         private AudioManager _audioManager;
-        public AudioManager audioManager { get { return audioManager; } }
-
+        public AudioManager audioManager { get { return _audioManager; } }
+        
         // Hallucinations
         private List<BaseHallucination> baseHallucinations;
         private List<AudioHallucination> audioHallucinations;
-
+        
         private AudioHallucination _hChaser;
         public AudioHallucination hChaser { get => _hChaser; }
-
+        
         private AudioHallucination _hDarkVoice;
         public AudioHallucination hDarkVoice { get => _hDarkVoice; }
-
+        
         private AudioHallucination _hTeleportingEntity;
         public AudioHallucination hTeleportingEntity { get => _hTeleportingEntity; }
-
+        
         private BaseHallucination _hCeilingMan;
         public BaseHallucination hCeilingMan { get => _hCeilingMan; }
-
+        
         private BaseHallucination _hStaringMan;
         public BaseHallucination hStaringMan { get => _hStaringMan; }
-
+        
         private BaseHallucination _hShadowPerson;
         public BaseHallucination hShadowPerson { get => _hShadowPerson; }
-
+        
         private BaseHallucination _hShadowPersonChaser;
         public BaseHallucination hShadowPersonChaser { get => _hShadowPersonChaser; }
-
+        
         private BaseHallucination _hObserver;
         public BaseHallucination hObserver { get => _hObserver; }
-
+        
         private BaseHallucination _hCursedDoor;
         public BaseHallucination hCursedDoor { get => _hCursedDoor; }
-
+        
         private VLB.VolumetricLightBeam _lightBeam;
         public VLB.VolumetricLightBeam lightBeam { get { return _lightBeam; } }
-
+        
         private Light blankBoxLight;
         private GameObject flashlightObject;
-
+        
         private GameObject _radioClone;
         public GameObject radioClone { get { return _radioClone; } }
-
+        
         private GameObject monitorClone;
         private GameObject cursedDoorClone;
-
+        
         private AudioSource _radioSource;
         public AudioSource radioSource { get { return _radioSource; } }
-
+        
         // Audio ticks
         private Tick aAmbienceTick;
         private Tick aChaserTick;
@@ -198,6 +198,29 @@ namespace NotEnoughPhotons.Paranoia.Managers
         private Tick eMapGeoFlickerTick;
 
         private Tick rngGeneratorTick;
+
+        private ParanoiaEvent ambientAudioSpawn;
+        private ParanoiaEvent ambientChaserSpawn;
+        private ParanoiaEvent ambientDarkVoiceSpawn;
+        private ParanoiaEvent ambientTeleEntSpawn;
+
+        private ParanoiaEvent shadowSpawn;
+        private ParanoiaEvent staringManSpawn;
+        private ParanoiaEvent ceilingManSpawn;
+        private ParanoiaEvent observerSpawn;
+
+        private ParanoiaEvent changeRNG;
+        private ParanoiaEvent disableNimbus;
+        private ParanoiaEvent disableWasp;
+        private ParanoiaEvent dropHeadItem;
+        private ParanoiaEvent killAI;
+        private ParanoiaEvent lightFlickering;
+        private ParanoiaEvent moveAIToPlayer;
+        private ParanoiaEvent moveAIToRadio;
+        private ParanoiaEvent spawnFirstRadio;
+        private ParanoiaEvent spawnMonitor;
+        private ParanoiaEvent spawnRadio;
+        private ParanoiaEvent tPose;
 
         private bool _firstRadioSpawn = false;
         public bool firstRadioSpawn { get { return _firstRadioSpawn; } }
@@ -242,7 +265,7 @@ namespace NotEnoughPhotons.Paranoia.Managers
 			}
 			else
 			{
-                Destroy(gameObject);
+                Destroy(instance.gameObject);
 			}
         }
 
@@ -254,8 +277,6 @@ namespace NotEnoughPhotons.Paranoia.Managers
             InitializeTicks();
 
             InitializeEntities();
-
-            InitializeSettings();
 
             _audioManager = FindObjectOfType<AudioManager>();
 
@@ -274,13 +295,14 @@ namespace NotEnoughPhotons.Paranoia.Managers
             _bakedProbes = LightmapSettings.lightProbes.bakedProbes;
         }
 
-        private void InitializeSettings()
+        private void InitializeEvents()
         {
-            MenuCategory mainCategory = MenuManager.CreateCategory("Paranoia", Color.gray);
-            MenuCategory optionsMenu = mainCategory.CreateSubCategory("Options", Color.cyan);
-            MenuCategory debugMenu = mainCategory.CreateSubCategory("Debug", Color.red);
+            ambientAudioSpawn = new AmbientAudioSpawn();
+            ambientChaserSpawn = new AmbientChaserSpawn();
+            ambientDarkVoiceSpawn = new AmbientDarkVoiceSpawn();
+            ambientTeleEntSpawn = new AmbientTeleEntSpawn();
 
-            optionsMenu.CreateBoolElement("Debug Mode", Color.blue, debug, null);
+
         }
 
         private void InitializeTicks()
@@ -288,30 +310,32 @@ namespace NotEnoughPhotons.Paranoia.Managers
             ticks = new List<Tick>();
             darkTicks = new List<Tick>();
 
+            InitializeEvents();
+
             // Audio tick initialization
-            aAmbienceTick       = new Tick(Random.Range(60f, 95f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new AmbientAudioSpawn());
-            aChaserTick         = new Tick(Random.Range(90f, 125f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new AmbientChaserSpawn());
-            aDarkVoiceTick      = new Tick(Random.Range(15f, 20f), Tick.TickType.TT_DARK, new AmbientDarkVoiceSpawn());
-            aTeleportingEntTick = new Tick(Random.Range(120f, 165f), Tick.TickType.TT_DARK | Tick.TickType.TT_LIGHT, new AmbientTeleEntSpawn());
+            aAmbienceTick       = new Tick(Random.Range(60f, 95f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, ambientAudioSpawn);
+            aChaserTick         = new Tick(Random.Range(90f, 125f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, ambientChaserSpawn);
+            aDarkVoiceTick      = new Tick(Random.Range(15f, 20f), Tick.TickType.TT_DARK, ambientDarkVoiceSpawn);
+            aTeleportingEntTick = new Tick(Random.Range(120f, 165f), Tick.TickType.TT_DARK | Tick.TickType.TT_LIGHT, ambientTeleEntSpawn);
 
             // Visual tick initialization
             vShadowManTick      = new Tick(Random.Range(90f, 125f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new ShadowSpawn());
             vStaringManTick     = new Tick(Random.Range(180f, 210f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new StaringManSpawn());
             vCeilingManTick     = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new CeilingManSpawn());
             vObserverTick       = new Tick(360f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new ObserverSpawn());
-
+            
             // Event tick initialization
             eTPoseTick          = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new TPose());
             eRadioTick          = new Tick(190f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnRadio());
             eMonitorTick        = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnMonitor());
-            eFirstRadioTick     = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnFirstRadio());
+            eFirstRadioTick     = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, spawnFirstRadio);
             eAIOriginTick       = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new MoveAIToPlayer());
             eKillAllTick        = new Tick(240f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new KillAI());
             eItemDropTick       = new Tick(15f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new DropHeadItem());
             eLightFlickerTick   = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new LightFlickering());
-            //eMapGeoFlickerTick  = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-
-            // Global tick initialization
+            eMapGeoFlickerTick  = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
+            
+            //// Global tick initialization
             rngGeneratorTick    = new Tick(1f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new ChangeRNG());
         }
 
@@ -395,7 +419,7 @@ namespace NotEnoughPhotons.Paranoia.Managers
 
         private void Update()
         {
-			if (Paranoia.instance.isBlankBox)
+			/*if (Paranoia.instance.isBlankBox)
 			{
                 playerCircle.CalculatePlayerCircle(0f);
 
@@ -407,7 +431,7 @@ namespace NotEnoughPhotons.Paranoia.Managers
                 {
                     for (int i = 0; i < darkTicks.Count; i++) { darkTicks[i].Update(); }
                 }
-            }
+            }*/
         }
 
         internal void ChangeClipboardText()

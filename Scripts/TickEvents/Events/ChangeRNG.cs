@@ -6,7 +6,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            ParanoiaGameManager.instance.SetRNG(UnityEngine.Random.Range(25, 300));
+            //ParanoiaGameManager.instance.SetRNG(UnityEngine.Random.Range(25, 300));
         }
     }
 }

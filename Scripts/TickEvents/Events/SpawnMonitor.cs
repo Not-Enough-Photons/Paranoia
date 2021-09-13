@@ -8,7 +8,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            //if (firstRadioSpawn) { return; }
+            /*if (firstRadioSpawn) { return; }
 
             GameObject monitorClone = ParanoiaGameManager.instance.monitorObject;
 
@@ -18,7 +18,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
 
             monitorClone.SetActive(true);
 
-            ParanoiaGameManager.instance.insanity++;
+            ParanoiaGameManager.instance.insanity++;*/
         }
     }
 }

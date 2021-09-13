@@ -6,7 +6,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Mirages
     {
         public override void Start()
         {
-            ParanoiaGameManager.instance.hStaringMan.gameObject.SetActive(true);
+            //ParanoiaGameManager.instance.hStaringMan.gameObject.SetActive(true);
         }
     }
 }

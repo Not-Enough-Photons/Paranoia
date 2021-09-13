@@ -11,7 +11,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            if (ParanoiaGameManager.instance.insanity > 1)
+            /*if (ParanoiaGameManager.instance.insanity > 1)
             {
                 Transform playerTrigger = ParanoiaGameManager.instance.playerTrigger;
                 int rng = ParanoiaGameManager.instance.rng;
@@ -71,7 +71,7 @@ namespace NotEnoughPhotons.Paranoia.TickEvents.Events
                 {
                     return;
                 }
-            }
+            }*/
         }
 
         private System.Collections.IEnumerator CoResetTPosedEnemies(float seconds)

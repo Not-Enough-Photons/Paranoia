@@ -29,7 +29,7 @@ namespace NotEnoughPhotons.Paranoia.Entities
             if(clips == null) { return; }
             if(player == null) { return; }
 
-            player.clip = clips[ParanoiaGameManager.instance.insanity];
+            //player.clip = clips[ParanoiaGameManager.instance.insanity];
             MelonLoader.MelonCoroutines.Start(CoHideMonitor());
         }
 
