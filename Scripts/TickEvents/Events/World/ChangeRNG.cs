@@ -1,6 +1,6 @@
-﻿using NotEnoughPhotons.Paranoia.Managers;
+﻿using NEP.Paranoia.Managers;
 
-namespace NotEnoughPhotons.Paranoia.TickEvents.Events
+namespace NEP.Paranoia.TickEvents.Events
 {
     public class ChangeRNG : ParanoiaEvent
     {

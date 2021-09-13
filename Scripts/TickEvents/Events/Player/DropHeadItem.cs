@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace NotEnoughPhotons.Paranoia.TickEvents.Events
+namespace NEP.Paranoia.TickEvents.Events
 {
     public class DropHeadItem : ParanoiaEvent
     {
