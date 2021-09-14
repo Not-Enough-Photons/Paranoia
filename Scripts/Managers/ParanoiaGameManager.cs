@@ -244,7 +244,7 @@ namespace NEP.Paranoia.Managers
 
             Tick generated = settings.minRange == 0f && settings.maxRange == 0f
                 ? new Tick(settings.tickName, settings.tick, settings.maxTick, tickType, ctorEvent)
-                : new Tick(settings.tickName, settings.minRange, settings.maxRange, tickType, ctorEvent);
+                : new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, tickType, ctorEvent);
 
             if(tickType == TickType.Any)
             {
