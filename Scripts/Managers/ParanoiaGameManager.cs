@@ -256,8 +256,6 @@ namespace NEP.Paranoia.Managers
             MonitorVideo monitorVideo = monitorClone.AddComponent<MonitorVideo>();
             monitorVideo.clips = clipList;
 
-            CursedDoorController cursedDoorCtrlr = cursedDoorClone.AddComponent<CursedDoorController>();
-
             radioClone.SetActive(false);
             monitorClone.SetActive(false);
         }

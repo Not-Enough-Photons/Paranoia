@@ -16,7 +16,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
             monitorClone.SetActive(true);
 
-            ParanoiaGameManager.instance.insanity++;
+            ParanoiaGameManager.instance.AddInsanity(0.25f);
         }
     }
 }

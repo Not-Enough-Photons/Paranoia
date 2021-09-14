@@ -40,6 +40,8 @@ namespace NEP.Paranoia
 		internal List<AudioClip> teleporterAmbience;
 		internal List<AudioClip> paralyzerAmbience;
 		internal List<AudioClip> watcherAmbience;
+		internal List<AudioClip> doorIdleSounds;
+		internal List<AudioClip> doorOpenSounds;
 		internal List<AudioClip> darkVoices;
 		internal List<AudioClip> radioTunes;
 
@@ -141,10 +143,12 @@ namespace NEP.Paranoia
 				screamAmbience = new List<AudioClip>();
 				chaserAmbience = new List<AudioClip>();
 				watcherAmbience = new List<AudioClip>();
+				doorIdleSounds = new List<AudioClip>();
+				doorOpenSounds = new List<AudioClip>();
 				teleporterAmbience = new List<AudioClip>();
 				paralyzerAmbience = new List<AudioClip>();
 				darkVoices = new List<AudioClip>();
-				radioTunes = new List<AudioClip>();
+				radioTunes = new List<AudioClip>();	
 
 				videoClips = new List<VideoClip>();
 			}
@@ -235,45 +239,47 @@ namespace NEP.Paranoia
 
 		private void PrecacheAudioAssets()
 		{
-			for (int i = 0; i < bundle.LoadAllAssets().Count; i++)
+			string[] nameLUT = new string[]
 			{
-				if (bundle.LoadAllAssets()[i].name.StartsWith("amb_generic"))
-				{
-					genericAmbience.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
-				}
-				else if (bundle.LoadAllAssets()[i].name.StartsWith("amb_scream"))
-				{
-					screamAmbience.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
-				}
-				else if (bundle.LoadAllAssets()[i].name.StartsWith("amb_chaser"))
-				{
-					chaserAmbience.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
-				}
-				else if (bundle.LoadAllAssets()[i].name.StartsWith("amb_watcher"))
-				{
-					watcherAmbience.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
-				}
-				else if (bundle.LoadAllAssets()[i].name.StartsWith("amb_teleportingthing"))
-				{
-					teleporterAmbience.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
-				}
-				else if (bundle.LoadAllAssets()[i].name.StartsWith("amb_dark_voice"))
-				{
-					darkVoices.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
-				}
-				else if (bundle.LoadAllAssets()[i].name.StartsWith("radio_tune"))
-				{
-					radioTunes.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
-				}
-				else if (bundle.LoadAllAssets()[i].name.StartsWith("radio_start"))
-				{
-					startingTune = bundle.LoadAllAssets()[i].Cast<AudioClip>();
-				}
-				else if (bundle.LoadAllAssets()[i].name.StartsWith("amb_paralysis"))
-				{
-					paralyzerAmbience.Add(bundle.LoadAllAssets()[i].Cast<AudioClip>());
-				}
-			}
+				"amb_generic",
+				"amb_scream",
+				"amb_chaser",
+				"amb_watcher",
+				"amb_teleportingthing",
+				"amb_dark_voice",
+				"amb_paralysis",
+				"door_idle",
+				"door_open",
+				"radio_tune"
+			};
+
+			Dictionary<string, List<AudioClip>> directory = new Dictionary<string, List<AudioClip>>()
+			{
+				{ "amb_generic", genericAmbience },
+				{ "amb_scream", screamAmbience },
+                { "amb_chaser", chaserAmbience },
+                { "amb_watcher", watcherAmbience },
+                { "amb_teleportingthing", teleporterAmbience },
+                { "amb_dark_voice", darkVoices },
+                { "amb_paralysis", paralyzerAmbience },
+                { "door_idle", doorIdleSounds },
+                { "door_open", doorOpenSounds },
+                { "radio_tune", radioTunes }
+			};
+
+			foreach(List<AudioClip> list in directory.Values)
+            {
+				foreach(AudioClip clip in bundle.LoadAllAssets())
+                {
+					foreach(string value in nameLUT)
+                    {
+                        if (clip.name.StartsWith(value))
+                        {
+							directory[value].Add(clip);
+                        }
+                    }
+                }
+            }
 		}
 
 		private void PrecacheVideoAssets()

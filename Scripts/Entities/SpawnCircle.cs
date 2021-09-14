@@ -22,7 +22,7 @@ namespace NEP.Paranoia.Entities
             // y position is 1 meter since we need the shadow beings to be on the ground directly
             return new Vector3(
                 originTransform.position.x + Mathf.Sin(angle * Deg2Rad) * radius,
-                1f,
+                0.5f,
                 originTransform.position.z + Mathf.Cos(angle * Deg2Rad) * radius);
         }
 
@@ -31,7 +31,7 @@ namespace NEP.Paranoia.Entities
             // y position is 1 meter since we need the shadow beings to be on the ground directly
             return new Vector3(
                 originTransform.position.x + Mathf.Sin(angle * Deg2Rad) * radius,
-                1f,
+                0.5f,
                 originTransform.position.z + Mathf.Cos(angle * Deg2Rad) * radius);
         }
     }

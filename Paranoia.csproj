@@ -98,6 +98,7 @@
     <Compile Include="Scripts\Entities\BaseHallucination.cs" />
     <Compile Include="Scripts\Entities\CursedDoorController.cs" />
     <Compile Include="Scripts\Managers\Tick.cs" />
+    <Compile Include="Scripts\TickEvents\Events\Player\LockGun.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\Paralysis.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\ChangeRNG.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\DisableNimbus.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Scripts\TickEvents\Events\World\SpawnMonitor.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnRadio.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\TPose.cs" />
+    <Compile Include="Scripts\TickEvents\Events\World\UpdateInsanity.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Ambient\AmbientAudioSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Hallucinations\ObserverSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Hallucinations\CeilingManSpawn.cs" />

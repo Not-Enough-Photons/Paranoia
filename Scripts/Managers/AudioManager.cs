@@ -18,6 +18,8 @@ namespace NEP.Paranoia.Managers
 		public List<AudioClip> ambientWatcher;
 		public List<AudioClip> ambientDarkVoices;
 		public List<AudioClip> radioTunes;
+		public List<AudioClip> doorIdleSounds;
+		public List<AudioClip> doorOpenSounds;
 
 		public AudioClip startingTune;
 
