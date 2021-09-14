@@ -148,7 +148,7 @@ namespace NEP.Paranoia
 				teleporterAmbience = new List<AudioClip>();
 				paralyzerAmbience = new List<AudioClip>();
 				darkVoices = new List<AudioClip>();
-				radioTunes = new List<AudioClip>();	
+				radioTunes = new List<AudioClip>();
 
 				videoClips = new List<VideoClip>();
 			}
@@ -257,25 +257,28 @@ namespace NEP.Paranoia
 			{
 				{ "amb_generic", genericAmbience },
 				{ "amb_scream", screamAmbience },
-                { "amb_chaser", chaserAmbience },
-                { "amb_watcher", watcherAmbience },
-                { "amb_teleportingthing", teleporterAmbience },
-                { "amb_dark_voice", darkVoices },
-                { "amb_paralysis", paralyzerAmbience },
-                { "door_idle", doorIdleSounds },
-                { "door_open", doorOpenSounds },
-                { "radio_tune", radioTunes }
+				{ "amb_chaser", chaserAmbience },
+				{ "amb_watcher", watcherAmbience },
+				{ "amb_teleportingthing", teleporterAmbience },
+				{ "amb_dark_voice", darkVoices },
+				{ "amb_paralysis", paralyzerAmbience },
+				{ "door_idle", doorIdleSounds },
+				{ "door_open", doorOpenSounds },
+				{ "radio_tune", radioTunes }
 			};
 
-			foreach(List<AudioClip> list in directory.Values)
+			for(int i = 0; i < directory.Values.Count; i++)
             {
-				foreach(AudioClip clip in bundle.LoadAllAssets())
+				for(int j = 0; j < bundle.LoadAllAssets().Count; j++)
                 {
-					foreach(string value in nameLUT)
+					for(int k = 0; k < nameLUT.Length; k++)
                     {
-                        if (clip.name.StartsWith(value))
+						if(bundle.LoadAllAssets()[j].TryCast<AudioClip>() == null) { continue; }
+						AudioClip clip = bundle.LoadAllAssets()[j].TryCast<AudioClip>();
+
+                        if (clip.name.StartsWith(nameLUT[k]))
                         {
-							directory[value].Add(clip);
+							directory[nameLUT[k]].Add(clip);
                         }
                     }
                 }
@@ -284,7 +287,7 @@ namespace NEP.Paranoia
 
 		private void PrecacheVideoAssets()
 		{
-			for(int i = 0; i < bundle.LoadAllAssets().Count; i++)
+			for (int i = 0; i < bundle.LoadAllAssets().Count; i++)
 			{
 				if (bundle.LoadAllAssets()[i].name.StartsWith("video_screen"))
 				{

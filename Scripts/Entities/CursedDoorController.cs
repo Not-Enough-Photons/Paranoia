@@ -17,6 +17,7 @@ namespace NEP.Paranoia.Entities
             base.Awake();
 
             hingeTransform = transform.Find("GameObject/scaler/door_Boneworks/hinge");
+            source = transform.Find("GameObject/scaler/source").GetComponent<AudioSource>();
         }
 
         protected override void OnEnable()
@@ -35,6 +36,12 @@ namespace NEP.Paranoia.Entities
             {
                 Vector3 target = -Vector3.up * 125f;
                 hingeTransform.localRotation = Quaternion.Lerp(hingeTransform.localRotation, Quaternion.Euler(target), 0.15f * Time.deltaTime);
+
+                if (!playedOnce)
+                {
+                    source.PlayOneShot(Paranoia.instance.doorOpenSounds[0]);
+                    playedOnce = true;
+                }
             }
         }
     }
