@@ -208,25 +208,28 @@ namespace NEP.Paranoia.Managers
 
             foreach(Tick.JSONSettings settings in tickSettings)
             {
-                if (settings.fireEvent.StartsWith("E_"))
+                try
                 {
-                    string mainFunc = settings.fireEvent.Replace("E_", string.Empty);
-                    MelonLoader.MelonLogger.Msg(mainFunc);
-                    string nameSpace = "NEP.Paranoia.TickEvents.Events.";
-                    System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
-                    MelonLoader.MelonLogger.Msg(targetActionType.ToString());
+                    if (settings.fireEvent.StartsWith("E_"))
+                    {
+                        string mainFunc = settings.fireEvent.Replace("E_", string.Empty);
+                        string nameSpace = "NEP.Paranoia.TickEvents.Events.";
+                        System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
 
-                    FinalizeTick(settings, targetActionType);
+                        FinalizeTick(settings, targetActionType);
+                    }
+                    else if (settings.fireEvent.StartsWith("M_"))
+                    {
+                        string mainFunc = settings.fireEvent.Replace("M_", string.Empty);
+                        string nameSpace = "NEP.Paranoia.TickEvents.Mirages.";
+                        System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
+
+                        FinalizeTick(settings, targetActionType);
+                    }
                 }
-                else if (settings.fireEvent.StartsWith("M_"))
+                catch
                 {
-                    string mainFunc = settings.fireEvent.Replace("M_", string.Empty);
-                    MelonLoader.MelonLogger.Msg(mainFunc);
-                    string nameSpace = "NEP.Paranoia.TickEvents.Mirages.";
-                    System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
-                    MelonLoader.MelonLogger.Msg(targetActionType.ToString());
-
-                    FinalizeTick(settings, targetActionType);
+                    throw new System.Exception($"Exception in {settings.tickName}: The event {settings.fireEvent} could not be found. Check spelling, capitalization, or the documentation.");
                 }
             }
         }
@@ -351,19 +354,22 @@ namespace NEP.Paranoia.Managers
 
                 if (debug || Time.timeScale == 0) { return; }
 
-                for (int i = 0; i < ticks.Count; i++) 
-                { 
-                    if(ticks[i].GetEvent() == null) { continue; }
+                UpdateTicks(ticks);
 
-                    ticks[i].Update();
-                }
-
-                for(int i = 0; i < darkTicks.Count; i++)
+                if (isDark)
                 {
-                    if (ticks[i].GetEvent() == null) { continue; }
-
-                    darkTicks[i].Update();
+                    UpdateTicks(darkTicks);
                 }
+            }
+        }
+
+        private void UpdateTicks(List<Tick> ticks)
+        {
+            for (int i = 0; i < ticks.Count; i++)
+            {
+                if (ticks[i].GetEvent() == null) { continue; }
+
+                ticks[i].Update();
             }
         }
 
