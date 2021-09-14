@@ -13,7 +13,6 @@ using Newtonsoft.Json.Serialization;
 
 using StressLevelZero.Rig;
 
-using Tick = NEP.Paranoia.Managers.ParanoiaGameManager.Tick;
 using Valve.VR;
 
 namespace NEP.Paranoia.Utilities

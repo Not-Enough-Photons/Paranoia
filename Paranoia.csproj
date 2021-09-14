@@ -97,6 +97,7 @@
     <Compile Include="Scripts\Managers\AudioManager.cs" />
     <Compile Include="Scripts\Entities\BaseHallucination.cs" />
     <Compile Include="Scripts\Entities\CursedDoorController.cs" />
+    <Compile Include="Scripts\Managers\Tick.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\Paralysis.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\ChangeRNG.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\DisableNimbus.cs" />

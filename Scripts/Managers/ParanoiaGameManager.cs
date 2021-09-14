@@ -1,8 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-
-using ModThatIsNotMod.BoneMenu;
 
 using NEP.Paranoia.Entities;
 
@@ -18,72 +15,14 @@ using UnityEngine;
 
 using UnhollowerBaseLib;
 
-using MelonLoader;
+using Newtonsoft.Json;
+using static NEP.Paranoia.Managers.Tick;
 
 namespace NEP.Paranoia.Managers
 {
     public class ParanoiaGameManager : MonoBehaviour
     {
         public ParanoiaGameManager(System.IntPtr ptr) : base(ptr) { }
-
-        public class Tick
-        {
-            [System.Flags]
-            public enum TickType
-            {
-                TT_LIGHT = 1,
-                TT_DARK = 2
-            }
-
-            public Tick(float maxTick, TickType tickType)
-            {
-                this.maxTick = maxTick;
-                this.tickType = tickType;
-
-                if (tickType.HasFlag(TickType.TT_LIGHT))
-                {
-                    instance.ticks.Add(this);
-                }
-                else if (tickType == TickType.TT_DARK)
-                {
-                    instance.darkTicks.Add(this);
-                }
-            }
-
-            public Tick(float maxTick, TickType tickType, ParanoiaEvent Event)
-            {
-                this.maxTick = maxTick;
-                this.tickType = tickType;
-                this.Event = Event;
-
-                if (tickType.HasFlag(TickType.TT_LIGHT))
-                {
-                    instance.ticks.Add(this);
-                }
-                else if (tickType == TickType.TT_DARK)
-                {
-                    instance.darkTicks.Add(this);
-                }
-            }
-
-            internal float tick = 0f;
-            internal float maxTick = 5f;
-
-            internal TickType tickType;
-
-            internal ParanoiaEvent Event;
-
-            internal void Update()
-            {
-                tick += Time.deltaTime;
-
-                if (tick >= maxTick)
-                {
-                    Event?.Start();
-                    tick = 0f;
-                }
-            }
-        }
 
         public static ParanoiaGameManager instance;
 
@@ -179,34 +118,6 @@ namespace NEP.Paranoia.Managers
         
         private AudioSource _radioSource;
         public AudioSource radioSource { get { return _radioSource; } }
-        
-        // Audio ticks
-        private Tick aAmbienceTick;
-        private Tick aChaserTick;
-        private Tick aDarkVoiceTick;
-        private Tick aTeleportingManTick;
-        private Tick aParalyzerTick;
-
-        // Visual ticks
-        private Tick vShadowManTick;
-        private Tick vStaringManTick;
-        private Tick vCeilingManTick;
-        private Tick vObserverTick;
-
-        // Event ticks
-        private Tick eInvisForceTick;
-        private Tick eTPoseTick;
-        private Tick eRadioTick;
-        private Tick eMonitorTick;
-        private Tick eCursedDoorTick;
-        private Tick eFirstRadioTick;
-        private Tick eAIOriginTick;
-        private Tick eKillAllTick;
-        private Tick eItemDropTick;
-        private Tick eLightFlickerTick;
-        private Tick eMapGeoFlickerTick;
-
-        private Tick rngGeneratorTick;
 
         private bool _firstRadioSpawn = false;
         public bool firstRadioSpawn { get { return _firstRadioSpawn; } }
@@ -286,35 +197,52 @@ namespace NEP.Paranoia.Managers
         private void InitializeTicks()
         {
             ticks = new List<Tick>();
-            darkTicks = new List<Tick>();
 
-            // Audio tick initialization
-            aAmbienceTick       = new Tick(Random.Range(90f, 130f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new AmbientAudioSpawn());
-            aChaserTick         = new Tick(Random.Range(90f, 125f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new AmbientChaserSpawn());
-            aDarkVoiceTick      = new Tick(Random.Range(15f, 20f), Tick.TickType.TT_DARK, new AmbientDarkVoiceSpawn());
-            aTeleportingManTick = new Tick(Random.Range(120f, 165f), Tick.TickType.TT_DARK | Tick.TickType.TT_LIGHT, new AmbientTeleEntSpawn());
-            aParalyzerTick      = new Tick(Random.Range(265f, 360f), Tick.TickType.TT_DARK, new Paralysis());
+            ReadTicksFromJSON(System.IO.File.ReadAllText("UserData/paranoia/json/Ticks/ticks.json"));
+        }
 
-            // Visual tick initialization
-            vShadowManTick      = new Tick(Random.Range(175f, 265f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new ShadowSpawn());
-            vStaringManTick     = new Tick(Random.Range(180f, 210f), Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new StaringManSpawn());
-            vCeilingManTick     = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new CeilingManSpawn());
-            vObserverTick       = new Tick(360f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new ObserverSpawn());
+        private void ReadTicksFromJSON(string json)
+        {
+            List<Tick.JSONSettings> tickSettings = JsonConvert.DeserializeObject<List<Tick.JSONSettings>>(json);
 
-            // Event tick initialization
-            eInvisForceTick     = new Tick(360f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnInvisibleForce());
-            eTPoseTick          = new Tick(120f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new TPose());
-            eCursedDoorTick     = new Tick(90f, Tick.TickType.TT_LIGHT, new CursedDoorSpawn());
-            eRadioTick          = new Tick(190f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnRadio());
-            eMonitorTick        = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new SpawnMonitor());
-            eAIOriginTick       = new Tick(260f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new MoveAIToPlayer());
-            eKillAllTick        = new Tick(240f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new KillAI());
-            eItemDropTick       = new Tick(15f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new DropHeadItem());
-            eLightFlickerTick   = new Tick(90f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new LightFlickering());
-            eMapGeoFlickerTick  = new Tick(30f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK);
-            
-            //// Global tick initialization
-            rngGeneratorTick    = new Tick(1f, Tick.TickType.TT_LIGHT | Tick.TickType.TT_DARK, new ChangeRNG());
+            foreach(Tick.JSONSettings settings in tickSettings)
+            {
+                if (settings.fireEvent.StartsWith("E_"))
+                {
+                    string mainFunc = settings.fireEvent.Replace("E_", string.Empty);
+                    MelonLoader.MelonLogger.Msg(mainFunc);
+                    string nameSpace = "NEP.Paranoia.TickEvents.Events.";
+                    System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
+                    MelonLoader.MelonLogger.Msg(targetActionType.ToString());
+
+                    FinalizeTick(settings, targetActionType);
+                }
+                else if (settings.fireEvent.StartsWith("M_"))
+                {
+                    string mainFunc = settings.fireEvent.Replace("M_", string.Empty);
+                    MelonLoader.MelonLogger.Msg(mainFunc);
+                    string nameSpace = "NEP.Paranoia.TickEvents.Mirages.";
+                    System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
+                    MelonLoader.MelonLogger.Msg(targetActionType.ToString());
+
+                    FinalizeTick(settings, targetActionType);
+                }
+            }
+        }
+
+        private void FinalizeTick(Tick.JSONSettings settings, System.Type targetActionType)
+        {
+            if (targetActionType == null) { return; }
+
+            Tick.TickType tickType = (Tick.TickType)System.Enum.Parse(typeof(Tick.TickType), settings.tickType);
+
+            ParanoiaEvent ctorEvent = System.Activator.CreateInstance(targetActionType) as ParanoiaEvent;
+
+            Tick generated = settings.minRange == 0f && settings.maxRange == 0f
+                ? new Tick(settings.tickName, settings.tick, settings.maxTick, tickType, ctorEvent)
+                : new Tick(settings.tickName, settings.minRange, settings.maxRange, tickType, ctorEvent);
+
+            ticks?.Add(generated);
         }
 
         private void InitializeEntities()
@@ -415,11 +343,11 @@ namespace NEP.Paranoia.Managers
 
                 if (debug || Time.timeScale == 0) { return; }
 
-                for (int i = 0; i < ticks.Count; i++) { ticks[i].Update(); }
+                for (int i = 0; i < ticks.Count; i++) 
+                { 
+                    if(ticks[i].GetEvent() == null) { continue; }
 
-                if (isDark)
-                {
-                    for (int i = 0; i < darkTicks.Count; i++) { darkTicks[i].Update(); }
+                    ticks[i].Update(); 
                 }
             }
         }
