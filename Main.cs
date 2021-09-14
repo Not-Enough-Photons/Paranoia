@@ -255,16 +255,46 @@ namespace NEP.Paranoia
 
 			Dictionary<string, List<AudioClip>> directory = new Dictionary<string, List<AudioClip>>()
 			{
-				{ "amb_generic", genericAmbience },
-				{ "amb_scream", screamAmbience },
-                { "amb_chaser", chaserAmbience },
-                { "amb_watcher", watcherAmbience },
-                { "amb_teleportingthing", teleporterAmbience },
-                { "amb_dark_voice", darkVoices },
-                { "amb_paralysis", paralyzerAmbience },
-                { "door_idle", doorIdleSounds },
-                { "door_open", doorOpenSounds },
-                { "radio_tune", radioTunes }
+				{ 
+					"amb_generic", 
+					genericAmbience 
+				},
+				{ 
+					"amb_scream", 
+					screamAmbience 
+				},
+                { 
+					"amb_chaser", 
+					chaserAmbience 
+				},
+                { 
+					"amb_watcher", 
+					watcherAmbience 
+				},
+                { 
+					"amb_teleportingthing", 
+					teleporterAmbience 
+				},
+                { 
+					"amb_dark_voice", 
+					darkVoices 
+				},
+                { 
+					"amb_paralysis", 
+					paralyzerAmbience 
+				},
+                { 
+					"door_idle", 
+					doorIdleSounds 
+				},
+                { 
+					"door_open", 
+					doorOpenSounds 
+				},
+                { 
+					"radio_tune", 
+					radioTunes 
+				}
 			};
 
 			foreach(List<AudioClip> list in directory.Values)
