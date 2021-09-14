@@ -19,6 +19,10 @@ namespace NEP.Paranoia.Utilities
 {
     public class ParanoiaUtilities
     {
+        /// <summary>
+        /// Gets the current HMD that SteamVR is using.
+        /// </summary>
+        /// <returns>The headset in use.</returns>
         public static HMDType GetHMD()
         {
             HMDType hmdModel;
@@ -54,15 +58,21 @@ namespace NEP.Paranoia.Utilities
             return hmdModel;
         }
 
+        /// <summary>
+        /// Finds the head of the player.
+        /// </summary>
+        /// <returns></returns>
         public static Transform FindHead()
         {
             return GameObject.Find("[RigManager (Default Brett)]/[PhysicsRig]/").transform;
         }
 
+        /// <summary>
+        /// Finds the player. Taken from the Boneworks Modding Toolkit.
+        /// </summary>
+        /// <returns></returns>
         public static Transform FindPlayer()
         {
-            // Code lifted from the Boneworks Modding Toolkit.
-
             GameObject[] array = GameObject.FindGameObjectsWithTag("Player");
 
             for (int i = 0; i < array.Length; i++)
@@ -78,6 +88,11 @@ namespace NEP.Paranoia.Utilities
             return null;
         }
 
+        /// <summary>
+        /// Finds the GameWorld rig. 
+        /// Useful for cloning the bones to make a fake copy of the player.
+        /// </summary>
+        /// <returns></returns>
         public static SkeletonRig GetGameWorldRig()
         {
             RigManager rigManager = ModThatIsNotMod.Player.GetRigManager().GetComponent<RigManager>();
@@ -85,6 +100,11 @@ namespace NEP.Paranoia.Utilities
             return rigManager.gameWorldSkeletonRig;
         }
 
+        /// <summary>
+        /// Finds a group of game objects on a given layer.
+        /// </summary>
+        /// <param name="layerName"></param>
+        /// <returns></returns>
         public static List<GameObject> FindGameObjectsWithLayer(string layerName)
         {
             GameObject[] objectsInScene = GameObject.FindObjectsOfType<GameObject>();
@@ -101,6 +121,11 @@ namespace NEP.Paranoia.Utilities
             return layerObjects;
         }
 
+        /// <summary>
+        /// Checks if our system clock hour is equal to the hour we set.
+        /// </summary>
+        /// <param name="hour"></param>
+        /// <returns></returns>
         public static bool IsTargetHour(int hour)
         {
             // 24 hour time, for consistency!
@@ -127,6 +152,10 @@ namespace NEP.Paranoia.Utilities
             return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, difference.Hours, difference.Minutes, difference.Seconds);
         }
 
+        /// <summary>
+        /// Gets current system hour.
+        /// </summary>
+        /// <returns></returns>
         internal static int GetSystemHour()
         {
             return int.Parse(DateTime.Now.ToString("HH", CultureInfo.InvariantCulture));
