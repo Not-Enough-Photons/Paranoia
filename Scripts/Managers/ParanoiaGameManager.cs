@@ -197,6 +197,7 @@ namespace NEP.Paranoia.Managers
         private void InitializeTicks()
         {
             ticks = new List<Tick>();
+            darkTicks = new List<Tick>();
 
             ReadTicksFromJSON(System.IO.File.ReadAllText("UserData/paranoia/json/Ticks/ticks.json"));
         }
@@ -242,7 +243,14 @@ namespace NEP.Paranoia.Managers
                 ? new Tick(settings.tickName, settings.tick, settings.maxTick, tickType, ctorEvent)
                 : new Tick(settings.tickName, settings.minRange, settings.maxRange, tickType, ctorEvent);
 
-            ticks?.Add(generated);
+            if(tickType == TickType.Any)
+            {
+                ticks?.Add(generated);
+            }
+            else if (tickType == TickType.Dark)
+            {
+                darkTicks?.Add(generated);
+            }
         }
 
         private void InitializeEntities()
@@ -347,7 +355,14 @@ namespace NEP.Paranoia.Managers
                 { 
                     if(ticks[i].GetEvent() == null) { continue; }
 
-                    ticks[i].Update(); 
+                    ticks[i].Update();
+                }
+
+                for(int i = 0; i < darkTicks.Count; i++)
+                {
+                    if (ticks[i].GetEvent() == null) { continue; }
+
+                    darkTicks[i].Update();
                 }
             }
         }
