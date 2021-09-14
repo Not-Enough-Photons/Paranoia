@@ -27,6 +27,7 @@ namespace NEP.Paranoia.Managers
         public static ParanoiaGameManager instance;
 
         internal static bool debug = false;
+        public static bool insanityMode { get; private set;}
 
         public List<Tick> ticks;
         public List<Tick> darkTicks;
@@ -71,39 +72,18 @@ namespace NEP.Paranoia.Managers
         // Hallucinations
         private List<BaseHallucination> baseHallucinations;
         private List<AudioHallucination> audioHallucinations;
-        
-        private AudioHallucination _hChaser;
-        public AudioHallucination hChaser { get => _hChaser; }
-        
-        private AudioHallucination _hDarkVoice;
-        public AudioHallucination hDarkVoice { get => _hDarkVoice; }
-        
-        private AudioHallucination _hTeleportingEntity;
-        public AudioHallucination hTeleportingEntity { get => _hTeleportingEntity; }
 
-        private AudioHallucination _hParalyzer;
-        public AudioHallucination hParalyzer { get => _hParalyzer; }
-
-        private BaseHallucination _hCeilingMan;
-        public BaseHallucination hCeilingMan { get => _hCeilingMan; }
-        
-        private BaseHallucination _hStaringMan;
-        public BaseHallucination hStaringMan { get => _hStaringMan; }
-        
-        private BaseHallucination _hShadowPerson;
-        public BaseHallucination hShadowPerson { get => _hShadowPerson; }
-        
-        private BaseHallucination _hShadowPersonChaser;
-        public BaseHallucination hShadowPersonChaser { get => _hShadowPersonChaser; }
-        
-        private BaseHallucination _hObserver;
-        public BaseHallucination hObserver { get => _hObserver; }
-        
-        private BaseHallucination _hCursedDoor;
-        public BaseHallucination hCursedDoor { get => _hCursedDoor; }
-
-        private BaseHallucination _invisibleForce;
-        public BaseHallucination invisibleForce { get => _invisibleForce; }
+        public AudioHallucination hChaser { get; private set; }
+        public AudioHallucination hDarkVoice { get; private set; }
+        public AudioHallucination hTeleportingEntity { get; private set; }
+        public AudioHallucination hParalyzer { get; private set; }
+        public BaseHallucination hCeilingMan { get; private set; }
+        public BaseHallucination hStaringMan { get; private set; }
+        public BaseHallucination hShadowPerson { get; private set; }
+        public BaseHallucination hShadowPersonChaser { get; private set; }
+        public BaseHallucination hObserver { get; private set; }
+        public BaseHallucination hCursedDoor { get; private set; }
+        public BaseHallucination invisibleForce { get; private set; }
         
         private VLB.VolumetricLightBeam _lightBeam;
         public VLB.VolumetricLightBeam lightBeam { get { return _lightBeam; } }
@@ -130,7 +110,7 @@ namespace NEP.Paranoia.Managers
 
         public bool paralysisMode;
 
-        internal int insanity;
+        public float insanity { get; private set; }
 
         private SpawnCircle[] spawnCircles = new SpawnCircle[3];
 
@@ -139,7 +119,6 @@ namespace NEP.Paranoia.Managers
 
         private Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> _bakedProbes;
         public Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> bakedProbes { get { return _bakedProbes; } }
-
 
         public void SetFirstRadioSpawn(bool condition)
         {
@@ -154,6 +133,11 @@ namespace NEP.Paranoia.Managers
         public void SetRNG(int rng)
         {
             this._rng = rng;
+        }
+
+        public void AddInsanity(float insanity)
+        {
+            this.insanity += insanity;
         }
 
         private void Awake()
@@ -182,6 +166,11 @@ namespace NEP.Paranoia.Managers
             _playerTrigger = ParanoiaUtilities.FindPlayer();
 
             playerCircle = new SpawnCircle(ParanoiaUtilities.FindPlayer());
+
+            if (insanityMode)
+            {
+                insanity = 0.1f;
+            }
 
             for (int i = 0; i < spawnCircles.Length; i++)
             {
@@ -301,28 +290,28 @@ namespace NEP.Paranoia.Managers
             chaserAudio.AddComponent<AudioSource>();
             darkVoiceAudio.AddComponent<AudioSource>();
             paralyzerEntityClone.AddComponent<AudioSource>();
-            _hChaser = chaserAudio.AddComponent<AudioHallucination>();
-            _hDarkVoice = darkVoiceAudio.AddComponent<AudioHallucination>();
-            _hTeleportingEntity = teleportingEntityClone.AddComponent<AudioHallucination>();
-            _hParalyzer = paralyzerEntityClone.AddComponent<AudioHallucination>();
+            hChaser = chaserAudio.AddComponent<AudioHallucination>();
+            hDarkVoice = darkVoiceAudio.AddComponent<AudioHallucination>();
+            hTeleportingEntity = teleportingEntityClone.AddComponent<AudioHallucination>();
+            hParalyzer = paralyzerEntityClone.AddComponent<AudioHallucination>();
             
-            _hShadowPerson = shadowManClone.AddComponent<BaseHallucination>();
-            _hShadowPersonChaser = shadowManChaserClone.AddComponent<BaseHallucination>();
-            _hCeilingMan = ceilingManClone.AddComponent<BaseHallucination>();
-            _hStaringMan = staringManClone.AddComponent<BaseHallucination>();
-            _hObserver = observerClone.AddComponent<BaseHallucination>();
-            _hCursedDoor = cursedDoorClone.AddComponent<CursedDoorController>();
-            _invisibleForce = invisibleForceObject.AddComponent<BaseHallucination>();
+            hShadowPerson = shadowManClone.AddComponent<BaseHallucination>();
+            hShadowPersonChaser = shadowManChaserClone.AddComponent<BaseHallucination>();
+            hCeilingMan = ceilingManClone.AddComponent<BaseHallucination>();
+            hStaringMan = staringManClone.AddComponent<BaseHallucination>();
+            hObserver = observerClone.AddComponent<BaseHallucination>();
+            hCursedDoor = cursedDoorClone.AddComponent<CursedDoorController>();
+            invisibleForce = invisibleForceObject.AddComponent<BaseHallucination>();
 
-            _invisibleForce.gameObject.AddComponent<SphereCollider>().radius = 0.5f;
+            invisibleForce.gameObject.AddComponent<SphereCollider>().radius = 2f;
             
-            _hChaser.clips = Paranoia.instance.chaserAmbience.ToArray();
-            _hDarkVoice.clips = Paranoia.instance.darkVoices.ToArray();
-            _hTeleportingEntity.clips = Paranoia.instance.teleporterAmbience.ToArray();
-            _hParalyzer.clips = Paranoia.instance.paralyzerAmbience.ToArray();
+            hChaser.clips = Paranoia.instance.chaserAmbience.ToArray();
+            hDarkVoice.clips = Paranoia.instance.darkVoices.ToArray();
+            hTeleportingEntity.clips = Paranoia.instance.teleporterAmbience.ToArray();
+            hParalyzer.clips = Paranoia.instance.paralyzerAmbience.ToArray();
             
-            _hStaringMan.spawnPoints = staringManSpawns;
-            _hCeilingMan.spawnPoints = ceilingManSpawns;
+            hStaringMan.spawnPoints = staringManSpawns;
+            hCeilingMan.spawnPoints = ceilingManSpawns;
 
             ApplyHallucinationSettings();
         }
@@ -332,18 +321,18 @@ namespace NEP.Paranoia.Managers
             string baseJsonDir = "UserData/paranoia/json/BaseHallucination";
             string audioJsonDir = "UserData/paranoia/json/AudioHallucination";
 
-            _hShadowPerson.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/ShadowMan.json"));
-            _hShadowPersonChaser.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/ShadowManChaser.json"));
-            _hCeilingMan.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/CeilingMan.json"));
-            _hStaringMan.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/StaringMan.json"));
-            _hObserver.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/Observer.json"));
-            _hCursedDoor.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/CursedDoor.json"));
-            _invisibleForce.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/InvisibleForce.json"));
+            hShadowPerson.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/ShadowMan.json"));
+            hShadowPersonChaser.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/ShadowManChaser.json"));
+            hCeilingMan.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/CeilingMan.json"));
+            hStaringMan.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/StaringMan.json"));
+            hObserver.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/Observer.json"));
+            hCursedDoor.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/CursedDoor.json"));
+            invisibleForce.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/InvisibleForce.json"));
 
-            _hChaser.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/Chaser.json"));
-            _hDarkVoice.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/DarkVoice.json"));
-            _hTeleportingEntity.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/TeleportingEntity.json"));
-            _hParalyzer.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/Paralyzer.json"));
+            hChaser.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/Chaser.json"));
+            hDarkVoice.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/DarkVoice.json"));
+            hTeleportingEntity.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/TeleportingEntity.json"));
+            hParalyzer.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/Paralyzer.json"));
         }
 
         private void Update()
@@ -365,6 +354,11 @@ namespace NEP.Paranoia.Managers
 
         private void UpdateTicks(List<Tick> ticks)
         {
+            if (!insanityMode)
+            {
+                insanity = 0.1f;
+            }
+
             for (int i = 0; i < ticks.Count; i++)
             {
                 if (ticks[i].GetEvent() == null) { continue; }
