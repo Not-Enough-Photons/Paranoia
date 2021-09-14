@@ -12,6 +12,8 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 using StressLevelZero.Rig;
+using StressLevelZero.Props.Weapons;
+using StressLevelZero.Interaction;
 
 using Valve.VR;
 
@@ -98,6 +100,20 @@ namespace NEP.Paranoia.Utilities
             RigManager rigManager = ModThatIsNotMod.Player.GetRigManager().GetComponent<RigManager>();
 
             return rigManager.gameWorldSkeletonRig;
+        }
+
+        public static PhysicsRig GetPhysicsRig()
+        {
+            return UnityEngine.Object.FindObjectOfType<PhysicsRig>();
+        }
+
+        public static Gun GetGunInHand(StressLevelZero.Handedness hand)
+        {
+            PhysicsRig physRig = GetPhysicsRig();
+
+            Hand _hand = hand == StressLevelZero.Handedness.RIGHT ? physRig.rightHand : physRig.leftHand;
+
+            return ModThatIsNotMod.Player.GetGunInHand(_hand);
         }
 
         /// <summary>
