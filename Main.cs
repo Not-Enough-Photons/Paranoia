@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+using UnhollowerBaseLib;
+
 namespace NEP.Paranoia
 {
 	public static class BuildInfo
@@ -266,6 +268,8 @@ namespace NEP.Paranoia
 				{ "door_open", doorOpenSounds },
 				{ "radio_tune", radioTunes }
 			};
+
+			Il2CppReferenceArray<UnityEngine.Object> assets = bundle.LoadAllAssets();
 
 			for(int i = 0; i < directory.Values.Count; i++)
             {
