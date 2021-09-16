@@ -222,19 +222,4 @@ namespace NEP.Paranoia.Utilities
             UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<CursedDoorController>();
         }
     }
-
-    public class HalContractResolver : DefaultContractResolver
-    {
-        protected override IList<JsonProperty> CreateProperties(Type type, Newtonsoft.Json.MemberSerialization memberSerialization)
-        {
-            IList<JsonProperty> list = base.CreateProperties(type, memberSerialization);
-
-            foreach(JsonProperty property in list)
-            {
-                property.Ignored = true;
-            }
-
-            return list;
-        }
-    }
 }
