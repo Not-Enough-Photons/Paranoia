@@ -12,7 +12,7 @@ namespace NEP.Paranoia.Entities
         protected override void Awake()
         {
             base.Awake();
-
+            clips = Paranoia.instance.radioTunes.ToArray();
             ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonPath + "Radio.json"));
         }
 
@@ -20,7 +20,7 @@ namespace NEP.Paranoia.Entities
         {
             base.OnEnable();
             source.spatialBlend = 1f;
-            clips = Paranoia.instance.radioTunes.ToArray();
+
             MelonLoader.MelonCoroutines.Start(CoRadioHide(source.clip.length));
         }
 
@@ -28,9 +28,9 @@ namespace NEP.Paranoia.Entities
         {
             yield return new WaitForSeconds(time);
 
-            if (ParanoiaGameManager.instance.radioClone.activeInHierarchy)
+            if (gameObject.activeInHierarchy)
             {
-                ParanoiaGameManager.instance.radioClone.SetActive(false);
+                gameObject.SetActive(false);
             }
 
             yield return null;

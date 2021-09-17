@@ -218,6 +218,8 @@ namespace NEP.Paranoia.Utilities
             ClassInjector.RegisterTypeInIl2Cpp<AudioManager>();
             ClassInjector.RegisterTypeInIl2Cpp<BaseHallucination>();
             ClassInjector.RegisterTypeInIl2Cpp<AudioHallucination>();
+
+            ClassInjector.RegisterTypeInIl2Cpp<Ambience>();
             ClassInjector.RegisterTypeInIl2Cpp<CursedDoorController>();
             ClassInjector.RegisterTypeInIl2Cpp<CeilingMan>();
             ClassInjector.RegisterTypeInIl2Cpp<Chaser>();
@@ -227,6 +229,7 @@ namespace NEP.Paranoia.Utilities
             ClassInjector.RegisterTypeInIl2Cpp<Observer>();
             ClassInjector.RegisterTypeInIl2Cpp<ObjectPool>();
             ClassInjector.RegisterTypeInIl2Cpp<ParanoiaGameManager>();
+            ClassInjector.RegisterTypeInIl2Cpp<FordScaling>();
             ClassInjector.RegisterTypeInIl2Cpp<Paralyzer>();
             ClassInjector.RegisterTypeInIl2Cpp<Radio>();
             ClassInjector.RegisterTypeInIl2Cpp<ShadowPerson>();

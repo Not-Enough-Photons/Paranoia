@@ -1,4 +1,5 @@
 ﻿using NEP.Paranoia.Managers;
+using NEP.Paranoia.Entities;
 using UnityEngine;
 
 namespace NEP.Paranoia.TickEvents.Mirages
@@ -10,20 +11,13 @@ namespace NEP.Paranoia.TickEvents.Mirages
             if (ParanoiaGameManager.instance.paralysisMode) { return; }
 
             ParanoiaGameManager manager = ParanoiaGameManager.instance;
-            AudioManager audioManager = manager.audioManager;
 
             int rng = manager.rng;
 
             bool isRareNumber = rng >= 20 && rng <= 45 || rng >= 50 && rng <= 75;
 
-            if (isRareNumber)
-            {
-                audioManager.PlayOneShot(audioManager.ambientScreaming[Random.Range(0, audioManager.ambientScreaming.Count)]);
-            }
-            else
-            {
-                audioManager.PlayOneShot(audioManager.ambientGeneric[Random.Range(0, audioManager.ambientGeneric.Count)]);
-            }
+            manager.hAmbience.useScreams = isRareNumber;
+            manager.hAmbience.gameObject.SetActive(isRareNumber);
         }
 
         public override void Stop()

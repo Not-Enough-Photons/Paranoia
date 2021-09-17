@@ -69,18 +69,20 @@ namespace NEP.Paranoia.Managers
         private AudioManager _audioManager;
         public AudioManager audioManager { get { return _audioManager; } }
 
-        public AudioHallucination hChaser { get; private set; }
-        public AudioHallucination hDarkVoice { get; private set; }
-        public AudioHallucination hTeleportingEntity { get; private set; }
-        public AudioHallucination hParalyzer { get; private set; }
-        public AudioHallucination hRadio { get; private set; }
-        public BaseHallucination hCeilingMan { get; private set; }
-        public BaseHallucination hStaringMan { get; private set; }
-        public BaseHallucination hShadowPerson { get; private set; }
-        public BaseHallucination hShadowPersonChaser { get; private set; }
-        public BaseHallucination hObserver { get; private set; }
-        public BaseHallucination hCursedDoor { get; private set; }
-        public BaseHallucination invisibleForce { get; private set; }
+        public Ambience hAmbience { get; private set; }
+        public Chaser hChaser { get; private set; }
+        public DarkVoice hDarkVoice { get; private set; }
+        public TeleportingEntity hTeleportingEntity { get; private set; }
+        public Paralyzer hParalyzer { get; private set; }
+        public Radio hRadio { get; private set; }
+        public CeilingMan hCeilingMan { get; private set; }
+        public StaringMan hStaringMan { get; private set; }
+        public ShadowPerson hShadowPerson { get; private set; }
+        public ShadowPersonChaser hShadowPersonChaser { get; private set; }
+        public Observer hObserver { get; private set; }
+        public FordScaling hFordScaling { get; private set; }
+        public CursedDoorController hCursedDoor { get; private set; }
+        public InvisibleForce invisibleForce { get; private set; }
         
         private VLB.VolumetricLightBeam _lightBeam;
         public VLB.VolumetricLightBeam lightBeam { get { return _lightBeam; } }
@@ -235,10 +237,11 @@ namespace NEP.Paranoia.Managers
 
         private void SetupHallucinations()
         {
+            hAmbience = SpawnPrefab("ent_soundentity").AddComponent<Ambience>();
             hChaser = SpawnPrefab("ent_soundentity").AddComponent<Chaser>();
             hDarkVoice = SpawnPrefab("ent_soundentity").AddComponent<DarkVoice>();
-            hTeleportingEntity = SpawnPrefab("ent_soundentity").AddComponent<AudioHallucination>();
-            hParalyzer = SpawnPrefab("ent_soundentity").AddComponent<AudioHallucination>();
+            hTeleportingEntity = SpawnPrefab("ent_grayman").AddComponent<TeleportingEntity>();
+            hParalyzer = SpawnPrefab("ent_paralyzer").AddComponent<Paralyzer>();
             hRadio = SpawnPrefab("ent_radio").AddComponent<Radio>();
             
             hShadowPerson = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPerson>();
@@ -246,6 +249,7 @@ namespace NEP.Paranoia.Managers
             hCeilingMan = SpawnPrefab("ent_ceilingman").AddComponent<CeilingMan>();
             hStaringMan = SpawnPrefab("ent_staringman").AddComponent<StaringMan>();
             hObserver = SpawnPrefab("ent_observer").AddComponent<Observer>();
+            hFordScaling = SpawnPrefab("ent_fordscaling").AddComponent<FordScaling>();
             hCursedDoor = SpawnPrefab("ent_curseddoor").AddComponent<CursedDoorController>();
             invisibleForce = new GameObject("Invisible Force").AddComponent<InvisibleForce>();
         }

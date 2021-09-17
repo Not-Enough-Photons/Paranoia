@@ -79,6 +79,16 @@ namespace NEP.Paranoia.Entities
             {
                 source.dopplerLevel = 0f;
                 source.spatialBlend = 0f;
+
+                MelonLoader.MelonCoroutines.Start(CoHideSelf(source.clip.length));
+            }
+
+            if(auditoryType == AuditoryType.Darkness)
+            {
+                source.dopplerLevel = 1f;
+                source.spatialBlend = 1f;
+
+                MelonLoader.MelonCoroutines.Start(CoHideSelf(source.clip.length));
             }
 
             if (auditoryType == AuditoryType.Chaser)
@@ -117,6 +127,12 @@ namespace NEP.Paranoia.Entities
                     gameObject.SetActive(false);
                 }
             }
+        }
+
+        protected virtual IEnumerator CoHideSelf(float duration)
+        {
+            yield return new WaitForSeconds(duration);
+            gameObject.SetActive(false);
         }
     }
 

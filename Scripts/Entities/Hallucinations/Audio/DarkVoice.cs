@@ -8,8 +8,6 @@ namespace NEP.Paranoia.Entities
 
         protected override void Awake()
         {
-            gameObject.AddComponent<AudioSource>();
-
             base.Awake();
 
             clips = Paranoia.instance.darkVoices.ToArray();

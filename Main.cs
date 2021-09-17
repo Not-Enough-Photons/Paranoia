@@ -112,17 +112,6 @@ namespace NEP.Paranoia
 
 					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
 
-					audioManager = new GameObject("Audio Manager").AddComponent<AudioManager>();
-					ObjectPool pool = audioManager.gameObject.AddComponent<ObjectPool>();
-
-					audioManager.ambientGeneric = genericAmbience;
-					audioManager.ambientScreaming = screamAmbience;
-
-					audioManager.pool = pool;
-
-					pool.prefab = GetEntInDirectory("ent_soundentity");
-					pool.poolSize = 10;
-
 					GameObject.Find("MUSICMACHINE (1)").SetActive(false);
 					GameObject.Find("AMMODISPENSER").SetActive(false);
 					GameObject.Find("HEALTHMACHINE").SetActive(false);

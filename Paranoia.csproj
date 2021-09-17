@@ -94,10 +94,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Scripts\Entities\AudioHallucination.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Audio\Ambience.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Audio\Radio.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Visual\CeilingMan.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Audio\Chaser.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Audio\DarkVoice.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Visual\FordScaling.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Visual\InvisibleForce.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Visual\Observer.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Audio\Paralyzer.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="Scripts\TickEvents\Events\AI\TPose.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\UpdateInsanity.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Ambient\AmbientAudioSpawn.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\Hallucinations\FordScalingSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Hallucinations\ObserverSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Hallucinations\CeilingManSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Hallucinations\AmbientParalyzerSpawn.cs" />
