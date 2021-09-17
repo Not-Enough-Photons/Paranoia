@@ -23,7 +23,6 @@ namespace NEP.Paranoia.TickEvents.Events
             int iterations = Random.Range(5, 12);
             int rng = ParanoiaGameManager.instance.rng;
             int i = 0;
-            bool isOn = false;
             float random = 0f;
 
             if (GameObject.FindObjectsOfType<VLB.VolumetricLightBeam>() != null)
@@ -45,14 +44,12 @@ namespace NEP.Paranoia.TickEvents.Events
                         {
                             if ((i * random / 2) * rng % 2 == 0)
                             {
-                                isOn = false;
                                 blankBoxLight.gameObject.SetActive(false);
                                 LightmapSettings.lightmaps = new LightmapData[0];
                                 LightmapSettings.lightProbes.bakedProbes = null;
                             }
                             else
                             {
-                                isOn = true;
                                 blankBoxLight.gameObject.SetActive(true);
                                 LightmapSettings.lightmaps = ParanoiaGameManager.instance.lightmaps;
                                 LightmapSettings.lightProbes.bakedProbes = new UnhollowerBaseLib.Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2>(ParanoiaGameManager.instance.bakedProbes.Count);
@@ -63,12 +60,10 @@ namespace NEP.Paranoia.TickEvents.Events
                         }
                     }
                 }
+
+                ParanoiaGameManager.instance.SetIsDark(blankBoxLight.enabled);
             }
 
-            if (!isOn)
-            {
-                ParanoiaGameManager.instance.SetIsDark(true);
-            }
             
             yield return null;
         }

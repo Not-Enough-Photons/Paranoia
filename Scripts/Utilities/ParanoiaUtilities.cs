@@ -15,6 +15,8 @@ using StressLevelZero.Rig;
 using StressLevelZero.Props.Weapons;
 using StressLevelZero.Interaction;
 
+using UnhollowerRuntimeLib;
+
 using Valve.VR;
 
 namespace NEP.Paranoia.Utilities
@@ -213,13 +215,24 @@ namespace NEP.Paranoia.Utilities
 
         internal static void RegisterTypesInIL2CPP()
         {
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<AudioManager>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ObjectPool>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<BaseHallucination>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<AudioHallucination>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<ParanoiaGameManager>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();
-            UnhollowerRuntimeLib.ClassInjector.RegisterTypeInIl2Cpp<CursedDoorController>();
+            ClassInjector.RegisterTypeInIl2Cpp<AudioManager>();
+            ClassInjector.RegisterTypeInIl2Cpp<BaseHallucination>();
+            ClassInjector.RegisterTypeInIl2Cpp<AudioHallucination>();
+            ClassInjector.RegisterTypeInIl2Cpp<CursedDoorController>();
+            ClassInjector.RegisterTypeInIl2Cpp<CeilingMan>();
+            ClassInjector.RegisterTypeInIl2Cpp<Chaser>();
+            ClassInjector.RegisterTypeInIl2Cpp<DarkVoice>();
+            ClassInjector.RegisterTypeInIl2Cpp<InvisibleForce>();
+            ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();
+            ClassInjector.RegisterTypeInIl2Cpp<Observer>();
+            ClassInjector.RegisterTypeInIl2Cpp<ObjectPool>();
+            ClassInjector.RegisterTypeInIl2Cpp<ParanoiaGameManager>();
+            ClassInjector.RegisterTypeInIl2Cpp<Paralyzer>();
+            ClassInjector.RegisterTypeInIl2Cpp<Radio>();
+            ClassInjector.RegisterTypeInIl2Cpp<ShadowPerson>();
+            ClassInjector.RegisterTypeInIl2Cpp<ShadowPersonChaser>();
+            ClassInjector.RegisterTypeInIl2Cpp<StaringMan>();
+            ClassInjector.RegisterTypeInIl2Cpp<TeleportingEntity>();
         }
     }
 }

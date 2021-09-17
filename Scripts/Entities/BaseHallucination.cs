@@ -162,6 +162,8 @@ namespace NEP.Paranoia.Entities
 
         protected Vector3[] m_spawnPoints;
 
+        protected readonly string baseJsonPath = "UserData/paranoia/json/BaseHallucination/";
+
         private float startDelayTimer;
         private float teleportDelayTimer;
 

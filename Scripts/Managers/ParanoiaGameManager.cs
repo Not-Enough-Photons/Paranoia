@@ -68,15 +68,12 @@ namespace NEP.Paranoia.Managers
         
         private AudioManager _audioManager;
         public AudioManager audioManager { get { return _audioManager; } }
-        
-        // Hallucinations
-        private List<BaseHallucination> baseHallucinations;
-        private List<AudioHallucination> audioHallucinations;
 
         public AudioHallucination hChaser { get; private set; }
         public AudioHallucination hDarkVoice { get; private set; }
         public AudioHallucination hTeleportingEntity { get; private set; }
         public AudioHallucination hParalyzer { get; private set; }
+        public AudioHallucination hRadio { get; private set; }
         public BaseHallucination hCeilingMan { get; private set; }
         public BaseHallucination hStaringMan { get; private set; }
         public BaseHallucination hShadowPerson { get; private set; }
@@ -87,14 +84,8 @@ namespace NEP.Paranoia.Managers
         
         private VLB.VolumetricLightBeam _lightBeam;
         public VLB.VolumetricLightBeam lightBeam { get { return _lightBeam; } }
-        
-        private Light blankBoxLight;
-        private GameObject flashlightObject;
 
         public GameObject radioClone;
-        
-        private GameObject monitorClone;
-        private GameObject cursedDoorClone;
         
         private AudioSource _radioSource;
         public AudioSource radioSource { get { return _radioSource; } }
@@ -154,9 +145,6 @@ namespace NEP.Paranoia.Managers
 
         private void Start()
         {
-            baseHallucinations = new List<BaseHallucination>();
-            audioHallucinations = new List<AudioHallucination>();
-
             InitializeTicks();
 
             InitializeEntities();
@@ -183,12 +171,34 @@ namespace NEP.Paranoia.Managers
             _bakedProbes = LightmapSettings.lightProbes.bakedProbes;
         }
 
+        private void Update()
+        {
+			if (Paranoia.instance.isBlankBox)
+			{
+                playerCircle.CalculatePlayerCircle(0f);
+
+                if (debug || Time.timeScale == 0) { return; }
+
+                UpdateTicks(ticks);
+
+                if (isDark)
+                {
+                    UpdateTicks(darkTicks);
+                }
+            }
+        }
+
         private void InitializeTicks()
         {
             ticks = new List<Tick>();
             darkTicks = new List<Tick>();
 
             ReadTicksFromJSON(System.IO.File.ReadAllText("UserData/paranoia/json/Ticks/ticks.json"));
+        }
+
+        private void InitializeEntities()
+		{
+            SetupHallucinations();
         }
 
         private void ReadTicksFromJSON(string json)
@@ -223,6 +233,23 @@ namespace NEP.Paranoia.Managers
             }
         }
 
+        private void SetupHallucinations()
+        {
+            hChaser = SpawnPrefab("ent_soundentity").AddComponent<Chaser>();
+            hDarkVoice = SpawnPrefab("ent_soundentity").AddComponent<DarkVoice>();
+            hTeleportingEntity = SpawnPrefab("ent_soundentity").AddComponent<AudioHallucination>();
+            hParalyzer = SpawnPrefab("ent_soundentity").AddComponent<AudioHallucination>();
+            hRadio = SpawnPrefab("ent_radio").AddComponent<Radio>();
+            
+            hShadowPerson = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPerson>();
+            hShadowPersonChaser = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPersonChaser>();
+            hCeilingMan = SpawnPrefab("ent_ceilingman").AddComponent<CeilingMan>();
+            hStaringMan = SpawnPrefab("ent_staringman").AddComponent<StaringMan>();
+            hObserver = SpawnPrefab("ent_observer").AddComponent<Observer>();
+            hCursedDoor = SpawnPrefab("ent_curseddoor").AddComponent<CursedDoorController>();
+            invisibleForce = new GameObject("Invisible Force").AddComponent<InvisibleForce>();
+        }
+
         private void FinalizeTick(Tick.JSONSettings settings, System.Type targetActionType)
         {
             if (targetActionType == null) { return; }
@@ -244,112 +271,7 @@ namespace NEP.Paranoia.Managers
                 darkTicks?.Add(generated);
             }
         }
-
-        private void InitializeEntities()
-		{
-            radioClone = GameObject.Instantiate(radioObject);
-            monitorClone = GameObject.Instantiate(monitorObject);
-
-            SetupHallucinations();
-
-            _radioSource = radioClone.GetComponentInChildren<AudioSource>();
-            MonitorVideo monitorVideo = monitorClone.AddComponent<MonitorVideo>();
-            monitorVideo.clips = clipList;
-
-            radioClone.SetActive(false);
-            monitorClone.SetActive(false);
-        }
-
-        private GameObject SpawnPrefab(GameObject obj)
-        {
-            return GameObject.Instantiate(obj, Vector3.zero, Quaternion.identity);
-        }
-
-        private void SetupHallucinations()
-        {
-            GameObject chaserAudio, darkVoiceAudio, shadowManClone,
-                       shadowManChaserClone, ceilingManClone, staringManClone,
-                       observerClone, teleportingEntityClone, paralyzerEntityClone,
-                       invisibleForceObject;
-
-            chaserAudio = new GameObject("ChaserMirage");
-            darkVoiceAudio = new GameObject("DarkVoice");
-            shadowManClone = SpawnPrefab(shadowMan);
-            shadowManChaserClone = SpawnPrefab(shadowMan);
-            ceilingManClone = SpawnPrefab(ceilingWatcher);
-            staringManClone = SpawnPrefab(staringMan);
-            observerClone = SpawnPrefab(observer);
-            teleportingEntityClone = SpawnPrefab(teleportingEntity);
-            paralyzerEntityClone = SpawnPrefab(paralyzerEntity);
-            invisibleForceObject = new GameObject("Invisible Force");
-
-            cursedDoorClone = SpawnPrefab(cursedDoorObject);
-
-            chaserAudio.AddComponent<AudioSource>();
-            darkVoiceAudio.AddComponent<AudioSource>();
-            paralyzerEntityClone.AddComponent<AudioSource>();
-            hChaser = chaserAudio.AddComponent<AudioHallucination>();
-            hDarkVoice = darkVoiceAudio.AddComponent<AudioHallucination>();
-            hTeleportingEntity = teleportingEntityClone.AddComponent<AudioHallucination>();
-            hParalyzer = paralyzerEntityClone.AddComponent<AudioHallucination>();
-            
-            hShadowPerson = shadowManClone.AddComponent<BaseHallucination>();
-            hShadowPersonChaser = shadowManChaserClone.AddComponent<BaseHallucination>();
-            hCeilingMan = ceilingManClone.AddComponent<BaseHallucination>();
-            hStaringMan = staringManClone.AddComponent<BaseHallucination>();
-            hObserver = observerClone.AddComponent<BaseHallucination>();
-            hCursedDoor = cursedDoorClone.AddComponent<CursedDoorController>();
-            invisibleForce = invisibleForceObject.AddComponent<BaseHallucination>();
-
-            invisibleForce.gameObject.AddComponent<SphereCollider>().radius = 2f;
-            
-            hChaser.clips = Paranoia.instance.chaserAmbience.ToArray();
-            hDarkVoice.clips = Paranoia.instance.darkVoices.ToArray();
-            hTeleportingEntity.clips = Paranoia.instance.teleporterAmbience.ToArray();
-            hParalyzer.clips = Paranoia.instance.paralyzerAmbience.ToArray();
-            
-            hStaringMan.spawnPoints = staringManSpawns;
-            hCeilingMan.spawnPoints = ceilingManSpawns;
-
-            ApplyHallucinationSettings();
-        }
-
-        private void ApplyHallucinationSettings()
-        {
-            string baseJsonDir = "UserData/paranoia/json/BaseHallucination";
-            string audioJsonDir = "UserData/paranoia/json/AudioHallucination";
-
-            hShadowPerson.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/ShadowMan.json"));
-            hShadowPersonChaser.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/ShadowManChaser.json"));
-            hCeilingMan.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/CeilingMan.json"));
-            hStaringMan.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/StaringMan.json"));
-            hObserver.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/Observer.json"));
-            hCursedDoor.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/CursedDoor.json"));
-            invisibleForce.ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonDir + "/InvisibleForce.json"));
-
-            hChaser.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/Chaser.json"));
-            hDarkVoice.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/DarkVoice.json"));
-            hTeleportingEntity.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/TeleportingEntity.json"));
-            hParalyzer.ReadValuesFromJSON(System.IO.File.ReadAllText(audioJsonDir + "/Paralyzer.json"));
-        }
-
-        private void Update()
-        {
-			if (Paranoia.instance.isBlankBox)
-			{
-                playerCircle.CalculatePlayerCircle(0f);
-
-                if (debug || Time.timeScale == 0) { return; }
-
-                UpdateTicks(ticks);
-
-                if (isDark)
-                {
-                    UpdateTicks(darkTicks);
-                }
-            }
-        }
-
+        
         private void UpdateTicks(List<Tick> ticks)
         {
             if (!insanityMode)
@@ -363,6 +285,11 @@ namespace NEP.Paranoia.Managers
 
                 ticks[i].Update();
             }
+        }
+
+        private GameObject SpawnPrefab(string entName)
+        {
+            return GameObject.Instantiate(Paranoia.instance.GetEntInDirectory(entName), Vector3.zero, Quaternion.identity);
         }
 
         internal void ChangeClipboardText()

@@ -30,62 +30,34 @@ namespace NEP.Paranoia
 	{
 		public static Paranoia instance;
 
-		internal AssetBundle bundle;
-		internal AudioSource source;
+		public AssetBundle bundle;
+		
+		public ParanoiaGameManager gameManager;
+		public AudioManager audioManager;
 
-		internal ParanoiaGameManager gameManager;
-		internal AudioManager audioManager;
+		private Dictionary<string, GameObject> baseEntities;
 
-		internal List<AudioClip> genericAmbience;
-		internal List<AudioClip> screamAmbience;
-		internal List<AudioClip> chaserAmbience;
-		internal List<AudioClip> teleporterAmbience;
-		internal List<AudioClip> paralyzerAmbience;
-		internal List<AudioClip> watcherAmbience;
-		internal List<AudioClip> doorIdleSounds;
-		internal List<AudioClip> doorOpenSounds;
-		internal List<AudioClip> darkVoices;
-		internal List<AudioClip> radioTunes;
+		public List<AudioClip> genericAmbience;
+		public List<AudioClip> screamAmbience;
+		public List<AudioClip> chaserAmbience;
+		public List<AudioClip> teleporterAmbience;
+		public List<AudioClip> paralyzerAmbience;
+		public List<AudioClip> watcherAmbience;
+		public List<AudioClip> doorIdleSounds;
+		public List<AudioClip> doorOpenSounds;
+		public List<AudioClip> darkVoices;
+		public List<AudioClip> radioTunes;
 
-		internal List<VideoClip> videoClips;
+		public List<VideoClip> videoClips;
 
-		internal AudioClip startingTune;
+		public AudioClip startingTune;
 
-		internal GameObject shadowPersonObject;
-		internal GameObject staringManObject;
-		internal GameObject ceilingManObject;
-		internal GameObject observerObject;
-		internal GameObject teleportingEntityObject;
-		internal GameObject paralyzingEntityObject;
-		internal GameObject radioObject;
-		internal GameObject monitorObject;
-		internal GameObject cursedDoorObject;
+		public bool isBlankBox;
 
-		internal GameObject voiceOffset;
-
-		internal Transform playerTrigger;
-
-		internal Vector3[] spawnPoints = new Vector3[3]
-		{
-			new Vector3(-53.9f, 1f, -55.1f),
-			new Vector3(-53.7f, 1f, 32.1f),
-			new Vector3(52.1f, 1f, 54.4f)
-		};
-
-		internal SpawnCircle[] spawnCircles = new SpawnCircle[3];
-
-		internal SpawnCircle ceilingManSpawnCircle;
-
-		internal UnhollowerBaseLib.Il2CppReferenceArray<LightmapData> lightmaps;
-		internal UnhollowerBaseLib.Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> bakedProbes;
-
-		internal bool isBlankBox;
-
-		internal bool firstRadioSpawn = false;
-
-		internal bool isDark = false;
-
-		internal int rng = 1;
+		public GameObject GetEntInDirectory(string name)
+        {
+			return baseEntities[name];
+        }
 
 		public override void OnApplicationStart()
 		{
@@ -107,40 +79,6 @@ namespace NEP.Paranoia
 
 				bundle = AssetBundle.LoadFromFile("UserData/paranoia/paranoia.pack");
 
-				source = bundle.LoadAsset("s").Cast<GameObject>().gameObject.GetComponent<AudioSource>();
-				source.dopplerLevel = 0f;
-				source.gameObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
-
-				shadowPersonObject = bundle.LoadAsset("ShadowPerson").Cast<GameObject>();
-				shadowPersonObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
-
-				staringManObject = bundle.LoadAsset("StaringMan").Cast<GameObject>();
-				staringManObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
-
-				ceilingManObject = bundle.LoadAsset("CeilingMan").Cast<GameObject>();
-				ceilingManObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
-
-				observerObject = bundle.LoadAsset("Observer").Cast<GameObject>();
-				observerObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
-
-				teleportingEntityObject = bundle.LoadAsset("GrayMan").Cast<GameObject>();
-				teleportingEntityObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
-
-				paralyzingEntityObject = bundle.LoadAsset("Paralyzer").Cast<GameObject>();
-				paralyzingEntityObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
-
-				radioObject = bundle.LoadAsset("PRadio").Cast<GameObject>();
-				radioObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
-
-				monitorObject = bundle.LoadAsset("MonitorPlayer").Cast<GameObject>();
-				monitorObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
-
-				cursedDoorObject = bundle.LoadAsset("CursedDoor").Cast<GameObject>();
-				cursedDoorObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
-
-				ParanoiaUtilities.FixObjectShader(radioObject);
-				//FixObjectShader(monitorObject);
-
 				genericAmbience = new List<AudioClip>();
 				screamAmbience = new List<AudioClip>();
 				chaserAmbience = new List<AudioClip>();
@@ -153,6 +91,10 @@ namespace NEP.Paranoia
 				radioTunes = new List<AudioClip>();
 
 				videoClips = new List<VideoClip>();
+
+				PrecacheEntityObjects();
+				PrecacheAudioAssets();
+
 			}
 			catch (System.Exception e)
 			{
@@ -168,35 +110,17 @@ namespace NEP.Paranoia
 				{
 					isBlankBox = true;
 
-					PrecacheAudioAssets();
-
-					PrecacheVideoAssets();
-
-					playerTrigger = ParanoiaUtilities.FindPlayer();
-
 					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
-
-					InitializeGameManager();
-
-					voiceOffset = new GameObject("Dark Voice Offset");
-
-					voiceOffset.transform.SetParent(playerTrigger.transform);
-					voiceOffset.transform.position = Vector3.zero;
-					voiceOffset.transform.localPosition = Vector3.forward * -2f;
 
 					audioManager = new GameObject("Audio Manager").AddComponent<AudioManager>();
 					ObjectPool pool = audioManager.gameObject.AddComponent<ObjectPool>();
 
 					audioManager.ambientGeneric = genericAmbience;
 					audioManager.ambientScreaming = screamAmbience;
-					audioManager.ambientChaser = chaserAmbience;
-					audioManager.ambientDarkVoices = darkVoices;
-					audioManager.radioTunes = radioTunes;
-					audioManager.startingTune = startingTune;
 
 					audioManager.pool = pool;
 
-					pool.prefab = source.gameObject;
+					pool.prefab = GetEntInDirectory("ent_soundentity");
 					pool.poolSize = 10;
 
 					GameObject.Find("MUSICMACHINE (1)").SetActive(false);
@@ -204,9 +128,6 @@ namespace NEP.Paranoia
 					GameObject.Find("HEALTHMACHINE").SetActive(false);
 					GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE").SetActive(false);
 					GameObject.Find("Decal_SafeGrav").SetActive(false);
-
-					lightmaps = LightmapSettings.lightmaps;
-					bakedProbes = LightmapSettings.lightProbes.bakedProbes;
 				}
 				else
 				{
@@ -225,18 +146,20 @@ namespace NEP.Paranoia
 			bundleObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
 		}
 
-		internal void InitializeGameManager()
-		{
-			gameManager.radioObject = radioObject;
-			gameManager.shadowMan = shadowPersonObject;
-			gameManager.observer = observerObject;
-			gameManager.staringMan = staringManObject;
-			gameManager.ceilingWatcher = ceilingManObject;
-			gameManager.teleportingEntity = teleportingEntityObject;
-			gameManager.paralyzerEntity = paralyzingEntityObject;
-			gameManager.monitorObject = monitorObject;
-			gameManager.cursedDoorObject = cursedDoorObject;
-			gameManager.clipList = videoClips;
+		private void PrecacheEntityObjects()
+        {
+			baseEntities = new Dictionary<string, GameObject>();
+			Il2CppReferenceArray<UnityEngine.Object> assets = bundle.LoadAllAssets();
+
+			for (int i = 0; i < assets.Count; i++)
+			{
+				if (assets[i].TryCast<GameObject>() != null && assets[i].name.StartsWith("ent_"))
+				{
+					GameObject entAsset = assets[i].TryCast<GameObject>();
+					entAsset.hideFlags = HideFlags.DontUnloadUnusedAsset;
+					baseEntities.Add(entAsset.name, entAsset);
+				}
+			}
 		}
 
 		private void PrecacheAudioAssets()
@@ -271,41 +194,21 @@ namespace NEP.Paranoia
 
 			Il2CppReferenceArray<UnityEngine.Object> assets = bundle.LoadAllAssets();
 
-			for(int i = 0; i < directory.Values.Count; i++)
+			for(int i = 0; i < directory.Keys.Count; i++)
             {
-				for(int j = 0; j < bundle.LoadAllAssets().Count; j++)
+				for(int j = 0; j < assets.Count; j++)
                 {
-					for(int k = 0; k < nameLUT.Length; k++)
-                    {
-						if(bundle.LoadAllAssets()[j].TryCast<AudioClip>() == null) { continue; }
-						AudioClip clip = bundle.LoadAllAssets()[j].TryCast<AudioClip>();
+					if(assets[j].TryCast<AudioClip>() == null) { continue; }
 
-                        if (clip.name.StartsWith(nameLUT[k]))
-                        {
-							directory[nameLUT[k]].Add(clip);
-                        }
-                    }
+					AudioClip clip = assets[j].Cast<AudioClip>();
+					clip.hideFlags = HideFlags.DontUnloadUnusedAsset;
+
+                    if (clip.name.StartsWith(nameLUT[i]))
+                    {
+						directory[nameLUT[i]].Add(clip);
+					}
                 }
             }
-		}
-
-		private void PrecacheVideoAssets()
-		{
-			for (int i = 0; i < bundle.LoadAllAssets().Count; i++)
-			{
-				if (bundle.LoadAllAssets()[i].name.StartsWith("video_screen"))
-				{
-					videoClips.Add(bundle.LoadAllAssets()[i].Cast<VideoClip>());
-				}
-			}
-		}
-	}
-
-	internal class CustomLoadScreenSupport
-	{
-		internal static void Initialize()
-		{
-			Assembly loadScreenAsm = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault((asm) => asm.GetName().Name == "CustomLoadScreens");
 		}
 	}
 }

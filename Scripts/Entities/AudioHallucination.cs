@@ -30,7 +30,9 @@ namespace NEP.Paranoia.Entities
 
         public bool timerUsesAudioLength;
 
-        private AudioSource source;
+        protected readonly string audioJsonPath = "UserData/paranoia/json/AudioHallucination/";
+
+        protected AudioSource source;
 
         private float audioTimer = 0f;
 
@@ -53,11 +55,11 @@ namespace NEP.Paranoia.Entities
 
         protected override void Awake()
         {
-            base.Awake();
-
             if (GetComponent<AudioSource>() == null) { return; }
 
             source = GetComponent<AudioSource>();
+
+            base.Awake();
         }
 
         protected override void OnEnable()

@@ -94,9 +94,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Scripts\Entities\AudioHallucination.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Audio\Radio.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Visual\CeilingMan.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Audio\Chaser.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Audio\DarkVoice.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Visual\InvisibleForce.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Visual\Observer.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Audio\Paralyzer.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Visual\ShadowPersonChaser.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Visual\ShadowPerson.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Visual\StaringMan.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Audio\TeleportingEntity.cs" />
     <Compile Include="Scripts\Managers\AudioManager.cs" />
     <Compile Include="Scripts\Entities\BaseHallucination.cs" />
-    <Compile Include="Scripts\Entities\CursedDoorController.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Visual\CursedDoorController.cs" />
     <Compile Include="Scripts\Managers\Tick.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\LockGun.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\Paralysis.cs" />
@@ -126,7 +137,7 @@
     <Compile Include="Scripts\TickEvents\Mirages\Ambient\AmbientChaserSpawn.cs" />
     <Compile Include="Scripts\TickEvents\ParanoiaEvent.cs" />
     <Compile Include="Scripts\Utilities\HMDType.cs" />
-    <Compile Include="Scripts\Entities\MonitorVideo.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Visual\MonitorVideo.cs" />
     <Compile Include="Scripts\Note00001.cs" />
     <Compile Include="Scripts\Managers\ObjectPool.cs" />
     <Compile Include="Scripts\Managers\ParanoiaGameManager.cs" />

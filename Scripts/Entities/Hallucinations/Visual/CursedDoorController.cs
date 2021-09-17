@@ -12,9 +12,14 @@ namespace NEP.Paranoia.Entities
         public Material faceMaterial;
         private bool playedOnce = false;
 
+        private float m_timer = 0f;
+        private float m_delay = 1.5f;
+
         protected override void Awake()
         {
             base.Awake();
+
+            ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonPath + "CursedDoor.json"));
 
             hingeTransform = transform.Find("GameObject/scaler/door_Boneworks/hinge");
             source = transform.Find("GameObject/scaler/source").GetComponent<AudioSource>();
@@ -39,8 +44,14 @@ namespace NEP.Paranoia.Entities
 
                 if (!playedOnce)
                 {
-                    source.PlayOneShot(Paranoia.instance.doorOpenSounds[0]);
-                    playedOnce = true;
+                    m_timer += Time.deltaTime;
+
+                    if(m_timer >= m_delay)
+                    {
+                        source.PlayOneShot(Paranoia.instance.doorOpenSounds[0]);
+                        playedOnce = true;
+                        m_timer = 0f;
+                    }
                 }
             }
         }
