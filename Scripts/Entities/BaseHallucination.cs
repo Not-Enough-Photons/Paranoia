@@ -12,6 +12,7 @@ namespace NEP.Paranoia.Entities
         {
             public string baseFlags;
             public string startFlags;
+            public float targetInsanity;
 
             public bool useRandomSpawnAngle;
             public float spawnRadius;
@@ -122,6 +123,12 @@ namespace NEP.Paranoia.Entities
             set { m_damage = value; }
         }
 
+        public float targetInsanity
+        {
+            get { return m_targetInsanity; }
+            set { m_targetInsanity = value; }
+        }
+
         public Transform playerTarget
         {
             get { return m_playerTarget; }
@@ -157,6 +164,8 @@ namespace NEP.Paranoia.Entities
         protected float m_lookAtDisableDistance = 1f;
         protected float m_damage = 0.1f;
 
+        protected float m_targetInsanity = 1f;
+
         protected Transform m_playerTarget;
         protected Transform m_playerTargetHead;
 
@@ -191,6 +200,8 @@ namespace NEP.Paranoia.Entities
             m_useRandomSpawnAngle = settings.useRandomSpawnAngle;
             m_spawnRadius = settings.spawnRadius;
             m_spawnAngle = settings.spawnAngle;
+
+            m_targetInsanity = settings.targetInsanity;
 
             m_usesDelay = settings.usesDelay;
             m_maxTime = settings.maxTime;
