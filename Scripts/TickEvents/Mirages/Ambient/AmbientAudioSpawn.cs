@@ -17,7 +17,7 @@ namespace NEP.Paranoia.TickEvents.Mirages
             bool isRareNumber = rng >= 20 && rng <= 45 || rng >= 50 && rng <= 75;
 
             manager.hAmbience.useScreams = isRareNumber;
-            manager.hAmbience.gameObject.SetActive(isRareNumber);
+            manager.hAmbience.gameObject.SetActive(true);
         }
 
         public override void Stop()
