@@ -34,5 +34,14 @@ namespace NEP.Paranoia.Entities
                 0.5f,
                 originTransform.position.z + Mathf.Cos(angle * Deg2Rad) * radius);
         }
+
+        public Vector3 CalculatePlayerCircle(float angle, float radius, float yOffset)
+        {
+            // y position is 1 meter since we need the shadow beings to be on the ground directly
+            return new Vector3(
+                originTransform.position.x + Mathf.Sin(angle * Deg2Rad) * radius,
+                yOffset,
+                originTransform.position.z + Mathf.Cos(angle * Deg2Rad) * radius);
+        }
     }
 }

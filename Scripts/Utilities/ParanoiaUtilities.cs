@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 using NEP.Paranoia.Entities;
 using NEP.Paranoia.Managers;
@@ -123,7 +124,7 @@ namespace NEP.Paranoia.Utilities
         /// </summary>
         /// <param name="layerName"></param>
         /// <returns></returns>
-        public static List<GameObject> FindGameObjectsWithLayer(string layerName)
+        public static GameObject[] FindGameObjectsWithLayer(string layerName)
         {
             GameObject[] objectsInScene = GameObject.FindObjectsOfType<GameObject>();
             List<GameObject> layerObjects = new List<GameObject>();
@@ -136,7 +137,7 @@ namespace NEP.Paranoia.Utilities
                 }
             }
 
-            return layerObjects;
+            return layerObjects.ToArray();
         }
 
         /// <summary>

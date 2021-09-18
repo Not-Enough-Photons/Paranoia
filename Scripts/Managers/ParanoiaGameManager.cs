@@ -113,6 +113,8 @@ namespace NEP.Paranoia.Managers
         private Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> _bakedProbes;
         public Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> bakedProbes { get { return _bakedProbes; } }
 
+        private GameObject[] 
+
         public void SetFirstRadioSpawn(bool condition)
         {
             _firstRadioSpawn = condition;

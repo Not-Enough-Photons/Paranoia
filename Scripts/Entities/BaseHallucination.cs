@@ -17,6 +17,7 @@ namespace NEP.Paranoia.Entities
             public bool useRandomSpawnAngle;
             public float spawnRadius;
             public float spawnAngle;
+            public float yOffset;
 
             public bool usesDelay;
             public float maxTime;
@@ -82,6 +83,12 @@ namespace NEP.Paranoia.Entities
         {
             get { return m_spawnAngle; }
             set { m_spawnAngle = value; }
+        }
+
+        public float yOffset
+        {
+            get { return m_yOffset; }
+            set { m_yOffset = value; }
         }
 
         public bool usesDelay
@@ -153,6 +160,7 @@ namespace NEP.Paranoia.Entities
         protected bool m_useRandomSpawnAngle;
         protected float m_spawnRadius = 100f;
         protected float m_spawnAngle;
+        protected float m_yOffset;
 
         protected bool m_usesDelay;
         protected float m_maxTime = 1f;
@@ -200,6 +208,7 @@ namespace NEP.Paranoia.Entities
             m_useRandomSpawnAngle = settings.useRandomSpawnAngle;
             m_spawnRadius = settings.spawnRadius;
             m_spawnAngle = settings.spawnAngle;
+            m_yOffset = settings.yOffset;
 
             m_targetInsanity = settings.targetInsanity;
 
@@ -230,11 +239,11 @@ namespace NEP.Paranoia.Entities
             {
                 if (m_useRandomSpawnAngle)
                 {
-                    transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), m_spawnRadius);
+                    transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), m_spawnRadius, yOffset);
                 }
                 else
                 {
-                    transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(m_spawnAngle, m_spawnRadius);
+                    transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(m_spawnAngle, m_spawnRadius, yOffset);
                 }
             }
 
