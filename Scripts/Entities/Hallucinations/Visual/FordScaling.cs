@@ -56,6 +56,7 @@ namespace NEP.Paranoia.Entities
                 case FaceState.Distorted:
                     break;
                 case FaceState.WideEyed:
+                    UpdateFaceFlexes(wideEyedFlexes.Keys.ToArray(), wideEyedFlexes.Values.ToArray(), meshRenderer);
                     break;
             }
         }
