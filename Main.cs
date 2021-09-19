@@ -69,6 +69,7 @@ namespace NEP.Paranoia
 				}
 
 				ParanoiaUtilities utils = new ParanoiaUtilities();
+				ParanoiaMapUtilities mapUtils = new ParanoiaMapUtilities();
 
 				ParanoiaUtilities.RegisterTypesInIL2CPP();
 

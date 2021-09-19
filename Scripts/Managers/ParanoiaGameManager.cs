@@ -63,8 +63,6 @@ namespace NEP.Paranoia.Managers
 
         private Transform _playerTrigger;
         public Transform playerTrigger { get { return _playerTrigger; } }
-
-        private Transform playerHead;
         
         private AudioManager _audioManager;
         public AudioManager audioManager { get { return _audioManager; } }
@@ -83,17 +81,11 @@ namespace NEP.Paranoia.Managers
         public FordScaling hFordScaling { get; private set; }
         public CursedDoorController hCursedDoor { get; private set; }
         public InvisibleForce invisibleForce { get; private set; }
-        
-        private VLB.VolumetricLightBeam _lightBeam;
-        public VLB.VolumetricLightBeam lightBeam { get { return _lightBeam; } }
 
         public GameObject radioClone;
         
         private AudioSource _radioSource;
         public AudioSource radioSource { get { return _radioSource; } }
-
-        private bool _firstRadioSpawn = false;
-        public bool firstRadioSpawn { get { return _firstRadioSpawn; } }
 
         private bool _isDark = true;
         public bool isDark { get {  return _isDark; } }
@@ -106,17 +98,6 @@ namespace NEP.Paranoia.Managers
         public float insanity;
 
         private SpawnCircle[] spawnCircles = new SpawnCircle[3];
-
-        private Il2CppReferenceArray<LightmapData> _lightmaps;
-        public Il2CppReferenceArray<LightmapData> lightmaps { get { return _lightmaps; } }
-
-        private Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> _bakedProbes;
-        public Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> bakedProbes { get { return _bakedProbes; } }
-
-        public void SetFirstRadioSpawn(bool condition)
-        {
-            _firstRadioSpawn = condition;
-        }
 
         public void SetIsDark(bool condition)
         {
@@ -153,6 +134,8 @@ namespace NEP.Paranoia.Managers
 
         private void Start()
         {
+            ParanoiaMapUtilities.Initialize();
+
             InitializeTicks();
 
             InitializeEntities();
@@ -169,9 +152,6 @@ namespace NEP.Paranoia.Managers
                 spawnCircles[i].radius = 25f;
                 spawnCircles[i].originTransform.position = staringManSpawns[i];
             }
-
-            _lightmaps = LightmapSettings.lightmaps;
-            _bakedProbes = LightmapSettings.lightProbes.bakedProbes;
         }
 
         private void Update()

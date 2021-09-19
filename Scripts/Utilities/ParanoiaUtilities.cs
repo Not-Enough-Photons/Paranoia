@@ -1,21 +1,16 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 using NEP.Paranoia.Entities;
 using NEP.Paranoia.Managers;
-using NEP.Paranoia.TickEvents;
-
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 
 using StressLevelZero.Rig;
 using StressLevelZero.Props.Weapons;
 using StressLevelZero.Interaction;
 
+using UnhollowerBaseLib;
 using UnhollowerRuntimeLib;
 
 using Valve.VR;
@@ -120,27 +115,6 @@ namespace NEP.Paranoia.Utilities
         }
 
         /// <summary>
-        /// Finds a group of game objects on a given layer.
-        /// </summary>
-        /// <param name="layerName"></param>
-        /// <returns></returns>
-        public static GameObject[] FindGameObjectsWithLayer(string layerName)
-        {
-            GameObject[] objectsInScene = GameObject.FindObjectsOfType<GameObject>();
-            List<GameObject> layerObjects = new List<GameObject>();
-
-            for(int i = 0; i < objectsInScene.Length; i++)
-            {
-                if(objectsInScene[i].layer == LayerMask.NameToLayer("Static"))
-                {
-                    layerObjects?.Add(objectsInScene[i]);
-                }
-            }
-
-            return layerObjects.ToArray();
-        }
-
-        /// <summary>
         /// Checks if our system clock hour is equal to the hour we set.
         /// </summary>
         /// <param name="hour"></param>
@@ -237,6 +211,80 @@ namespace NEP.Paranoia.Utilities
             ClassInjector.RegisterTypeInIl2Cpp<ShadowPersonChaser>();
             ClassInjector.RegisterTypeInIl2Cpp<StaringMan>();
             ClassInjector.RegisterTypeInIl2Cpp<TeleportingEntity>();
+        }
+    }
+
+    public class ParanoiaMapUtilities
+    {
+        public static Il2CppReferenceArray<LightmapData> lightmaps;
+        public static Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> bakedProbes;
+        public static GameObject[] staticPlaneObjects;
+        public static GameObject staticCeiling;
+        public static GameObject mainLight;
+        public static VLB.VolumetricLightBeam[] lightBeams;
+
+        public static Material[] staticPlaneMaterials;
+        public static float[] staticPlaneCubeMapScalars;
+
+        public static void Initialize()
+        {
+            lightmaps = LightmapSettings.lightmaps;
+            bakedProbes = LightmapSettings.lightProbes.bakedProbes;
+            staticPlaneObjects = FindGameObjectsWithLayer("Static");
+            staticPlaneMaterials = CacheMaterialsFromPlanes(staticPlaneObjects);
+            staticPlaneCubeMapScalars = CacheCubeMapScalars(staticPlaneMaterials);
+            staticCeiling = GameObject.Find("------STATICENV------");
+            mainLight = GameObject.Find("REALTIMELIGHT");
+            lightBeams = UnityEngine.Object.FindObjectsOfType<VLB.VolumetricLightBeam>();
+        }
+
+        /// <summary>
+        /// Finds a group of game objects on a given layer.
+        /// </summary>
+        /// <param name="layerName"></param>
+        /// <returns></returns>
+        private static GameObject[] FindGameObjectsWithLayer(string layerName)
+        {
+            GameObject[] objectsInScene = GameObject.FindObjectsOfType<GameObject>();
+            List<GameObject> layerObjects = new List<GameObject>();
+
+            for (int i = 0; i < objectsInScene.Length; i++)
+            {
+                if (objectsInScene[i].layer == LayerMask.NameToLayer("Static"))
+                {
+                    layerObjects?.Add(objectsInScene[i]);
+                }
+            }
+
+            return layerObjects.ToArray();
+        }
+
+        private static Material[] CacheMaterialsFromPlanes(GameObject[] planeObjects)
+        {
+            List<Material> mats = new List<Material>();
+
+            for (int i = 0; i < planeObjects.Length; i++)
+            {
+                if (planeObjects[i].GetComponent<Renderer>())
+                {
+                    Renderer renderer = planeObjects[i].GetComponent<Renderer>();
+                    mats.Add(renderer.material);
+                }
+            }
+
+            return mats.ToArray();
+        }
+
+        private static float[] CacheCubeMapScalars(Material[] materials)
+        {
+            List<float> scalars = new List<float>();
+
+            for(int i = 0; i < materials.Length; i++)
+            {
+                scalars.Add(materials[i].GetFloat("g_flCubeMapScalar"));
+            }
+
+            return scalars.ToArray();
         }
     }
 }

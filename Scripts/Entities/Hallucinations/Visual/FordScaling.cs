@@ -43,6 +43,11 @@ namespace NEP.Paranoia.Entities
         {
             base.OnEnable();
 
+            m_disableDistance--;
+            m_spawnRadius--;
+
+            _faceState = FaceState.WideEyed;
+
             switch (_faceState)
             {
                 case FaceState.Default:
