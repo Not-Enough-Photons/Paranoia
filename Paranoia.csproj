@@ -111,7 +111,8 @@
     <Compile Include="Scripts\Entities\BaseHallucination.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Visual\CursedDoorController.cs" />
     <Compile Include="Scripts\Managers\Tick.cs" />
-    <Compile Include="Scripts\TickEvents\Events\Player\LockGun.cs" />
+    <Compile Include="Scripts\TickEvents\Events\Player\FireGunInHand.cs" />
+    <Compile Include="Scripts\TickEvents\Events\Player\EjectMagazine.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\Paralysis.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\ChangeInsanity.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\ChangeRNG.cs" />
@@ -120,9 +121,11 @@
     <Compile Include="Scripts\TickEvents\Events\Player\DropHeadItem.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\KillAI.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\CursedDoorSpawn.cs" />
+    <Compile Include="Scripts\TickEvents\Events\World\FireGun.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\LightFlickering.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\MoveAIToPlayer.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\MoveAIToRadio.cs" />
+    <Compile Include="Scripts\TickEvents\Events\World\RemoveRandomObject.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnInvisibleForce.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnMonitor.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnRadio.cs" />

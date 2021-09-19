@@ -4,18 +4,15 @@ using StressLevelZero.Props.Weapons;
 
 namespace NEP.Paranoia.TickEvents.Events
 {
-    public class LockGun : ParanoiaEvent
+    public class EjectMagazine : ParanoiaEvent
     {
         public override void Start()
         {
-            if(ParanoiaUtilities.GetGunInHand(StressLevelZero.Handedness.RIGHT) == null)
-            {
-                return;
-            }
-
             Gun gun = ParanoiaUtilities.GetGunInHand(StressLevelZero.Handedness.RIGHT);
 
-            gun?.magazineSocket.ClearMagazine();
+            if(gun == null) { return; }
+
+            gun?.magazineSocket.EjectMagazine();
         }
     }
 }

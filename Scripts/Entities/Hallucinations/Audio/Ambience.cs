@@ -17,9 +17,9 @@ namespace NEP.Paranoia.Entities
 
         protected override void OnEnable()
         {
-            base.OnEnable();
-
             clips = useScreams ? Paranoia.instance.screamAmbience.ToArray() : Paranoia.instance.genericAmbience.ToArray();
+
+            base.OnEnable();
         }
     }
 }

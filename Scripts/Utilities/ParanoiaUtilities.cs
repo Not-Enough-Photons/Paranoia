@@ -105,6 +105,27 @@ namespace NEP.Paranoia.Utilities
             return UnityEngine.Object.FindObjectOfType<PhysicsRig>();
         }
 
+        public static Rigidbody[] FindObjectsBehindHead(Transform head, string layer)
+        {
+            Rigidbody[] rbs = UnityEngine.Object.FindObjectsOfType<Rigidbody>();
+            List<Rigidbody> objectList = new List<Rigidbody>();
+
+            if(rbs == null) { return null; }
+
+            foreach(Rigidbody rb in rbs)
+            {
+                if(Vector3.Dot(head.forward, rb.position) <= 1f)
+                {
+                    if (rb.gameObject.layer == LayerMask.NameToLayer(layer))
+                    {
+                        objectList.Add(rb);
+                    }
+                }
+            }
+
+            return objectList.ToArray();
+        }
+
         public static Gun GetGunInHand(StressLevelZero.Handedness hand)
         {
             PhysicsRig physRig = GetPhysicsRig();

@@ -131,6 +131,11 @@ namespace NEP.Paranoia.Entities
 
         protected virtual IEnumerator CoHideSelf(float duration)
         {
+            if(duration <= 0f)
+            {
+                duration = 0f;
+            }
+
             yield return new WaitForSeconds(duration);
             gameObject.SetActive(false);
         }
