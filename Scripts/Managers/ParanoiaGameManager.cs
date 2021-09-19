@@ -95,7 +95,7 @@ namespace NEP.Paranoia.Managers
         private bool _firstRadioSpawn = false;
         public bool firstRadioSpawn { get { return _firstRadioSpawn; } }
 
-        private bool _isDark = false;
+        private bool _isDark = true;
         public bool isDark { get {  return _isDark; } }
 
         private int _rng = 1;
@@ -112,8 +112,6 @@ namespace NEP.Paranoia.Managers
 
         private Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> _bakedProbes;
         public Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> bakedProbes { get { return _bakedProbes; } }
-
-        private GameObject[] 
 
         public void SetFirstRadioSpawn(bool condition)
         {
@@ -205,6 +203,26 @@ namespace NEP.Paranoia.Managers
             SetupHallucinations();
         }
 
+
+        private void SetupHallucinations()
+        {
+            hAmbience = SpawnPrefab("ent_soundentity").AddComponent<Ambience>();
+            hChaser = SpawnPrefab("ent_soundentity").AddComponent<Chaser>();
+            hDarkVoice = SpawnPrefab("ent_soundentity").AddComponent<DarkVoice>();
+            hTeleportingEntity = SpawnPrefab("ent_grayman").AddComponent<TeleportingEntity>();
+            hParalyzer = SpawnPrefab("ent_paralyzer").AddComponent<Paralyzer>();
+            hRadio = SpawnPrefab("ent_radio").AddComponent<Radio>();
+            
+            hShadowPerson = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPerson>();
+            hShadowPersonChaser = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPersonChaser>();
+            hCeilingMan = SpawnPrefab("ent_ceilingman").AddComponent<CeilingMan>();
+            hStaringMan = SpawnPrefab("ent_staringman").AddComponent<StaringMan>();
+            hObserver = SpawnPrefab("ent_observer").AddComponent<Observer>();
+            hFordScaling = SpawnPrefab("ent_fordscaling").AddComponent<FordScaling>();
+            hCursedDoor = SpawnPrefab("ent_curseddoor").AddComponent<CursedDoorController>();
+            invisibleForce = new GameObject("Invisible Force").AddComponent<InvisibleForce>();
+        }
+
         private void ReadTicksFromJSON(string json)
         {
             List<Tick.JSONSettings> tickSettings = JsonConvert.DeserializeObject<List<Tick.JSONSettings>>(json);
@@ -237,25 +255,6 @@ namespace NEP.Paranoia.Managers
             }
         }
 
-        private void SetupHallucinations()
-        {
-            hAmbience = SpawnPrefab("ent_soundentity").AddComponent<Ambience>();
-            hChaser = SpawnPrefab("ent_soundentity").AddComponent<Chaser>();
-            hDarkVoice = SpawnPrefab("ent_soundentity").AddComponent<DarkVoice>();
-            hTeleportingEntity = SpawnPrefab("ent_grayman").AddComponent<TeleportingEntity>();
-            hParalyzer = SpawnPrefab("ent_paralyzer").AddComponent<Paralyzer>();
-            hRadio = SpawnPrefab("ent_radio").AddComponent<Radio>();
-            
-            hShadowPerson = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPerson>();
-            hShadowPersonChaser = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPersonChaser>();
-            hCeilingMan = SpawnPrefab("ent_ceilingman").AddComponent<CeilingMan>();
-            hStaringMan = SpawnPrefab("ent_staringman").AddComponent<StaringMan>();
-            hObserver = SpawnPrefab("ent_observer").AddComponent<Observer>();
-            hFordScaling = SpawnPrefab("ent_fordscaling").AddComponent<FordScaling>();
-            hCursedDoor = SpawnPrefab("ent_curseddoor").AddComponent<CursedDoorController>();
-            invisibleForce = new GameObject("Invisible Force").AddComponent<InvisibleForce>();
-        }
-
         private void FinalizeTick(Tick.JSONSettings settings, System.Type targetActionType)
         {
             if (targetActionType == null) { return; }
@@ -265,8 +264,8 @@ namespace NEP.Paranoia.Managers
             ParanoiaEvent ctorEvent = System.Activator.CreateInstance(targetActionType) as ParanoiaEvent;
 
             Tick generated = settings.minRange == 0f && settings.maxRange == 0f
-                ? new Tick(settings.tickName, settings.tick, settings.maxTick, tickType, ctorEvent)
-                : new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, tickType, ctorEvent);
+                ? new Tick(settings.tickName, settings.tick, settings.maxTick, settings.useInsanity, settings.targetInsanity, tickType, ctorEvent)
+                : new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.useInsanity, settings.targetInsanity, tickType, ctorEvent);
 
             if(tickType == TickType.Any)
             {

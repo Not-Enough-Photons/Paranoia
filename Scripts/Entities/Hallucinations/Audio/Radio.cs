@@ -19,21 +19,7 @@ namespace NEP.Paranoia.Entities
         protected override void OnEnable()
         {
             base.OnEnable();
-            source.spatialBlend = 1f;
-
-            MelonLoader.MelonCoroutines.Start(CoRadioHide(source.clip.length));
-        }
-
-        private System.Collections.IEnumerator CoRadioHide(float time)
-        {
-            yield return new WaitForSeconds(time);
-
-            if (gameObject.activeInHierarchy)
-            {
-                gameObject.SetActive(false);
-            }
-
-            yield return null;
+            source.spatialBlend = 0.875f;
         }
     }
 }

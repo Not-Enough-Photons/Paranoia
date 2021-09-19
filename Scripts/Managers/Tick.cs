@@ -12,6 +12,8 @@ namespace NEP.Paranoia.Managers
             public float minRange;
             public float maxRange;
             public float maxTick;
+            public bool useInsanity;
+            public float targetInsanity;
             public string fireEvent;
             public string tickType;
         }
@@ -29,23 +31,28 @@ namespace NEP.Paranoia.Managers
         private float _minRange;
         private float _maxRange;
         private float _maxTick;
+        private bool _useInsanity;
+        private float _targetInsanity;
         private ParanoiaEvent _event;
         private TickType _tickType;
 
-        public Tick(string tickName, float tick, float maxTick, TickType tickType, ParanoiaEvent Event)
+        public Tick(string tickName, float tick, float maxTick, bool useInsanity, float targetInsanity, TickType tickType, ParanoiaEvent Event)
         {
             _name = tickName;
             _tick = tick;
             _maxTick = maxTick;
+            _targetInsanity = targetInsanity;
             _tickType = tickType;
             _event = Event;
         }
 
-        public Tick(string tickName, float tick, float minRange, float maxRange, TickType tickType, ParanoiaEvent Event)
+        public Tick(string tickName, float tick, float minRange, float maxRange, bool useInsanity, float targetInsanity, TickType tickType, ParanoiaEvent Event)
         {
             _name = tickName;
             _tick = tick;
             _maxTick = Random.Range(minRange, maxRange);
+            _useInsanity = useInsanity;
+            _targetInsanity = targetInsanity;
             _tickType = tickType;
             _event = Event;
         }
@@ -57,11 +64,20 @@ namespace NEP.Paranoia.Managers
 
         public void Update()
         {
-            _tick += Time.deltaTime;
-
             if (_tick >= _maxTick)
             {
-                _event?.Start();
+                if (_useInsanity)
+                {
+                    if (_targetInsanity >= ParanoiaGameManager.instance.insanity)
+                    {
+                        _event?.Start();
+                    }
+                }
+                else
+                {
+                    _event?.Start();
+                }
+
                 _tick = 0f;
             }
         }

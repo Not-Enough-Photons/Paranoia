@@ -73,7 +73,7 @@ namespace NEP.Paranoia.Entities
 
             source.clip = clips[Random.Range(0, clips.Length)];
             source.dopplerLevel = 0f;
-            source.spatialBlend = 0.80f;
+            source.spatialBlend = 0.95f;
 
             if (auditoryType == AuditoryType.Ambient)
             {
