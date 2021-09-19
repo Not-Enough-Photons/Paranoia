@@ -103,7 +103,7 @@ namespace NEP.Paranoia.Managers
 
         public bool paralysisMode;
 
-        public float insanity { get; private set; }
+        public float insanity;
 
         private SpawnCircle[] spawnCircles = new SpawnCircle[3];
 
@@ -128,9 +128,17 @@ namespace NEP.Paranoia.Managers
             this._rng = rng;
         }
 
-        public void AddInsanity(float insanity)
+        public Tick GetTick(string tickName)
         {
-            this.insanity += insanity;
+            foreach(Tick tick in ticks)
+            {
+                if(tick.name == tickName)
+                {
+                    return tick;
+                }
+            }
+
+            return null;
         }
 
         private void Awake()
@@ -139,10 +147,8 @@ namespace NEP.Paranoia.Managers
 			{
                 instance = this;
 			}
-			else
-			{
-                Destroy(instance.gameObject);
-			}
+
+            instance.hideFlags = HideFlags.DontUnloadUnusedAsset;
         }
 
         private void Start()
@@ -156,11 +162,6 @@ namespace NEP.Paranoia.Managers
             _playerTrigger = ParanoiaUtilities.FindPlayer();
 
             playerCircle = new SpawnCircle(ParanoiaUtilities.FindPlayer());
-
-            if (insanityMode)
-            {
-                insanity = 0.1f;
-            }
 
             for (int i = 0; i < spawnCircles.Length; i++)
             {
@@ -202,7 +203,6 @@ namespace NEP.Paranoia.Managers
 		{
             SetupHallucinations();
         }
-
 
         private void SetupHallucinations()
         {
@@ -279,11 +279,6 @@ namespace NEP.Paranoia.Managers
         
         private void UpdateTicks(List<Tick> ticks)
         {
-            if (!insanityMode)
-            {
-                insanity = 0.1f;
-            }
-
             for (int i = 0; i < ticks.Count; i++)
             {
                 if (ticks[i].GetEvent() == null) { continue; }
