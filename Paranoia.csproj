@@ -140,6 +140,7 @@
     <Compile Include="Scripts\TickEvents\Mirages\Ambient\AmbientTeleEntSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Ambient\AmbientDarkVoiceSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\Ambient\AmbientChaserSpawn.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\SpawnMirage.cs" />
     <Compile Include="Scripts\TickEvents\ParanoiaEvent.cs" />
     <Compile Include="Scripts\Utilities\HMDType.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Visual\MonitorVideo.cs" />
