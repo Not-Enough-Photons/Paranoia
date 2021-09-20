@@ -163,7 +163,13 @@ namespace NEP.Paranoia.Utilities
 
             Hand _hand = hand == StressLevelZero.Handedness.RIGHT ? physRig.rightHand : physRig.leftHand;
 
-            return ModThatIsNotMod.Player.GetGunInHand(_hand);
+            if(_hand == null) { return null; }
+
+            Gun gun = ModThatIsNotMod.Player.GetGunInHand(_hand);
+
+            if(gun == null) { return null; }
+
+            return gun;
         }
 
         /// <summary>

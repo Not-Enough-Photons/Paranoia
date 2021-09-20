@@ -233,7 +233,11 @@ namespace NEP.Paranoia.Managers
 
         private void FinalizeTick(Tick.JSONSettings settings, System.Type targetActionType)
         {
-            if (targetActionType == null) { return; }
+            if (targetActionType == null)
+            {
+                targetActionType = System.Activator.CreateInstance(typeof(ParanoiaEvent)) as System.Type;
+                MelonLoader.MelonLogger.Warning($"WARNING at {settings.tickName}: You are making a tick without an event. This tick will run, but no event will be called.");
+            }
 
             Tick.TickType tickType = (Tick.TickType)System.Enum.Parse(typeof(Tick.TickType), settings.tickType);
 
@@ -252,7 +256,7 @@ namespace NEP.Paranoia.Managers
                 darkTicks?.Add(generated);
             }
         }
-        
+
         private void UpdateTicks(List<Tick> ticks)
         {
             for (int i = 0; i < ticks.Count; i++)
