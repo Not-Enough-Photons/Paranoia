@@ -124,7 +124,7 @@ namespace NEP.Paranoia.Utilities
             return result;
         }
 
-        public BehaviourBaseNav[] FindBaseNavs(AIBrain[] brains)
+        public static BehaviourBaseNav[] FindBaseNavs(AIBrain[] brains)
         {
             List<BehaviourBaseNav> baseNavs = new List<BehaviourBaseNav>();
 
