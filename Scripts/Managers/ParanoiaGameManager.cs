@@ -256,7 +256,7 @@ namespace NEP.Paranoia.Managers
                 darkTicks?.Add(generated);
             }
         }
-
+        
         private void UpdateTicks(List<Tick> ticks)
         {
             for (int i = 0; i < ticks.Count; i++)

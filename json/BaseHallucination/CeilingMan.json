@@ -1,0 +1,5 @@
+{
+    "baseFlags": "HideWhenClose | HideWhenSeen | LookAtTarget",
+    "startFlags": "SpawnAtPoints",
+    "disableDistance": 20.0,
+}

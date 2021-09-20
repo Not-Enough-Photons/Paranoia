@@ -1,0 +1,9 @@
+{
+    "baseFlags": "HideWhenClose | LookAtTarget | Moving",
+    "startFlags": "SpawnAroundPlayer",
+	"auditoryType": "Chaser",
+    "useRandomSpawnAngle": true,
+    "spawnRadius": 250.0,
+    "moveSpeed": 50.0,
+    "disableDistance": 1.0,
+}

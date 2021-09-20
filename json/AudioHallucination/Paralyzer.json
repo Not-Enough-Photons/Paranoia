@@ -1,0 +1,12 @@
+{
+    "baseFlags": "HideWhenClose | LookAtTarget | Teleporting",
+    "startFlags": "SpawnAroundPlayer",
+	"auditoryType": "Teleporting",
+    "useRandomSpawnAngle": true,
+    "spawnRadius": 150.0,
+	"yOffset": 5.0,
+	"maxTeleportDelay": 1.0,
+	"moveSpeed": 25.0,
+	"timerUsesAudioLength": true,
+    "disableDistance": 3.0
+}

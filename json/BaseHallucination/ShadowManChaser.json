@@ -1,0 +1,11 @@
+{
+    "baseFlags": "DamageThenHide | LookAtTarget | Moving",
+    "startFlags": "SpawnAroundPlayer",
+    "useRandomSpawnAngle": true,
+    "spawnRadius": 100.0,
+    "usesDelay": true,
+    "maxTime": 2.5,
+    "moveSpeed": 50.0,
+    "disableDistance": 1.0,
+    "damage": 0.2
+}

@@ -1,0 +1,47 @@
+OVERVIEW
+----------
+Paranoia v3 allows you to modify the hallucinations JSON files to your hearts content.
+You can change a variety of variables, with various effects on the hallucinations themselves.
+I'll plan a system to make your own hallucinations at some point in the future.
+
+VARIABLES
+----------
+NOTE: If you want to combine flags, check the [Combinable] title before you figure out which ones are.
+To combine, simply separate the flags using the '|' symbol.
+
+Some variables in some files have been removed for clarity.
+
+> baseFlags [Combinable] (Enum) - Flags that update the hallucination every frame.
+	> None
+	> HideWhenSeen
+	> HideWhenClose
+	> LookAtTarget
+	> Moving
+	> Damaging
+	> DamageThenHide
+	> SpinAroundPlayer
+	> Teleporting
+> startFlags [Combinable] (Enum) - Flags that update when the hallucination appears.
+	> None
+	> SpawnAroundPlayer
+	> SpawnAtPoints
+	> LookAtTarget
+> auditoryType [Audio Hallucinations Only] (Enum) - Flags that update the state of the audio hallucination.
+	> None
+	> Chaser
+	> Ambient (unused)
+	> Darkness
+	> Teleporting
+	> UnguidingVoice
+
+> useRandomSpawnAngle (bool) - Option to use a random spawn angle.
+> spawnRadius (float) - Size of the circle that the entity will spawn around.
+> spawnAngle (float) - Angle of the circle that the entity will spawn around.
+> usesDelay (bool) - Does this entity use a timer before starting its action?
+> maxTime (float) - Time until it runs the action.
+> moveSpeed (float) - Self-explanitory.
+> maxTeleportDelay (float) - Delay before the next teleportation begins.
+> timerUsesAudioLength (bool) [Audio Hallucinations Only] - Teleport timer uses the length of the audio clip.
+> disableDistance (float) - How close the entity needs to be to the player before it disappears.
+> lookAtDisableDistance (float) - The deadzone of the players eyes looking at the entity before it disappears.
+> damage (float) - Self-explanitory.

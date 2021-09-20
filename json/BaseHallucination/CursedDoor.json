@@ -1,0 +1,5 @@
+{
+    "baseFlags": "None",
+    "startFlags": "LookAtTarget | SpawnAroundPlayer",
+    "spawnRadius": 15.0,
+}
