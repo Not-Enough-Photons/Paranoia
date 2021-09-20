@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 
 using NEP.Paranoia.Entities;
 using NEP.Paranoia.Managers;
@@ -16,6 +17,7 @@ using UnhollowerBaseLib;
 using UnhollowerRuntimeLib;
 
 using UnityEngine;
+using UnityEngine.Audio;
 using Object = UnityEngine.Object;
 
 using Valve.VR;
@@ -87,6 +89,31 @@ namespace NEP.Paranoia.Utilities
                 if (isTrigger)
                 {
                     return array[i].transform;
+                }
+            }
+
+            return null;
+        }
+
+        public static BaseHallucination GetHallucination(string name)
+        {
+            ParanoiaGameManager manager = ParanoiaGameManager.instance;
+            FieldInfo info = manager.GetType().GetField(name);
+
+            BaseHallucination hallucination = info.GetValue(null) as BaseHallucination;
+
+            return hallucination;
+        }
+
+        public static AudioMixerGroup GetAudioMixer(string name)
+        {
+            AudioMixerGroup[] mixers = Resources.FindObjectsOfTypeAll<AudioMixerGroup>();
+
+            foreach(AudioMixerGroup mixer in mixers)
+            {
+                if(mixer.name == name)
+                {
+                    return mixer;
                 }
             }
 

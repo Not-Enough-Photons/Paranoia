@@ -4,6 +4,7 @@ using System.Linq;
 
 using NEP.Paranoia.Entities;
 using NEP.Paranoia.TickEvents;
+using NEP.Paranoia.TickEvents.Mirages;
 using NEP.Paranoia.Utilities;
 
 using StressLevelZero.AI;
@@ -105,19 +106,6 @@ namespace NEP.Paranoia.Managers
             this._rng = rng;
         }
 
-        public Tick GetTick(string tickName)
-        {
-            foreach(Tick tick in ticks)
-            {
-                if(tick.name == tickName)
-                {
-                    return tick;
-                }
-            }
-
-            return null;
-        }
-
         private void Awake()
 		{
             if(instance == null)
@@ -211,17 +199,14 @@ namespace NEP.Paranoia.Managers
                     {
                         string mainFunc = settings.fireEvent.Replace("E_", string.Empty);
                         string nameSpace = "NEP.Paranoia.TickEvents.Events.";
-                        System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
-
-                        FinalizeTick(settings, targetActionType);
+                        FinalizeTickDirty(settings, nameSpace, mainFunc);
                     }
                     else if (settings.fireEvent.StartsWith("M_"))
                     {
                         string mainFunc = settings.fireEvent.Replace("M_", string.Empty);
                         string nameSpace = "NEP.Paranoia.TickEvents.Mirages.";
-                        System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
 
-                        FinalizeTick(settings, targetActionType);
+                        FinalizeTickDirty(settings, nameSpace, mainFunc);
                     }
                 }
                 catch
@@ -231,21 +216,45 @@ namespace NEP.Paranoia.Managers
             }
         }
 
-        private void FinalizeTick(Tick.JSONSettings settings, System.Type targetActionType)
+        private void FinalizeTickDirty(JSONSettings settings, string nameSpace, string mainFunc)
         {
-            if (targetActionType == null)
+            SpawnMirage spawnFunc = null;
+
+            if (mainFunc.EndsWith("("))
             {
-                targetActionType = System.Activator.CreateInstance(typeof(ParanoiaEvent)) as System.Type;
-                MelonLoader.MelonLogger.Warning($"WARNING at {settings.tickName}: You are making a tick without an event. This tick will run, but no event will be called.");
+                spawnFunc = BuildInlineFunction(mainFunc) as SpawnMirage;
+                mainFunc.Remove(mainFunc.IndexOf('('));
             }
 
-            Tick.TickType tickType = (Tick.TickType)System.Enum.Parse(typeof(Tick.TickType), settings.tickType);
+            System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
+
+            /*if (targetActionType == null)
+            {
+                targetActionType = System.Activator.CreateInstance(typeof(ParanoiaEvent)) as System.Type;
+                MelonLoader.MelonLogger.Warning($"WARNING at {settings.tickName}: " +
+                    $"You are making a tick without an event. This tick will run, but no event will be called.");
+            }*/
+
+            TickType tickType = (TickType)System.Enum.Parse(typeof(TickType), settings.tickType);
 
             ParanoiaEvent ctorEvent = System.Activator.CreateInstance(targetActionType) as ParanoiaEvent;
 
-            Tick generated = settings.minRange == 0f && settings.maxRange == 0f
+            Tick generated = null;
+
+            if(spawnFunc != null)
+            {
+                generated = settings.minRange == 0f && settings.maxRange == 0f
+                ? new Tick(settings.tickName, settings.tick, settings.maxTick, settings.useInsanity, settings.targetInsanity, tickType, spawnFunc)
+                : new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.useInsanity, settings.targetInsanity, tickType, spawnFunc);
+            }
+            else
+            {
+                generated = settings.minRange == 0f && settings.maxRange == 0f
                 ? new Tick(settings.tickName, settings.tick, settings.maxTick, settings.useInsanity, settings.targetInsanity, tickType, ctorEvent)
                 : new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.useInsanity, settings.targetInsanity, tickType, ctorEvent);
+            }
+
+            if(generated == null) { return; }
 
             if(tickType == TickType.Any)
             {
@@ -255,6 +264,31 @@ namespace NEP.Paranoia.Managers
             {
                 darkTicks?.Add(generated);
             }
+        }
+
+        private object BuildInlineFunction(string functionname)
+        {
+            // The function gets split into different sections.
+            // The name: M_SpawnMirage(hChaser)
+            // To: [M_SpawnMirage], [(hChaser)]
+            string[] splitStr = functionname.Split('(');
+
+            // M_SpawnMirage
+            string mainFuncSplit = splitStr[0];
+
+            // (hChaser)
+            string mainFuncParams = splitStr[1];
+
+            // Now that the parameter name is isolated, remove the parenthesis.
+            // e.x. from (hChaser) to hChaser
+
+            // hChaser
+            string param = mainFuncParams.Replace("(", string.Empty).Replace(")", string.Empty);
+
+            // Build the constructor
+            object instance = System.Activator.CreateInstance(typeof(SpawnMirage), new object[] { ParanoiaUtilities.GetHallucination(param) });
+
+            return instance;
         }
         
         private void UpdateTicks(List<Tick> ticks)
