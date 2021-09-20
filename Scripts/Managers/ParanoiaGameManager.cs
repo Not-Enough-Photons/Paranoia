@@ -1,19 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using NEP.Paranoia.Entities;
-
 using NEP.Paranoia.TickEvents;
-using NEP.Paranoia.TickEvents.Events;
-using NEP.Paranoia.TickEvents.Mirages;
-
 using NEP.Paranoia.Utilities;
 
-using TMPro;
+using StressLevelZero.AI;
+using PuppetMasta;
 
 using UnityEngine;
-
-using UnhollowerBaseLib;
 
 using Newtonsoft.Json;
 using static NEP.Paranoia.Managers.Tick;
@@ -272,66 +268,16 @@ namespace NEP.Paranoia.Managers
             return GameObject.Instantiate(Paranoia.instance.GetEntInDirectory(entName), Vector3.zero, Quaternion.identity);
         }
 
-        internal void ChangeClipboardText()
+        public void MoveAIToPoint(Vector3 point, AIBrain brain)
         {
-            TextMeshPro tmp = GameObject.Find("prop_clipboard_MuseumBasement/TMP").GetComponent<TextMeshPro>();
-
-            tmp.text = "TURN AROUND. NOT IN GAME.";
-            tmp.old_text = "TURN AROUND. NOT IN GAME.";
-            tmp.m_text = tmp.text;
+            MoveAIToPoint(point, brain.behaviour);
         }
 
-        internal IEnumerator CoMoveAIToPoint(Transform ai, Vector3 point, bool fallThroughWorld)
+        public void MoveAIToPoint(Vector3 point, BehaviourBaseNav behaviour)
         {
-            if (ai != null)
-            {
-                if (ai.GetComponentInParent<StressLevelZero.AI.AIBrain>() != null)
-                {
-                    Transform parent = ai.GetComponentInParent<StressLevelZero.AI.AIBrain>().transform;
-
-                    if (parent.GetComponentInChildren<PuppetMasta.BehaviourBaseNav>())
-                    {
-                        PuppetMasta.BehaviourBaseNav baseNav = parent.GetComponentInChildren<PuppetMasta.BehaviourBaseNav>();
-
-                        baseNav.sensors.hearingSensitivity = 0f;
-                        baseNav.sensors.visionFov = 0f;
-                        baseNav.sensors._visionSphere.enabled = false;
-                        baseNav.breakAgroHomeDistance = 0f;
-
-                        if (baseNav.mentalState != PuppetMasta.BehaviourBaseNav.MentalState.Rest)
-                        {
-                            baseNav.SwitchMentalState(PuppetMasta.BehaviourBaseNav.MentalState.Rest);
-                        }
-
-                        baseNav.SetHomePosition(point, true);
-
-                        while (Vector3.Distance(baseNav.transform.position, point) > 2f) { yield return null; }
-
-                        if (fallThroughWorld)
-                        {
-                            foreach (Collider c in ai.GetComponentsInChildren<Collider>())
-                            {
-                                c.enabled = false;
-                            }
-
-                            yield return new WaitForSeconds(1f);
-
-                            foreach (Collider c in ai.GetComponentsInChildren<Collider>())
-                            {
-                                c.enabled = true;
-                            }
-
-                            ai.gameObject.SetActive(false);
-                        }
-
-                        yield return null;
-                    }
-                }
-                else
-                {
-                    yield return null;
-                }
-            }
+            behaviour.sensors.hearingSensitivity = 0f;
+            behaviour.SwitchMentalState(BehaviourBaseNav.MentalState.Roam);
+            behaviour.Investigate(point, true, 60f);
         }
     }
 }

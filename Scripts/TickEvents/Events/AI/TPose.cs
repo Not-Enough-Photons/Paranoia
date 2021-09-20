@@ -15,78 +15,32 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            ParanoiaGameManager manager = ParanoiaGameManager.instance;
+            AIBrain[] brains = ParanoiaUtilities.FindAIBrains();
 
-            if (manager.insanity > 1)
+            if(brains == null) { return; }
+
+            foreach(AIBrain brain in brains)
             {
-                Transform playerTrigger = manager.playerTrigger;
-                int rng = manager.rng;
-                bool isRareNumber = rng >= 20 && rng <= 29 || rng >= 25 && rng <= 30;
+                Transform transform = brain.transform;
+                Transform physicsGroup = transform.Find("Physics");
+                Transform aiGroup = transform.Find("AiRig");
 
-                if (isRareNumber)
-                {
-                    if (playerTrigger != null)
-                    {
-                        try
-                        {
-                            Il2CppArrayBase<AIBrain> brains = GameObject.FindObjectsOfType<AIBrain>();
+                physicsGroup.gameObject.SetActive(false);
+                aiGroup.gameObject.SetActive(false);
 
-                            foreach (AIBrain brain in brains)
-                            {
-                                Transform t = brain.transform;
-
-                                if (t.gameObject != null)
-                                {
-                                    if (t.Find("Physics") && t.Find("AiRig"))
-                                    {
-                                        Transform physicsGrp = t.Find("Physics");
-                                        Transform aiGrp = t.Find("AiRig");
-
-                                        physicsGrp.gameObject.SetActive(false);
-                                        aiGrp.gameObject.SetActive(false);
-
-                                        t.GetComponent<VisualDamageController>().enabled = false;
-                                        t.GetComponent<AIBrain>().enabled = false;
-                                        t.GetComponent<Arena_EnemyReference>().enabled = false;
-
-                                        if (t.Find("Physics/Root_M/Spine_M/Chest_M/Head_M/Jaw_M/Head_JawEndSHJnt") != null)
-                                        {
-                                            Material eyeMat = t.Find("brettEnemy@neutral/geoGrp/brett_face").GetComponent<SkinnedMeshRenderer>().materials.FirstOrDefault((mat) => mat.name.Contains("mat_Brett_eye"));
-                                            eyeMat.color = new Color(0f, 0f, 0f, 0f);
-                                            Transform jaw = t.Find("Physics/Root_M/Spine_M/Chest_M/Head_M/Jaw_M/Head_JawEndSHJnt");
-                                            jaw.localPosition = new Vector3(jaw.localPosition.x, -0.35f, jaw.localPosition.z);
-                                        }
-
-                                        t.localPosition = new Vector3(t.localPosition.x, 0f, t.localPosition.z);
-
-                                        Vector3 lookRotation = Quaternion.LookRotation(ParanoiaUtilities.FindPlayer().forward).eulerAngles;
-                                        t.eulerAngles = new Vector3(t.eulerAngles.x, lookRotation.y, t.eulerAngles.z);
-                                    }
-                                }
-                            }
-
-                            MelonLoader.MelonCoroutines.Start(CoResetTPosedEnemies(5f));
-                        }
-                        catch
-                        {
-
-                        }
-                    }
-                }
-                else
-                {
-                    return;
-                }
+                transform.localPosition = new Vector3(transform.localPosition.x, 0f, transform.localPosition.z);
+                Vector3 lookRotation = Quaternion.LookRotation(ParanoiaUtilities.FindHead().forward).eulerAngles;
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, lookRotation.y, transform.eulerAngles.z);
             }
+
+            MelonLoader.MelonCoroutines.Start(CoResetTPosedEnemies(brains, 10f));
         }
 
-        private System.Collections.IEnumerator CoResetTPosedEnemies(float seconds)
+        private System.Collections.IEnumerator CoResetTPosedEnemies(AIBrain[] brains, float seconds)
         {
             yield return new WaitForSeconds(seconds);
 
-            Il2CppArrayBase<AIBrain> brains = GameObject.FindObjectsOfType<AIBrain>();
-
-            for (int i = 0; i < brains.Count; i++)
+            for (int i = 0; i < brains.Length; i++)
             {
                 Transform t = brains[i].transform;
                 Transform physicsGrp = t.Find("Physics");
@@ -98,13 +52,6 @@ namespace NEP.Paranoia.TickEvents.Events
                 t.GetComponent<VisualDamageController>().enabled = true;
                 t.GetComponent<AIBrain>().enabled = true;
                 t.GetComponent<Arena_EnemyReference>().enabled = true;
-
-                if (t.Find("Physics/Root_M/Spine_M/Chest_M/Head_M/Jaw_M/Head_JawEndSHJnt") != null)
-                {
-                    Material eyeMat = t.Find("brettEnemy@neutral/geoGrp/brett_face").GetComponent<SkinnedMeshRenderer>().materials.FirstOrDefault((mat) => mat.name.Contains("mat_Brett_eye"));
-                    Transform jaw = t.Find("Physics/Root_M/Spine_M/Chest_M/Head_M/Jaw_M/Head_JawEndSHJnt");
-                    jaw.localPosition = new Vector3(jaw.localPosition.x, -0.044f, jaw.localPosition.z);
-                }
 
                 t.gameObject.SetActive(false);
             }

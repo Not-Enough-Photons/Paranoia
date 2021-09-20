@@ -1,17 +1,22 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 using NEP.Paranoia.Entities;
 using NEP.Paranoia.Managers;
 
+using StressLevelZero.AI;
+using PuppetMasta;
 using StressLevelZero.Rig;
 using StressLevelZero.Props.Weapons;
 using StressLevelZero.Interaction;
 
 using UnhollowerBaseLib;
 using UnhollowerRuntimeLib;
+
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 using Valve.VR;
 
@@ -103,6 +108,32 @@ namespace NEP.Paranoia.Utilities
         public static PhysicsRig GetPhysicsRig()
         {
             return UnityEngine.Object.FindObjectOfType<PhysicsRig>();
+        }
+
+        public static AIBrain[] FindAIBrains()
+        {
+            AIBrain[] result = Object.FindObjectsOfType<AIBrain>();
+            return result;
+        }
+
+        public static AIBrain[] FindAIBrains(out BehaviourBaseNav[] navs)
+        {
+            AIBrain[] result = Object.FindObjectsOfType<AIBrain>();
+            navs = FindBaseNavs(result);
+
+            return result;
+        }
+
+        public BehaviourBaseNav[] FindBaseNavs(AIBrain[] brains)
+        {
+            List<BehaviourBaseNav> baseNavs = new List<BehaviourBaseNav>();
+
+            brains.ToList().ForEach((brain) =>
+            {
+                baseNavs.Add(brain?.behaviour);
+            });
+
+            return baseNavs.ToArray();
         }
 
         public static Rigidbody[] FindObjectsBehindHead(Transform head, string layer)
