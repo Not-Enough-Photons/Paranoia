@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnhollowerBaseLib;
+using NEP.Paranoia.Utilities;
 using StressLevelZero.AI;
 using PuppetMasta;
 
@@ -9,30 +9,17 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            try
+            AIBrain[] brains = ParanoiaUtilities.FindAIBrains();
+
+            if(brains == null) { return; }
+
+            foreach(AIBrain brain in brains)
             {
-                if (GameObject.FindObjectsOfType<StressLevelZero.AI.AIBrain>() != null)
-                {
-                    Il2CppArrayBase<AIBrain> brains = GameObject.FindObjectsOfType<AIBrain>();
+                PuppetMaster puppetMaster = brain.puppetMaster;
+                SubBehaviourHealth health = brain.behaviour.health;
 
-                    foreach (AIBrain brain in brains)
-                    {
-                        Transform ai = brain.transform;
-                        if (ai.GetComponentInParent<AIBrain>() != null)
-                        {
-                            AIBrain parent = ai.GetComponentInParent<AIBrain>();
-
-                            PuppetMaster puppetMaster = parent.GetComponentInChildren<PuppetMaster>();
-                            SubBehaviourHealth hp = parent.GetComponentInChildren<BehaviourBaseNav>().health;
-                            hp.Kill();
-                            puppetMaster.Kill();
-                        }
-                    }
-                }
-            }
-            catch
-            {
-
+                health.Kill();
+                puppetMaster.Kill();
             }
         }
     }
