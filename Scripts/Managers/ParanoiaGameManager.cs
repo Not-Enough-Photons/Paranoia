@@ -193,8 +193,6 @@ namespace NEP.Paranoia.Managers
 
             foreach(Tick.JSONSettings settings in tickSettings)
             {
-                try
-                {
                     if (settings.fireEvent.StartsWith("E_"))
                     {
                         string mainFunc = settings.fireEvent.Replace("E_", string.Empty);
@@ -205,65 +203,49 @@ namespace NEP.Paranoia.Managers
                     {
                         string mainFunc = settings.fireEvent.Replace("M_", string.Empty);
                         string nameSpace = "NEP.Paranoia.TickEvents.Mirages.";
-
                         FinalizeTickDirty(settings, nameSpace, mainFunc);
                     }
-                }
-                catch
-                {
-                    throw new System.Exception($"Exception in {settings.tickName}: The event {settings.fireEvent} could not be found. Check spelling, capitalization, or the documentation.");
-                }
             }
         }
 
         private void FinalizeTickDirty(JSONSettings settings, string nameSpace, string mainFunc)
         {
-            SpawnMirage spawnFunc = null;
-
-            if (mainFunc.EndsWith("("))
+            try
             {
-                spawnFunc = BuildInlineFunction(mainFunc) as SpawnMirage;
-                mainFunc.Remove(mainFunc.IndexOf('('));
+                SpawnMirage spawner = BuildInlineFunction(mainFunc) as SpawnMirage;
+
+                System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
+
+                TickType tickType = (TickType)System.Enum.Parse(typeof(TickType), settings.tickType);
+
+                ParanoiaEvent ctorEvent = System.Activator.CreateInstance(targetActionType) as ParanoiaEvent;
+
+                Tick generated = settings.minRange == 0f && settings.maxRange == 0f
+                    ? new Tick(settings.tickName, settings.tick, settings.maxTick, settings.useInsanity, settings.targetInsanity, tickType, ctorEvent)
+                    : new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.useInsanity, settings.targetInsanity, tickType, ctorEvent);
+
+                Tick generatedSpawner = settings.minRange == 0f && settings.maxRange == 0f
+                    ? new Tick(settings.tickName, settings.tick, settings.maxTick, settings.useInsanity, settings.targetInsanity, tickType, spawner)
+                    : new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.useInsanity, settings.targetInsanity, tickType, spawner);
+
+                Tick final = spawner != null ? generatedSpawner : generated;
+
+                if (final == null) { return; }
+
+                if (tickType == TickType.Any)
+                {
+                    ticks?.Add(final);
+                }
+                else if (tickType == TickType.Dark)
+                {
+                    darkTicks?.Add(final);
+                }
             }
-
-            System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
-
-            /*if (targetActionType == null)
+            catch(System.Exception e)
             {
-                targetActionType = System.Activator.CreateInstance(typeof(ParanoiaEvent)) as System.Type;
-                MelonLoader.MelonLogger.Warning($"WARNING at {settings.tickName}: " +
-                    $"You are making a tick without an event. This tick will run, but no event will be called.");
-            }*/
-
-            TickType tickType = (TickType)System.Enum.Parse(typeof(TickType), settings.tickType);
-
-            ParanoiaEvent ctorEvent = System.Activator.CreateInstance(targetActionType) as ParanoiaEvent;
-
-            Tick generated = null;
-
-            if(spawnFunc != null)
-            {
-                generated = settings.minRange == 0f && settings.maxRange == 0f
-                ? new Tick(settings.tickName, settings.tick, settings.maxTick, settings.useInsanity, settings.targetInsanity, tickType, spawnFunc)
-                : new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.useInsanity, settings.targetInsanity, tickType, spawnFunc);
+                throw new System.Exception($"Exception at {settings.fireEvent} in {settings.tickName}: {e.ToString()}");
             }
-            else
-            {
-                generated = settings.minRange == 0f && settings.maxRange == 0f
-                ? new Tick(settings.tickName, settings.tick, settings.maxTick, settings.useInsanity, settings.targetInsanity, tickType, ctorEvent)
-                : new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.useInsanity, settings.targetInsanity, tickType, ctorEvent);
-            }
-
-            if(generated == null) { return; }
-
-            if(tickType == TickType.Any)
-            {
-                ticks?.Add(generated);
-            }
-            else if (tickType == TickType.Dark)
-            {
-                darkTicks?.Add(generated);
-            }
+            
         }
 
         private object BuildInlineFunction(string functionname)
