@@ -7,9 +7,16 @@ namespace NEP.Paranoia.TickEvents.Mirages
 {
     public class SpawnMirage : ParanoiaEvent
     {
+        private BaseHallucination spawnEnt;
+
         public SpawnMirage(BaseHallucination hallucination)
         {
-            hallucination.gameObject.SetActive(true);
+            spawnEnt = hallucination;
+        }
+
+        public override void Start()
+        {
+            spawnEnt.gameObject.SetActive(true);
         }
     }
 }

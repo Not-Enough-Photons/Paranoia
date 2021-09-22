@@ -64,20 +64,20 @@ namespace NEP.Paranoia.Managers
         private AudioManager _audioManager;
         public AudioManager audioManager { get { return _audioManager; } }
 
-        public Ambience hAmbience { get; private set; }
-        public Chaser hChaser { get; private set; }
-        public DarkVoice hDarkVoice { get; private set; }
-        public TeleportingEntity hTeleportingEntity { get; private set; }
-        public Paralyzer hParalyzer { get; private set; }
-        public Radio hRadio { get; private set; }
-        public CeilingMan hCeilingMan { get; private set; }
-        public StaringMan hStaringMan { get; private set; }
-        public ShadowPerson hShadowPerson { get; private set; }
-        public ShadowPersonChaser hShadowPersonChaser { get; private set; }
-        public Observer hObserver { get; private set; }
-        public FordScaling hFordScaling { get; private set; }
-        public CursedDoorController hCursedDoor { get; private set; }
-        public InvisibleForce invisibleForce { get; private set; }
+        public static Ambience hAmbience { get; private set; }
+        public static Chaser hChaser { get; private set; }
+        public static DarkVoice hDarkVoice { get; private set; }
+        public static TeleportingEntity hTeleportingEntity { get; private set; }
+        public static Paralyzer hParalyzer { get; private set; }
+        public static Radio hRadio { get; private set; }
+        public static CeilingMan hCeilingMan { get; private set; }
+        public static StaringMan hStaringMan { get; private set; }
+        public static ShadowPerson hShadowPerson { get; private set; }
+        public static ShadowPersonChaser hShadowPersonChaser { get; private set; }
+        public static Observer hObserver { get; private set; }
+        public static FordScaling hFordScaling { get; private set; }
+        public static CursedDoorController hCursedDoor { get; private set; }
+        public static InvisibleForce invisibleForce { get; private set; }
 
         public GameObject radioClone;
         
@@ -220,17 +220,12 @@ namespace NEP.Paranoia.Managers
 
                 ParanoiaEvent ctorEvent = System.Activator.CreateInstance(targetActionType) as ParanoiaEvent;
 
-                Tick generated = settings.minRange == 0f && settings.maxRange == 0f
-                    ? new Tick(settings.tickName, settings.tick, settings.maxTick, settings.useInsanity, settings.targetInsanity, tickType, ctorEvent)
-                    : new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.useInsanity, settings.targetInsanity, tickType, ctorEvent);
+                Tick final = spawner != null
+                    ? CreateTick(settings.minRange != 0 || settings.maxRange != 0, settings, tickType, ctorEvent)
+                    : CreateTick(settings.minRange != 0 || settings.maxRange != 0, settings, tickType, spawner);
 
-                Tick generatedSpawner = settings.minRange == 0f && settings.maxRange == 0f
-                    ? new Tick(settings.tickName, settings.tick, settings.maxTick, settings.useInsanity, settings.targetInsanity, tickType, spawner)
-                    : new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.useInsanity, settings.targetInsanity, tickType, spawner);
-
-                Tick final = spawner != null ? generatedSpawner : generated;
-
-                if (final == null) { return; }
+                // Failed event construction ._.
+                if (final == null && final.Event == null) { return; }
 
                 if (tickType == TickType.Any)
                 {
@@ -248,29 +243,47 @@ namespace NEP.Paranoia.Managers
             
         }
 
+        private Tick CreateTick(bool isRandom, JSONSettings settings, TickType tickType, ParanoiaEvent Event)
+        {
+            return isRandom
+                ? new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.useInsanity, settings.targetInsanity, tickType, Event)
+                : new Tick(settings.tickName, settings.tick, settings.maxTick, settings.useInsanity, settings.targetInsanity, tickType, Event);
+        }
+
         private object BuildInlineFunction(string functionname)
         {
             // The function gets split into different sections.
             // The name: M_SpawnMirage(hChaser)
             // To: [M_SpawnMirage], [(hChaser)]
-            string[] splitStr = functionname.Split('(');
 
-            // M_SpawnMirage
-            string mainFuncSplit = splitStr[0];
+            if (functionname.EndsWith("("))
+            {
+                MelonLoader.MelonLogger.Msg($"Regular string: {functionname}");
 
-            // (hChaser)
-            string mainFuncParams = splitStr[1];
+                string[] splitStr = functionname.Split('(');
 
-            // Now that the parameter name is isolated, remove the parenthesis.
-            // e.x. from (hChaser) to hChaser
+                MelonLoader.MelonLogger.Msg($"Split string 1: {splitStr[0]}");
+                MelonLoader.MelonLogger.Msg($"Split string 2: {splitStr[1]}");
 
-            // hChaser
-            string param = mainFuncParams.Replace("(", string.Empty).Replace(")", string.Empty);
+                // M_SpawnMirage
+                string mainFuncSplit = splitStr[0];
 
-            // Build the constructor
-            object instance = System.Activator.CreateInstance(typeof(SpawnMirage), new object[] { ParanoiaUtilities.GetHallucination(param) });
+                // (hChaser)
+                string mainFuncParams = splitStr[1];
 
-            return instance;
+                // Now that the parameter name is isolated, remove the parenthesis.
+                // e.x. from (hChaser) to hChaser
+
+                // hChaser
+                string param = mainFuncParams.Replace("(", string.Empty).Replace(")", string.Empty);
+
+                // Build the constructor
+                object instance = System.Activator.CreateInstance(typeof(SpawnMirage), new object[] { ParanoiaUtilities.GetHallucination(param) });
+
+                return instance;
+            }
+
+            return null;
         }
         
         private void UpdateTicks(List<Tick> ticks)

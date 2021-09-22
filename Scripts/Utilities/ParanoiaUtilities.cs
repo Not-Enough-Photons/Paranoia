@@ -97,10 +97,14 @@ namespace NEP.Paranoia.Utilities
 
         public static BaseHallucination GetHallucination(string name)
         {
-            ParanoiaGameManager manager = ParanoiaGameManager.instance;
-            FieldInfo info = manager.GetType().GetField(name);
+            System.Type type = typeof(ParanoiaGameManager);
+            FieldInfo info = type.GetField(name);
 
-            BaseHallucination hallucination = info.GetValue(null) as BaseHallucination;
+            object obj = info?.GetValue(null);
+
+            if(obj == null) { return null; }
+
+            BaseHallucination hallucination = obj as BaseHallucination;
 
             return hallucination;
         }
