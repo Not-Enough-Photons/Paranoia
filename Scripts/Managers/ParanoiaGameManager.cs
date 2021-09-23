@@ -81,6 +81,8 @@ namespace NEP.Paranoia.Managers
         public static InvisibleForce invisibleForce;
 
         public GameObject radioClone;
+
+        public AudioSource deafenSource;
         
         private AudioSource _radioSource;
         public AudioSource radioSource { get { return _radioSource; } }
@@ -186,6 +188,10 @@ namespace NEP.Paranoia.Managers
             hFordScaling = SpawnPrefab("ent_fordscaling").AddComponent<FordScaling>();
             hCursedDoor = SpawnPrefab("ent_curseddoor").AddComponent<CursedDoorController>();
             invisibleForce = new GameObject("Invisible Force").AddComponent<InvisibleForce>();
+
+            deafenSource = new GameObject("Deafen Source").AddComponent<AudioSource>();
+            deafenSource.volume = 0f;
+            deafenSource.loop = true;
         }
 
         private void ReadTicksFromJSON(string json)
