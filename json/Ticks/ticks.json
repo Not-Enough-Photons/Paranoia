@@ -201,6 +201,16 @@
 		"targetInsanity": 0.75,
 		"fireEvent": "E_MoveAIToRadio",
 		"tickType": "Any"
+	}
+	{
+		"tickName": "Tick_AgroRandomAI",
+		"tick": 0.0,
+		"minRange": 240.0,
+		"maxRange": 360.0,
+		"useInsanity": true,
+		"targetInsanity": 2.25,
+		"fireEvent": "E_AIAgroPlayer",
+		"tickType": "Any"
 	},
 	{
 		"tickName": "Tick_FlingRandomObject",

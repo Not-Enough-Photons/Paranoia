@@ -95,6 +95,11 @@ namespace NEP.Paranoia.Utilities
             return null;
         }
 
+        public static TriggerRefProxy GetPlayerProxy()
+        {
+            return ModThatIsNotMod.Player.GetRigManager().GetComponentInChildren<TriggerRefProxy>();
+        }
+
         public static BaseHallucination GetHallucination(string name)
         {
             MelonLoader.MelonLogger.Msg($"Needed hallucination: {name}");
