@@ -13,7 +13,7 @@ namespace NEP.Paranoia.Entities
         private bool playedOnce = false;
 
         private float m_timer = 0f;
-        private float m_delay = 1.5f;
+        private float m_delay = 3f;
 
         protected override void Awake()
         {

@@ -97,15 +97,23 @@ namespace NEP.Paranoia.Utilities
 
         public static BaseHallucination GetHallucination(string name)
         {
-            System.Type type = typeof(ParanoiaGameManager);
+            MelonLoader.MelonLogger.Msg($"Needed hallucination: {name}");
+            MelonLoader.MelonLogger.Msg("Getting the type...");
+            System.Type type = ParanoiaGameManager.instance.GetType();
+            MelonLoader.MelonLogger.Msg($"Type {type.Name} set...");
+            MelonLoader.MelonLogger.Msg("Getting the field...");
             FieldInfo info = type.GetField(name);
-
+            MelonLoader.MelonLogger.Msg($"FieldInfo type of {info.FieldType} set...");
+            
+            MelonLoader.MelonLogger.Msg("Getting the value from that field...");
             object obj = info?.GetValue(null);
 
             if(obj == null) { return null; }
 
+            MelonLoader.MelonLogger.Msg("Setting up hallucination to be returned...");
             BaseHallucination hallucination = obj as BaseHallucination;
 
+            MelonLoader.MelonLogger.Msg("Returning hallucination...");
             return hallucination;
         }
 
@@ -224,7 +232,7 @@ namespace NEP.Paranoia.Utilities
 
         public static Tick GetTick(string name)
         {
-            return ParanoiaGameManager.instance.GetType().GetField(name, System.Reflection.BindingFlags.NonPublic).GetValue(nameof(name)) as Tick;
+            return ParanoiaGameManager.instance.GetType().GetField(name).GetValue(null) as Tick;
         }
 
         public static DateTime CalculateTargetTimeDifference(DateTime targetTime)
@@ -232,6 +240,19 @@ namespace NEP.Paranoia.Utilities
             TimeSpan difference = DateTime.Now - targetTime;
 
             return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, difference.Hours, difference.Minutes, difference.Seconds);
+        }
+
+        public static string GetParameterString(string method)
+        {
+            string[] split = method.Split('(', ')');
+
+            return split[1];
+        }
+
+        public static string GetMethodNameString(string method)
+        {
+            string[] split = method.Split('(');
+            return split[0];
         }
 
         /// <summary>

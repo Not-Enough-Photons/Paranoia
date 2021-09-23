@@ -8,7 +8,7 @@ namespace NEP.Paranoia.TickEvents.Mirages
         {
             if (ParanoiaGameManager.instance.paralysisMode) { return; }
 
-            ParanoiaGameManager.instance.hChaser.gameObject.SetActive(true);
+            ParanoiaGameManager.hChaser.gameObject.SetActive(true);
         }
     }
 }

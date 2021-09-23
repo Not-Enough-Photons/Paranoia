@@ -10,11 +10,11 @@ namespace NEP.Paranoia.TickEvents.Mirages
 
             if (rng >= 25 || rng <= 30)
             {
-                ParanoiaGameManager.instance.hShadowPersonChaser.gameObject.SetActive(true);
+                ParanoiaGameManager.hShadowPersonChaser.gameObject.SetActive(true);
             }
             else
             {
-                ParanoiaGameManager.instance.hShadowPerson.gameObject.SetActive(true);
+                ParanoiaGameManager.hShadowPerson.gameObject.SetActive(true);
             }
         }
     }

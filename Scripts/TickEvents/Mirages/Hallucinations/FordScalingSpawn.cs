@@ -6,7 +6,7 @@ namespace NEP.Paranoia.TickEvents.Mirages
     {
         public override void Start()
         {
-            ParanoiaGameManager.instance.hFordScaling.gameObject.SetActive(true);
+            ParanoiaGameManager.hFordScaling.gameObject.SetActive(true);
         }
     }
 }

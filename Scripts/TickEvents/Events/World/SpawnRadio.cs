@@ -11,7 +11,7 @@ namespace NEP.Paranoia.TickEvents.Events
         public override void Start()
         {
             new MoveAIToRadio().Start();
-            ParanoiaGameManager.instance.hRadio.gameObject.SetActive(true);
+            ParanoiaGameManager.hRadio.gameObject.SetActive(true);
         }
     }
 }

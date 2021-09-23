@@ -6,7 +6,7 @@ namespace NEP.Paranoia.TickEvents.Mirages
     {
         public override void Start()
         {
-            ParanoiaGameManager.instance.hStaringMan.gameObject.SetActive(true);
+            ParanoiaGameManager.hStaringMan.gameObject.SetActive(true);
         }
     }
 }

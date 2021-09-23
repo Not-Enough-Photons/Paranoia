@@ -6,7 +6,7 @@
 		"maxRange": 75.0,
 		"useInsanity": true,
 		"targetInsanity": 4.25,
-		"fireEvent": "M_AmbientAudioSpawn",
+		"fireEvent": "M_SpawnMirage(hAmbience)",
 		"tickType": "Any"
 	},
 	{
@@ -16,7 +16,7 @@
 		"maxRange": 145.0,
 		"useInsanity": true,
 		"targetInsanity": 2.25,
-		"fireEvent": "M_AmbientChaserSpawn",
+		"fireEvent": "M_SpawnMirage(hChaser)",
 		"tickType": "Any"
 	},
 	{
@@ -26,7 +26,7 @@
 		"maxRange": 30.0,
 		"useInsanity": true,
 		"targetInsanity": 3.25,
-		"fireEvent": "M_AmbientDarkVoiceSpawn",
+		"fireEvent": "M_SpawnMirage(hDarkVoice)",
 		"tickType": "Dark"
 	},
 	{
@@ -36,7 +36,7 @@
 		"maxRange": 295.0,
 		"useInsanity": true,
 		"targetInsanity": 4.65,
-		"fireEvent": "M_AmbientTeleEntSpawn",
+		"fireEvent": "M_SpawnMirage(hTeleportingEntity)",
 		"tickType": "Any"
 	},
 	{
@@ -46,7 +46,7 @@
 		"maxRange": 360.0,
 		"useInsanity": true,
 		"targetInsanity": 4.0,
-		"fireEvent": "E_Paralysis",
+		"fireEvent": "M_SpawnMirage(hParalyzer)",
 		"tickType": "Dark"
 	},
 	{
@@ -56,7 +56,7 @@
 		"maxRange": 70.0,
 		"useInsanity": true,
 		"targetInsanity": 4.0,
-		"fireEvent": "M_FordScalingSpawn",
+		"fireEvent": "M_SpawnMirage(hFordScaling)",
 		"tickType": "Any"
 	},
 	{
@@ -66,7 +66,7 @@
 		"maxRange": 275.0,
 		"useInsanity": true,
 		"targetInsanity": 3.75,
-		"fireEvent": "M_ShadowSpawn",
+		"fireEvent": "M_SpawnMirage(hShadowPerson)",
 		"tickType": "Any"
 	},
 	{
@@ -76,7 +76,7 @@
 		"maxRange": 450.0,
 		"useInsanity": true,
 		"targetInsanity": 2.95,
-		"fireEvent": "M_StaringManSpawn",
+		"fireEvent": "M_SpawnMirage(hStaringMan)",
 		"tickType": "Any"
 	},
 	{
@@ -85,7 +85,7 @@
 		"maxTick": 260.0,
 		"useInsanity": true,
 		"targetInsanity": 2.75,
-		"fireEvent": "M_CeilingManSpawn",
+		"fireEvent": "M_SpawnMirage(hCeilingMan)",
 		"tickType": "Any"
 	},
 	{
@@ -94,7 +94,7 @@
 		"maxTick": 360.0,
 		"useInsanity": true,
 		"targetInsanity": 5.75,
-		"fireEvent": "M_ObserverSpawn",
+		"fireEvent": "M_SpawnMirage(hObserver)",
 		"tickType": "Any"
 	},
 	{
@@ -103,7 +103,7 @@
 		"maxTick": 30.0,
 		"useInsanity": true,
 		"targetInsanity": 1.25,
-		"fireEvent": "E_SpawnInvisibleForce",
+		"fireEvent": "M_SpawnMirage(invisibleForce)",
 		"tickType": "Any"
 	},
 	{
@@ -123,7 +123,7 @@
 		"yOffset": 0.85,
 		"useInsanity": true,
 		"targetInsanity": 5.0,
-		"fireEvent": "E_CursedDoorSpawn",
+		"fireEvent": "M_SpawnMirage(hCursedDoor)",
 		"tickType": "Any"
 	},
 	{
@@ -210,16 +210,6 @@
 		"useInsanity": true,
 		"targetInsanity": 0.75,
 		"fireEvent": "E_MoveAIToRadio",
-		"tickType": "Any"
-	},
-	{
-		"tickName": "Tick_TestSpawn",
-		"tick": 0.0,
-		"minRange": 30.0,
-		"maxRange": 60.0,
-		"useInsanity": true,
-		"targetInsanity": 0.75,
-		"fireEvent": "M_SpawnMirage(hChaser)",
 		"tickType": "Any"
 	},
 	{

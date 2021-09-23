@@ -36,7 +36,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
             new AmbientParalyzerSpawn().Start();
 
-            while (ParanoiaGameManager.instance.hParalyzer.isActiveAndEnabled)
+            while (ParanoiaGameManager.hParalyzer.isActiveAndEnabled)
             {
                 yield return null;
             }
