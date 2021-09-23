@@ -12,6 +12,9 @@ namespace NEP.Paranoia.Managers
             public float minRange;
             public float maxRange;
             public float maxTick;
+            public bool useRNG;
+            public float minRNG;
+            public float maxRNG;
             public bool useInsanity;
             public float targetInsanity;
             public string fireEvent;
@@ -37,6 +40,15 @@ namespace NEP.Paranoia.Managers
 
         private float _maxRange;
         public float maxRange { get {  return _maxRange;} }
+
+        private bool _useRNG;
+        public bool useRNG { get {  return _useRNG; } }
+
+        private float _minRNG;
+        public float minRNG { get { return _minRNG; } }
+
+        private float _maxRNG;
+        public float maxRNG { get {  return _maxRNG; } }
 
         private float _maxTick;
         public float maxTick { get {  return _maxTick; } }
