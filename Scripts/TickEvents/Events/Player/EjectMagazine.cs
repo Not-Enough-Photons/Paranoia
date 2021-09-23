@@ -13,7 +13,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
             if(gun == null) { return; }
 
-            MagazineSocket socket = gun.magazineSocket; 
+            MagazineSocket socket = gun.magazineSocket;
 
             if(socket == null) { return; }
 

@@ -46,7 +46,7 @@
 		"maxRange": 360.0,
 		"useInsanity": true,
 		"targetInsanity": 4.0,
-		"fireEvent": "M_SpawnMirage(hParalyzer)",
+		"fireEvent": "E_Paralysis",
 		"tickType": "Dark"
 	},
 	{
@@ -56,7 +56,7 @@
 		"maxRange": 70.0,
 		"useInsanity": true,
 		"targetInsanity": 4.0,
-		"fireEvent": "M_SpawnMirage(hFordScaling)",
+		"fireEvent": "M_FordScalingSpawn",
 		"tickType": "Any"
 	},
 	{
@@ -66,7 +66,7 @@
 		"maxRange": 275.0,
 		"useInsanity": true,
 		"targetInsanity": 3.75,
-		"fireEvent": "M_SpawnMirage(hShadowPerson)",
+		"fireEvent": "M_ShadowSpawn",
 		"tickType": "Any"
 	},
 	{
@@ -76,7 +76,7 @@
 		"maxRange": 450.0,
 		"useInsanity": true,
 		"targetInsanity": 2.95,
-		"fireEvent": "M_SpawnMirage(hStaringMan)",
+		"fireEvent": "M_StaringManSpawn",
 		"tickType": "Any"
 	},
 	{
@@ -85,7 +85,7 @@
 		"maxTick": 260.0,
 		"useInsanity": true,
 		"targetInsanity": 2.75,
-		"fireEvent": "M_SpawnMirage(hCeilingMan)",
+		"fireEvent": "M_CeilingManSpawn",
 		"tickType": "Any"
 	},
 	{
@@ -94,7 +94,7 @@
 		"maxTick": 360.0,
 		"useInsanity": true,
 		"targetInsanity": 5.75,
-		"fireEvent": "M_SpawnMirage(hObserver)",
+		"fireEvent": "M_ObserverSpawn",
 		"tickType": "Any"
 	},
 	{
@@ -103,7 +103,7 @@
 		"maxTick": 30.0,
 		"useInsanity": true,
 		"targetInsanity": 1.25,
-		"fireEvent": "M_SpawnMirage(invisibleForce)",
+		"fireEvent": "E_SpawnInvisibleForce",
 		"tickType": "Any"
 	},
 	{
@@ -123,7 +123,7 @@
 		"yOffset": 0.85,
 		"useInsanity": true,
 		"targetInsanity": 5.0,
-		"fireEvent": "M_SpawnMirage(hCursedDoor)",
+		"fireEvent": "E_CursedDoorSpawn",
 		"tickType": "Any"
 	},
 	{
@@ -151,16 +151,6 @@
 		"useInsanity": true,
 		"targetInsanity": 0.50,
 		"fireEvent": "E_DropHeadItem",
-		"tickType": "Any"
-	},
-	{
-		"tickName": "Tick_LockGun",
-		"tick": 0.0,
-		"minRange": 15.0,
-		"maxRange": 140.0,
-		"useInsanity": true,
-		"targetInsanity": 0.75,
-		"fireEvent": "E_EjectMagazine",
 		"tickType": "Any"
 	},
 	{
@@ -210,6 +200,16 @@
 		"useInsanity": true,
 		"targetInsanity": 0.75,
 		"fireEvent": "E_MoveAIToRadio",
+		"tickType": "Any"
+	},
+	{
+		"tickName": "Tick_FlingRandomObject",
+		"tick": 0.0,
+		"minRange": 60.0,
+		"maxRange": 120.0,
+		"useInsanity": true,
+		"targetInsanity": 0.50,
+		"fireEvent": "E_FlingRandomObject",
 		"tickType": "Any"
 	},
 	{
