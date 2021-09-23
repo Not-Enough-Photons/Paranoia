@@ -244,7 +244,7 @@ namespace NEP.Paranoia.Managers
 
             System.Type type = System.Type.GetType(nameSpace + method);
 
-            object instance = System.Activator.CreateInstance(type, new object[] { ParanoiaUtilities.GetHallucination("hStaringMan") });
+            object instance = System.Activator.CreateInstance(type, new object[] { ParanoiaUtilities.GetHallucination(parameter) });
 
             CreateTick(settings.minRange != 0f || settings.maxRange != 0f, settings, tickType, instance as SpawnMirage);
         }
