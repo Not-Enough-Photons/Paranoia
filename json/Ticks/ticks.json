@@ -183,6 +183,26 @@
 		"tickType": "Any"
 	},
 	{
+		"tickName": "Tick_FireGunWorld",
+		"tick": 0.0,
+		"minRange": 15.0,
+		"maxRange": 60.0,
+		"useInsanity": true,
+		"targetInsanity": 0.75,
+		"fireEvent": "E_FireGun",
+		"tickType": "Any"
+	},
+	{
+		"tickName": "Tick_TrembleHands",
+		"tick": 0.0,
+		"minRange": 120.0,
+		"maxRange": 512.0,
+		"useInsanity": true,
+		"targetInsanity": 0.75,
+		"fireEvent": "E_HandTremble",
+		"tickType": "Any"
+	},
+	{
 		"tickName": "Tick_MoveAIToPlayer",
 		"tick": 0.0,
 		"minRange": 120.0,

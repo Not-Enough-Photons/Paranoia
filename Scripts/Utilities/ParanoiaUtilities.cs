@@ -129,6 +129,47 @@ namespace NEP.Paranoia.Utilities
             return null;
         }
 
+        public static T GetRig<T>() where T : Rig
+        {
+            Rig rig = null;
+
+            RigManager rigManager = GetRigManager().GetComponent<RigManager>();
+
+            System.Type type = typeof(T);
+
+            if(type.GetType() == typeof(SteamControllerRig))
+            {
+                rig = rigManager.steamControllerRig;
+            }
+
+            if(type.GetType() == typeof(OculusControllerRig))
+            {
+                rig = rigManager.oculusControllerRig;
+            }
+
+            if(type.GetType() == typeof(RealtimeSkeletonRig))
+            {
+                rig = rigManager.realtimeSkeletonRig;
+            }
+
+            if(type.GetType() == typeof(GameWorldSkeletonRig))
+            {
+                rig = rigManager.gameWorldSkeletonRig;
+            }
+
+            if(type.GetType() == typeof(UIRig))
+            {
+                rig = rigManager.uiRig;
+            }
+
+            return rig as T;
+        }
+
+        public static GameObject GetRigManager()
+        {
+            return ModThatIsNotMod.Player.GetRigManager();
+        }
+
         /// <summary>
         /// Finds the GameWorld rig. 
         /// Useful for cloning the bones to make a fake copy of the player.
