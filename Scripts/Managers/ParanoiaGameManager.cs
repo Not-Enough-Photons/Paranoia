@@ -229,8 +229,6 @@ namespace NEP.Paranoia.Managers
                 {
                     System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
 
-                    
-
                     ParanoiaEvent ctorEvent = System.Activator.CreateInstance(targetActionType) as ParanoiaEvent;
 
                     CreateTick(settings.minRange != 0 || settings.maxRange != 0, settings, tickType, ctorEvent);

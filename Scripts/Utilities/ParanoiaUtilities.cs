@@ -102,23 +102,15 @@ namespace NEP.Paranoia.Utilities
 
         public static BaseHallucination GetHallucination(string name)
         {
-            MelonLoader.MelonLogger.Msg($"Needed hallucination: {name}");
-            MelonLoader.MelonLogger.Msg("Getting the type...");
             System.Type type = ParanoiaGameManager.instance.GetType();
-            MelonLoader.MelonLogger.Msg($"Type {type.Name} set...");
-            MelonLoader.MelonLogger.Msg("Getting the field...");
             FieldInfo info = type.GetField(name);
-            MelonLoader.MelonLogger.Msg($"FieldInfo type of {info.FieldType} set...");
             
-            MelonLoader.MelonLogger.Msg("Getting the value from that field...");
             object obj = info?.GetValue(null);
 
             if(obj == null) { return null; }
 
-            MelonLoader.MelonLogger.Msg("Setting up hallucination to be returned...");
             BaseHallucination hallucination = obj as BaseHallucination;
 
-            MelonLoader.MelonLogger.Msg("Returning hallucination...");
             return hallucination;
         }
 
