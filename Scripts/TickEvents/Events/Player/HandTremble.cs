@@ -11,7 +11,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            PhysicsRig physicsRig = ParanoiaUtilities.GetRig<PhysicsRig>();
+            PhysicsRig physicsRig = ParanoiaUtilities.GetPhysicsRig();
 
             Rigidbody leftHand = physicsRig?.leftHand.rb;
             Rigidbody rightHand = physicsRig?.rightHand.rb;
@@ -29,7 +29,7 @@ namespace NEP.Paranoia.TickEvents.Events
             {
                 time += Time.deltaTime;
 
-                float rand = Random.Range(250f, 500f);
+                float rand = Random.Range(0.05f, 0.15f);
 
                 leftHand.AddForce(Random.rotation.eulerAngles * rand);
                 rightHand.AddForce(Random.rotation.eulerAngles * rand);

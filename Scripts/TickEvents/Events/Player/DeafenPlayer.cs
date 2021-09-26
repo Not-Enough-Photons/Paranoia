@@ -19,6 +19,8 @@ namespace NEP.Paranoia.TickEvents.Events
             sfxMixer.audioMixer.GetFloat("Volume", out sfxVolume);
             gunshotMixer.audioMixer.GetFloat("Volume", out gunshotVolume);
 
+            ParanoiaGameManager.instance.deafenSource.clip = Paranoia.instance.deafenSounds[0];
+
             ParanoiaGameManager.instance.deafenSource.Play();
 
             MelonLoader.MelonCoroutines.Start(CoVolumeRoutine(ParanoiaGameManager.instance.deafenSource, sfxVolume, gunshotVolume));

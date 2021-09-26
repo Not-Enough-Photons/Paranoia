@@ -11,16 +11,13 @@ namespace NEP.Paranoia.TickEvents.Events
         public override void Start()
         {
             // Get physics rig
-            PhysicsRig rig = ParanoiaUtilities.GetRig<PhysicsRig>();
+            PhysicsRig rig = ParanoiaUtilities.GetPhysicsRig();
             PhysBody physBody = rig.physBody;
 
             Rigidbody[] rbs = new Rigidbody[]
             {
                 rig.leftHand.rb,
-                rig.rightHand.rb,
-                physBody.rbHead,
-                physBody.rbPelvis,
-                physBody.rbKnee
+                rig.rightHand.rb
             };
 
             MelonLoader.MelonCoroutines.Start(CoGrabRoutine(rbs[Random.Range(0, rbs.Length)]));
@@ -34,18 +31,23 @@ namespace NEP.Paranoia.TickEvents.Events
                 " RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN " +
                 "RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN ");
 
-            yield return new WaitForSeconds(Random.Range(15f, 30f));
+            yield return new WaitForSeconds(15f);
 
             float timer = 0f;
 
             // Insert grab sound effect here.
-            // AudioSource.PlayClipAtPoint(Paranoia.main.grabSounds[Random.Range(0, Paranoia.main.grabSounds.Length)], part.position);
+            AudioSource.PlayClipAtPoint(Paranoia.instance.grabSounds[Random.Range(0, Paranoia.instance.grabSounds.Count)], part.position);
 
             yield return new WaitForSeconds(2f);
 
-            while(timer < 7f)
+            Vector3 dir = Vector3.up + (Random.onUnitSphere * 10f);
+            float force = Random.Range(50f, 100f);
+
+            while (timer < 7f)
             {
-                part.AddForce(Vector3.up + (Random.onUnitSphere * 10f) * Random.Range(250f, 1250f), ForceMode.Force);
+                timer += Time.deltaTime;
+
+                part.AddForce(dir * force, ForceMode.Acceleration);
                 yield return null;
             }
 

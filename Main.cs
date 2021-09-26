@@ -42,6 +42,8 @@ namespace NEP.Paranoia
 		public List<AudioClip> chaserAmbience;
 		public List<AudioClip> teleporterAmbience;
 		public List<AudioClip> paralyzerAmbience;
+		public List<AudioClip> deafenSounds;
+		public List<AudioClip> grabSounds;
 		public List<AudioClip> watcherAmbience;
 		public List<AudioClip> doorIdleSounds;
 		public List<AudioClip> doorOpenSounds;
@@ -90,6 +92,8 @@ namespace NEP.Paranoia
 				screamAmbience = new List<AudioClip>();
 				chaserAmbience = new List<AudioClip>();
 				watcherAmbience = new List<AudioClip>();
+				deafenSounds = new List<AudioClip>();
+				grabSounds = new List<AudioClip>();
 				doorIdleSounds = new List<AudioClip>();
 				doorOpenSounds = new List<AudioClip>();
 				teleporterAmbience = new List<AudioClip>();
@@ -111,25 +115,22 @@ namespace NEP.Paranoia
 
 		public override void OnSceneWasLoaded(int buildIndex, string sceneName)
 		{
-			if (sceneName == supportedMaps.FirstOrDefault((map) => map == sceneName))
-			{
-				string currentMap = supportedMaps.FirstOrDefault((map) => map == sceneName).ToLower();
+            switch (sceneName.ToLower())
+            {
+				case "sandbox_blankbox":
+					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
+					GameObject.Find("MUSICMACHINE (1)").SetActive(false);
+					GameObject.Find("AMMODISPENSER").SetActive(false);
+					GameObject.Find("HEALTHMACHINE").SetActive(false);
+					GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE").SetActive(false);
+					GameObject.Find("Decal_SafeGrav").SetActive(false);
 
-				gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
-
-				switch (currentMap)
-				{
-					case "sandbox_blankbox":
-						GameObject.Find("MUSICMACHINE (1)").SetActive(false);
-						GameObject.Find("AMMODISPENSER").SetActive(false);
-						GameObject.Find("HEALTHMACHINE").SetActive(false);
-						GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE").SetActive(false);
-						GameObject.Find("Decal_SafeGrav").SetActive(false);
-						break;
-					case "sandbox_museumbasement":
-						break;
-				}
-			}
+					isBlankBox = true;
+					break;
+				case "sandbox_museumbasement":
+					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
+					break;
+            }
 		}
 
 		internal void RegisterObject(GameObject bundleObject, string assetName)
@@ -165,6 +166,8 @@ namespace NEP.Paranoia
 				"amb_teleportingthing",
 				"amb_dark_voice",
 				"amb_paralysis",
+				"amb_deafen",
+				"player_grab",
 				"door_idle",
 				"door_open",
 				"radio_tune"
@@ -179,6 +182,8 @@ namespace NEP.Paranoia
 				{ "amb_teleportingthing", teleporterAmbience },
 				{ "amb_dark_voice", darkVoices },
 				{ "amb_paralysis", paralyzerAmbience },
+				{ "amb_deafen", deafenSounds },
+				{ "player_grab", grabSounds },
 				{ "door_idle", doorIdleSounds },
 				{ "door_open", doorOpenSounds },
 				{ "radio_tune", radioTunes }

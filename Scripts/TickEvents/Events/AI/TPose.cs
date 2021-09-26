@@ -25,7 +25,12 @@ namespace NEP.Paranoia.TickEvents.Events
                 Transform physicsGroup = transform.Find("Physics");
                 Transform aiGroup = transform.Find("AiRig");
 
+                if(physicsGroup == null) { return; }
+
                 physicsGroup.gameObject.SetActive(false);
+
+                if(aiGroup == null) { return; }
+
                 aiGroup.gameObject.SetActive(false);
 
                 transform.localPosition = new Vector3(transform.localPosition.x, 0f, transform.localPosition.z);
