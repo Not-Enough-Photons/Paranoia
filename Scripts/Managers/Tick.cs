@@ -12,8 +12,6 @@ namespace NEP.Paranoia.Managers
             public float minRange;
             public float maxRange;
             public float maxTick;
-            public float minRNG;
-            public float maxRNG;
             public bool useInsanity;
             public float targetInsanity;
             public string fireEvent;
@@ -40,12 +38,6 @@ namespace NEP.Paranoia.Managers
         private float _maxRange;
         public float maxRange { get { return _maxRange; } }
 
-        private float _minRNG;
-        public float minRNG { get { return _minRNG; } }
-
-        private float _maxRNG;
-        public float maxRNG { get { return _maxRNG; } }
-
         private float _maxTick;
         public float maxTick { get { return _maxTick; } }
 
@@ -62,7 +54,14 @@ namespace NEP.Paranoia.Managers
         private TickType _tickType;
         public TickType tickType { get { return _tickType; } }
 
-        public Tick(string tickName, float tick, float maxTick, bool useInsanity, float targetInsanity, TickType tickType, ParanoiaEvent Event)
+        public Tick
+            (string tickName, 
+            float tick, 
+            float maxTick,
+            bool useInsanity, 
+            float targetInsanity, 
+            TickType tickType, 
+            ParanoiaEvent Event)
         {
             _name = tickName;
             _tick = tick;
@@ -73,7 +72,15 @@ namespace NEP.Paranoia.Managers
             _event = Event;
         }
 
-        public Tick(string tickName, float tick, float minRange, float maxRange, bool useInsanity, float targetInsanity, TickType tickType, ParanoiaEvent Event)
+        public Tick
+            (string tickName, 
+            float tick, 
+            float minRange, 
+            float maxRange,
+            bool useInsanity, 
+            float targetInsanity, 
+            TickType tickType, 
+            ParanoiaEvent Event)
         {
             _name = tickName;
             _tick = tick;
