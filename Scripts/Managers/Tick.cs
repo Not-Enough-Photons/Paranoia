@@ -11,11 +11,9 @@ namespace NEP.Paranoia.Managers
             public float tick;
             public float minRange;
             public float maxRange;
-            public float maxTick;
-            public bool useRNG;
+            public float maxTick;   
             public float minRNG;
             public float maxRNG;
-            public bool useInsanity;
             public float targetInsanity;
             public string fireEvent;
             public string tickType;
@@ -41,9 +39,6 @@ namespace NEP.Paranoia.Managers
         private float _maxRange;
         public float maxRange { get {  return _maxRange;} }
 
-        private bool _useRNG;
-        public bool useRNG { get {  return _useRNG; } }
-
         private float _minRNG;
         public float minRNG { get { return _minRNG; } }
 
@@ -52,9 +47,6 @@ namespace NEP.Paranoia.Managers
 
         private float _maxTick;
         public float maxTick { get {  return _maxTick; } }
-
-        private bool _useInsanity;
-        public bool useInsanity { get {  return _useInsanity; } }
 
         private float _targetInsanity;
         public float targetInsanity { get { return _targetInsanity; }  }
@@ -65,23 +57,21 @@ namespace NEP.Paranoia.Managers
         private TickType _tickType;
         public TickType tickType { get {  return _tickType; } }
 
-        public Tick(string tickName, float tick, float maxTick, bool useInsanity, float targetInsanity, TickType tickType, ParanoiaEvent Event)
+        public Tick(string tickName, float tick, float maxTick, float targetInsanity, TickType tickType, ParanoiaEvent Event)
         {
             _name = tickName;
             _tick = tick;
             _maxTick = maxTick;
-            _useInsanity = useInsanity;
             _targetInsanity = targetInsanity;
             _tickType = tickType;
             _event = Event;
         }
 
-        public Tick(string tickName, float tick, float minRange, float maxRange, bool useInsanity, float targetInsanity, TickType tickType, ParanoiaEvent Event)
+        public Tick(string tickName, float tick, float minRange, float maxRange, float targetInsanity, TickType tickType, ParanoiaEvent Event)
         {
             _name = tickName;
             _tick = tick;
             _maxTick = Random.Range(minRange, maxRange);
-            _useInsanity = useInsanity;
             _targetInsanity = targetInsanity;
             _tickType = tickType;
             _event = Event;
@@ -98,14 +88,7 @@ namespace NEP.Paranoia.Managers
 
             if (_tick >= _maxTick)
             {
-                if (_useInsanity)
-                {
-                    if (ParanoiaGameManager.instance.insanity >= _targetInsanity)
-                    {
-                        _event?.Start();
-                    }
-                }
-                else
+                if (ParanoiaGameManager.instance.insanity >= _targetInsanity)
                 {
                     _event?.Start();
                 }

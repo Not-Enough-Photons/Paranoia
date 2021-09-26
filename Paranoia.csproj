@@ -115,8 +115,10 @@
     <Compile Include="Scripts\TickEvents\Events\Player\DeafenPlayer.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\FireGunInHand.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\EjectMagazine.cs" />
+    <Compile Include="Scripts\TickEvents\Events\Player\GrabPlayer.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\HandTremble.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\Paralysis.cs" />
+    <Compile Include="Scripts\TickEvents\Events\World\ChangeClipboard.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\ChangeInsanity.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\ChangeRNG.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\DisableNimbus.cs" />

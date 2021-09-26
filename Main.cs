@@ -52,6 +52,12 @@ namespace NEP.Paranoia
 
 		public AudioClip startingTune;
 
+		public string[] supportedMaps = new string[]
+		{
+			"sandbox_blankbox",
+			"sandbox_museumbasement"
+		};
+
 		public bool isBlankBox;
 
 		public GameObject GetEntInDirectory(string name)
@@ -105,28 +111,24 @@ namespace NEP.Paranoia
 
 		public override void OnSceneWasLoaded(int buildIndex, string sceneName)
 		{
-			try
+			if (sceneName == supportedMaps.FirstOrDefault((map) => map == sceneName))
 			{
-				if (sceneName.ToLower() == "sandbox_blankbox")
-				{
-					isBlankBox = true;
+				string currentMap = supportedMaps.FirstOrDefault((map) => map == sceneName).ToLower();
 
-					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
+				gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
 
-					GameObject.Find("MUSICMACHINE (1)").SetActive(false);
-					GameObject.Find("AMMODISPENSER").SetActive(false);
-					GameObject.Find("HEALTHMACHINE").SetActive(false);
-					GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE").SetActive(false);
-					GameObject.Find("Decal_SafeGrav").SetActive(false);
-				}
-				else
+				switch (currentMap)
 				{
-					isBlankBox = false;
+					case "sandbox_blankbox":
+						GameObject.Find("MUSICMACHINE (1)").SetActive(false);
+						GameObject.Find("AMMODISPENSER").SetActive(false);
+						GameObject.Find("HEALTHMACHINE").SetActive(false);
+						GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE").SetActive(false);
+						GameObject.Find("Decal_SafeGrav").SetActive(false);
+						break;
+					case "sandbox_museumbasement":
+						break;
 				}
-			}
-			catch (System.Exception e)
-			{
-				throw e;
 			}
 		}
 

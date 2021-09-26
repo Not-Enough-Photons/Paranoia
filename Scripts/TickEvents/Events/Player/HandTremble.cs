@@ -18,7 +18,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
             if(leftHand == null || rightHand == null) { return; }
 
-            MelonLoader.MelonCoroutines.Start(CoShakeHands(Random.Range(3f, 8f), leftHand, rightHand));
+            MelonLoader.MelonCoroutines.Start(CoShakeHands(Random.Range(10, 20f), leftHand, rightHand));
         }
 
         private System.Collections.IEnumerator CoShakeHands(float duration, Rigidbody leftHand, Rigidbody rightHand)
@@ -29,8 +29,13 @@ namespace NEP.Paranoia.TickEvents.Events
             {
                 time += Time.deltaTime;
 
-                leftHand.AddTorque(Random.rotation.eulerAngles * Random.Range(5f, 25f));
-                rightHand.AddTorque(Random.rotation.eulerAngles * Random.Range(5f, 25f));
+                float rand = Random.Range(250f, 500f);
+
+                leftHand.AddForce(Random.rotation.eulerAngles * rand);
+                rightHand.AddForce(Random.rotation.eulerAngles * rand);
+
+                leftHand.AddTorque(Random.rotation.eulerAngles * rand);
+                rightHand.AddTorque(Random.rotation.eulerAngles * rand);
 
                 yield return null;
             }

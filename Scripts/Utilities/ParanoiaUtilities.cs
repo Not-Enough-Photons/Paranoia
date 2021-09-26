@@ -8,10 +8,14 @@ using NEP.Paranoia.Entities;
 using NEP.Paranoia.Managers;
 
 using StressLevelZero.AI;
-using PuppetMasta;
 using StressLevelZero.Rig;
 using StressLevelZero.Props.Weapons;
 using StressLevelZero.Interaction;
+using StressLevelZero.VRMK;
+
+using PuppetMasta;
+
+using TMPro;
 
 using UnhollowerBaseLib;
 using UnhollowerRuntimeLib;
@@ -163,6 +167,16 @@ namespace NEP.Paranoia.Utilities
             }
 
             return rig as T;
+        }
+
+        public static void ClonePlayerBody(out GameObject rigObject, Vector3 position, Quaternion rotation)
+        {
+            GameWorldSkeletonRig skeletonRig = GetRig<GameWorldSkeletonRig>();
+
+            SLZ_BodyBlender bodyBlender = skeletonRig._body.ArtToBlender;
+            SLZ_BodyBlender clonedBlender = GameObject.Instantiate(bodyBlender.gameObject, position, rotation).GetComponent<SLZ_BodyBlender>();
+
+            rigObject = clonedBlender.gameObject;
         }
 
         public static GameObject GetRigManager()
@@ -371,6 +385,8 @@ namespace NEP.Paranoia.Utilities
         public static GameObject mainLight;
         public static VLB.VolumetricLightBeam[] lightBeams;
 
+        public static TextMeshPro clipboardText;
+
         public static Material[] staticPlaneMaterials;
         public static float[] staticPlaneCubeMapScalars;
 
@@ -383,7 +399,13 @@ namespace NEP.Paranoia.Utilities
             staticPlaneCubeMapScalars = CacheCubeMapScalars(staticPlaneMaterials);
             staticCeiling = GameObject.Find("------STATICENV------");
             mainLight = GameObject.Find("REALTIMELIGHT");
+            clipboardText = GameObject.Find("prop_clipboard_MuseumBasement/TMP").GetComponent<TextMeshPro>();
             lightBeams = UnityEngine.Object.FindObjectsOfType<VLB.VolumetricLightBeam>();
+        }
+
+        public static void SetClipboardText(string text)
+        {
+            clipboardText.text = text;
         }
 
         /// <summary>

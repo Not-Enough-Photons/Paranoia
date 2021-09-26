@@ -1,14 +1,23 @@
-﻿namespace NEP.Paranoia.Entities
+﻿using NEP.Paranoia.Managers;
+
+namespace NEP.Paranoia.Entities
 {
     public class ShadowPersonChaser : BaseHallucination
     {
         public ShadowPersonChaser(System.IntPtr ptr) : base(ptr) { }
 
-        protected override void Awake()
+        protected override void OnEnable()
         {
-            base.Awake();
+            int rng = ParanoiaGameManager.instance.rng;
 
-            ReadValuesFromJSON(System.IO.File.ReadAllText(baseJsonPath + "ShadowManChaser.json"));
+            string json = rng >= 25 || rng <= 30 
+                ? System.IO.File.ReadAllText(baseJsonPath + "ShadowManChaser.json")
+                : System.IO.File.ReadAllText(baseJsonPath + "ShadowMan.json");
+
+            ReadValuesFromJSON(json);
+
+            base.OnEnable();
         }
     }
 }
+ 
