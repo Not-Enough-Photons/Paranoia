@@ -18,6 +18,9 @@ namespace NEP.Paranoia.TickEvents.Events
             if(brains == null) { return; }
 
             AIBrain brain = brains[Random.Range(0, brains.Length)];
+
+            if(brain == null) { return; }
+
             BehaviourBaseNav behaviour = brain.behaviour;
 
             behaviour.AddThreat(playerProxy, 100f);
