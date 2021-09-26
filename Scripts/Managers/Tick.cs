@@ -12,6 +12,8 @@ namespace NEP.Paranoia.Managers
             public float minRange;
             public float maxRange;
             public float maxTick;
+            public int minRNG;
+            public int maxRNG;
             public bool useInsanity;
             public float targetInsanity;
             public string fireEvent;
@@ -26,50 +28,57 @@ namespace NEP.Paranoia.Managers
             Any = Light | Dark
         }
 
-        private string _name;
-        public string name { get { return _name; } }
+        public string name { get; private set; }
 
-        private float _tick;
-        public float tick { get { return _tick; } }
+        public float tick { get; private set; }
 
-        private float _minRange;
-        public float minRange { get { return _minRange; } }
+        public float minRange { get; private set; }
 
-        private float _maxRange;
-        public float maxRange { get { return _maxRange; } }
+        public float maxRange { get; private set; }
 
-        private float _maxTick;
-        public float maxTick { get { return _maxTick; } }
+        public float maxTick { get; private set; }
 
+        public bool useRNG { get; private set; }
 
-        private bool _useInsanity;
-        public bool useInsanity { get { return _useInsanity; } }
+        private int _minRNG;
+        private int _maxRNG;
 
-        private float _targetInsanity;
-        public float targetInsanity { get { return _targetInsanity; } }
+        public int targetRNG
+        {
+            get
+            {
+                return Random.Range(_minRNG, _maxRNG);
+            }
+        }
 
-        private ParanoiaEvent _event;
-        public ParanoiaEvent Event { get { return _event; } }
+        public bool useInsanity { get; private set; }
 
-        private TickType _tickType;
-        public TickType tickType { get { return _tickType; } }
+        public float targetInsanity { get; private set; }
+
+        public ParanoiaEvent Event { get; private set; }
+
+        public TickType tickType { get; private set; }
 
         public Tick
-            (string tickName, 
-            float tick, 
+            (string tickName,
+            float tick,
             float maxTick,
-            bool useInsanity, 
-            float targetInsanity, 
-            TickType tickType, 
+            int minRNG,
+            int maxRNG,
+            bool useInsanity,
+            float targetInsanity,
+            TickType tickType,
             ParanoiaEvent Event)
         {
-            _name = tickName;
-            _tick = tick;
-            _maxTick = maxTick;
-            _useInsanity = useInsanity;
-            _targetInsanity = targetInsanity;
-            _tickType = tickType;
-            _event = Event;
+            this.name = tickName;
+            this.tick = tick;
+            this.maxTick = maxTick;
+            _minRNG = minRNG;
+            _maxRNG = maxRNG;
+            this.useInsanity = useInsanity;
+            this.targetInsanity = targetInsanity;
+            this.tickType = tickType;
+            this.Event = Event;
         }
 
         public Tick
@@ -77,44 +86,65 @@ namespace NEP.Paranoia.Managers
             float tick, 
             float minRange, 
             float maxRange,
+            int minRNG,
+            int maxRNG,
             bool useInsanity, 
             float targetInsanity, 
             TickType tickType, 
             ParanoiaEvent Event)
         {
-            _name = tickName;
-            _tick = tick;
-            _maxTick = Random.Range(minRange, maxRange);
-            _useInsanity = useInsanity;
-            _targetInsanity = targetInsanity;
-            _tickType = tickType;
-            _event = Event;
+            this.name = tickName;
+            this.tick = tick;
+            this.maxTick = Random.Range(minRange, maxRange);
+            _minRNG = minRNG;
+            _maxRNG = maxRNG;
+            this.useInsanity = useInsanity;
+            this.targetInsanity = targetInsanity;
+            this.tickType = tickType;
+            this.Event = Event;
         }
 
         public ParanoiaEvent GetEvent()
         {
-            return _event;
+            return Event;
         }
 
         public void Update()
         {
-            _tick += Time.deltaTime;
+            tick += Time.deltaTime;
 
-            if (_tick >= _maxTick)
+            if (tick >= maxTick)
             {
-                if (_useInsanity)
+                if(_minRNG != 0 && _maxRNG != 0)
                 {
-                    if (ParanoiaGameManager.instance.insanity >= _targetInsanity)
+                    int rng = Random.Range(_minRNG, _maxRNG);
+
+                    if(rng == targetRNG)
                     {
-                        _event?.Start();
+                        Event?.Start();
+                    }
+                    else if(rng == targetRNG && useInsanity)
+                    {
+                        if (ParanoiaGameManager.instance.insanity >= targetInsanity && rng == targetRNG)
+                        {
+                            Event?.Start();
+                        }
+                    }
+                }
+
+                if (useInsanity)
+                {
+                    if (ParanoiaGameManager.instance.insanity >= targetInsanity)
+                    {
+                        Event?.Start();
                     }
                 }
                 else
                 {
-                    _event?.Start();
+                    Event?.Start();
                 }
 
-                _tick = 0f;
+                tick = 0f;
             }
         }
     }
