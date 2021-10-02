@@ -23,17 +23,14 @@ namespace NEP.Paranoia.TickEvents.Events
             {
                 Transform transform = brain.transform;
                 Transform physicsGroup = transform.Find("Physics");
-                Transform aiGroup = transform.Find("AiRig");
 
-                if(transform == null || physicsGroup == null || aiGroup == null) { return; }
+                if(transform == null || physicsGroup == null) { return; }
 
                 physicsGroup.gameObject.SetActive(false);
 
-                aiGroup.gameObject.SetActive(false);
-
-                transform.localPosition = new Vector3(transform.localPosition.x, 0f, transform.localPosition.z);
-                Vector3 lookRotation = Quaternion.LookRotation(ParanoiaUtilities.FindHead().forward).eulerAngles;
-                physicsGroup.eulerAngles = new Vector3(physicsGroup.eulerAngles.x, lookRotation.y, physicsGroup.eulerAngles.z);
+                physicsGroup.localPosition = new Vector3(physicsGroup.localPosition.x, 0f, physicsGroup.localPosition.z);
+                Quaternion lookRotation = Quaternion.LookRotation(ParanoiaUtilities.FindPlayer().forward - physicsGroup.position);
+                physicsGroup.rotation = lookRotation;
             }
 
             MelonLoader.MelonCoroutines.Start(CoResetTPosedEnemies(brains, 10f));
