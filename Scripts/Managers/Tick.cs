@@ -1,4 +1,5 @@
-﻿using NEP.Paranoia.TickEvents;
+﻿using NEP.Paranoia.Managers;
+using NEP.Paranoia.TickEvents;
 using UnityEngine;
 
 namespace NEP.Paranoia.Managers
@@ -115,36 +116,40 @@ namespace NEP.Paranoia.Managers
 
             if (tick >= maxTick)
             {
-                if(_minRNG != 0 && _maxRNG != 0)
-                {
-                    int rng = Random.Range(_minRNG, _maxRNG);
+                bool reachedInsanity = ParanoiaGameManager.instance.insanity >= targetInsanity;
 
-                    if(rng == targetRNG)
+                if (_minRNG != 0 && _maxRNG != 0)
+                {
+                    int rng = ParanoiaGameManager.instance.rng;
+                    bool reachedRNG = rng >= _minRNG && rng <= _maxRNG;
+
+                    if(reachedRNG && useInsanity)
                     {
-                        Event?.Start();
-                    }
-                    else if(rng == targetRNG && useInsanity)
-                    {
-                        if (ParanoiaGameManager.instance.insanity >= targetInsanity && rng == targetRNG)
+                        if (reachedInsanity)
                         {
                             Event?.Start();
+                            tick = 0f;
                         }
                     }
-                }
-
-                if (useInsanity)
-                {
-                    if (ParanoiaGameManager.instance.insanity >= targetInsanity)
+                    else if (reachedRNG)
                     {
                         Event?.Start();
+                        tick = 0f;
+                    }
+                }
+                else if (useInsanity)
+                {
+                    if (reachedInsanity)
+                    {
+                        Event?.Start();
+                        tick = 0f;
                     }
                 }
                 else
                 {
                     Event?.Start();
+                    tick = 0f;
                 }
-
-                tick = 0f;
             }
         }
     }

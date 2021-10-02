@@ -6,7 +6,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            ParanoiaGameManager.instance.SetRNG(UnityEngine.Random.Range(1, 300));
+            ParanoiaGameManager.instance.SetRNG(UnityEngine.Random.Range(1, 100));
         }
     }
 }

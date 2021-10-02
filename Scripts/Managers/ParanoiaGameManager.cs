@@ -115,6 +115,10 @@ namespace NEP.Paranoia.Managers
 			{
                 instance = this;
 			}
+            else
+            {
+                Destroy(instance.gameObject);
+            }
 
             instance.hideFlags = HideFlags.DontUnloadUnusedAsset;
         }
@@ -255,8 +259,8 @@ namespace NEP.Paranoia.Managers
 
         private Tick CreateTick(bool isRandom, JSONSettings settings, TickType tickType, ParanoiaEvent Event)
         {
-            Tick standard = new Tick(settings.tickName, settings.tick, settings.maxTick, settings.useInsanity, settings.targetInsanity, tickType, Event);
-            Tick random = new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.useInsanity, settings.targetInsanity, tickType, Event);
+            Tick standard = new Tick(settings.tickName, settings.tick, settings.maxTick, settings.minRNG, settings.maxRNG, settings.useInsanity, settings.targetInsanity, tickType, Event);
+            Tick random = new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.minRNG, settings.maxRNG, settings.useInsanity, settings.targetInsanity, tickType, Event);
 
             if(tickType == TickType.Any || tickType == TickType.Light)
             {

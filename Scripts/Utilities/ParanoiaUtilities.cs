@@ -349,6 +349,8 @@ namespace NEP.Paranoia.Utilities
         public static GameObject mainLight;
         public static VLB.VolumetricLightBeam[] lightBeams;
 
+        public static Bounds blankboxBounds => GetLevelBounds();
+
         public static TextMeshPro clipboardText;
 
         public static Material[] staticPlaneMaterials;
@@ -361,6 +363,7 @@ namespace NEP.Paranoia.Utilities
             staticPlaneObjects = FindGameObjectsWithLayer("Static");
             staticPlaneMaterials = CacheMaterialsFromPlanes(staticPlaneObjects);
             staticPlaneCubeMapScalars = CacheCubeMapScalars(staticPlaneMaterials);
+
             staticCeiling = GameObject.Find("------STATICENV------");
             mainLight = GameObject.Find("REALTIMELIGHT");
             clipboardText = GameObject.Find("prop_clipboard_MuseumBasement/TMP").GetComponent<TextMeshPro>();
@@ -372,19 +375,29 @@ namespace NEP.Paranoia.Utilities
             clipboardText.text = text;
         }
 
+        public static Bounds GetLevelBounds()
+        {
+            Vector3 offset = Vector3.up * 42f;
+            Vector3 volume = new Vector3(163.2f, 84.3f, 163.67f);
+
+            Bounds levelBounds = new Bounds(Vector3.up * 42f, volume / 2f);
+
+            return levelBounds;
+        }
+
         /// <summary>
         /// Finds a group of game objects on a given layer.
         /// </summary>
         /// <param name="layerName"></param>
         /// <returns></returns>
-        private static GameObject[] FindGameObjectsWithLayer(string layerName)
+        public static GameObject[] FindGameObjectsWithLayer(string layerName)
         {
             GameObject[] objectsInScene = GameObject.FindObjectsOfType<GameObject>();
             List<GameObject> layerObjects = new List<GameObject>();
 
             for (int i = 0; i < objectsInScene.Length; i++)
             {
-                if (objectsInScene[i].layer == LayerMask.NameToLayer("Static"))
+                if (objectsInScene[i].layer == LayerMask.NameToLayer(layerName))
                 {
                     layerObjects?.Add(objectsInScene[i]);
                 }

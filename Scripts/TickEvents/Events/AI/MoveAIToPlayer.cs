@@ -15,6 +15,7 @@ namespace NEP.Paranoia.TickEvents.Events
             Transform player = ParanoiaUtilities.FindPlayer();
 
             if(player == null) { return; }
+            if(navs == null) { return; }
 
             foreach (BehaviourBaseNav nav in navs)
             {
