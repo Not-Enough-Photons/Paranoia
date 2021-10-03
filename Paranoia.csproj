@@ -105,6 +105,7 @@
     <Compile Include="Scripts\Entities\Hallucinations\Audio\Paralyzer.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Visual\ShadowPersonChaser.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Visual\ShadowPerson.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Visual\FastStaringMan.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Visual\StaringMan.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Audio\TeleportingEntity.cs" />
     <Compile Include="Scripts\Managers\AudioManager.cs" />

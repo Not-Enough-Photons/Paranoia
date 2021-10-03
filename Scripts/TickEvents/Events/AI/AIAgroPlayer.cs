@@ -15,7 +15,8 @@ namespace NEP.Paranoia.TickEvents.Events
             AIBrain[] brains = ParanoiaUtilities.FindAIBrains();
             TriggerRefProxy playerProxy = ParanoiaUtilities.GetPlayerProxy();
 
-            if(brains == null) { return; }
+            if(brains == null || brains.Length < 0) { return; }
+            if(playerProxy == null) { return; }
 
             AIBrain brain = brains[Random.Range(0, brains.Length)];
 

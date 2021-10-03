@@ -165,9 +165,20 @@ namespace NEP.Paranoia.Utilities
             return UnityEngine.Object.FindObjectOfType<PhysicsRig>();
         }
 
+        public static ControllerRig GetControllerRig()
+        {
+            return UnityEngine.Object.FindObjectOfType<SteamControllerRig>();
+        }
+
         public static AIBrain[] FindAIBrains()
         {
             AIBrain[] result = Object.FindObjectsOfType<AIBrain>();
+
+            if (result == null || result.Length < 0)
+            {
+                return null;
+            }
+
             return result;
         }
 
@@ -335,6 +346,7 @@ namespace NEP.Paranoia.Utilities
             ClassInjector.RegisterTypeInIl2Cpp<Radio>();
             ClassInjector.RegisterTypeInIl2Cpp<ShadowPerson>();
             ClassInjector.RegisterTypeInIl2Cpp<ShadowPersonChaser>();
+            ClassInjector.RegisterTypeInIl2Cpp<FastStaringMan>();
             ClassInjector.RegisterTypeInIl2Cpp<StaringMan>();
             ClassInjector.RegisterTypeInIl2Cpp<TeleportingEntity>();
         }
@@ -347,7 +359,9 @@ namespace NEP.Paranoia.Utilities
         public static GameObject[] staticPlaneObjects;
         public static GameObject staticCeiling;
         public static GameObject mainLight;
+        public static Material[] rendererMaterials;
         public static VLB.VolumetricLightBeam[] lightBeams;
+        public static ValveFog fog;
 
         public static Bounds blankboxBounds => GetLevelBounds();
 
@@ -358,16 +372,53 @@ namespace NEP.Paranoia.Utilities
 
         public static void Initialize()
         {
+            rendererMaterials = CacheAllRendererMaterials(Object.FindObjectsOfType<Renderer>());
             lightmaps = LightmapSettings.lightmaps;
             bakedProbes = LightmapSettings.lightProbes.bakedProbes;
             staticPlaneObjects = FindGameObjectsWithLayer("Static");
             staticPlaneMaterials = CacheMaterialsFromPlanes(staticPlaneObjects);
             staticPlaneCubeMapScalars = CacheCubeMapScalars(staticPlaneMaterials);
+            fog = Object.FindObjectOfType<ValveFog>();
 
             staticCeiling = GameObject.Find("------STATICENV------");
             mainLight = GameObject.Find("REALTIMELIGHT");
             clipboardText = GameObject.Find("prop_clipboard_MuseumBasement/TMP").GetComponent<TextMeshPro>();
             lightBeams = UnityEngine.Object.FindObjectsOfType<VLB.VolumetricLightBeam>();
+
+            //DisableCubemapScalars(rendererMaterials);
+            UpdateFog(1500f, 1f, 0.05f, 0.25f, Color.black);
+        }
+
+        public static Material[] CacheAllRendererMaterials(Renderer[] renderers)
+        {
+            List<Material> mats = new List<Material>();
+
+            foreach(Renderer renderer in renderers)
+            {
+                mats?.Add(renderer.material);
+            }
+
+            return mats.ToArray();
+        }
+
+        public static void UpdateFog(float startDistance, float endDistance, float thickness, float falloff, Color fogColor)
+        {
+            fog.startDistance = startDistance;
+            fog.endDistance = endDistance;
+            fog.heightFogThickness = thickness;
+            fog.heightFogFalloff = falloff;
+            fog.heightFogColor = fogColor;
+
+            fog.UpdateConstants();
+            DynamicGI.UpdateEnvironment();
+        }
+
+        public static void DisableCubemapScalars(Material[] materials)
+        {
+            foreach(Material mat in materials)
+            {
+                mat.SetFloat("g_flCubeMapScalar", 0f);
+            }
         }
 
         public static void SetClipboardText(string text)

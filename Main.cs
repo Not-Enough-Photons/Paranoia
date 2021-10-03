@@ -133,7 +133,12 @@ namespace NEP.Paranoia
             }
 		}
 
-		internal void RegisterObject(GameObject bundleObject, string assetName)
+        public override void OnSceneWasUnloaded(int buildIndex, string sceneName)
+        {
+			gameManager = null;
+        }
+
+        internal void RegisterObject(GameObject bundleObject, string assetName)
 		{
 			bundleObject = bundle.LoadAsset(assetName).Cast<GameObject>();
 			bundleObject.hideFlags = HideFlags.DontUnloadUnusedAsset;

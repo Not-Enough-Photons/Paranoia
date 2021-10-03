@@ -73,6 +73,7 @@ namespace NEP.Paranoia.Managers
         public static CeilingMan hCeilingMan;
 
         public static StaringMan hStaringMan;
+        public static FastStaringMan hFastStaringMan;
         public static ShadowPerson hShadowPerson;
         public static ShadowPersonChaser hShadowPersonChaser;
         public static Observer hObserver;
@@ -109,18 +110,25 @@ namespace NEP.Paranoia.Managers
             this._rng = rng;
         }
 
+        public void Cleanup()
+        {
+            BaseHallucination[] hallucinations = Object.FindObjectsOfType<BaseHallucination>();
+
+            foreach(BaseHallucination hallucination in hallucinations)
+            {
+                Destroy(hallucination.gameObject);
+            }
+
+            ticks.Clear();
+            darkTicks.Clear();
+        }
+
         private void Awake()
 		{
             if(instance == null)
 			{
                 instance = this;
 			}
-            else
-            {
-                Destroy(instance.gameObject);
-            }
-
-            instance.hideFlags = HideFlags.DontUnloadUnusedAsset;
         }
 
         private void Start()
@@ -143,6 +151,9 @@ namespace NEP.Paranoia.Managers
                 spawnCircles[i].radius = 25f;
                 spawnCircles[i].originTransform.position = staringManSpawns[i];
             }
+
+            ParanoiaMapUtilities.staticCeiling.SetActive(false);
+            GameObject.Find("AirParticles").SetActive(false);
         }
 
         private void Update()
@@ -188,12 +199,14 @@ namespace NEP.Paranoia.Managers
             hShadowPersonChaser = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPersonChaser>();
             hCeilingMan = SpawnPrefab("ent_ceilingman").AddComponent<CeilingMan>();
             hStaringMan = SpawnPrefab("ent_staringman").AddComponent<StaringMan>();
+            hFastStaringMan = SpawnPrefab("ent_staringman").AddComponent<FastStaringMan>();
             hObserver = SpawnPrefab("ent_observer").AddComponent<Observer>();
             hFordScaling = SpawnPrefab("ent_fordscaling").AddComponent<FordScaling>();
             hCursedDoor = SpawnPrefab("ent_curseddoor").AddComponent<CursedDoorController>();
             invisibleForce = new GameObject("Invisible Force").AddComponent<InvisibleForce>();
 
             deafenSource = new GameObject("Deafen Source").AddComponent<AudioSource>();
+            deafenSource.clip = Paranoia.instance.deafenSounds[0];
             deafenSource.volume = 0f;
             deafenSource.loop = true;
         }

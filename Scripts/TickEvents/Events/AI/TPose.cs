@@ -29,7 +29,7 @@ namespace NEP.Paranoia.TickEvents.Events
                 physicsGroup.gameObject.SetActive(false);
 
                 physicsGroup.localPosition = new Vector3(physicsGroup.localPosition.x, 0f, physicsGroup.localPosition.z);
-                Quaternion lookRotation = Quaternion.LookRotation(ParanoiaUtilities.FindPlayer().forward - physicsGroup.position);
+                Quaternion lookRotation = Quaternion.LookRotation(ParanoiaUtilities.GetPhysicsRig().transform.forward - physicsGroup.position);
                 physicsGroup.rotation = lookRotation;
             }
 
