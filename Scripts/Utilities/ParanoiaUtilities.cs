@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -16,6 +17,8 @@ using StressLevelZero.VRMK;
 using PuppetMasta;
 
 using TMPro;
+
+using RealisticEyeMovements;
 
 using UnhollowerBaseLib;
 using UnhollowerRuntimeLib;
@@ -135,12 +138,9 @@ namespace NEP.Paranoia.Utilities
 
         public static void ClonePlayerBody(out GameObject rigObject, Vector3 position, Quaternion rotation)
         {
-            GameWorldSkeletonRig skeletonRig = GetGameWorldRig();
+            GameObject rig = Object.Instantiate(GetGameWorldRig().gameObject, Vector3.up * 5f, Quaternion.identity);
 
-            SLZ_BodyBlender bodyBlender = skeletonRig._body.ArtToBlender;
-            SLZ_BodyBlender clonedBlender = GameObject.Instantiate(bodyBlender.gameObject, position, rotation).GetComponent<SLZ_BodyBlender>();
-
-            rigObject = clonedBlender.gameObject;
+            rigObject = rig;
         }
 
         public static GameObject GetRigManager()
@@ -221,6 +221,20 @@ namespace NEP.Paranoia.Utilities
             }
 
             return objectList.ToArray();
+        }
+
+        public static LookTargetController[] GetLookAtControllers()
+        {
+            List<LookTargetController> lookTargets = new List<LookTargetController>();
+            AIBrain[] brains = FindAIBrains();
+
+            foreach(AIBrain brain in brains)
+            {
+                LookTargetController lookTarget = brain.GetComponentInChildren<LookTargetController>();
+                lookTargets?.Add(lookTarget);
+            }
+
+            return lookTargets.ToArray();
         }
 
         public static Gun GetGunInHand(StressLevelZero.Handedness hand)
@@ -354,6 +368,15 @@ namespace NEP.Paranoia.Utilities
 
     public class ParanoiaMapUtilities
     {
+        public struct FogSettings
+        {
+            public float startDistance;
+            public float endDistance;
+            public float heightFogThickness;
+            public float heightFogFalloff;
+            public Color heightFogColor;
+        }
+
         public static Il2CppReferenceArray<LightmapData> lightmaps;
         public static Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> bakedProbes;
         public static GameObject[] staticPlaneObjects;
@@ -362,6 +385,9 @@ namespace NEP.Paranoia.Utilities
         public static Material[] rendererMaterials;
         public static VLB.VolumetricLightBeam[] lightBeams;
         public static ValveFog fog;
+
+        public static FogSettings baseFog;
+        public static FogSettings darkFog;
 
         public static Bounds blankboxBounds => GetLevelBounds();
 
@@ -385,8 +411,23 @@ namespace NEP.Paranoia.Utilities
             clipboardText = GameObject.Find("prop_clipboard_MuseumBasement/TMP").GetComponent<TextMeshPro>();
             lightBeams = UnityEngine.Object.FindObjectsOfType<VLB.VolumetricLightBeam>();
 
-            //DisableCubemapScalars(rendererMaterials);
-            UpdateFog(1500f, 1f, 0.05f, 0.25f, Color.black);
+            baseFog = new FogSettings()
+            {
+                startDistance = fog.startDistance,
+                endDistance = fog.endDistance,
+                heightFogThickness = fog.heightFogThickness,
+                heightFogFalloff = fog.heightFogFalloff,
+                heightFogColor = fog.heightFogColor
+            };
+
+            darkFog = new FogSettings()
+            {
+                startDistance = 1500f,
+                endDistance = 5f,
+                heightFogThickness = 0.015f,
+                heightFogFalloff = 1f,
+                heightFogColor = Color.black
+            };
         }
 
         public static Material[] CacheAllRendererMaterials(Renderer[] renderers)
@@ -401,16 +442,30 @@ namespace NEP.Paranoia.Utilities
             return mats.ToArray();
         }
 
-        public static void UpdateFog(float startDistance, float endDistance, float thickness, float falloff, Color fogColor)
+        public static void SwitchFog(FogSettings start, FogSettings end, float lerp, float maxTime)
         {
-            fog.startDistance = startDistance;
-            fog.endDistance = endDistance;
-            fog.heightFogThickness = thickness;
-            fog.heightFogFalloff = falloff;
-            fog.heightFogColor = fogColor;
+            MelonLoader.MelonCoroutines.Start(CoSwitchFog(start, end, lerp, maxTime));
+        }
 
-            fog.UpdateConstants();
-            DynamicGI.UpdateEnvironment();
+        private static IEnumerator CoSwitchFog(FogSettings start, FogSettings end, float lerp, float maxTime)
+        {
+            float time = 0f;
+
+            while(time < maxTime)
+            {
+                time += Time.deltaTime;
+
+                fog.startDistance = Mathf.MoveTowards(fog.startDistance, -end.startDistance, lerp * Time.deltaTime);
+                fog.heightFogThickness = Mathf.MoveTowards(fog.heightFogThickness, end.heightFogThickness, (lerp / 10f) * Time.deltaTime);
+                fog.heightFogFalloff = Mathf.MoveTowards(fog.heightFogFalloff, end.heightFogFalloff, (lerp / 20f) * Time.deltaTime);
+                fog.heightFogColor = Color.Lerp(fog.heightFogColor, end.heightFogColor, lerp * Time.deltaTime);
+
+                fog.UpdateConstants();
+
+                yield return null;
+            }
+
+            yield return null;
         }
 
         public static void DisableCubemapScalars(Material[] materials)

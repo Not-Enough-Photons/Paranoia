@@ -19,7 +19,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
             foreach (BehaviourBaseNav nav in navs)
             {
-                ParanoiaGameManager.instance.MoveAIToPoint(player.position, nav);
+                ParanoiaGameManager.instance.MoveAIToPoint(nav, player.position);
             }
         }
     }

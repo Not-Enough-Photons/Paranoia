@@ -100,6 +100,8 @@ namespace NEP.Paranoia.Managers
 
         private SpawnCircle[] spawnCircles = new SpawnCircle[3];
 
+        private SwitchFog switchFog;
+
         public void SetIsDark(bool condition)
         {
             _isDark = condition;
@@ -154,6 +156,8 @@ namespace NEP.Paranoia.Managers
 
             ParanoiaMapUtilities.staticCeiling.SetActive(false);
             GameObject.Find("AirParticles").SetActive(false);
+
+            ParanoiaMapUtilities.SwitchFog(ParanoiaMapUtilities.baseFog, ParanoiaMapUtilities.darkFog, 0.75f, 3600f);
         }
 
         private void Update()
@@ -164,11 +168,18 @@ namespace NEP.Paranoia.Managers
 
                 if (debug || Time.timeScale == 0) { return; }
 
-                UpdateTicks(ticks);
-
-                if (isDark)
+                try
                 {
-                    UpdateTicks(darkTicks);
+                    UpdateTicks(ticks);
+
+                    if (isDark)
+                    {
+                        UpdateTicks(darkTicks);
+                    }
+                }
+                catch(System.Exception e)
+                {
+                    MelonLoader.MelonLogger.Error(e);
                 }
             }
         }
@@ -304,10 +315,15 @@ namespace NEP.Paranoia.Managers
 
         public void MoveAIToPoint(Vector3 point, AIBrain brain)
         {
-            MoveAIToPoint(point, brain.behaviour);
+            MoveAIToPoint(brain.behaviour, point);
+        }
+        public void AILookAtTarget(BehaviourBaseNav behaviour, Vector3 point)
+        {
+            behaviour.sensors.hearingSensitivity = 0f;
+            behaviour.Investigate(point, true, 60f);
         }
 
-        public void MoveAIToPoint(Vector3 point, BehaviourBaseNav behaviour)
+        public void MoveAIToPoint(BehaviourBaseNav behaviour, Vector3 point)
         {
             behaviour.sensors.hearingSensitivity = 0f;
             behaviour.SwitchMentalState(BehaviourBaseNav.MentalState.Roam);

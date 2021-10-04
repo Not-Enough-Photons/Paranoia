@@ -1,4 +1,6 @@
-﻿using NEP.Paranoia.Utilities;
+﻿using StressLevelZero.Rig;
+
+using NEP.Paranoia.Utilities;
 using UnityEngine;
 
 namespace NEP.Paranoia.TickEvents.Events
@@ -7,11 +9,12 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            for(int i = 0; i < 10; i++)
-            {
-                GameObject rigObject = null;
-                ParanoiaUtilities.ClonePlayerBody(out rigObject, rigObject.transform.forward * i, Quaternion.identity);
-            }
+            int count = Object.FindObjectsOfType<RigManager>().Count;
+
+            if(count >= 1) { return; }
+
+            GameObject rig = null;
+            ParanoiaUtilities.ClonePlayerBody(out rig, Vector3.zero * 2f, Quaternion.identity);
         }
     }
 }
