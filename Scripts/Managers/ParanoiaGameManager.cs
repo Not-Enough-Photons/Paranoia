@@ -71,6 +71,7 @@ namespace NEP.Paranoia.Managers
         public static Paralyzer hParalyzer;
         public static Radio hRadio;
         public static CeilingMan hCeilingMan;
+        public static CryingEntity hCryingEntity;
 
         public static StaringMan hStaringMan;
         public static FastStaringMan hFastStaringMan;
@@ -211,10 +212,11 @@ namespace NEP.Paranoia.Managers
             hAmbience = SpawnPrefab("ent_soundentity").AddComponent<Ambience>();
             hChaser = SpawnPrefab("ent_soundentity").AddComponent<Chaser>();
             hDarkVoice = SpawnPrefab("ent_soundentity").AddComponent<DarkVoice>();
+            hCryingEntity = SpawnPrefab("ent_soundentity").AddComponent<CryingEntity>();
             hTeleportingEntity = SpawnPrefab("ent_grayman").AddComponent<TeleportingEntity>();
             hParalyzer = SpawnPrefab("ent_paralyzer").AddComponent<Paralyzer>();
             hRadio = SpawnPrefab("ent_radio").AddComponent<Radio>();
-            
+
             hShadowPerson = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPerson>();
             hShadowPersonChaser = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPersonChaser>();
             hCeilingMan = SpawnPrefab("ent_ceilingman").AddComponent<CeilingMan>();

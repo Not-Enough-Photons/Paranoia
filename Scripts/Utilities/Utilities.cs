@@ -345,6 +345,7 @@ namespace NEP.Paranoia.Utilities
             ClassInjector.RegisterTypeInIl2Cpp<CeilingMan>();
             ClassInjector.RegisterTypeInIl2Cpp<Chaser>();
             ClassInjector.RegisterTypeInIl2Cpp<DarkVoice>();
+            ClassInjector.RegisterTypeInIl2Cpp<CryingEntity>();
             ClassInjector.RegisterTypeInIl2Cpp<InvisibleForce>();
             ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();
             ClassInjector.RegisterTypeInIl2Cpp<Observer>();

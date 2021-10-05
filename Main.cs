@@ -37,18 +37,21 @@ namespace NEP.Paranoia
 
 		private Dictionary<string, GameObject> baseEntities;
 
-		public List<AudioClip> genericAmbience;
-		public List<AudioClip> screamAmbience;
-		public List<AudioClip> chaserAmbience;
-		public List<AudioClip> teleporterAmbience;
-		public List<AudioClip> paralyzerAmbience;
-		public List<AudioClip> deafenSounds;
-		public List<AudioClip> grabSounds;
-		public List<AudioClip> watcherAmbience;
-		public List<AudioClip> doorIdleSounds;
-		public List<AudioClip> doorOpenSounds;
-		public List<AudioClip> darkVoices;
-		public List<AudioClip> radioTunes;
+		public List<AudioClip> genericAmbience = new List<AudioClip>();
+		public List<AudioClip> screamAmbience = new List<AudioClip>();
+
+		public List<AudioClip> chaserAmbience = new List<AudioClip>();
+		public List<AudioClip> teleporterAmbience = new List<AudioClip>();
+		public List<AudioClip> paralyzerAmbience = new List<AudioClip>();
+		public List<AudioClip> watcherAmbience = new List<AudioClip>();
+		public List<AudioClip> cryingAmbience = new List<AudioClip>();
+		public List<AudioClip> darkVoices = new List<AudioClip>();
+
+		public List<AudioClip> deafenSounds = new List<AudioClip>();
+		public List<AudioClip> grabSounds = new List<AudioClip>();
+		public List<AudioClip> doorIdleSounds = new List<AudioClip>();
+		public List<AudioClip> doorOpenSounds = new List<AudioClip>();
+		public List<AudioClip> radioTunes = new List<AudioClip>();
 
 		public List<VideoClip> videoClips;
 
@@ -87,19 +90,6 @@ namespace NEP.Paranoia
 				}
 
 				bundle = AssetBundle.LoadFromFile("UserData/paranoia/paranoia.pack");
-
-				genericAmbience = new List<AudioClip>();
-				screamAmbience = new List<AudioClip>();
-				chaserAmbience = new List<AudioClip>();
-				watcherAmbience = new List<AudioClip>();
-				deafenSounds = new List<AudioClip>();
-				grabSounds = new List<AudioClip>();
-				doorIdleSounds = new List<AudioClip>();
-				doorOpenSounds = new List<AudioClip>();
-				teleporterAmbience = new List<AudioClip>();
-				paralyzerAmbience = new List<AudioClip>();
-				darkVoices = new List<AudioClip>();
-				radioTunes = new List<AudioClip>();
 
 				videoClips = new List<VideoClip>();
 
@@ -171,6 +161,7 @@ namespace NEP.Paranoia
 				"amb_teleportingthing",
 				"amb_dark_voice",
 				"amb_paralysis",
+				"amb_crying",
 				"amb_deafen",
 				"player_grab",
 				"door_idle",
@@ -185,6 +176,7 @@ namespace NEP.Paranoia
 				{ "amb_chaser", chaserAmbience },
 				{ "amb_watcher", watcherAmbience },
 				{ "amb_teleportingthing", teleporterAmbience },
+				{ "amb_crying", cryingAmbience },
 				{ "amb_dark_voice", darkVoices },
 				{ "amb_paralysis", paralyzerAmbience },
 				{ "amb_deafen", deafenSounds },

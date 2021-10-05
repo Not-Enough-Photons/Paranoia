@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using NEP.Paranoia.Managers;
+
 namespace NEP.Paranoia.Entities
 {
     public class Ambience : AudioHallucination
@@ -17,6 +19,14 @@ namespace NEP.Paranoia.Entities
 
         protected override void OnEnable()
         {
+            ParanoiaGameManager manager = ParanoiaGameManager.instance;
+
+            int rng = manager.rng;
+
+            bool isRareNumber = rng >= 20 && rng <= 45 || rng >= 50 && rng <= 75;
+
+            useScreams = isRareNumber;
+
             clips = useScreams ? Paranoia.instance.screamAmbience.ToArray() : Paranoia.instance.genericAmbience.ToArray();
 
             base.OnEnable();
