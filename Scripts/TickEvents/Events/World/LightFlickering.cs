@@ -12,15 +12,18 @@ namespace NEP.Paranoia.TickEvents.Events
         {
             new DisableNimbus().Start();
             new DisableWasp().Start();
+
+            MelonLoader.MelonCoroutines.Start(CoLightFlicker(Random.Range(3, 5)));
         }
 
         private IEnumerator CoLightFlicker(int iterations)
         {
-            VLB.VolumetricLightBeam vlb = 
+            GameObject mainLight = MapUtilities.mainLight;
 
             for(int i = 0; i < iterations; i++)
             {
                 yield return new WaitForSeconds(Random.Range(1f, 10f));
+                mainLight.SetActive(i % iterations == 0);
             }
         }
     }
