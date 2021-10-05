@@ -271,11 +271,6 @@ namespace NEP.Paranoia.Utilities
             return true;
         }
 
-        public static Tick GetTick(string name)
-        {
-            return ParanoiaGameManager.instance.GetType().GetField(name).GetValue(null) as Tick;
-        }
-
         public static DateTime CalculateTargetTimeDifference(DateTime targetTime)
         {
             TimeSpan difference = DateTime.Now - targetTime;

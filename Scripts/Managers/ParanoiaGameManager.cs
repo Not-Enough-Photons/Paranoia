@@ -102,6 +102,15 @@ namespace NEP.Paranoia.Managers
 
         private SwitchFog switchFog;
 
+        public Tick GetTick(string name, TickType type)
+        {
+            Tick selectedTick = type == TickType.Any 
+                ? ticks.FirstOrDefault((tick) => tick.name == name) 
+                : darkTicks.FirstOrDefault((tick) => tick.name == name);
+
+            return selectedTick;
+        }
+
         public void SetIsDark(bool condition)
         {
             _isDark = condition;

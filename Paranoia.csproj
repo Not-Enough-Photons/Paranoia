@@ -157,7 +157,7 @@
     <Compile Include="Scripts\Note00001.cs" />
     <Compile Include="Scripts\Managers\ObjectPool.cs" />
     <Compile Include="Scripts\Managers\ParanoiaGameManager.cs" />
-    <Compile Include="Scripts\Utilities\ParanoiaUtilities.cs" />
+    <Compile Include="Scripts\Utilities\Utilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Scripts\Entities\SpawnCircle.cs" />
