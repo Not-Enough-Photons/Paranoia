@@ -8,7 +8,7 @@ namespace NEP.Paranoia.TickEvents.Events
         public override void Start()
         {
             Rigidbody[] rbs = Object.FindObjectsOfType<Rigidbody>();
-            Transform player = ParanoiaUtilities.FindPlayer();
+            Transform player = Utilities.Utilities.FindPlayer();
 
             Rigidbody randomRB = rbs[Random.Range(0, rbs.Length)];
 

@@ -135,7 +135,7 @@ namespace NEP.Paranoia.Managers
 
         private void Start()
         {
-            ParanoiaMapUtilities.Initialize();
+            MapUtilities.Initialize();
 
             InitializeEntities();
 
@@ -143,9 +143,9 @@ namespace NEP.Paranoia.Managers
 
             _audioManager = FindObjectOfType<AudioManager>();
 
-            _playerTrigger = ParanoiaUtilities.FindPlayer();
+            _playerTrigger = Utilities.Utilities.FindPlayer();
 
-            playerCircle = new SpawnCircle(ParanoiaUtilities.FindPlayer());
+            playerCircle = new SpawnCircle(Utilities.Utilities.FindPlayer());
 
             for (int i = 0; i < spawnCircles.Length; i++)
             {
@@ -154,10 +154,10 @@ namespace NEP.Paranoia.Managers
                 spawnCircles[i].originTransform.position = staringManSpawns[i];
             }
 
-            ParanoiaMapUtilities.staticCeiling.SetActive(false);
+            MapUtilities.staticCeiling.SetActive(false);
             GameObject.Find("AirParticles").SetActive(false);
 
-            ParanoiaMapUtilities.SwitchFog(ParanoiaMapUtilities.baseFog, ParanoiaMapUtilities.darkFog, 0.75f, 3600f);
+            MapUtilities.SwitchFog(MapUtilities.baseFog, MapUtilities.darkFog, 0.625f, 3600f);
         }
 
         private void Update()
@@ -271,12 +271,12 @@ namespace NEP.Paranoia.Managers
 
         private void FinalizeTickMethod(JSONSettings settings, TickType tickType, string nameSpace, string mainFunc)
         {
-            string method = ParanoiaUtilities.GetMethodNameString(mainFunc);
-            string parameter = ParanoiaUtilities.GetParameterString(mainFunc);
+            string method = Utilities.Utilities.GetMethodNameString(mainFunc);
+            string parameter = Utilities.Utilities.GetParameterString(mainFunc);
 
             System.Type type = System.Type.GetType(nameSpace + method);
 
-            object instance = System.Activator.CreateInstance(type, new object[] { ParanoiaUtilities.GetHallucination(parameter) });
+            object instance = System.Activator.CreateInstance(type, new object[] { Utilities.Utilities.GetHallucination(parameter) });
 
             CreateTick(settings.minRange != 0f || settings.maxRange != 0f, settings, tickType, instance as SpawnMirage);
         }

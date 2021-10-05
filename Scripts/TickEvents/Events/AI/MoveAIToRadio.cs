@@ -11,7 +11,7 @@ namespace NEP.Paranoia.TickEvents.Events
         public override void Start()
         {
             BehaviourBaseNav[] navs;
-            ParanoiaUtilities.FindAIBrains(out navs);
+            Utilities.Utilities.FindAIBrains(out navs);
 
             GameObject radio = ParanoiaGameManager.hRadio.gameObject;
 

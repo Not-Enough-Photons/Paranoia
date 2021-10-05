@@ -14,7 +14,7 @@ namespace NEP.Paranoia.TickEvents.Events
             if(count >= 1) { return; }
 
             GameObject rig = null;
-            ParanoiaUtilities.ClonePlayerBody(out rig, Vector3.zero * 2f, Quaternion.identity);
+            Utilities.Utilities.ClonePlayerBody(out rig, Vector3.zero * 2f, Quaternion.identity);
         }
     }
 }

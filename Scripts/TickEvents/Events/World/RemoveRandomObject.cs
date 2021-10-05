@@ -7,8 +7,8 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            Transform head = ParanoiaUtilities.FindHead();
-            Rigidbody[] rbs = ParanoiaUtilities.FindObjectsBehindHead(head, "Interactable");
+            Transform head = Utilities.Utilities.FindHead();
+            Rigidbody[] rbs = Utilities.Utilities.FindObjectsBehindHead(head, "Interactable");
 
             if(rbs == null) { return; }
 

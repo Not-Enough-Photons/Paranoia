@@ -11,7 +11,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            LookTargetController[] lookTargets = ParanoiaUtilities.GetLookAtControllers();
+            LookTargetController[] lookTargets = Utilities.Utilities.GetLookAtControllers();
 
             if(lookTargets == null) { return; }
 

@@ -37,7 +37,7 @@ namespace NEP.Paranoia.Entities
         {
             base.Update();
 
-            if(Vector3.Distance(hingeTransform.position, ParanoiaUtilities.FindPlayer().transform.position) < 5f)
+            if(Vector3.Distance(hingeTransform.position, Utilities.Utilities.FindPlayer().transform.position) < 5f)
             {
                 Vector3 target = -Vector3.up * 125f;
                 hingeTransform.localRotation = Quaternion.Lerp(hingeTransform.localRotation, Quaternion.Euler(target), 0.15f * Time.deltaTime);

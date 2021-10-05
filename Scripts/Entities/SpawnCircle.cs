@@ -38,7 +38,7 @@ namespace NEP.Paranoia.Entities
 
         public Vector3 CalculatePlayerCircle(float angle, float radius, float yOffset)
         {
-            Bounds levelBounds = ParanoiaMapUtilities.GetLevelBounds();
+            Bounds levelBounds = MapUtilities.GetLevelBounds();
 
             Vector3 pos = new Vector3(
                 originTransform.position.x + Mathf.Sin(angle * Deg2Rad) * radius,

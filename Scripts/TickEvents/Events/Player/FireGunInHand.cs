@@ -8,12 +8,12 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            if (ParanoiaUtilities.GetGunInHand(StressLevelZero.Handedness.RIGHT) == null)
+            if (Utilities.Utilities.GetGunInHand(StressLevelZero.Handedness.RIGHT) == null)
             {
                 return;
             }
 
-            Gun gun = ParanoiaUtilities.GetGunInHand(StressLevelZero.Handedness.RIGHT);
+            Gun gun = Utilities.Utilities.GetGunInHand(StressLevelZero.Handedness.RIGHT);
 
             gun?.Fire();
         }

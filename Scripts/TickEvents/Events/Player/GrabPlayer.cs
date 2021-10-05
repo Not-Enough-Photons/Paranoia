@@ -11,7 +11,7 @@ namespace NEP.Paranoia.TickEvents.Events
         public override void Start()
         {
             // Get physics rig
-            PhysicsRig rig = ParanoiaUtilities.GetPhysicsRig();
+            PhysicsRig rig = Utilities.Utilities.GetPhysicsRig();
             PhysBody physBody = rig.physBody;
 
             Rigidbody[] rbs = new Rigidbody[]
@@ -25,9 +25,9 @@ namespace NEP.Paranoia.TickEvents.Events
 
         private System.Collections.IEnumerator CoGrabRoutine(Rigidbody part)
         {
-            string originalText = ParanoiaMapUtilities.clipboardText.text;
+            string originalText = MapUtilities.clipboardText.text;
 
-            ParanoiaMapUtilities.SetClipboardText("DO NOT LET IT GRAB YOU            " +
+            MapUtilities.SetClipboardText("DO NOT LET IT GRAB YOU            " +
                 " RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN " +
                 "RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN ");
 
@@ -51,7 +51,7 @@ namespace NEP.Paranoia.TickEvents.Events
                 yield return null;
             }
 
-            ParanoiaMapUtilities.SetClipboardText(originalText);
+            MapUtilities.SetClipboardText(originalText);
         }
     }
 }

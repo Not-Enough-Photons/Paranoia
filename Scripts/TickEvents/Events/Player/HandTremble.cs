@@ -11,7 +11,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            PhysicsRig physicsRig = ParanoiaUtilities.GetPhysicsRig();
+            PhysicsRig physicsRig = Utilities.Utilities.GetPhysicsRig();
 
             Rigidbody leftHand = physicsRig?.leftHand.rb;
             Rigidbody rightHand = physicsRig?.rightHand.rb;

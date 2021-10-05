@@ -1,4 +1,5 @@
-﻿using StressLevelZero.Rig;
+﻿using System.Collections;
+
 using NEP.Paranoia.Managers;
 using NEP.Paranoia.Utilities;
 using UnityEngine;
@@ -13,9 +14,14 @@ namespace NEP.Paranoia.TickEvents.Events
             new DisableWasp().Start();
         }
 
-        private void DisableGeneralLighting()
+        private IEnumerator CoLightFlicker(int iterations)
         {
+            VLB.VolumetricLightBeam vlb = 
 
+            for(int i = 0; i < iterations; i++)
+            {
+                yield return new WaitForSeconds(Random.Range(1f, 10f));
+            }
         }
     }
 }

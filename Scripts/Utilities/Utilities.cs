@@ -31,7 +31,7 @@ using Valve.VR;
 
 namespace NEP.Paranoia.Utilities
 {
-    public class ParanoiaUtilities
+    public class Utilities
     {
         /// <summary>
         /// Gets the current HMD that SteamVR is using.
@@ -366,7 +366,7 @@ namespace NEP.Paranoia.Utilities
         }
     }
 
-    public class ParanoiaMapUtilities
+    public class MapUtilities
     {
         public struct FogSettings
         {

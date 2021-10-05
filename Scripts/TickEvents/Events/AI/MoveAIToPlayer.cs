@@ -11,8 +11,8 @@ namespace NEP.Paranoia.TickEvents.Events
         public override void Start()
         {
             BehaviourBaseNav[] navs;
-            ParanoiaUtilities.FindAIBrains(out navs);
-            Transform player = ParanoiaUtilities.FindPlayer();
+            Utilities.Utilities.FindAIBrains(out navs);
+            Transform player = Utilities.Utilities.FindPlayer();
 
             if(player == null) { return; }
             if(navs == null) { return; }

@@ -76,10 +76,10 @@ namespace NEP.Paranoia
 					instance = this;
 				}
 
-				ParanoiaUtilities utils = new ParanoiaUtilities();
-				ParanoiaMapUtilities mapUtils = new ParanoiaMapUtilities();
+                Utilities.Utilities utils = new Utilities.Utilities();
+				MapUtilities mapUtils = new MapUtilities();
 
-				ParanoiaUtilities.RegisterTypesInIL2CPP();
+                Utilities.Utilities.RegisterTypesInIL2CPP();
 
 				if (!System.IO.Directory.Exists("UserData/paranoia"))
 				{
