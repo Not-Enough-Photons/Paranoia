@@ -1,4 +1,4 @@
-﻿using NEP.Paranoia.Utilities;
+﻿using NEP.Paranoia.ParanoiaUtilities;
 using UnityEngine;
 
 namespace NEP.Paranoia.TickEvents.Events
@@ -7,8 +7,8 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            Transform head = Utilities.Utilities.FindHead();
-            Rigidbody[] rbs = Utilities.Utilities.FindObjectsBehindHead(head, "Interactable");
+            Transform head = ParanoiaUtilities.Utilities.FindHead();
+            Rigidbody[] rbs = ParanoiaUtilities.Utilities.FindObjectsBehindHead(head, "Interactable");
 
             if(rbs == null) { return; }
 

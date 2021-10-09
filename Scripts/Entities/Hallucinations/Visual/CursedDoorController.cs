@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using NEP.Paranoia.Utilities;
+using NEP.Paranoia.ParanoiaUtilities;
+using StressLevelZero.Rig;
 
 namespace NEP.Paranoia.Entities
 {
@@ -10,6 +11,9 @@ namespace NEP.Paranoia.Entities
         public AudioSource source;
         public Transform hingeTransform;
         public Material faceMaterial;
+
+        private PlayerTrigger trigger;
+
         private bool playedOnce = false;
 
         private float m_timer = 0f;
@@ -23,6 +27,13 @@ namespace NEP.Paranoia.Entities
 
             hingeTransform = transform.Find("GameObject/scaler/door_Boneworks/hinge");
             source = transform.Find("GameObject/scaler/source").GetComponent<AudioSource>();
+
+            trigger = GetComponentInChildren<PlayerTrigger>();
+
+            trigger.TriggerEnterEvent.AddListener(new System.Action(() =>
+            {
+                Utilities.GetRigManager().GetComponent<RigManager>().Teleport(new Vector3(-134.10f, 44.56f, -85.98f), true);
+            }));
         }
 
         protected override void OnEnable()
@@ -37,7 +48,7 @@ namespace NEP.Paranoia.Entities
         {
             base.Update();
 
-            if(Vector3.Distance(hingeTransform.position, Utilities.Utilities.FindPlayer().transform.position) < 5f)
+            if(Vector3.Distance(hingeTransform.position, ParanoiaUtilities.Utilities.FindPlayer().transform.position) < 5f)
             {
                 Vector3 target = -Vector3.up * 125f;
                 hingeTransform.localRotation = Quaternion.Lerp(hingeTransform.localRotation, Quaternion.Euler(target), 0.15f * Time.deltaTime);

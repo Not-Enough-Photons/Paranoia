@@ -1,4 +1,4 @@
-﻿using NEP.Paranoia.Utilities;
+﻿using NEP.Paranoia.ParanoiaUtilities;
 using NEP.Paranoia.Managers;
 
 using System.Linq;
@@ -15,7 +15,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            AIBrain[] brains = Utilities.Utilities.FindAIBrains();
+            AIBrain[] brains = ParanoiaUtilities.Utilities.FindAIBrains();
 
             if(brains == null) { return; }
 
@@ -29,7 +29,7 @@ namespace NEP.Paranoia.TickEvents.Events
                 physicsGroup.gameObject.SetActive(false);
 
                 physicsGroup.localPosition = new Vector3(physicsGroup.localPosition.x, 0f, physicsGroup.localPosition.z);
-                Quaternion lookRotation = Quaternion.LookRotation(Utilities.Utilities.GetPhysicsRig().transform.forward - physicsGroup.position);
+                Quaternion lookRotation = Quaternion.LookRotation(ParanoiaUtilities.Utilities.GetPhysicsRig().transform.forward - physicsGroup.position);
                 physicsGroup.rotation = lookRotation;
             }
 

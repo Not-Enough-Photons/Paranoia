@@ -1,6 +1,6 @@
 ﻿using StressLevelZero.Rig;
 
-using NEP.Paranoia.Utilities;
+using NEP.Paranoia.ParanoiaUtilities;
 using UnityEngine;
 
 namespace NEP.Paranoia.TickEvents.Events
@@ -14,7 +14,7 @@ namespace NEP.Paranoia.TickEvents.Events
             if(count >= 1) { return; }
 
             GameObject rig = null;
-            Utilities.Utilities.ClonePlayerBody(out rig, Vector3.zero * 2f, Quaternion.identity);
+            ParanoiaUtilities.Utilities.ClonePlayerBody(out rig, Vector3.zero * 2f, Quaternion.identity);
         }
     }
 }

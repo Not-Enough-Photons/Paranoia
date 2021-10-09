@@ -1,4 +1,4 @@
-﻿using NEP.Paranoia.Utilities;
+﻿using NEP.Paranoia.ParanoiaUtilities;
 using NEP.Paranoia.Managers;
 
 using UnityEngine;
@@ -11,8 +11,8 @@ namespace NEP.Paranoia.TickEvents.Events
         public override void Start()
         {
             BehaviourBaseNav[] navs;
-            Utilities.Utilities.FindAIBrains(out navs);
-            Transform player = Utilities.Utilities.FindPlayer();
+            ParanoiaUtilities.Utilities.FindAIBrains(out navs);
+            Transform player = ParanoiaUtilities.Utilities.FindPlayer();
 
             if(player == null) { return; }
             if(navs == null) { return; }

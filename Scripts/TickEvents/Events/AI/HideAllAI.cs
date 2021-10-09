@@ -1,4 +1,4 @@
-﻿using NEP.Paranoia.Utilities;
+﻿using NEP.Paranoia.ParanoiaUtilities;
 using StressLevelZero.AI;
 
 namespace NEP.Paranoia.TickEvents.Events
@@ -7,7 +7,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            AIBrain[] brains = Utilities.Utilities.FindAIBrains();
+            AIBrain[] brains = ParanoiaUtilities.Utilities.FindAIBrains();
 
             if(brains == null) { return; }
 

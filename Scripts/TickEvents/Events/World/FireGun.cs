@@ -1,4 +1,4 @@
-﻿using NEP.Paranoia.Utilities;
+﻿using NEP.Paranoia.ParanoiaUtilities;
 using StressLevelZero.Props.Weapons;
 
 namespace NEP.Paranoia.TickEvents.Events

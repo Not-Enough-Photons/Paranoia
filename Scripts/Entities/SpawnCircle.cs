@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using NEP.Paranoia.Utilities;
+using NEP.Paranoia.ParanoiaUtilities;
 
 namespace NEP.Paranoia.Entities
 {

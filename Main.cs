@@ -2,7 +2,7 @@
 
 using NEP.Paranoia.Entities;
 using NEP.Paranoia.Managers;
-using NEP.Paranoia.Utilities;
+using NEP.Paranoia.ParanoiaUtilities;
 
 using UnityEngine;
 using UnityEngine.Video;
@@ -79,10 +79,10 @@ namespace NEP.Paranoia
 					instance = this;
 				}
 
-                Utilities.Utilities utils = new Utilities.Utilities();
+                ParanoiaUtilities.Utilities utils = new ParanoiaUtilities.Utilities();
 				MapUtilities mapUtils = new MapUtilities();
 
-                Utilities.Utilities.RegisterTypesInIL2CPP();
+                ParanoiaUtilities.Utilities.RegisterTypesInIL2CPP();
 
 				if (!System.IO.Directory.Exists("UserData/paranoia"))
 				{

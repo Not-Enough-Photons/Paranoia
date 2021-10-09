@@ -18,8 +18,6 @@ namespace NEP.Paranoia.Entities
             clips = Paranoia.instance.cryingAmbience.ToArray();
 
             base.OnEnable();
-
-            source.loop = true;
         }
     }
 }

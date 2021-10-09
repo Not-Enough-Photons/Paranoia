@@ -1,4 +1,4 @@
-﻿using NEP.Paranoia.Utilities;
+﻿using NEP.Paranoia.ParanoiaUtilities;
 using UnityEngine;
 
 namespace NEP.Paranoia.TickEvents.Events

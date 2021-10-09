@@ -1,6 +1,6 @@
 ﻿using StressLevelZero.Props.Weapons;
 
-using NEP.Paranoia.Utilities;
+using NEP.Paranoia.ParanoiaUtilities;
 
 namespace NEP.Paranoia.TickEvents.Events
 {
@@ -8,12 +8,12 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            if (Utilities.Utilities.GetGunInHand(StressLevelZero.Handedness.RIGHT) == null)
+            if (ParanoiaUtilities.Utilities.GetGunInHand(StressLevelZero.Handedness.RIGHT) == null)
             {
                 return;
             }
 
-            Gun gun = Utilities.Utilities.GetGunInHand(StressLevelZero.Handedness.RIGHT);
+            Gun gun = ParanoiaUtilities.Utilities.GetGunInHand(StressLevelZero.Handedness.RIGHT);
 
             gun?.Fire();
         }

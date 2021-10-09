@@ -5,7 +5,7 @@ using System.Linq;
 using NEP.Paranoia.Entities;
 using NEP.Paranoia.TickEvents;
 using NEP.Paranoia.TickEvents.Mirages;
-using NEP.Paranoia.Utilities;
+using NEP.Paranoia.ParanoiaUtilities;
 
 using StressLevelZero.AI;
 using PuppetMasta;
@@ -153,9 +153,9 @@ namespace NEP.Paranoia.Managers
 
             _audioManager = FindObjectOfType<AudioManager>();
 
-            _playerTrigger = Utilities.Utilities.FindPlayer();
+            _playerTrigger = ParanoiaUtilities.Utilities.FindPlayer();
 
-            playerCircle = new SpawnCircle(Utilities.Utilities.FindPlayer());
+            playerCircle = new SpawnCircle(ParanoiaUtilities.Utilities.FindPlayer());
 
             for (int i = 0; i < spawnCircles.Length; i++)
             {
@@ -167,7 +167,7 @@ namespace NEP.Paranoia.Managers
             MapUtilities.staticCeiling.SetActive(false);
             GameObject.Find("AirParticles").SetActive(false);
 
-            MapUtilities.SwitchFog(MapUtilities.baseFog, MapUtilities.darkFog, 0.625f, 3600f);
+            MapUtilities.SwitchFog(MapUtilities.baseFog, MapUtilities.darkFog, 0.25f, 3600f);
         }
 
         private void Update()
@@ -282,12 +282,12 @@ namespace NEP.Paranoia.Managers
 
         private void FinalizeTickMethod(JSONSettings settings, TickType tickType, string nameSpace, string mainFunc)
         {
-            string method = Utilities.Utilities.GetMethodNameString(mainFunc);
-            string parameter = Utilities.Utilities.GetParameterString(mainFunc);
+            string method = ParanoiaUtilities.Utilities.GetMethodNameString(mainFunc);
+            string parameter = ParanoiaUtilities.Utilities.GetParameterString(mainFunc);
 
             System.Type type = System.Type.GetType(nameSpace + method);
 
-            object instance = System.Activator.CreateInstance(type, new object[] { Utilities.Utilities.GetHallucination(parameter) });
+            object instance = System.Activator.CreateInstance(type, new object[] { ParanoiaUtilities.Utilities.GetHallucination(parameter) });
 
             CreateTick(settings.minRange != 0f || settings.maxRange != 0f, settings, tickType, instance as SpawnMirage);
         }

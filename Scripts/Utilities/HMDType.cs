@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Utilities
+﻿namespace NEP.Paranoia.ParanoiaUtilities
 {
     public enum HMDType
     {

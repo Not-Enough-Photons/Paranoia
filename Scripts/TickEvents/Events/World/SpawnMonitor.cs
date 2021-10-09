@@ -1,4 +1,4 @@
-﻿using NEP.Paranoia.Utilities;
+﻿using NEP.Paranoia.ParanoiaUtilities;
 using NEP.Paranoia.Managers;
 using UnityEngine;
 
@@ -12,7 +12,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
             monitorClone.transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), 10f);
 
-            monitorClone.transform.LookAt(Utilities.Utilities.FindPlayer());
+            monitorClone.transform.LookAt(ParanoiaUtilities.Utilities.FindPlayer());
 
             monitorClone.SetActive(true);
 

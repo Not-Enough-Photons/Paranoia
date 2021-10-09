@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="Scripts\Entities\AudioHallucination.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Audio\Ambience.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Audio\CryingEntity.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Audio\Radio.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Visual\CeilingMan.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Audio\Chaser.cs" />
@@ -113,7 +114,9 @@
     <Compile Include="Scripts\Entities\Hallucinations\Visual\CursedDoorController.cs" />
     <Compile Include="Scripts\Managers\Tick.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\AILookAtCeiling.cs" />
+    <Compile Include="Scripts\TickEvents\Events\AI\DragRandomNPC.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\HideAllAI.cs" />
+    <Compile Include="Scripts\TickEvents\Events\AI\LaughAtPlayer.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\ClonePlayer.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\DeafenPlayer.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\FireGunInHand.cs" />

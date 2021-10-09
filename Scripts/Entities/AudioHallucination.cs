@@ -21,6 +21,7 @@ namespace NEP.Paranoia.Entities
             Ambient,
             Darkness,
             Teleporting,
+            Crying,
             Paralyzer
         }
 
@@ -81,6 +82,12 @@ namespace NEP.Paranoia.Entities
                 source.spatialBlend = 0f;
 
                 MelonLoader.MelonCoroutines.Start(CoHideSelf(source.clip.length));
+            }
+
+            if(auditoryType == AuditoryType.Crying)
+            {
+                source.spatialBlend = 0.85f;
+                source.loop = true;
             }
 
             if(auditoryType == AuditoryType.Darkness)

@@ -1,4 +1,4 @@
-﻿using NEP.Paranoia.Utilities;
+﻿using NEP.Paranoia.ParanoiaUtilities;
 using StressLevelZero.Rig;
 using StressLevelZero.VRMK;
 
@@ -11,7 +11,7 @@ namespace NEP.Paranoia.TickEvents.Events
         public override void Start()
         {
             // Get physics rig
-            PhysicsRig rig = Utilities.Utilities.GetPhysicsRig();
+            PhysicsRig rig = ParanoiaUtilities.Utilities.GetPhysicsRig();
             PhysBody physBody = rig.physBody;
 
             Rigidbody[] rbs = new Rigidbody[]

@@ -3,7 +3,7 @@ using StressLevelZero.Interaction;
 
 using UnityEngine;
 
-using NEP.Paranoia.Utilities;
+using NEP.Paranoia.ParanoiaUtilities;
 
 namespace NEP.Paranoia.TickEvents.Events
 {
@@ -11,7 +11,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            PhysicsRig physicsRig = Utilities.Utilities.GetPhysicsRig();
+            PhysicsRig physicsRig = ParanoiaUtilities.Utilities.GetPhysicsRig();
 
             Rigidbody leftHand = physicsRig?.leftHand.rb;
             Rigidbody rightHand = physicsRig?.rightHand.rb;

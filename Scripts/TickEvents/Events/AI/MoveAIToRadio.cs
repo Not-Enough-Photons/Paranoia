@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using NEP.Paranoia.Managers;
-using NEP.Paranoia.Utilities;
+using NEP.Paranoia.ParanoiaUtilities;
 using StressLevelZero.AI;
 using PuppetMasta;
 
@@ -11,7 +11,7 @@ namespace NEP.Paranoia.TickEvents.Events
         public override void Start()
         {
             BehaviourBaseNav[] navs;
-            Utilities.Utilities.FindAIBrains(out navs);
+            ParanoiaUtilities.Utilities.FindAIBrains(out navs);
 
             GameObject radio = ParanoiaGameManager.hRadio.gameObject;
 

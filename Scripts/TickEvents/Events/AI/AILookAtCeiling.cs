@@ -1,6 +1,6 @@
 ﻿using RealisticEyeMovements;
 
-using NEP.Paranoia.Utilities;
+using NEP.Paranoia.ParanoiaUtilities;
 using NEP.Paranoia.Managers;
 
 using UnityEngine;
@@ -11,7 +11,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            LookTargetController[] lookTargets = Utilities.Utilities.GetLookAtControllers();
+            LookTargetController[] lookTargets = ParanoiaUtilities.Utilities.GetLookAtControllers();
 
             if(lookTargets == null) { return; }
 

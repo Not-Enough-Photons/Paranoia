@@ -29,7 +29,7 @@ using Object = UnityEngine.Object;
 
 using Valve.VR;
 
-namespace NEP.Paranoia.Utilities
+namespace NEP.Paranoia.ParanoiaUtilities
 {
     public class Utilities
     {
@@ -534,6 +534,23 @@ namespace NEP.Paranoia.Utilities
             }
 
             return scalars.ToArray();
+        }
+    }
+
+    public class EntanglementUtilities
+    {
+        public static void Initialize()
+        {
+            UnpackModules();
+        }
+
+        private static void UnpackModules()
+        {
+            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault((asm) => asm.GetName().Name == "Entanglement");
+
+            if(assembly == null) { return; }
+
+
         }
     }
 }

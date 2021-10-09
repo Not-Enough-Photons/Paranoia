@@ -1,5 +1,5 @@
 ﻿using NEP.Paranoia.Managers;
-using NEP.Paranoia.Utilities;
+using NEP.Paranoia.ParanoiaUtilities;
 
 using UnityEngine;
 using UnityEngine.Audio;
@@ -10,8 +10,8 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            AudioMixerGroup sfxMixer = Utilities.Utilities.GetAudioMixer("SFX");
-            AudioMixerGroup gunshotMixer = Utilities.Utilities.GetAudioMixer("GunShot");
+            AudioMixerGroup sfxMixer = ParanoiaUtilities.Utilities.GetAudioMixer("SFX");
+            AudioMixerGroup gunshotMixer = ParanoiaUtilities.Utilities.GetAudioMixer("GunShot");
             
             float sfxVolume = 0f;
             float gunshotVolume = 0f;
