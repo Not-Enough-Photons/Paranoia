@@ -47,14 +47,14 @@ namespace NEP.Paranoia.TickEvents.Events
 
             yield return new WaitForSeconds(2f);
 
-            Vector3 dir = Vector3.up + (Random.onUnitSphere * 10f);
+            Vector3 dir = Vector3.up + Random.onUnitSphere;
             float force = Random.Range(75f, 100f);
 
             while (timer < 7f)
             {
                 timer += Time.deltaTime;
 
-                part.AddForce(dir * force, ForceMode.Acceleration);
+                part.AddForce(dir * force, ForceMode.Force);
                 yield return null;
             }
 

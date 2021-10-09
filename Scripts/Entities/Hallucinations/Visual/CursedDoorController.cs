@@ -32,6 +32,7 @@ namespace NEP.Paranoia.Entities
 
             trigger.TriggerEnterEvent.AddListener(new System.Action(() =>
             {
+                GameObject.Find("HALFPIPE").SetActive(true);
                 Utilities.GetRigManager().GetComponent<RigManager>().Teleport(new Vector3(-134.10f, 44.56f, -85.98f), true);
             }));
         }
