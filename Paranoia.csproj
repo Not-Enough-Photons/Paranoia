@@ -114,6 +114,7 @@
     <Compile Include="Scripts\Entities\Hallucinations\Visual\CursedDoorController.cs" />
     <Compile Include="Scripts\Managers\Tick.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\AILookAtCeiling.cs" />
+    <Compile Include="Scripts\TickEvents\Events\AI\DragNPCToCeiling.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\DragRandomNPC.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\HideAllAI.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\LaughAtPlayer.cs" />

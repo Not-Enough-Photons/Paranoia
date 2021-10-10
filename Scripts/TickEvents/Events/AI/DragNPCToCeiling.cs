@@ -7,33 +7,25 @@ using Random = UnityEngine.Random;
 
 namespace NEP.Paranoia.TickEvents.Events
 {
-    public class DragRandomNPC : ParanoiaEvent
+    public class DragNPCToCeiling : ParanoiaEvent
     {
         public override void Start()
         {
             AIBrain[] brains = Utilities.FindAIBrains();
 
-            if(brains == null || brains.Length == 0) { return; }
+            if (brains == null || brains.Length == 0) { return; }
 
             AIBrain rand = brains[Random.Range(0, brains.Length)];
 
-            if(rand == null) { return; }
+            if (rand == null) { return; }
 
             Transform physRoot = rand.transform.Find("Physics/Root_M");
 
-            if(physRoot == null) { return; }
+            if (physRoot == null) { return; }
 
-            Rigidbody[] rbs = new Rigidbody[]
-            {
-                physRoot.Find("Hip_L/Knee_L").GetComponent<Rigidbody>(),
-                physRoot.Find("Hip_R/Knee_R").GetComponent<Rigidbody>(),
-                physRoot.Find("Spine_M/Chest_M/Shoulder_L/Elbow_L/Wrist_L").GetComponent<Rigidbody>(),
-                physRoot.Find("Spine_M/Chest_M/Shoulder_R/Elbow_R/Wrist_R").GetComponent<Rigidbody>()
-            };
+            Rigidbody targetRB = physRoot.Find("Spine_M/Chest_M/Head_M").GetComponent<Rigidbody>();
 
-            Rigidbody targetRB = rbs[Random.Range(0, rbs.Length)];
-
-            if(targetRB == null) { return; }
+            rand.puppetMaster.ActivateRagdoll(false);
 
             MelonLoader.MelonCoroutines.Start(CoGrabRoutine(rand, targetRB));
         }
@@ -47,7 +39,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
             yield return new WaitForSeconds(2f);
 
-            Vector3 dir = Vector3.up * 0.25f + (Vector3.right * Random.Range(-10f, 10f));
+            Vector3 dir = Vector3.up;
             float force = Random.Range(250f, 300f);
 
             while (timer < 7f)

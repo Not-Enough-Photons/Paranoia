@@ -76,7 +76,7 @@ namespace NEP.Paranoia.Managers
         public static StaringMan hStaringMan;
         public static FastStaringMan hFastStaringMan;
         public static ShadowPerson hShadowPerson;
-        public static ShadowPersonChaser hShadowPersonChaser;
+        public static ShadowPerson hShadowPersonChaser;
         public static Observer hObserver;
         public static FordScaling hFordScaling;
         public static CursedDoorController hCursedDoor;
@@ -167,7 +167,7 @@ namespace NEP.Paranoia.Managers
             MapUtilities.staticCeiling.SetActive(false);
             GameObject.Find("AirParticles").SetActive(false);
 
-            MapUtilities.SwitchFog(MapUtilities.baseFog, MapUtilities.darkFog, 0.25f, 3600f);
+            MapUtilities.SwitchFog(MapUtilities.baseFog, MapUtilities.darkFog, 0.60f, 3600f);
         }
 
         private void Update()
@@ -218,7 +218,7 @@ namespace NEP.Paranoia.Managers
             hRadio = SpawnPrefab("ent_radio").AddComponent<Radio>();
 
             hShadowPerson = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPerson>();
-            hShadowPersonChaser = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPersonChaser>();
+            hShadowPersonChaser = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPerson>();
             hCeilingMan = SpawnPrefab("ent_ceilingman").AddComponent<CeilingMan>();
             hStaringMan = SpawnPrefab("ent_staringman").AddComponent<StaringMan>();
             hFastStaringMan = SpawnPrefab("ent_staringman").AddComponent<FastStaringMan>();
@@ -328,6 +328,7 @@ namespace NEP.Paranoia.Managers
         {
             MoveAIToPoint(brain.behaviour, point);
         }
+
         public void AILookAtTarget(BehaviourBaseNav behaviour, Vector3 point)
         {
             behaviour.sensors.hearingSensitivity = 0f;
@@ -337,8 +338,8 @@ namespace NEP.Paranoia.Managers
         public void MoveAIToPoint(BehaviourBaseNav behaviour, Vector3 point)
         {
             behaviour.sensors.hearingSensitivity = 0f;
-            behaviour.SwitchMentalState(BehaviourBaseNav.MentalState.Roam);
-            behaviour.Investigate(point, true, 60f);
+            behaviour.SetHomePosition(point, true, true);
+            behaviour.Investigate(point, true, 120f);
         }
     }
 }

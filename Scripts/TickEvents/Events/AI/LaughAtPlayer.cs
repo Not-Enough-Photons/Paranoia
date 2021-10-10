@@ -26,10 +26,11 @@ namespace NEP.Paranoia.TickEvents.Events
 
         private IEnumerator CoLaughRoutine(BehaviourPowerLegs powerLegs)
         {
+            int rand = Random.Range(0, 3);
             for(int i = 0; i < Random.Range(1, 15); i++)
             {
                 yield return new WaitForSeconds(1f);
-                powerLegs.faceAnim.Attack1(Random.Range(0, 3), 1);
+                powerLegs.faceAnim.Attack1(rand, 1);
             }
         }
     }

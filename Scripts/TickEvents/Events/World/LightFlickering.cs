@@ -13,7 +13,7 @@ namespace NEP.Paranoia.TickEvents.Events
             new DisableNimbus().Start();
             new DisableWasp().Start();
 
-            MelonLoader.MelonCoroutines.Start(CoLightFlicker(Random.Range(3, 5)));
+            MelonLoader.MelonCoroutines.Start(CoLightFlicker(Random.Range(7, 10)));
         }
 
         private IEnumerator CoLightFlicker(int iterations)
@@ -22,7 +22,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
             for(int i = 0; i < iterations; i++)
             {
-                yield return new WaitForSeconds(Random.Range(1f, 10f));
+                yield return new WaitForSeconds(Random.Range(0.25f, 0.75f));
                 mainLight.SetActive(i % iterations == 0);
             }
         }

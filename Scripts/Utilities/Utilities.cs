@@ -420,8 +420,8 @@ namespace NEP.Paranoia.ParanoiaUtilities
             {
                 startDistance = 1500f,
                 endDistance = 5f,
-                heightFogThickness = 0.015f,
-                heightFogFalloff = 1f,
+                heightFogThickness = 1f,
+                heightFogFalloff = 1.17f,
                 heightFogColor = Color.black
             };
         }
@@ -452,7 +452,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
                 time += Time.deltaTime;
 
                 fog.startDistance = Mathf.MoveTowards(fog.startDistance, -end.startDistance, lerp * Time.deltaTime);
-                fog.heightFogThickness = Mathf.MoveTowards(fog.heightFogThickness, end.heightFogThickness, (lerp / 10f) * Time.deltaTime);
+                fog.heightFogThickness = Mathf.MoveTowards(fog.heightFogThickness, end.heightFogThickness, (lerp * 0.00001f) * Time.deltaTime);
                 fog.heightFogFalloff = Mathf.MoveTowards(fog.heightFogFalloff, end.heightFogFalloff, (lerp / 20f) * Time.deltaTime);
                 fog.heightFogColor = Color.Lerp(fog.heightFogColor, end.heightFogColor, lerp * Time.deltaTime);
 
