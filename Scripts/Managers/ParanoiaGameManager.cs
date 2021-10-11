@@ -60,9 +60,6 @@ namespace NEP.Paranoia.Managers
 
         private Transform _playerTrigger;
         public Transform playerTrigger { get { return _playerTrigger; } }
-        
-        private AudioManager _audioManager;
-        public AudioManager audioManager { get { return _audioManager; } }
 
         public static Ambience hAmbience;
         public static Chaser hChaser;
@@ -89,9 +86,6 @@ namespace NEP.Paranoia.Managers
         private AudioSource _radioSource;
         public AudioSource radioSource { get { return _radioSource; } }
 
-        private bool _isDark = true;
-        public bool isDark { get {  return _isDark; } }
-
         private int _rng = 1;
         public int rng {  get { return _rng; } }
 
@@ -100,8 +94,6 @@ namespace NEP.Paranoia.Managers
         public float insanity;
 
         private SpawnCircle[] spawnCircles = new SpawnCircle[3];
-
-        private SwitchFog switchFog;
 
         public Tick GetTick(string name, TickType type)
         {
@@ -112,16 +104,14 @@ namespace NEP.Paranoia.Managers
             return selectedTick;
         }
 
-        public void SetIsDark(bool condition)
-        {
-            _isDark = condition;
-        }
-
         public void SetRNG(int rng)
         {
             this._rng = rng;
         }
 
+        /// <summary>
+        /// Unloads absolutely everything and destroys itself.
+        /// </summary>
         public void Cleanup()
         {
             BaseHallucination[] hallucinations = Object.FindObjectsOfType<BaseHallucination>();
@@ -133,6 +123,29 @@ namespace NEP.Paranoia.Managers
 
             ticks.Clear();
             darkTicks.Clear();
+
+            ticks = null;
+            darkTicks = null;
+
+            hAmbience = null;
+            hCeilingMan = null;
+            hChaser = null;
+            hCryingEntity = null;
+            hCursedDoor = null;
+            hDarkVoice = null;
+            hFastStaringMan = null;
+            hStaringMan = null;
+            hDarkVoice = null;
+            hFordScaling = null;
+            hObserver = null;
+            hParalyzer = null;
+            hShadowPerson = null;
+            hShadowPersonChaser = null;
+            hTeleportingEntity = null;
+            hRadio = null;
+            invisibleForce = null;
+
+            Destroy(instance.gameObject);
         }
 
         private void Awake()
@@ -151,11 +164,9 @@ namespace NEP.Paranoia.Managers
 
             InitializeTicks();
 
-            _audioManager = FindObjectOfType<AudioManager>();
+            _playerTrigger = Utilities.FindPlayer();
 
-            _playerTrigger = ParanoiaUtilities.Utilities.FindPlayer();
-
-            playerCircle = new SpawnCircle(ParanoiaUtilities.Utilities.FindPlayer());
+            playerCircle = new SpawnCircle(Utilities.FindPlayer());
 
             for (int i = 0; i < spawnCircles.Length; i++)
             {
@@ -181,11 +192,7 @@ namespace NEP.Paranoia.Managers
                 try
                 {
                     UpdateTicks(ticks);
-
-                    if (isDark)
-                    {
-                        UpdateTicks(darkTicks);
-                    }
+                    UpdateTicks(darkTicks);
                 }
                 catch(System.Exception e)
                 {
@@ -282,12 +289,12 @@ namespace NEP.Paranoia.Managers
 
         private void FinalizeTickMethod(JSONSettings settings, TickType tickType, string nameSpace, string mainFunc)
         {
-            string method = ParanoiaUtilities.Utilities.GetMethodNameString(mainFunc);
-            string parameter = ParanoiaUtilities.Utilities.GetParameterString(mainFunc);
+            string method = Utilities.GetMethodNameString(mainFunc);
+            string parameter = Utilities.GetParameterString(mainFunc);
 
             System.Type type = System.Type.GetType(nameSpace + method);
 
-            object instance = System.Activator.CreateInstance(type, new object[] { ParanoiaUtilities.Utilities.GetHallucination(parameter) });
+            object instance = System.Activator.CreateInstance(type, new object[] { Utilities.GetHallucination(parameter) });
 
             CreateTick(settings.minRange != 0f || settings.maxRange != 0f, settings, tickType, instance as SpawnMirage);
         }

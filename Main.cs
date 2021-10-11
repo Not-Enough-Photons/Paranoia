@@ -33,7 +33,6 @@ namespace NEP.Paranoia
 		public AssetBundle bundle;
 		
 		public ParanoiaGameManager gameManager;
-		public AudioManager audioManager;
 
 		private Dictionary<string, GameObject> baseEntities;
 
@@ -122,11 +121,6 @@ namespace NEP.Paranoia
 					break;
             }
 		}
-
-        public override void OnSceneWasUnloaded(int buildIndex, string sceneName)
-        {
-			gameManager = null;
-        }
 
         internal void RegisterObject(GameObject bundleObject, string assetName)
 		{

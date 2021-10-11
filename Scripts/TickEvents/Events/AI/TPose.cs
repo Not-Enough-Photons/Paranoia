@@ -28,9 +28,16 @@ namespace NEP.Paranoia.TickEvents.Events
 
                 physicsGroup.gameObject.SetActive(false);
 
+                Transform head = physicsGroup.transform.Find("Root_M/Spine_M/Chest_M/");
+
                 physicsGroup.localPosition = new Vector3(physicsGroup.localPosition.x, 0f, physicsGroup.localPosition.z);
                 Quaternion lookRotation = Quaternion.LookRotation(Utilities.GetPhysicsRig().transform.position - physicsGroup.forward);
                 physicsGroup.rotation = lookRotation;
+
+                if(head != null)
+                {
+                    MelonLoader.MelonCoroutines.Start(CoHeadLookat(head));
+                }
             }
 
             MelonLoader.MelonCoroutines.Start(CoResetTPosedEnemies(brains, 10f));
@@ -56,6 +63,15 @@ namespace NEP.Paranoia.TickEvents.Events
                 t.GetComponent<Arena_EnemyReference>().enabled = true;
 
                 t.gameObject.SetActive(false);
+            }
+        }
+
+        private System.Collections.IEnumerator CoHeadLookat(Transform head)
+        {
+            while (head.GetComponentInParent<AIBrain>().gameObject.active)
+            {
+                head.LookAt(Utilities.FindHead());
+                yield return null;
             }
         }
     }

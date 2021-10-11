@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace NEP.Paranoia.Managers
 {
+	[System.Obsolete]
 	public class AudioManager : MonoBehaviour
 	{
 		public AudioManager(System.IntPtr ptr) : base(ptr) { }
