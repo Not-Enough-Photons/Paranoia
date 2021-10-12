@@ -10,7 +10,7 @@ namespace NEP.Paranoia.Entities
 
         protected override void Awake()
         {
-            m_spawnPoints = ParanoiaGameManager.instance.ceilingManSpawns;
+            m_spawnPoints = Paranoia.instance.gameManager.ceilingManSpawns;
 
             AudioSource source = gameObject.AddComponent<AudioSource>();
             source.clip = Paranoia.instance.watcherAmbience[0];

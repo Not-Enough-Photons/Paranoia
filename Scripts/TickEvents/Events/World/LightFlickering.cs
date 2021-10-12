@@ -20,6 +20,8 @@ namespace NEP.Paranoia.TickEvents.Events
         {
             GameObject mainLight = MapUtilities.mainLight;
 
+            if(mainLight == null) { yield break; }
+
             for(int i = 0; i < iterations; i++)
             {
                 yield return new WaitForSeconds(Random.Range(0.25f, 0.75f));

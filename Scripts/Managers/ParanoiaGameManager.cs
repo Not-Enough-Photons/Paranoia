@@ -21,8 +21,6 @@ namespace NEP.Paranoia.Managers
     {
         public ParanoiaGameManager(System.IntPtr ptr) : base(ptr) { }
 
-        public static ParanoiaGameManager instance;
-
         internal static bool debug = false;
         public static bool insanityMode { get; private set;}
 
@@ -118,7 +116,12 @@ namespace NEP.Paranoia.Managers
 
             foreach(BaseHallucination hallucination in hallucinations)
             {
-                Destroy(hallucination.gameObject);
+                if(hallucination is AudioHallucination)
+                {
+                    hallucination.gameObject.SetActive(false);
+                }
+
+                Destroy(hallucination.gameObject);  
             }
 
             ticks.Clear();
@@ -144,16 +147,6 @@ namespace NEP.Paranoia.Managers
             hTeleportingEntity = null;
             hRadio = null;
             invisibleForce = null;
-
-            Destroy(instance.gameObject);
-        }
-
-        private void Awake()
-		{
-            if(instance == null)
-			{
-                instance = this;
-			}
         }
 
         private void Start()

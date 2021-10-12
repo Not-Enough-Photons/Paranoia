@@ -12,14 +12,14 @@ namespace NEP.Paranoia.TickEvents.Events
         {
             BehaviourBaseNav[] navs;
             ParanoiaUtilities.Utilities.FindAIBrains(out navs);
-            Transform player = ParanoiaUtilities.Utilities.FindPlayer();
+            Transform player = Utilities.FindPlayer();
 
             if(player == null) { return; }
             if(navs == null) { return; }
 
             foreach (BehaviourBaseNav nav in navs)
             {
-                ParanoiaGameManager.instance.MoveAIToPoint(nav, player.position);
+                Paranoia.instance.gameManager.MoveAIToPoint(nav, player.position);
             }
         }
     }

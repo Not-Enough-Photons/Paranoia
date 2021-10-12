@@ -6,7 +6,7 @@ namespace NEP.Paranoia.TickEvents.Mirages
     {
         public override void Start()
         {
-            if (ParanoiaGameManager.instance.paralysisMode) { return; }
+            if (Paranoia.instance.gameManager.paralysisMode) { return; }
 
             ParanoiaGameManager.hTeleportingEntity.gameObject.SetActive(true);
         }

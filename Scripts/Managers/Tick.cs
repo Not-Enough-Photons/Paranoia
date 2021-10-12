@@ -116,11 +116,11 @@ namespace NEP.Paranoia.Managers
 
             if (tick >= maxTick)
             {
-                bool reachedInsanity = ParanoiaGameManager.instance.insanity >= targetInsanity;
+                bool reachedInsanity = Paranoia.instance.gameManager.insanity >= targetInsanity;
 
                 if (_minRNG != 0 && _maxRNG != 0)
                 {
-                    int rng = ParanoiaGameManager.instance.rng;
+                    int rng = Paranoia.instance.gameManager.rng;
                     bool reachedRNG = rng >= _minRNG && rng <= _maxRNG;
 
                     if(reachedRNG && useInsanity)

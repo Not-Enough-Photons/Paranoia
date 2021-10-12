@@ -8,7 +8,7 @@ namespace NEP.Paranoia.Entities
 
         protected override void Awake()
         {
-            m_spawnPoints = ParanoiaGameManager.instance.staringManSpawns;
+            m_spawnPoints = Paranoia.instance.gameManager.staringManSpawns;
 
             base.Awake();
 

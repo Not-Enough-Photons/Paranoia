@@ -21,7 +21,7 @@ namespace NEP.Paranoia
 		public const string Name = "paranoia"; // Name of the Mod.  (MUST BE SET)
 		public const string Description = "Stay away from there. Please."; // Description for the Mod.  (Set as null if none)
 		public const string Author = "Not Enough Photons"; // Author of the Mod.  (MUST BE SET)
-		public const string Company = null; // Company that made the Mod.  (Set as null if none)
+		public const string Company = "Not Enough Photons"; // Company that made the Mod.  (Set as null if none)
 		public const string Version = "3.0.0"; // Version of the Mod.  (MUST BE SET)
 		public const string DownloadLink = null; // Download Link for the Mod.  (Set as null if none)
 	}
@@ -33,6 +33,9 @@ namespace NEP.Paranoia
 		public AssetBundle bundle;
 		
 		public ParanoiaGameManager gameManager;
+
+		public string currentScene;
+		public string nextScene;
 
 		private Dictionary<string, GameObject> baseEntities;
 
@@ -53,8 +56,6 @@ namespace NEP.Paranoia
 		public List<AudioClip> radioTunes = new List<AudioClip>();
 
 		public List<VideoClip> videoClips;
-
-		public AudioClip startingTune;
 
 		public string[] supportedMaps = new string[]
 		{
@@ -78,10 +79,10 @@ namespace NEP.Paranoia
 					instance = this;
 				}
 
-                ParanoiaUtilities.Utilities utils = new ParanoiaUtilities.Utilities();
+                Utilities utils = new Utilities();
 				MapUtilities mapUtils = new MapUtilities();
 
-                ParanoiaUtilities.Utilities.RegisterTypesInIL2CPP();
+                Utilities.RegisterTypesInIL2CPP();
 
 				if (!System.IO.Directory.Exists("UserData/paranoia"))
 				{
@@ -104,7 +105,9 @@ namespace NEP.Paranoia
 
 		public override void OnSceneWasLoaded(int buildIndex, string sceneName)
 		{
-            switch (sceneName.ToLower())
+			currentScene = sceneName;
+
+            switch (currentScene.ToLower())
             {
 				case "sandbox_blankbox":
 					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
@@ -120,6 +123,18 @@ namespace NEP.Paranoia
 					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
 					break;
             }
+		}
+
+        public override void OnSceneWasUnloaded(int buildIndex, string sceneName)
+        {
+			if(sceneName == nextScene)
+            {
+				if (gameManager != null && !gameManager.WasCollected)
+				{
+					gameManager.Cleanup();
+					UnityEngine.Object.Destroy(gameManager);
+				}
+			}
 		}
 
         internal void RegisterObject(GameObject bundleObject, string assetName)

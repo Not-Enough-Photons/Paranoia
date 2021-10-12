@@ -10,8 +10,8 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            AudioMixerGroup sfxMixer = ParanoiaUtilities.Utilities.GetAudioMixer("SFX");
-            AudioMixerGroup gunshotMixer = ParanoiaUtilities.Utilities.GetAudioMixer("GunShot");
+            AudioMixerGroup sfxMixer = Utilities.GetAudioMixer("SFX");
+            AudioMixerGroup gunshotMixer = Utilities.GetAudioMixer("GunShot");
             
             float sfxVolume = 0f;
             float gunshotVolume = 0f;
@@ -19,11 +19,11 @@ namespace NEP.Paranoia.TickEvents.Events
             sfxMixer.audioMixer.GetFloat("Volume", out sfxVolume);
             gunshotMixer.audioMixer.GetFloat("Volume", out gunshotVolume);
 
-            ParanoiaGameManager.instance.deafenSource.clip = Paranoia.instance.deafenSounds[0];
+            Paranoia.instance.gameManager.deafenSource.clip = Paranoia.instance.deafenSounds[0];
 
-            ParanoiaGameManager.instance.deafenSource.Play();
+            Paranoia.instance.gameManager.deafenSource.Play();
 
-            MelonLoader.MelonCoroutines.Start(CoVolumeRoutine(ParanoiaGameManager.instance.deafenSource, sfxVolume, gunshotVolume));
+            MelonLoader.MelonCoroutines.Start(CoVolumeRoutine(Paranoia.instance.gameManager.deafenSource, sfxVolume, gunshotVolume));
         }
 
         private System.Collections.IEnumerator CoVolumeRoutine(AudioSource deafSource, float sfxVolume, float gunshotVolume)

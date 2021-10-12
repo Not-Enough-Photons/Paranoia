@@ -109,7 +109,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
 
         public static BaseHallucination GetHallucination(string name)
         {
-            System.Type type = ParanoiaGameManager.instance.GetType();
+            System.Type type = Paranoia.instance.gameManager.GetType();
             FieldInfo info = type.GetField(name);
             
             object obj = info?.GetValue(null);

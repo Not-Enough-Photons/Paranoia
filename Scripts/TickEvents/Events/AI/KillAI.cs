@@ -9,7 +9,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            AIBrain[] brains = ParanoiaUtilities.Utilities.FindAIBrains();
+            AIBrain[] brains = Utilities.FindAIBrains();
 
             if(brains == null) { return; }
 

@@ -8,7 +8,7 @@ namespace NEP.Paranoia.Entities
 
         protected override void OnEnable()
         {
-            int rng = ParanoiaGameManager.instance.rng;
+            int rng = Paranoia.instance.gameManager.rng;
 
             string json = rng >= 25 || rng <= 30 
                 ? System.IO.File.ReadAllText(baseJsonPath + "ShadowManChaser.json")

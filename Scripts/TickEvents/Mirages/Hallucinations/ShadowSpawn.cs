@@ -6,7 +6,7 @@ namespace NEP.Paranoia.TickEvents.Mirages
     {
         public override void Start()
         {
-            int rng = ParanoiaGameManager.instance.rng;
+            int rng = Paranoia.instance.gameManager.rng;
 
             if (rng >= 25 || rng <= 30)
             {

@@ -8,15 +8,15 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            GameObject monitorClone = ParanoiaGameManager.instance.monitorObject;
+            GameObject monitorClone = Paranoia.instance.gameManager.monitorObject;
 
-            monitorClone.transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), 10f);
+            monitorClone.transform.position = Paranoia.instance.gameManager.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), 10f);
 
             monitorClone.transform.LookAt(ParanoiaUtilities.Utilities.FindPlayer());
 
             monitorClone.SetActive(true);
 
-            ParanoiaGameManager.instance.insanity += 0.25f;
+            Paranoia.instance.gameManager.insanity += 0.25f;
         }
     }
 }

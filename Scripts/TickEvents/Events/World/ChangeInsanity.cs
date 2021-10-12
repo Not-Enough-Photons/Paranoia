@@ -6,7 +6,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            ParanoiaGameManager.instance.insanity += 0.025f;
+            Paranoia.instance.gameManager.insanity += 0.025f;
         }
     }
 }

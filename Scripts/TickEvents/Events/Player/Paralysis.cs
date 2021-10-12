@@ -29,7 +29,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
         private System.Collections.IEnumerator CoParalysisRoutine()
         {
-            ParanoiaGameManager.instance.paralysisMode = true;
+            Paranoia.instance.gameManager.paralysisMode = true;
             FreezePlayer(physicsRig, true);
 
             yield return new WaitForSeconds(Random.Range(1f, 6f));
@@ -41,7 +41,7 @@ namespace NEP.Paranoia.TickEvents.Events
                 yield return null;
             }
 
-            ParanoiaGameManager.instance.paralysisMode = false;
+            Paranoia.instance.gameManager.paralysisMode = false;
             FreezePlayer(physicsRig, false);
 
             yield return null;

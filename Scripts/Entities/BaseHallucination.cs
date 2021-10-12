@@ -214,6 +214,8 @@ namespace NEP.Paranoia.Entities
 
         protected virtual void Awake()
         {
+            gameObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
+
             m_playerTarget = ModThatIsNotMod.Player.GetPlayerHead().transform;
             m_playerTargetHead = ModThatIsNotMod.Player.GetPlayerHead().transform;
 
@@ -228,11 +230,11 @@ namespace NEP.Paranoia.Entities
             {
                 if (m_useRandomSpawnAngle)
                 {
-                    transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), m_spawnRadius, yOffset);
+                    transform.position = Paranoia.instance.gameManager.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), m_spawnRadius, yOffset);
                 }
                 else
                 {
-                    transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(m_spawnAngle, m_spawnRadius, yOffset);
+                    transform.position = Paranoia.instance.gameManager.playerCircle.CalculatePlayerCircle(m_spawnAngle, m_spawnRadius, yOffset);
                 }
             }
 
@@ -305,7 +307,7 @@ namespace NEP.Paranoia.Entities
 
             if (m_flags.HasFlag(HallucinationFlags.SpinAroundPlayer))
             {
-                transform.position = ParanoiaGameManager.instance.playerCircle.CalculatePlayerCircle(Time.time, m_spawnRadius);
+                transform.position = Paranoia.instance.gameManager.playerCircle.CalculatePlayerCircle(Time.time, m_spawnRadius);
             }
 
             if (flags.HasFlag(HallucinationFlags.Teleporting))
