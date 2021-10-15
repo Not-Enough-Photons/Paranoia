@@ -14,6 +14,7 @@ using UnityEngine;
 
 using Newtonsoft.Json;
 using static NEP.Paranoia.Managers.Tick;
+using StressLevelZero.Rig;
 
 namespace NEP.Paranoia.Managers
 {
@@ -58,6 +59,8 @@ namespace NEP.Paranoia.Managers
 
         private Transform _playerTrigger;
         public Transform playerTrigger { get { return _playerTrigger; } }
+
+        public GameWorldSkeletonRig clonedRig;
 
         public static Ambience hAmbience;
         public static Chaser hChaser;
@@ -147,6 +150,8 @@ namespace NEP.Paranoia.Managers
             hTeleportingEntity = null;
             hRadio = null;
             invisibleForce = null;
+
+            clonedRig = null;
         }
 
         private void Start()
@@ -172,11 +177,13 @@ namespace NEP.Paranoia.Managers
             GameObject.Find("AirParticles").SetActive(false);
 
             MapUtilities.SwitchFog(MapUtilities.baseFog, MapUtilities.darkFog, 0.60f, 3600f);
+
+            clonedRig = Utilities.ClonePlayerBody(Vector3.zero, Quaternion.identity);
         }
 
         private void Update()
         {
-			if (Paranoia.instance.isBlankBox)
+			if (Paranoia.instance.isTargetLevel)
 			{
                 playerCircle.CalculatePlayerCircle(0f);
 

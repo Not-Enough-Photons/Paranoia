@@ -63,7 +63,7 @@ namespace NEP.Paranoia
 			"sandbox_museumbasement"
 		};
 
-		public bool isBlankBox;
+		public bool isTargetLevel;
 
 		public GameObject GetEntInDirectory(string name)
         {
@@ -117,10 +117,14 @@ namespace NEP.Paranoia
 					GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE").SetActive(false);
 					GameObject.Find("Decal_SafeGrav").SetActive(false);
 
-					isBlankBox = true;
+					isTargetLevel = true;
 					break;
 				case "sandbox_museumbasement":
+					isTargetLevel = true;
 					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
+					break;
+				default:
+					isTargetLevel = false;
 					break;
             }
 		}

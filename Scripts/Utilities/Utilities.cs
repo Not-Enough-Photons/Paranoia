@@ -136,11 +136,10 @@ namespace NEP.Paranoia.ParanoiaUtilities
             return null;
         }
 
-        public static void ClonePlayerBody(out GameObject rigObject, Vector3 position, Quaternion rotation)
+        public static GameWorldSkeletonRig ClonePlayerBody(Vector3 position, Quaternion rotation)
         {
             GameObject rig = Object.Instantiate(GetGameWorldRig().gameObject, Vector3.up * 5f, Quaternion.identity);
-
-            rigObject = rig;
+            return rig.GetComponent<GameWorldSkeletonRig>();
         }
 
         public static GameObject GetRigManager()
