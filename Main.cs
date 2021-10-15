@@ -55,6 +55,8 @@ namespace NEP.Paranoia
 		public List<AudioClip> doorOpenSounds = new List<AudioClip>();
 		public List<AudioClip> radioTunes = new List<AudioClip>();
 
+		public List<Texture2D> decorTextures = new List<Texture2D>();
+
 		public List<VideoClip> videoClips;
 
 		public string[] supportedMaps = new string[]
@@ -68,6 +70,11 @@ namespace NEP.Paranoia
 		public GameObject GetEntInDirectory(string name)
         {
 			return baseEntities[name];
+        }
+
+		public Texture2D GetTextureInList(string name)
+        {
+			return decorTextures.FirstOrDefault((texture) => texture.name == name);
         }
 
 		public override void OnApplicationStart()
@@ -95,7 +102,7 @@ namespace NEP.Paranoia
 
 				PrecacheEntityObjects();
 				PrecacheAudioAssets();
-
+				PrecacheTextureAssets();
 			}
 			catch (System.Exception e)
 			{
@@ -109,19 +116,20 @@ namespace NEP.Paranoia
 
             switch (currentScene.ToLower())
             {
+				case "scene_streets":
+					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
+					MapUtilities.currentLevel = MapLevel.Streets;
+					isTargetLevel = true;
+					break;
 				case "sandbox_blankbox":
 					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
-					GameObject.Find("MUSICMACHINE (1)").SetActive(false);
-					GameObject.Find("AMMODISPENSER").SetActive(false);
-					GameObject.Find("HEALTHMACHINE").SetActive(false);
-					GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE").SetActive(false);
-					GameObject.Find("Decal_SafeGrav").SetActive(false);
-
+					MapUtilities.currentLevel = MapLevel.Blankbox;
 					isTargetLevel = true;
 					break;
 				case "sandbox_museumbasement":
-					isTargetLevel = true;
 					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
+					MapUtilities.currentLevel = MapLevel.MuseumBasement;
+					isTargetLevel = true;
 					break;
 				default:
 					isTargetLevel = false;
@@ -216,6 +224,21 @@ namespace NEP.Paranoia
 					}
                 }
             }
+		}
+
+		private void PrecacheTextureAssets()
+        {
+			Il2CppReferenceArray<UnityEngine.Object> assets = bundle.LoadAllAssets();
+
+			for (int i = 0; i < assets.Count; i++)
+			{
+				if (assets[i].TryCast<Texture2D>() == null) { continue; }
+
+				Texture2D texture = assets[i].Cast<Texture2D>();
+				texture.hideFlags = HideFlags.DontUnloadUnusedAsset;
+
+				decorTextures.Add(texture);
+			}
 		}
 	}
 }

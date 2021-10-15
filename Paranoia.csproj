@@ -126,6 +126,7 @@
     <Compile Include="Scripts\TickEvents\Events\Player\HandTremble.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\Paralysis.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\ChangeClipboard.cs" />
+    <Compile Include="Scripts\TickEvents\Events\World\ChangeHoloSign.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\ChangeInsanity.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\ChangeRNG.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\DisableNimbus.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Scripts\Note00001.cs" />
     <Compile Include="Scripts\Managers\ObjectPool.cs" />
     <Compile Include="Scripts\Managers\ParanoiaGameManager.cs" />
+    <Compile Include="Scripts\Utilities\MapLevel.cs" />
     <Compile Include="Scripts\Utilities\Utilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />

@@ -372,6 +372,8 @@ namespace NEP.Paranoia.ParanoiaUtilities
             public Color heightFogColor;
         }
 
+        public static MapLevel currentLevel;
+
         public static Il2CppReferenceArray<LightmapData> lightmaps;
         public static Il2CppStructArray<UnityEngine.Rendering.SphericalHarmonicsL2> bakedProbes;
         public static GameObject[] staticPlaneObjects;
@@ -380,6 +382,8 @@ namespace NEP.Paranoia.ParanoiaUtilities
         public static Material[] rendererMaterials;
         public static VLB.VolumetricLightBeam[] lightBeams;
         public static ValveFog fog;
+
+        public static GameObject collectAllSign;
 
         public static FogSettings baseFog;
         public static FogSettings darkFog;
@@ -401,10 +405,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
             staticPlaneCubeMapScalars = CacheCubeMapScalars(staticPlaneMaterials);
             fog = Object.FindObjectOfType<ValveFog>();
 
-            staticCeiling = GameObject.Find("------STATICENV------");
-            mainLight = GameObject.Find("REALTIMELIGHT");
-            clipboardText = GameObject.Find("prop_clipboard_MuseumBasement/TMP").GetComponent<TextMeshPro>();
-            lightBeams = UnityEngine.Object.FindObjectsOfType<VLB.VolumetricLightBeam>();
+            InitializeLevel(currentLevel);
 
             baseFog = new FogSettings()
             {
@@ -423,6 +424,48 @@ namespace NEP.Paranoia.ParanoiaUtilities
                 heightFogFalloff = 1.17f,
                 heightFogColor = Color.black
             };
+        }
+
+        private static void InitializeLevel(MapLevel level)
+        {
+            switch (level)
+            {
+                case MapLevel.MuseumBasement:
+                    clipboardText = GameObject.Find("prop_clipboard_MuseumBasement/TMP").GetComponent<TextMeshPro>();
+                    GameObject.Find("MUSICMACHINE (1)").SetActive(false);
+                    GameObject.Find("AMMODISPENSER").SetActive(false);
+                    GameObject.Find("HEALTHMACHINE").SetActive(false);
+                    GameObject.Find("Decal_SafeGrav").SetActive(false);
+                    GameObject.Find("decal_playroom (1)").SetActive(false);
+                    GameObject.Find("decal_playroom").SetActive(false);
+                    GameObject.Find("holographic_sign_SandboxMuseum").SetActive(false);
+                    GameObject.Find("DISPLAY_UNLOCKABLES").SetActive(false);
+                    collectAllSign = GameObject.Find("holographic_sign_CollectThemAll");
+                    break;
+                case MapLevel.Blankbox:
+                    GameObject.Find("MUSICMACHINE (1)").SetActive(false);
+                    GameObject.Find("AMMODISPENSER").SetActive(false);
+                    GameObject.Find("HEALTHMACHINE").SetActive(false);
+                    GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE").SetActive(false);
+                    GameObject.Find("Decal_SafeGrav").SetActive(false);
+
+                    staticCeiling = GameObject.Find("------STATICENV------");
+                    staticCeiling.SetActive(false);
+                    mainLight = GameObject.Find("REALTIMELIGHT");
+                    clipboardText = GameObject.Find("prop_clipboard_MuseumBasement/TMP").GetComponent<TextMeshPro>();
+                    lightBeams = UnityEngine.Object.FindObjectsOfType<VLB.VolumetricLightBeam>();
+                    break;
+            }
+        }
+
+        public static void ChangeHoloSign(GameObject holoSign, Texture2D texture)
+        {
+            MeshRenderer renderer = holoSign.GetComponent<MeshRenderer>();
+
+            if(renderer == null) { return; }
+
+            Material rendererMaterial = renderer.material;
+            rendererMaterial.mainTexture = texture;
         }
 
         public static Material[] CacheAllRendererMaterials(Renderer[] renderers)

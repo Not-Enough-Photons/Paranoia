@@ -13,15 +13,15 @@ namespace NEP.Paranoia.TickEvents.Events
             new DisableNimbus().Start();
             new DisableWasp().Start();
 
-            MelonLoader.MelonCoroutines.Start(CoLightFlicker(Random.Range(7, 10)));
-        }
-
-        private IEnumerator CoLightFlicker(int iterations)
-        {
             GameObject mainLight = MapUtilities.mainLight;
 
-            if(mainLight == null) { yield break; }
+            if(mainLight == null) { return; }
 
+            MelonLoader.MelonCoroutines.Start(CoLightFlicker(mainLight, Random.Range(7, 10)));
+        }
+
+        private IEnumerator CoLightFlicker(GameObject mainLight, int iterations)
+        {
             for(int i = 0; i < iterations; i++)
             {
                 yield return new WaitForSeconds(Random.Range(0.25f, 0.75f));

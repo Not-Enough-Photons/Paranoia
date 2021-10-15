@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Utilities
+﻿namespace NEP.Paranoia.ParanoiaUtilities
 {
     public enum MapLevel
     {
@@ -6,7 +6,7 @@
         Cutscene1 = 2,
         Breakroom = 3,
         Museum = 4,
-        Street = 5,
+        Streets = 5,
         Runoff = 6,
         Sewers = 7,
         Warehouse = 8,

@@ -173,12 +173,9 @@ namespace NEP.Paranoia.Managers
                 spawnCircles[i].originTransform.position = staringManSpawns[i];
             }
 
-            MapUtilities.staticCeiling.SetActive(false);
             GameObject.Find("AirParticles").SetActive(false);
 
             MapUtilities.SwitchFog(MapUtilities.baseFog, MapUtilities.darkFog, 0.60f, 3600f);
-
-            clonedRig = Utilities.ClonePlayerBody(Vector3.zero, Quaternion.identity);
         }
 
         private void Update()
