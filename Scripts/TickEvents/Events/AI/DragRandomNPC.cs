@@ -48,7 +48,7 @@ namespace NEP.Paranoia.TickEvents.Events
             yield return new WaitForSeconds(2f);
 
             Vector3 dir = Vector3.up * 0.25f + (-Vector3.right * Random.Range(5f, 50f) + (Vector3.forward * Random.Range(5f, 10f)));
-            float force = 195f;
+            float force = 175f;
 
             while (timer < 7f)
             {

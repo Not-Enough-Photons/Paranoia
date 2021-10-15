@@ -25,7 +25,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
             Rigidbody targetRB = physRoot.Find("Spine_M/Chest_M/Head_M").GetComponent<Rigidbody>();
 
-            rand.puppetMaster.ActivateRagdoll(false);
+            rand.puppetMaster.muscleWeight = 0f;
 
             MelonLoader.MelonCoroutines.Start(CoGrabRoutine(rand, targetRB));
         }
