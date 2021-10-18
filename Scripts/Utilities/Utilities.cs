@@ -33,6 +33,11 @@ namespace NEP.Paranoia.ParanoiaUtilities
 {
     public class Utilities
     {
+        public static Assembly GetAssembly(string assemblyName)
+        {
+            return null;
+        }
+
         /// <summary>
         /// Gets the current HMD that SteamVR is using.
         /// </summary>
@@ -344,6 +349,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
             ClassInjector.RegisterTypeInIl2Cpp<CeilingMan>();
             ClassInjector.RegisterTypeInIl2Cpp<Chaser>();
             ClassInjector.RegisterTypeInIl2Cpp<DarkVoice>();
+            ClassInjector.RegisterTypeInIl2Cpp<SjasFace>();
             ClassInjector.RegisterTypeInIl2Cpp<CryingEntity>();
             ClassInjector.RegisterTypeInIl2Cpp<InvisibleForce>();
             ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();

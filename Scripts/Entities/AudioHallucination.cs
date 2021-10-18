@@ -69,6 +69,7 @@ namespace NEP.Paranoia.Entities
 
             if (source == null || clips == null || clips.Length == -1) { return; }
             if (auditoryType == AuditoryType.None) { return; }
+            MelonLoader.MelonLogger.Msg("Passed check");
 
             audioTimer = 0f;
 
@@ -76,6 +77,7 @@ namespace NEP.Paranoia.Entities
             source.dopplerLevel = 0f;
             source.spatialBlend = 0.95f;
 
+            MelonLoader.MelonLogger.Msg("Ambient");
             if (auditoryType == AuditoryType.Ambient)
             {
                 source.dopplerLevel = 0f;
@@ -84,13 +86,15 @@ namespace NEP.Paranoia.Entities
                 MelonLoader.MelonCoroutines.Start(CoHideSelf(source.clip.length));
             }
 
-            if(auditoryType == AuditoryType.Crying)
+            MelonLoader.MelonLogger.Msg("Crying");
+            if (auditoryType == AuditoryType.Crying)
             {
                 source.spatialBlend = 0.85f;
                 source.loop = true;
             }
 
-            if(auditoryType == AuditoryType.Darkness)
+            MelonLoader.MelonLogger.Msg("Darkness");
+            if (auditoryType == AuditoryType.Darkness)
             {
                 source.dopplerLevel = 1f;
                 source.spatialBlend = 1f;
@@ -98,11 +102,13 @@ namespace NEP.Paranoia.Entities
                 MelonLoader.MelonCoroutines.Start(CoHideSelf(source.clip.length));
             }
 
+            MelonLoader.MelonLogger.Msg("Chaser");
             if (auditoryType == AuditoryType.Chaser)
             {
                 source.loop = true;
             }
 
+            MelonLoader.MelonLogger.Msg("Teleporting");
             if (auditoryType == AuditoryType.Teleporting)
             {
                 if (timerUsesAudioLength)

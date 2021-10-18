@@ -216,40 +216,50 @@ namespace NEP.Paranoia.Entities
         {
             gameObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
 
-            m_playerTarget = ModThatIsNotMod.Player.GetPlayerHead().transform;
-            m_playerTargetHead = ModThatIsNotMod.Player.GetPlayerHead().transform;
+            
 
             gameObject.SetActive(false);
         }
 
         protected virtual void OnEnable()
         {
+            m_playerTarget = Paranoia.instance.gameManager.playerHead.transform;
+            m_playerTargetHead = m_playerTarget;
+
+            MelonLoader.MelonLogger.Msg("Base hallucination OnEnable");
             transform.position = Vector3.up * 1f;
 
+            MelonLoader.MelonLogger.Msg("spawn around player");
             if (m_startFlags.HasFlag(StartFlags.SpawnAroundPlayer))
             {
                 if (m_useRandomSpawnAngle)
                 {
+                    MelonLoader.MelonLogger.Msg("uses random spawn angle");
                     transform.position = Paranoia.instance.gameManager.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), m_spawnRadius, yOffset);
                 }
                 else
                 {
+                    MelonLoader.MelonLogger.Msg("does not use random spawn angle");
                     transform.position = Paranoia.instance.gameManager.playerCircle.CalculatePlayerCircle(m_spawnAngle, m_spawnRadius, yOffset);
                 }
             }
 
+            MelonLoader.MelonLogger.Msg("spawns at points");
             if (m_startFlags.HasFlag(StartFlags.SpawnAtPoints))
             {
                 if(m_spawnPoints == null) { return; }
                 if(m_spawnPoints.Length == 0) { return; }
 
+                MelonLoader.MelonLogger.Msg("passed spawn points check");
                 transform.position = m_spawnPoints[Random.Range(0, m_spawnPoints.Length)];
             }
 
+            MelonLoader.MelonLogger.Msg("look at target");
             if (m_startFlags.HasFlag(StartFlags.LookAtTarget))
             {
                 Vector3 lookAtEuler = Quaternion.LookRotation(playerTarget.position - -transform.forward).eulerAngles;
                 transform.eulerAngles = Vector3.up * lookAtEuler.y;
+                MelonLoader.MelonLogger.Msg("passed look at target");
             }
         }
 

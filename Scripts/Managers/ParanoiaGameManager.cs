@@ -60,11 +60,14 @@ namespace NEP.Paranoia.Managers
         private Transform _playerTrigger;
         public Transform playerTrigger { get { return _playerTrigger; } }
 
+        public GameObject playerHead;
+
         public GameWorldSkeletonRig clonedRig;
 
         public static Ambience hAmbience;
         public static Chaser hChaser;
         public static DarkVoice hDarkVoice;
+        public static SjasFace hSjasFace;
         public static TeleportingEntity hTeleportingEntity;
         public static Paralyzer hParalyzer;
         public static Radio hRadio;
@@ -142,6 +145,7 @@ namespace NEP.Paranoia.Managers
             hFastStaringMan = null;
             hStaringMan = null;
             hDarkVoice = null;
+            hSjasFace = null;
             hFordScaling = null;
             hObserver = null;
             hParalyzer = null;
@@ -158,13 +162,11 @@ namespace NEP.Paranoia.Managers
         {
             MapUtilities.Initialize();
 
-            InitializeEntities();
-
-            InitializeTicks();
-
             _playerTrigger = Utilities.FindPlayer();
 
             playerCircle = new SpawnCircle(Utilities.FindPlayer());
+
+            playerHead = Utilities.FindHead().gameObject;
 
             for (int i = 0; i < spawnCircles.Length; i++)
             {
@@ -176,6 +178,10 @@ namespace NEP.Paranoia.Managers
             GameObject.Find("AirParticles").SetActive(false);
 
             MapUtilities.SwitchFog(MapUtilities.baseFog, MapUtilities.darkFog, 0.60f, 3600f);
+
+            InitializeEntities();
+
+            InitializeTicks();
         }
 
         private void Update()
@@ -218,6 +224,7 @@ namespace NEP.Paranoia.Managers
             hDarkVoice = SpawnPrefab("ent_soundentity").AddComponent<DarkVoice>();
             hCryingEntity = SpawnPrefab("ent_soundentity").AddComponent<CryingEntity>();
             hTeleportingEntity = SpawnPrefab("ent_grayman").AddComponent<TeleportingEntity>();
+            hSjasFace = SpawnPrefab("ent_sjasface").AddComponent<SjasFace>();
             hParalyzer = SpawnPrefab("ent_paralyzer").AddComponent<Paralyzer>();
             hRadio = SpawnPrefab("ent_radio").AddComponent<Radio>();
 

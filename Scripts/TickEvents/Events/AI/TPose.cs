@@ -28,7 +28,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
                 physicsGroup.gameObject.SetActive(false);
 
-                Transform head = physicsGroup.transform.Find("Root_M/Spine_M/Chest_M/");
+                Transform head = physicsGroup.transform.Find("Root_M/Spine_M/Chest_M/Head_M");
 
                 physicsGroup.localPosition = new Vector3(physicsGroup.localPosition.x, 0f, physicsGroup.localPosition.z);
                 Quaternion lookRotation = Quaternion.LookRotation(Utilities.GetPhysicsRig().transform.position - physicsGroup.forward);
@@ -70,7 +70,7 @@ namespace NEP.Paranoia.TickEvents.Events
         {
             while (head.GetComponentInParent<AIBrain>().gameObject.active)
             {
-                head.LookAt(Utilities.FindHead());
+                head.LookAt(Utilities.FindPlayer());
                 yield return null;
             }
         }

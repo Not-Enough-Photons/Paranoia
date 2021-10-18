@@ -72,6 +72,11 @@ namespace NEP.Paranoia
 			return baseEntities[name];
         }
 
+		public AudioClip GetClipInDirectory(List<AudioClip> list, string name)
+        {
+			return list.FirstOrDefault((clip) => clip.name == name);
+        }
+
 		public Texture2D GetTextureInList(string name)
         {
 			return decorTextures.FirstOrDefault((texture) => texture.name == name);
