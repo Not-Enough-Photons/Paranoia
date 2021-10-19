@@ -46,6 +46,8 @@ namespace NEP.Paranoia.TickEvents.Events
             {
                 timer += Time.deltaTime;
 
+                if(part == null) { break; }
+
                 part.AddForce(dir * force, ForceMode.Acceleration);
                 yield return null;
             }
