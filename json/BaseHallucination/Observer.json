@@ -1,5 +1,5 @@
 {
-    "baseFlags": "HideWhenSeen",
+    "baseFlags": "HideWhenSeen | LookAtTarget",
     "startFlags": "SpawnAroundPlayer",
     "useRandomSpawnAngle": true,
     "spawnRadius": 10.0,

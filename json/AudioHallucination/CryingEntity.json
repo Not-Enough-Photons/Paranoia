@@ -1,0 +1,8 @@
+{
+    "baseFlags": "HideWhenClose",
+    "startFlags": "SpawnAroundPlayer",
+	"auditoryType": "Crying",
+    "useRandomSpawnAngle": true,
+    "spawnRadius": 50.0,
+    "disableDistance": 25.0,
+}

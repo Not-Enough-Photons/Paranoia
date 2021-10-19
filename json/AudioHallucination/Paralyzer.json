@@ -3,10 +3,10 @@
     "startFlags": "SpawnAroundPlayer",
 	"auditoryType": "Teleporting",
     "useRandomSpawnAngle": true,
-    "spawnRadius": 150.0,
+    "spawnRadius": 100.0,
 	"yOffset": 5.0,
 	"maxTeleportDelay": 1.0,
-	"moveSpeed": 25.0,
+	"moveSpeed": 15.0,
 	"timerUsesAudioLength": true,
-    "disableDistance": 3.0
+    "disableDistance": 6.0
 }

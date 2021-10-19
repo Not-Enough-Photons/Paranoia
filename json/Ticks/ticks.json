@@ -2,10 +2,12 @@
 	{
 		"tickName": "Tick_Ambience",
 		"tick": 0.0,
-		"minRange": 30.0,
-		"maxRange": 75.0,
+		"minRange": 60.0,
+		"maxRange": 120.0,
+		"minRNG": 25,
+		"maxRNG": 75,
 		"useInsanity": true,
-		"targetInsanity": 4.25,
+		"targetInsanity": 3.00,
 		"fireEvent": "M_SpawnMirage(hAmbience)",
 		"tickType": "Any"
 	},
@@ -15,7 +17,7 @@
 		"minRange": 120.0,
 		"maxRange": 145.0,
 		"useInsanity": true,
-		"targetInsanity": 2.25,
+		"targetInsanity": 2.75,
 		"fireEvent": "M_SpawnMirage(hChaser)",
 		"tickType": "Any"
 	},
@@ -24,39 +26,57 @@
 		"tick": 0.0,
 		"minRange": 15.0,
 		"maxRange": 30.0,
+		"minRNG": 10,
+		"maxRNG": 75,
 		"useInsanity": true,
-		"targetInsanity": 3.25,
+		"targetInsanity": 4.00,
 		"fireEvent": "M_SpawnMirage(hDarkVoice)",
 		"tickType": "Dark"
 	},
 	{
 		"tickName": "Tick_TeleportingMan",
 		"tick": 0.0,
-		"minRange": 165.0,
-		"maxRange": 295.0,
+		"minRange": 360.0,
+		"maxRange": 512.0,
+		"minRNG": 1,
+		"maxRNG": 50,
 		"useInsanity": true,
 		"targetInsanity": 4.65,
 		"fireEvent": "M_SpawnMirage(hTeleportingEntity)",
 		"tickType": "Any"
 	},
 	{
+		"tickName": "Tick_SjasFace",
+		"tick": 0.0,
+		"minRange": 360.0,
+		"maxRange": 512.0,
+		"minRNG": 99,
+		"maxRNG": 100,
+		"useInsanity": true,
+		"targetInsanity": 4.65,
+		"fireEvent": "M_SpawnMirage(hSjasFace)",
+		"tickType": "Any"
+	},
+	{
 		"tickName": "Tick_Paralyzer",
 		"tick": 0.0,
 		"minRange": 265.0,
-		"maxRange": 360.0,
+		"maxRange": 960.0,
+		"minRNG": 10,
+		"maxRNG": 50,
 		"useInsanity": true,
-		"targetInsanity": 4.0,
+		"targetInsanity": 6.0,
 		"fireEvent": "E_Paralysis",
 		"tickType": "Dark"
 	},
 	{
 		"tickName": "Tick_FordScaling",
 		"tick": 0.0,
-		"minRange": 30.0,
-		"maxRange": 70.0,
+		"minRange": 200.0,
+		"maxRange": 350.0,
 		"useInsanity": true,
 		"targetInsanity": 4.0,
-		"fireEvent": "M_FordScalingSpawn",
+		"fireEvent": "M_SpawnMirage(hFordScaling)",
 		"tickType": "Any"
 	},
 	{
@@ -72,11 +92,25 @@
 	{
 		"tickName": "Tick_StaringMan",
 		"tick": 0.0,
-		"minRange": 180.0,
+		"minRange": 360.0,
 		"maxRange": 450.0,
+		"minRNG": 30,
+		"maxRNG": 60,
 		"useInsanity": true,
-		"targetInsanity": 2.95,
-		"fireEvent": "M_StaringManSpawn",
+		"targetInsanity": 3.75,
+		"fireEvent": "M_SpawnMirage(hStaringMan)",
+		"tickType": "Any"
+	},
+	{
+		"tickName": "Tick_CryingEntity",
+		"tick": 0.0,
+		"minRange": 360.0,
+		"maxRange": 450.0,
+		"minRNG": 30,
+		"maxRNG": 60,
+		"useInsanity": true,
+		"targetInsanity": 3.25,
+		"fireEvent": "M_SpawnMirage(hCryingEntity)",
 		"tickType": "Any"
 	},
 	{
@@ -85,7 +119,7 @@
 		"maxTick": 260.0,
 		"useInsanity": true,
 		"targetInsanity": 2.75,
-		"fireEvent": "M_CeilingManSpawn",
+		"fireEvent": "M_SpawnMirage(hCeilingMan)",
 		"tickType": "Any"
 	},
 	{
@@ -94,7 +128,7 @@
 		"maxTick": 360.0,
 		"useInsanity": true,
 		"targetInsanity": 5.75,
-		"fireEvent": "M_ObserverSpawn",
+		"fireEvent": "M_SpawnMirage(hObserver)",
 		"tickType": "Any"
 	},
 	{
@@ -102,7 +136,7 @@
 		"tick": 0.0,
 		"maxTick": 30.0,
 		"useInsanity": true,
-		"targetInsanity": 1.25,
+		"targetInsanity": 1.75,
 		"fireEvent": "E_SpawnInvisibleForce",
 		"tickType": "Any"
 	},
@@ -110,6 +144,8 @@
 		"tickName": "Tick_TPose",
 		"tick": 0.0,
 		"maxTick": 120.0,
+		"minRNG": 1,
+		"maxRNG": 5,
 		"useInsanity": true,
 		"targetInsanity": 3.50,
 		"fireEvent": "E_TPose",
@@ -120,7 +156,8 @@
 		"tick": 0.0,
 		"minRange": 360.0,
 		"maxRange": 496.0,
-		"yOffset": 0.85,
+		"minRNG": 1,
+		"maxRNG": 30,
 		"useInsanity": true,
 		"targetInsanity": 5.0,
 		"fireEvent": "E_CursedDoorSpawn",
@@ -130,15 +167,20 @@
 		"tickName": "Tick_Radio",
 		"tick": 0.0,
 		"maxTick": 190.0,
+		"minRNG": 1,
+		"maxRNG": 65,
 		"useInsanity": true,
-		"targetInsanity": 2.75,
+		"targetInsanity": 3.50,
 		"fireEvent": "E_SpawnRadio",
 		"tickType": "Any"
 	},
 	{
 		"tickName": "Tick_KillAI",
 		"tick": 0.0,
-		"maxTick": 240.0,
+		"minRange": 240.0, 
+		"maxRange": 460.5,
+		"minRNG": 1,
+		"maxRNG": 2,
 		"useInsanity": true,
 		"targetInsanity": 2.75,
 		"fireEvent": "E_KillAI",
@@ -149,7 +191,7 @@
 		"tick": 0.0,
 		"maxTick": 60.0,
 		"useInsanity": true,
-		"targetInsanity": 0.50,
+		"targetInsanity": 1.0,
 		"fireEvent": "E_DropHeadItem",
 		"tickType": "Any"
 	},
@@ -158,7 +200,7 @@
 		"tick": 0.0,
 		"maxTick": 90.0,
 		"useInsanity": true,
-		"targetInsanity": 1.0,
+		"targetInsanity": 1.5,
 		"fireEvent": "E_LightFlickering",
 		"tickType": "Any"
 	},
@@ -167,8 +209,10 @@
 		"tick": 0.0,
 		"minRange": 15.0,
 		"maxRange": 60.0,
+		"minRNG": 7,
+		"maxRNG": 10,
 		"useInsanity": true,
-		"targetInsanity": 0.5,
+		"targetInsanity": 0.75,
 		"fireEvent": "E_FireGunInHand",
 		"tickType": "Any"
 	},
@@ -177,18 +221,10 @@
 		"tick": 0.0,
 		"minRange": 15.0,
 		"maxRange": 60.0,
+		"minRNG": 2,
+		"maxRNG": 15,
 		"useInsanity": true,
-		"targetInsanity": 0.75,
-		"fireEvent": "E_FireGun",
-		"tickType": "Any"
-	},
-	{
-		"tickName": "Tick_FireGunWorld",
-		"tick": 0.0,
-		"minRange": 15.0,
-		"maxRange": 60.0,
-		"useInsanity": true,
-		"targetInsanity": 0.75,
+		"targetInsanity": 1.00,
 		"fireEvent": "E_FireGun",
 		"tickType": "Any"
 	},
@@ -198,8 +234,20 @@
 		"minRange": 120.0,
 		"maxRange": 512.0,
 		"useInsanity": true,
-		"targetInsanity": 0.75,
+		"targetInsanity": 0.05,
 		"fireEvent": "E_HandTremble",
+		"tickType": "Any"
+	},
+	{
+		"tickName": "Tick_AILaugh",
+		"tick": 0.0,
+		"minRange": 60.0,
+		"maxRange": 90.0,
+		"minRNG": 0,
+		"maxRNG": 25,
+		"useInsanity": true,
+		"targetInsanity": 2.75,
+		"fireEvent": "E_LaughAtPlayer",
 		"tickType": "Any"
 	},
 	{
@@ -208,7 +256,7 @@
 		"minRange": 120.0,
 		"maxRange": 240.0,
 		"useInsanity": true,
-		"targetInsanity": 0.75,
+		"targetInsanity": 1.50,
 		"fireEvent": "E_MoveAIToPlayer",
 		"tickType": "Any"
 	},
@@ -218,18 +266,40 @@
 		"minRange": 120.0,
 		"maxRange": 240.0,
 		"useInsanity": true,
-		"targetInsanity": 0.75,
+		"targetInsanity": 1.50,
 		"fireEvent": "E_MoveAIToRadio",
 		"tickType": "Any"
-	}
+	},
 	{
-		"tickName": "Tick_AgroRandomAI",
+		"tickName": "Tick_AILookToCeiling", 
 		"tick": 0.0,
-		"minRange": 240.0,
-		"maxRange": 360.0,
+		"minRange": 120.0,
+		"maxRange": 240.0,
 		"useInsanity": true,
-		"targetInsanity": 2.25,
-		"fireEvent": "E_AIAgroPlayer",
+		"targetInsanity": 0.05,
+		"fireEvent": "E_AILookAtCeiling",
+		"tickType": "Any"
+	},
+	{
+		"tickName": "Tick_GrabNPC", 
+		"tick": 0.0,
+		"minRange": 90.0,
+		"maxRange": 120.0,
+		"useInsanity": true,
+		"targetInsanity": 0.05,
+		"fireEvent": "E_DragRandomNPC",
+		"tickType": "Any"
+	},
+	{
+		"tickName": "Tick_GrabNPCToCeiling", 
+		"tick": 0.0,
+		"minRange": 90.0,
+		"maxRange": 120.0,
+		"minRNG": 0,
+		"maxRNG": 25,
+		"useInsanity": true,
+		"targetInsanity": 1.25,
+		"fireEvent": "E_DragNPCToCeiling",
 		"tickType": "Any"
 	},
 	{
@@ -237,9 +307,18 @@
 		"tick": 0.0,
 		"minRange": 60.0,
 		"maxRange": 120.0,
+		"minRNG": 50,
+		"maxRNG": 85,
 		"useInsanity": true,
-		"targetInsanity": 0.50,
+		"targetInsanity": 1.50,
 		"fireEvent": "E_FlingRandomObject",
+		"tickType": "Any"
+	},
+	{
+		"tickName": "Tick_ChangeHoloSign",
+		"tick": 0.0,
+		"maxTick": 650.0,
+		"fireEvent": "E_ChangeHoloSign",
 		"tickType": "Any"
 	},
 	{
@@ -247,6 +326,8 @@
 		"tick": 0.0,
 		"minRange": 120.0,
 		"maxRange": 320.0,
+		"minRNG": 1,
+		"maxRNG": 75,
 		"useInsanity": true,
 		"targetInsanity": 4.75,
 		"fireEvent": "E_GrabPlayer",
@@ -255,8 +336,8 @@
 	{
 		"tickName": "Tick_UpdateInsanity",
 		"tick": 0.0,
-		"minRange": 5.0,
-		"maxRange": 10.0,
+		"minRange": 5.5,
+		"maxRange": 12.5,
 		"useInsanity": false,
 		"fireEvent": "E_ChangeInsanity",
 		"tickType": "Any"
@@ -264,7 +345,8 @@
 	{
 		"tickName": "Tick_GenerateRNG",
 		"tick": 0.0,
-		"maxTick": 1.0,
+		"minRange": 1.0,
+		"maxRange": 2.5,
 		"useInsanity": false,
 		"fireEvent": "E_ChangeRNG",
 		"tickType": "Any"

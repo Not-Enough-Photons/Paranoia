@@ -1,0 +1,10 @@
+{
+    "baseFlags": "HideWhenClose | LookAtTarget | Moving",
+    "startFlags": "SpawnAroundPlayer",
+    "useRandomSpawnAngle": true,
+    "spawnRadius": 300.0,
+    "usesDelay": true,
+    "maxTime": 1.0,
+    "moveSpeed": 150.0,
+    "disableDistance": 1.0,
+}
