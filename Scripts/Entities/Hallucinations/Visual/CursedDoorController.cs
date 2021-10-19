@@ -42,6 +42,8 @@ namespace NEP.Paranoia.Entities
 
                 MelonLoader.MelonCoroutines.Start(CoEndRoutine());
             }));
+
+            MelonLoader.MelonCoroutines.Start(CoHideRoutine());
         }
 
         protected override void OnEnable()
@@ -83,6 +85,12 @@ namespace NEP.Paranoia.Entities
             physBody.rbPelvis.isKinematic = freeze;
             rig.leftHand.rb.isKinematic = freeze;
             rig.rightHand.rb.isKinematic = freeze;
+        }
+
+        protected System.Collections.IEnumerator CoHideRoutine()
+        {
+            yield return new WaitForSeconds(90f);
+            gameObject.SetActive(false);
         }
 
         protected System.Collections.IEnumerator CoEndRoutine()
