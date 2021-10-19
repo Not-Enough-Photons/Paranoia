@@ -10,30 +10,26 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            AudioMixerGroup sfxMixer = Utilities.GetAudioMixer("SFX");
-            AudioMixerGroup gunshotMixer = Utilities.GetAudioMixer("GunShot");
-            
-            float sfxVolume = 0f;
-            float gunshotVolume = 0f;
-
-            sfxMixer.audioMixer.GetFloat("Volume", out sfxVolume);
-            gunshotMixer.audioMixer.GetFloat("Volume", out gunshotVolume);
+            AudioMixer mainMixer = Utilities.GetAudioMixer();
 
             Paranoia.instance.gameManager.deafenSource.clip = Paranoia.instance.deafenSounds[0];
 
             Paranoia.instance.gameManager.deafenSource.Play();
 
-            MelonLoader.MelonCoroutines.Start(CoVolumeRoutine(Paranoia.instance.gameManager.deafenSource, sfxVolume, gunshotVolume));
+            MelonLoader.MelonCoroutines.Start(CoVolumeRoutine(mainMixer, Paranoia.instance.gameManager.deafenSource));
         }
 
-        private System.Collections.IEnumerator CoVolumeRoutine(AudioSource deafSource, float sfxVolume, float gunshotVolume)
+        private System.Collections.IEnumerator CoVolumeRoutine(AudioMixer mixer, AudioSource deafSource)
         {
             if(deafSource == null) { yield break; }
 
-            while(sfxVolume > 0f && gunshotVolume > 0f)
+            float mainVolume = 0f;
+            mixer.GetFloat("channel_SFX", out mainVolume);
+
+            while(mainVolume > 0f)
             {
-                sfxVolume = Mathf.MoveTowards(sfxVolume, 0f, Time.deltaTime);
-                gunshotVolume = Mathf.MoveTowards(gunshotVolume, 0f, Time.deltaTime);
+                mainVolume = Mathf.MoveTowards(mainVolume, 0f, Time.deltaTime);
+                mixer.SetFloat("channel_SFX", mainVolume);
 
                 deafSource.volume = Mathf.MoveTowards(deafSource.volume, 1f, Time.deltaTime);
 
@@ -42,10 +38,10 @@ namespace NEP.Paranoia.TickEvents.Events
 
             yield return new WaitForSeconds(Random.Range(30f, 60f));
 
-            while (sfxVolume <= 0f && gunshotVolume <= 0f)
+            while (mainVolume <= 0f)
             {
-                sfxVolume = Mathf.MoveTowards(sfxVolume, 1f, Time.deltaTime);
-                gunshotVolume = Mathf.MoveTowards(gunshotVolume, 1f, Time.deltaTime);
+                mainVolume = Mathf.MoveTowards(mainVolume, 1f, Time.deltaTime);
+                mixer.SetFloat("channel_SFX", mainVolume);
 
                 deafSource.volume = Mathf.MoveTowards(deafSource.volume, 0f, Time.deltaTime);
 

@@ -126,19 +126,9 @@ namespace NEP.Paranoia.ParanoiaUtilities
             return hallucination;
         }
 
-        public static AudioMixerGroup GetAudioMixer(string name)
+        public static AudioMixer GetAudioMixer()
         {
-            AudioMixerGroup[] mixers = Resources.FindObjectsOfTypeAll<AudioMixerGroup>();
-
-            foreach(AudioMixerGroup mixer in mixers)
-            {
-                if(mixer.name == name)
-                {
-                    return mixer;
-                }
-            }
-
-            return null;
+            return Object.FindObjectOfType<Audio_Manager>().audioMixer;
         }
 
         public static GameWorldSkeletonRig ClonePlayerBody(Vector3 position, Quaternion rotation)
