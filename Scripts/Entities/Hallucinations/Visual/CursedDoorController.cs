@@ -18,7 +18,7 @@ namespace NEP.Paranoia.Entities
         private bool playedOnce = false;
 
         private float m_timer = 0f;
-        private float m_delay = 4f;
+        private float m_delay = 4.75f;
 
         protected override void Awake()
         {
@@ -93,7 +93,7 @@ namespace NEP.Paranoia.Entities
             Transform playerPos = Utilities.FindPlayer().transform;
             AudioSource source = ParanoiaGameManager.endRoom.transform.Find("Audio Source").GetComponent<AudioSource>();
 
-            yield return new WaitForSeconds(source.clip.length - 0.75f);
+            yield return new WaitForSeconds(source.clip.length - 1.75f);
 
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)MapLevel.MainMenu);
 

@@ -158,6 +158,12 @@ namespace NEP.Paranoia.Managers
             invisibleForce = null;
 
             clonedRig = null;
+
+            MapUtilities.fog.startDistance = MapUtilities.baseFog.startDistance;
+            MapUtilities.fog.endDistance = MapUtilities.baseFog.endDistance;
+            MapUtilities.fog.heightFogFalloff = MapUtilities.baseFog.heightFogFalloff;
+            MapUtilities.fog.heightFogThickness = MapUtilities.baseFog.heightFogThickness;
+            MapUtilities.fog.heightFogColor = MapUtilities.baseFog.heightFogColor;
         }
 
         private void Start()
