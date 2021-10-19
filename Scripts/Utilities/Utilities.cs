@@ -389,6 +389,9 @@ namespace NEP.Paranoia.ParanoiaUtilities
         public static VLB.VolumetricLightBeam[] lightBeams;
         public static ValveFog fog;
 
+        public static Transform endRoomEyesSpawn;
+        public static Transform endRoomPlayerSpawn;
+
         public static GameObject collectAllSign;
 
         public static FogSettings baseFog;
@@ -410,6 +413,10 @@ namespace NEP.Paranoia.ParanoiaUtilities
             staticPlaneMaterials = CacheMaterialsFromPlanes(staticPlaneObjects);
             staticPlaneCubeMapScalars = CacheCubeMapScalars(staticPlaneMaterials);
             fog = Object.FindObjectOfType<ValveFog>();
+
+            Transform endRoom = ParanoiaGameManager.endRoom.transform;
+            endRoomEyesSpawn = endRoom.Find("SpawnPoint");
+            endRoomPlayerSpawn = endRoom.Find("PlayerTeleportPoint");
 
             InitializeLevel(currentLevel);
 

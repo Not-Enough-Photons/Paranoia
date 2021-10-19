@@ -83,6 +83,8 @@ namespace NEP.Paranoia.Managers
         public static CursedDoorController hCursedDoor;
         public static InvisibleForce invisibleForce;
 
+        public static GameObject endRoom;
+
         public GameObject radioClone;
 
         public AudioSource deafenSource;
@@ -160,6 +162,10 @@ namespace NEP.Paranoia.Managers
 
         private void Start()
         {
+            endRoom = SpawnPrefab("ent_room");
+            endRoom.transform.position = Vector3.up * 500f;
+            endRoom.SetActive(false);
+
             MapUtilities.Initialize();
 
             _playerTrigger = Utilities.FindPlayer();

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using NEP.Paranoia.ParanoiaUtilities;
+using NEP.Paranoia.Managers;
 using StressLevelZero.Rig;
 
 namespace NEP.Paranoia.Entities
@@ -32,8 +33,14 @@ namespace NEP.Paranoia.Entities
 
             trigger.TriggerEnterEvent.AddListener(new System.Action(() =>
             {
-                GameObject.Find("HALFPIPE").SetActive(true);
-                Utilities.GetRigManager().GetComponent<RigManager>().Teleport(new Vector3(-134.10f, 44.56f, -85.98f), true);
+                ParanoiaGameManager.endRoom.SetActive(true);
+                Utilities.GetRigManager().GetComponent<RigManager>().Teleport(MapUtilities.endRoomPlayerSpawn.position, true);
+                ParanoiaGameManager.hStaringMan.gameObject.SetActive(true);
+                ParanoiaGameManager.hStaringMan.transform.position = MapUtilities.endRoomEyesSpawn.position;
+                ParanoiaGameManager.hStaringMan.moveSpeed = 0.15f;
+                ParanoiaGameManager.hStaringMan.disableDistance = 0.25f;
+
+                MelonLoader.MelonCoroutines.Start(CoEndRoutine());
             }));
         }
 
@@ -66,6 +73,31 @@ namespace NEP.Paranoia.Entities
                     }
                 }
             }
+        }
+
+        private void FreezePlayer(PhysicsRig rig, bool freeze)
+        {
+            StressLevelZero.VRMK.PhysBody physBody = rig.physBody;
+
+            physBody.rbFeet.isKinematic = freeze;
+            physBody.rbPelvis.isKinematic = freeze;
+            rig.leftHand.rb.isKinematic = freeze;
+            rig.rightHand.rb.isKinematic = freeze;
+        }
+
+        protected System.Collections.IEnumerator CoEndRoutine()
+        {
+            FreezePlayer(Object.FindObjectOfType<PhysicsRig>(), true);
+
+            Transform staringManPos = ParanoiaGameManager.hStaringMan.transform;
+            Transform playerPos = Utilities.FindPlayer().transform;
+            AudioSource source = ParanoiaGameManager.endRoom.transform.Find("Audio Source").GetComponent<AudioSource>();
+
+            yield return new WaitForSeconds(source.clip.length - 0.75f);
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene((int)MapLevel.MainMenu);
+
+            yield return null;
         }
     }
 }
