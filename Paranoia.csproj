@@ -136,6 +136,7 @@
     <Compile Include="Scripts\TickEvents\Events\AI\KillAI.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\CursedDoorSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\FireGun.cs" />
+    <Compile Include="Scripts\TickEvents\Events\World\FlickerFlashlights.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\FlingRandomObject.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\HideRandomItem.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\LightFlickering.cs" />
