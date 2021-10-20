@@ -10,40 +10,41 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            AudioMixer mainMixer = Utilities.GetAudioMixer();
+            Audio_Manager audioManager = Object.FindObjectOfType<Audio_Manager>();
 
             Paranoia.instance.gameManager.deafenSource.clip = Paranoia.instance.deafenSounds[0];
 
             Paranoia.instance.gameManager.deafenSource.Play();
 
-            MelonLoader.MelonCoroutines.Start(CoVolumeRoutine(mainMixer, Paranoia.instance.gameManager.deafenSource));
+            MelonLoader.MelonCoroutines.Start(CoVolumeRoutine(audioManager, Paranoia.instance.gameManager.deafenSource));
         }
 
-        private System.Collections.IEnumerator CoVolumeRoutine(AudioMixer mixer, AudioSource deafSource)
+        private System.Collections.IEnumerator CoVolumeRoutine(Audio_Manager manager, AudioSource deafSource)
         {
             if(deafSource == null) { yield break; }
 
-            float mainVolume = 0f;
-            mixer.GetFloat("channel_SFX", out mainVolume);
-
-            while(mainVolume > 0f)
+            while(manager.audio_SFXVolume > 0f)
             {
-                mainVolume = Mathf.MoveTowards(mainVolume, 0f, Time.deltaTime);
-                mixer.SetFloat("channel_SFX", mainVolume);
+                if(deafSource == null) { break; }
 
-                deafSource.volume = Mathf.MoveTowards(deafSource.volume, 1f, Time.deltaTime);
+                manager.audio_SFXVolume = Mathf.MoveTowards(manager.audio_SFXVolume, 0f, Time.deltaTime);
+                manager.SETMIXERS();
+
+                deafSource.volume = Mathf.MoveTowards(deafSource.volume, 1f, 0.1f * Time.deltaTime);
 
                 yield return null;
             }
 
-            yield return new WaitForSeconds(Random.Range(30f, 60f));
+            yield return new WaitForSeconds(Random.Range(25f, 30f));
 
-            while (mainVolume <= 0f)
+            while (manager.audio_SFXVolume <= 7f)
             {
-                mainVolume = Mathf.MoveTowards(mainVolume, 1f, Time.deltaTime);
-                mixer.SetFloat("channel_SFX", mainVolume);
+                if (deafSource == null) { break; }
 
-                deafSource.volume = Mathf.MoveTowards(deafSource.volume, 0f, Time.deltaTime);
+                manager.audio_SFXVolume = Mathf.MoveTowards(manager.audio_SFXVolume, 7f, Time.deltaTime);
+                manager.SETMIXERS();
+
+                deafSource.volume = Mathf.MoveTowards(deafSource.volume, 0f, 0.05f * Time.deltaTime);
 
                 yield return null;
             }
