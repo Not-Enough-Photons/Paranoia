@@ -4,6 +4,7 @@
     "useRandomSpawnAngle": true,
     "spawnRadius": 100.0,
     "usesDelay": true,
+	"yOffset": 1.5,
     "maxTime": 2.5,
     "moveSpeed": 50.0,
     "disableDistance": 1.0,

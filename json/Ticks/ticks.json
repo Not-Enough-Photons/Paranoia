@@ -86,7 +86,17 @@
 		"maxRange": 275.0,
 		"useInsanity": true,
 		"targetInsanity": 3.75,
-		"fireEvent": "M_ShadowSpawn",
+		"fireEvent": "M_SpawnMirage(hShadowPerson)",
+		"tickType": "Any"
+	},
+	{
+		"tickName": "Tick_ShadowManChaser",
+		"tick": 0.0,
+		"minRange": 210.0,
+		"maxRange": 275.0,
+		"useInsanity": true,
+		"targetInsanity": 3.75,
+		"fireEvent": "M_SpawnMirage(hShadowPersonChaser)",
 		"tickType": "Any"
 	},
 	{
@@ -286,7 +296,7 @@
 		"minRange": 90.0,
 		"maxRange": 120.0,
 		"useInsanity": true,
-		"targetInsanity": 0.05,
+		"targetInsanity": 0.75,
 		"fireEvent": "E_DragRandomNPC",
 		"tickType": "Any"
 	},
@@ -331,6 +341,18 @@
 		"useInsanity": true,
 		"targetInsanity": 4.75,
 		"fireEvent": "E_GrabPlayer",
+		"tickType": "Any"
+	},
+	{
+		"tickName": "Tick_DeafenPlayer",
+		"tick": 0.0,
+		"minRange": 120.0,
+		"maxRange": 320.0,
+		"minRNG": 55,
+		"maxRNG": 62,
+		"useInsanity": true,
+		"targetInsanity": 2.00,
+		"fireEvent": "E_DeafenPlayer",
 		"tickType": "Any"
 	},
 	{
