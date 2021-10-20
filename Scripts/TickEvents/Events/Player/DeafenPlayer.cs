@@ -23,11 +23,11 @@ namespace NEP.Paranoia.TickEvents.Events
         {
             if(deafSource == null) { yield break; }
 
-            while(manager.audio_SFXVolume > 0f)
+            while(manager.audio_SFXVolume >= 1.25f)
             {
                 if(deafSource == null) { break; }
 
-                manager.audio_SFXVolume = Mathf.MoveTowards(manager.audio_SFXVolume, 0f, Time.deltaTime);
+                manager.audio_SFXVolume = Mathf.MoveTowards(manager.audio_SFXVolume, 1f, Time.deltaTime);
                 manager.SETMIXERS();
 
                 deafSource.volume = Mathf.MoveTowards(deafSource.volume, 1f, 0.1f * Time.deltaTime);
@@ -35,9 +35,12 @@ namespace NEP.Paranoia.TickEvents.Events
                 yield return null;
             }
 
+            manager.audio_SFXVolume = 0f;
+            manager.SETMIXERS();
+
             yield return new WaitForSeconds(Random.Range(25f, 30f));
 
-            while (manager.audio_SFXVolume <= 7f)
+            while (manager.audio_SFXVolume <= 6f)
             {
                 if (deafSource == null) { break; }
 
@@ -48,6 +51,9 @@ namespace NEP.Paranoia.TickEvents.Events
 
                 yield return null;
             }
+
+            manager.audio_SFXVolume = 7f;
+            manager.SETMIXERS();
 
             deafSource.Stop();
 
