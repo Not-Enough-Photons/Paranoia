@@ -29,6 +29,8 @@ namespace NEP.Paranoia.Entities
 
         public AudioClip[] clips;
 
+        public AudioClip lastPlayedClip;
+
         public bool timerUsesAudioLength;
 
         protected readonly string audioJsonPath = "UserData/paranoia/json/AudioHallucination/";
@@ -69,15 +71,15 @@ namespace NEP.Paranoia.Entities
 
             if (source == null || clips == null || clips.Length == -1) { return; }
             if (auditoryType == AuditoryType.None) { return; }
-            MelonLoader.MelonLogger.Msg("Passed check");
 
             audioTimer = 0f;
 
-            source.clip = clips[Random.Range(0, clips.Length)];
+            AudioClip nextClip = clips[Random.Range(0, clips.Length)];
+            source.clip = nextClip;
+
             source.dopplerLevel = 0f;
             source.spatialBlend = 0.95f;
 
-            MelonLoader.MelonLogger.Msg("Ambient");
             if (auditoryType == AuditoryType.Ambient)
             {
                 source.dopplerLevel = 0f;
@@ -86,14 +88,12 @@ namespace NEP.Paranoia.Entities
                 MelonLoader.MelonCoroutines.Start(CoHideSelf(source.clip.length));
             }
 
-            MelonLoader.MelonLogger.Msg("Crying");
             if (auditoryType == AuditoryType.Crying)
             {
                 source.spatialBlend = 0.85f;
                 source.loop = true;
             }
 
-            MelonLoader.MelonLogger.Msg("Darkness");
             if (auditoryType == AuditoryType.Darkness)
             {
                 source.dopplerLevel = 1f;
@@ -102,19 +102,24 @@ namespace NEP.Paranoia.Entities
                 MelonLoader.MelonCoroutines.Start(CoHideSelf(source.clip.length));
             }
 
-            MelonLoader.MelonLogger.Msg("Chaser");
             if (auditoryType == AuditoryType.Chaser)
             {
                 source.loop = true;
             }
 
-            MelonLoader.MelonLogger.Msg("Teleporting");
             if (auditoryType == AuditoryType.Teleporting)
             {
                 if (timerUsesAudioLength)
                 {
                     maxTeleportDelay = source.clip.length;
                 }
+            }
+
+            lastPlayedClip = nextClip;
+
+            if(nextClip == lastPlayedClip)
+            {
+                nextClip = clips[Random.Range(0, clips.Length)];
             }
 
             source.Play();

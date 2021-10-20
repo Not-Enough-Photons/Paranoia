@@ -77,7 +77,7 @@ namespace NEP.Paranoia.Managers
         public static StaringMan hStaringMan;
         public static FastStaringMan hFastStaringMan;
         public static ShadowPerson hShadowPerson;
-        public static ShadowPerson hShadowPersonChaser;
+        public static ShadowPersonChaser hShadowPersonChaser;
         public static Observer hObserver;
         public static FordScaling hFordScaling;
         public static CursedDoorController hCursedDoor;
@@ -241,7 +241,7 @@ namespace NEP.Paranoia.Managers
             hRadio = SpawnPrefab("ent_radio").AddComponent<Radio>();
 
             hShadowPerson = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPerson>();
-            hShadowPersonChaser = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPerson>();
+            hShadowPersonChaser = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPersonChaser>();
             hCeilingMan = SpawnPrefab("ent_ceilingman").AddComponent<CeilingMan>();
             hStaringMan = SpawnPrefab("ent_staringman").AddComponent<StaringMan>();
             hFastStaringMan = SpawnPrefab("ent_staringman").AddComponent<FastStaringMan>();
