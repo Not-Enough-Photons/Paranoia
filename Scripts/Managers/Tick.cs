@@ -21,7 +21,7 @@ namespace NEP.Paranoia.Managers
             public string tickType;
         }
 
-        [System.Flags]
+        [System.Flags] [System.Obsolete]
         public enum TickType
         {
             Light = 1,
