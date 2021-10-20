@@ -40,7 +40,8 @@ namespace NEP.Paranoia.Entities
             Damaging = (1 << 4),
             DamageThenHide = (1 << 5),
             SpinAroundPlayer = (1 << 6),
-            Teleporting = (1 << 7)
+            Teleporting = (1 << 7),
+            MoveWhenNotSeen = (1 << 8)
         }
 
         [System.Flags]
@@ -327,7 +328,27 @@ namespace NEP.Paranoia.Entities
                     teleportDelayTimer = 0f;
                 }
             }
+
+            if (flags.HasFlag(HallucinationFlags.MoveWhenNotSeen))
+            {
+                if ((Vector3.Dot(m_playerTargetHead.forward, transform.position) <= -1f))
+                {
+                    teleportDelayTimer += Time.deltaTime;
+
+                    if (reachedTeleportDelayTimer)
+                    {
+                        transform.position += transform.forward * moveSpeed;
+                    }
+
+                    reachedTeleportDelayTimer = false;
+
+                    if (teleportDelayTimer >= maxTeleportDelay)
+                    {
+                        reachedTeleportDelayTimer = true;
+                        teleportDelayTimer = 0f;
+                    }
+                }
+            }
         }
     }
-
 }

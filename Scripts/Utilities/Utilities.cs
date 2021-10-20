@@ -231,6 +231,13 @@ namespace NEP.Paranoia.ParanoiaUtilities
             return lookTargets.ToArray();
         }
 
+        public static bool CheckForSpawnPanel(UIRig rig)
+        {
+            if (rig == null) { return false; }
+
+            return rig.popUpMenu.spawnablesPanelView.gameObject.active;
+        }
+
         public static Gun GetGunInHand(StressLevelZero.Handedness hand)
         {
             PhysicsRig physRig = GetPhysicsRig();

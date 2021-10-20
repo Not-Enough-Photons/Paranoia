@@ -79,6 +79,7 @@ namespace NEP.Paranoia.Managers
         public static ShadowPerson hShadowPerson;
         public static ShadowPersonChaser hShadowPersonChaser;
         public static Observer hObserver;
+        public static TestWeepingAngel hTestWeepingAngel;
         public static FordScaling hFordScaling;
         public static CursedDoorController hCursedDoor;
         public static InvisibleForce invisibleForce;
@@ -153,6 +154,7 @@ namespace NEP.Paranoia.Managers
             hParalyzer = null;
             hShadowPerson = null;
             hShadowPersonChaser = null;
+            hTestWeepingAngel = null;
             hTeleportingEntity = null;
             hRadio = null;
             invisibleForce = null;
@@ -245,6 +247,7 @@ namespace NEP.Paranoia.Managers
             hCeilingMan = SpawnPrefab("ent_ceilingman").AddComponent<CeilingMan>();
             hStaringMan = SpawnPrefab("ent_staringman").AddComponent<StaringMan>();
             hFastStaringMan = SpawnPrefab("ent_staringman").AddComponent<FastStaringMan>();
+            hTestWeepingAngel = GameObject.CreatePrimitive(PrimitiveType.Cube).AddComponent<TestWeepingAngel>();
             hObserver = SpawnPrefab("ent_observer").AddComponent<Observer>();
             hFordScaling = SpawnPrefab("ent_fordscaling").AddComponent<FordScaling>();
             hCursedDoor = SpawnPrefab("ent_curseddoor").AddComponent<CursedDoorController>();
