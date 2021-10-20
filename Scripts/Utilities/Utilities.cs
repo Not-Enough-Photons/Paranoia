@@ -358,6 +358,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
             ClassInjector.RegisterTypeInIl2Cpp<Radio>();
             ClassInjector.RegisterTypeInIl2Cpp<ShadowPerson>();
             ClassInjector.RegisterTypeInIl2Cpp<ShadowPersonChaser>();
+            ClassInjector.RegisterTypeInIl2Cpp<TestWeepingAngel>();
             ClassInjector.RegisterTypeInIl2Cpp<FastStaringMan>();
             ClassInjector.RegisterTypeInIl2Cpp<StaringMan>();
             ClassInjector.RegisterTypeInIl2Cpp<TeleportingEntity>();

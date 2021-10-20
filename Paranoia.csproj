@@ -110,6 +110,7 @@
     <Compile Include="Scripts\Entities\Hallucinations\Visual\FastStaringMan.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Visual\StaringMan.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Audio\TeleportingEntity.cs" />
+    <Compile Include="Scripts\Entities\Hallucinations\Visual\TestWeepingAngel.cs" />
     <Compile Include="Scripts\Managers\AudioManager.cs" />
     <Compile Include="Scripts\Entities\BaseHallucination.cs" />
     <Compile Include="Scripts\Entities\Hallucinations\Visual\CursedDoorController.cs" />
