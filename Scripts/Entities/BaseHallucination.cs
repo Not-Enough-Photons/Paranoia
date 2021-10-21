@@ -328,25 +328,25 @@ namespace NEP.Paranoia.Entities
                     teleportDelayTimer = 0f;
                 }
             }
+        }
 
+        protected virtual void OnBecameVisible()
+        {
             if (flags.HasFlag(HallucinationFlags.MoveWhenNotSeen))
             {
-                if ((Vector3.Dot(m_playerTargetHead.forward, transform.position) <= -1f))
+                teleportDelayTimer += Time.deltaTime;
+
+                if (reachedTeleportDelayTimer)
                 {
-                    teleportDelayTimer += Time.deltaTime;
+                    transform.position += transform.forward * moveSpeed;
+                }
 
-                    if (reachedTeleportDelayTimer)
-                    {
-                        transform.position += transform.forward * moveSpeed;
-                    }
+                reachedTeleportDelayTimer = false;
 
-                    reachedTeleportDelayTimer = false;
-
-                    if (teleportDelayTimer >= maxTeleportDelay)
-                    {
-                        reachedTeleportDelayTimer = true;
-                        teleportDelayTimer = 0f;
-                    }
+                if (teleportDelayTimer >= maxTeleportDelay)
+                {
+                    reachedTeleportDelayTimer = true;
+                    teleportDelayTimer = 0f;
                 }
             }
         }
