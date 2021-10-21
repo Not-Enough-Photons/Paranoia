@@ -168,7 +168,7 @@ namespace NEP.Paranoia.Managers
 
         private void Start()
         {
-            endRoom = SpawnPrefab("ent_room");
+            endRoom = Paranoia.instance.GetEntInDirectory("ent_room");
             endRoom.transform.position = Vector3.up * 500f;
             endRoom.SetActive(false);
 
@@ -345,8 +345,8 @@ namespace NEP.Paranoia.Managers
         private T SpawnPrefab<T>(string entName) where T : BaseHallucination
         {
             GameObject obj = GameObject.Instantiate(Paranoia.instance.GetEntInDirectory(entName), Vector3.zero, Quaternion.identity);
-            obj.AddComponent<T>();
-            return obj;
+            T type = obj.AddComponent<T>();
+            return type;
         }
 
         public void MoveAIToPoint(Vector3 point, AIBrain brain)

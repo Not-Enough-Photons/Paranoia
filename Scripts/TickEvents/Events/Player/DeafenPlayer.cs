@@ -44,7 +44,7 @@ namespace NEP.Paranoia.TickEvents.Events
             {
                 if (deafSource == null) { break; }
 
-                manager.audio_SFXVolume = Mathf.MoveTowards(manager.audio_SFXVolume, 7f, Time.deltaTime);
+                manager.audio_SFXVolume = Mathf.MoveTowards(manager.audio_SFXVolume, 5f, Time.deltaTime);
                 manager.SETMIXERS();
 
                 deafSource.volume = Mathf.MoveTowards(deafSource.volume, 0f, 0.05f * Time.deltaTime);
