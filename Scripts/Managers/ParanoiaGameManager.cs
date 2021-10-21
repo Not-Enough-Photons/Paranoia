@@ -231,23 +231,23 @@ namespace NEP.Paranoia.Managers
 
         private void SetupHallucinations()
         {
-            hAmbience = SpawnPrefab("ent_soundentity").AddComponent<Ambience>();
-            hChaser = SpawnPrefab("ent_soundentity").AddComponent<Chaser>();
-            hDarkVoice = SpawnPrefab("ent_soundentity").AddComponent<DarkVoice>();
-            hCryingEntity = SpawnPrefab("ent_soundentity").AddComponent<CryingEntity>();
-            hTeleportingEntity = SpawnPrefab("ent_grayman").AddComponent<TeleportingEntity>();
-            hSjasFace = SpawnPrefab("ent_sjasface").AddComponent<SjasFace>();
-            hParalyzer = SpawnPrefab("ent_paralyzer").AddComponent<Paralyzer>();
-            hRadio = SpawnPrefab("ent_radio").AddComponent<Radio>();
+            hAmbience = SpawnPrefab<Ambience>("ent_soundentity");
+            hChaser = SpawnPrefab<Chaser>("ent_soundentity");
+            hDarkVoice = SpawnPrefab<DarkVoice>("ent_soundentity");
+            hCryingEntity = SpawnPrefab<CryingEntity>("ent_soundentity");
+            hTeleportingEntity = SpawnPrefab<TeleportingEntity>("ent_grayman");
+            hSjasFace = SpawnPrefab<SjasFace>("ent_sjasface");
+            hParalyzer = SpawnPrefab<Paralyzer>("ent_paralyzer");
+            hRadio = SpawnPrefab<Radio>("ent_radio");
 
-            hShadowPerson = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPerson>();
-            hShadowPersonChaser = SpawnPrefab("ent_shadowperson").AddComponent<ShadowPersonChaser>();
-            hCeilingMan = SpawnPrefab("ent_ceilingman").AddComponent<CeilingMan>();
-            hStaringMan = SpawnPrefab("ent_staringman").AddComponent<StaringMan>();
-            hFastStaringMan = SpawnPrefab("ent_staringman").AddComponent<FastStaringMan>();
-            hObserver = SpawnPrefab("ent_observer").AddComponent<Observer>();
-            hFordScaling = SpawnPrefab("ent_fordscaling").AddComponent<FordScaling>();
-            hCursedDoor = SpawnPrefab("ent_curseddoor").AddComponent<CursedDoorController>();
+            hShadowPerson = SpawnPrefab<ShadowPerson>("ent_shadowperson");
+            hShadowPersonChaser = SpawnPrefab<ShadowPersonChaser>("ent_shadowperson");
+            hCeilingMan = SpawnPrefab<CeilingMan>("ent_ceilingman");
+            hStaringMan = SpawnPrefab<StaringMan>("ent_staringman");
+            hFastStaringMan = SpawnPrefab<FastStaringMan>("ent_staringman");
+            hObserver = SpawnPrefab<Observer>("ent_observer");
+            hFordScaling = SpawnPrefab<FordScaling>("ent_fordscaling");
+            hCursedDoor = SpawnPrefab<CursedDoorController>("ent_curseddoor");
             invisibleForce = new GameObject("Invisible Force").AddComponent<InvisibleForce>();
 
             deafenSource = new GameObject("Deafen Source").AddComponent<AudioSource>();
@@ -342,9 +342,11 @@ namespace NEP.Paranoia.Managers
             }
         }
 
-        private GameObject SpawnPrefab(string entName)
+        private T SpawnPrefab<T>(string entName) where T : BaseHallucination
         {
-            return GameObject.Instantiate(Paranoia.instance.GetEntInDirectory(entName), Vector3.zero, Quaternion.identity);
+            GameObject obj = GameObject.Instantiate(Paranoia.instance.GetEntInDirectory(entName), Vector3.zero, Quaternion.identity);
+            obj.AddComponent<T>();
+            return obj;
         }
 
         public void MoveAIToPoint(Vector3 point, AIBrain brain)
