@@ -57,8 +57,6 @@ namespace NEP.Paranoia
 
 		public List<Texture2D> decorTextures = new List<Texture2D>();
 
-		public List<VideoClip> videoClips;
-
 		public string[] supportedMaps = new string[]
 		{
 			"sandbox_blankbox",
@@ -102,8 +100,6 @@ namespace NEP.Paranoia
 				}
 
 				bundle = AssetBundle.LoadFromFile("UserData/paranoia/paranoia.pack");
-
-				videoClips = new List<VideoClip>();
 
 				PrecacheEntityObjects();
 				PrecacheAudioAssets();

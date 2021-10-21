@@ -344,18 +344,6 @@
 		"tickType": "Any"
 	},
 	{
-		"tickName": "Tick_DeafenPlayer",
-		"tick": 0.0,
-		"minRange": 120.0,
-		"maxRange": 320.0,
-		"minRNG": 55,
-		"maxRNG": 62,
-		"useInsanity": true,
-		"targetInsanity": 2.00,
-		"fireEvent": "E_DeafenPlayer",
-		"tickType": "Any"
-	},
-	{
 		"tickName": "Tick_UpdateInsanity",
 		"tick": 0.0,
 		"minRange": 5.5,

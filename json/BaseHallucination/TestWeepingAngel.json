@@ -4,6 +4,5 @@
     "useRandomSpawnAngle": true,
     "spawnRadius": 150.0,
     "maxTeleportDelay": 2.0,
-	"yOffset": 1.5,
     "moveSpeed": 5.0,
 }

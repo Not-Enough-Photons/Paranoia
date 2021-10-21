@@ -168,7 +168,7 @@ namespace NEP.Paranoia.Managers
 
         private void Start()
         {
-            endRoom = Paranoia.instance.GetEntInDirectory("ent_room");
+            endRoom = GameObject.Instantiate(Paranoia.instance.GetEntInDirectory("ent_room"));
             endRoom.transform.position = Vector3.up * 500f;
             endRoom.SetActive(false);
 

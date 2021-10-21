@@ -24,7 +24,7 @@ namespace NEP.Paranoia.TickEvents.Events
                 Transform transform = brain.transform;
                 Transform physicsGroup = transform.Find("Physics");
 
-                if(transform == null || physicsGroup == null) { return; }
+                if(transform == null || physicsGroup == null) { break; }
 
                 physicsGroup.gameObject.SetActive(false);
 
