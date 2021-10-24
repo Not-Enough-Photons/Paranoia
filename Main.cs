@@ -65,6 +65,11 @@ namespace NEP.Paranoia
 
 		public bool isTargetLevel;
 
+		/// <summary>
+        /// Gets an entity in the entity list.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
 		public GameObject GetEntInDirectory(string name)
         {
 			return baseEntities[name];
