@@ -75,6 +75,12 @@ namespace NEP.Paranoia
 			return baseEntities[name];
         }
 
+		/// <summary>
+		/// Gets a clip in a target dictionary.
+		/// </summary>
+		/// <param name="list"></param>
+		/// <param name="name"></param>
+		/// <returns></returns>
 		public AudioClip GetClipInDirectory(List<AudioClip> list, string name)
         {
 			return list.FirstOrDefault((clip) => clip.name == name);
