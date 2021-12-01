@@ -57,6 +57,8 @@ namespace NEP.Paranoia
 
 		public List<Texture2D> decorTextures = new List<Texture2D>();
 
+		private string dataPath = MelonUtils.UserDataDirectory + "/paranoia";
+
 		public string[] supportedMaps = new string[]
 		{
 			"sandbox_blankbox",
@@ -105,12 +107,12 @@ namespace NEP.Paranoia
 
                 Utilities.RegisterTypesInIL2CPP();
 
-				if (!System.IO.Directory.Exists("UserData/paranoia"))
+				if (!System.IO.Directory.Exists(dataPath))
 				{
-					System.IO.Directory.CreateDirectory("UserData/paranoia");
+					System.IO.Directory.CreateDirectory(dataPath);
 				}
 
-				bundle = AssetBundle.LoadFromFile("UserData/paranoia/paranoia.pack");
+				bundle = AssetBundle.LoadFromFile(dataPath + "/paranoia.pack");
 
 				PrecacheEntityObjects();
 				PrecacheAudioAssets();
