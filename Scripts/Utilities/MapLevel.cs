@@ -1,5 +1,6 @@
 ﻿namespace NEP.Paranoia.ParanoiaUtilities
 {
+    [System.Flags]
     public enum MapLevel
     {
         MainMenu = 1,
