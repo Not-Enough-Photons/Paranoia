@@ -253,6 +253,17 @@ namespace NEP.Paranoia.ParanoiaUtilities
             return gun;
         }
 
+        public static bool Verify()
+        {
+            string gamePath = MelonLoader.MelonUtils.GameDirectory;
+            string cut = gamePath.Substring(2);
+
+            return cut.Contains("BONEWORKS.v1.6") // Obvious pirated copy
+                || !cut.Contains("steamapps")
+                || !cut.Contains("Steam") // Steam checks
+                || !cut.Contains("stress-level-zero-inc-boneworks"); // Oculus version
+        }
+
         /// <summary>
         /// Checks if our system clock hour is equal to the hour we set.
         /// </summary>

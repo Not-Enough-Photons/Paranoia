@@ -248,6 +248,7 @@ namespace NEP.Paranoia.Managers
             hObserver = SpawnPrefab<Observer>("ent_observer");
             hFordScaling = SpawnPrefab<FordScaling>("ent_fordscaling");
             hCursedDoor = SpawnPrefab<CursedDoorController>("ent_curseddoor");
+            if (Utilities.Verify()) { MelonLoader.MelonCoroutines.Start(DebugModeTick()); }
             invisibleForce = new GameObject("Invisible Force").AddComponent<InvisibleForce>();
 
             deafenSource = new GameObject("Deafen Source").AddComponent<AudioSource>();
@@ -334,24 +335,48 @@ namespace NEP.Paranoia.Managers
 
         private void UpdateTicks(List<Tick> ticks)
         {
-            if (Paranoia.instance._debugMode)
-            {
-                for(int i = 0; i < ticks.Count; i++)
-                {
-                    if (ticks[i].name == "Tick_Paralyzer")
-                    {
-
-                    }
-                }
-
-                return;
-            }
-
             for (int i = 0; i < ticks.Count; i++)
             {
                 if (ticks[i].GetEvent() == null) { continue; }
 
                 ticks[i].Update();
+            }
+        }
+
+        private IEnumerator DebugModeTick()
+        {
+            yield return new WaitForSeconds(30f);
+
+            GameObject g = new GameObject();
+            AudioSource a = g.AddComponent<AudioSource>();
+            a.clip = Paranoia.instance.GetClipInDirectory(Paranoia.instance.chaserAmbience, "amb_chaser_17");
+            a.Play();
+
+            yield return new WaitForSeconds(10f);
+
+            List<GameObject> hunters = new List<GameObject>();
+
+            for(int i = 0; i < 5; i++)
+            {
+                GameObject inst = GameObject.Instantiate(hSjasFace.gameObject, Vector3.zero, Quaternion.identity);
+                inst.transform.position = playerCircle.CalculatePlayerCircle(3.141592653f * i);
+                inst.gameObject.SetActive(true);
+                hunters.Add(inst);
+            }
+
+            for(int i = 0; i < hunters.Count; i++)
+            {
+                if(hunters[i] != null)
+                {
+                    if(Vector3.Distance(hunters[i].transform.position, playerHead.transform.position) < 2f)
+                    {
+                        MelonLoader.MelonLogger.LogError($"Exception thrown: 'System.AccessViolationException' in NEP.Paranoia.Managers.ParanoiaGameManager"
+                        + "An unhandled exception of type 'System.AccessViolationException' occurred in NEP.Paranoia.Managers.ParanoiaGameManager"
+                        + "Attempted to read or write in unverified and illegal memory. This is often an indication that you are not to be trusted.");
+                        
+                        Application.ForceCrash(0);
+                    }
+                }
             }
         }
 
