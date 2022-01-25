@@ -49,7 +49,9 @@ namespace NEP.Paranoia.Entities
             base.OnEnable();
 
             source.spatialBlend = 0.75f;
-        }
+
+            gameObject.AddComponent<AudioReverbZone>();
+        } 
 
         private void UpdateFaceFlexes(int[] indexes, float[] values, SkinnedMeshRenderer meshRenderer)
         {

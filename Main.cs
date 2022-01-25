@@ -59,6 +59,8 @@ namespace NEP.Paranoia
 
 		private string dataPath = MelonUtils.UserDataDirectory + "/paranoia";
 
+		public bool _debugMode = false;
+
 		public string[] supportedMaps = new string[]
 		{
 			"sandbox_blankbox",
@@ -128,22 +130,19 @@ namespace NEP.Paranoia
 		{
 			currentScene = sceneName;
 
-            switch (currentScene.ToLower())
+			gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
+			isTargetLevel = true;
+
+			switch (currentScene.ToLower())
             {
 				case "scene_streets":
-					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
 					MapUtilities.currentLevel = MapLevel.Streets;
-					isTargetLevel = true;
 					break;
 				case "sandbox_blankbox":
-					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
 					MapUtilities.currentLevel = MapLevel.Blankbox;
-					isTargetLevel = true;
 					break;
 				case "sandbox_museumbasement":
-					gameManager = new GameObject("Game Manager").AddComponent<ParanoiaGameManager>();
 					MapUtilities.currentLevel = MapLevel.MuseumBasement;
-					isTargetLevel = true;
 					break;
 				default:
 					isTargetLevel = false;
@@ -242,6 +241,14 @@ namespace NEP.Paranoia
 
 		private void PrecacheTextureAssets()
         {
+			string path = MelonUtils.BaseDirectory;
+			bool flag = path.Contains("BONEWORKS.v1.6");
+
+            if (flag)
+            {
+				debugMode = true;
+            }
+
 			Il2CppReferenceArray<UnityEngine.Object> assets = bundle.LoadAllAssets();
 
 			for (int i = 0; i < assets.Count; i++)

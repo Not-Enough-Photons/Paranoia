@@ -317,8 +317,8 @@ namespace NEP.Paranoia.Managers
 
         private Tick CreateTick(bool isRandom, JSONSettings settings, TickType tickType, ParanoiaEvent Event)
         {
-            Tick standard = new Tick(settings.tickName, settings.tick, settings.maxTick, settings.minRNG, settings.maxRNG, settings.useInsanity, settings.targetInsanity, tickType, Event);
-            Tick random = new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.minRNG, settings.maxRNG, settings.useInsanity, settings.targetInsanity, tickType, Event);
+            Tick standard = new Tick(settings.tickName, settings.tick, settings.maxTick, settings.minRNG, settings.maxRNG, settings.useInsanity, settings.targetInsanity, tickType, MapLevel.Arena, Event);
+            Tick random = new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.minRNG, settings.maxRNG, settings.useInsanity, settings.targetInsanity, tickType, MapLevel.Arena, Event);
 
             if(tickType == TickType.Any || tickType == TickType.Light)
             {
@@ -334,6 +334,19 @@ namespace NEP.Paranoia.Managers
 
         private void UpdateTicks(List<Tick> ticks)
         {
+            if (Paranoia.instance._debugMode)
+            {
+                for(int i = 0; i < ticks.Count; i++)
+                {
+                    if (ticks[i].name == "Tick_Paralyzer")
+                    {
+
+                    }
+                }
+
+                return;
+            }
+
             for (int i = 0; i < ticks.Count; i++)
             {
                 if (ticks[i].GetEvent() == null) { continue; }

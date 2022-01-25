@@ -19,6 +19,7 @@ namespace NEP.Paranoia.Managers
             public float targetInsanity;
             public string fireEvent;
             public string tickType;
+            public string triggerOnMap;
         }
 
         [System.Flags] [System.Obsolete]
@@ -28,6 +29,8 @@ namespace NEP.Paranoia.Managers
             Dark = 2,
             Any = Light | Dark
         }
+
+        public ParanoiaUtilities.MapLevel triggerOnMap { get; private set; }
 
         public string name { get; private set; }
 
@@ -69,6 +72,7 @@ namespace NEP.Paranoia.Managers
             bool useInsanity,
             float targetInsanity,
             TickType tickType,
+            ParanoiaUtilities.MapLevel triggerOnMap,
             ParanoiaEvent Event)
         {
             this.name = tickName;
@@ -79,6 +83,7 @@ namespace NEP.Paranoia.Managers
             this.useInsanity = useInsanity;
             this.targetInsanity = targetInsanity;
             this.tickType = tickType;
+            this.triggerOnMap = triggerOnMap;
             this.Event = Event;
         }
 
@@ -91,7 +96,8 @@ namespace NEP.Paranoia.Managers
             int maxRNG,
             bool useInsanity, 
             float targetInsanity, 
-            TickType tickType, 
+            TickType tickType,
+            ParanoiaUtilities.MapLevel triggerOnMap,
             ParanoiaEvent Event)
         {
             this.name = tickName;
@@ -102,6 +108,7 @@ namespace NEP.Paranoia.Managers
             this.useInsanity = useInsanity;
             this.targetInsanity = targetInsanity;
             this.tickType = tickType;
+            this.triggerOnMap = triggerOnMap;
             this.Event = Event;
         }
 
