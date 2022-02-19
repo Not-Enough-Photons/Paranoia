@@ -257,11 +257,11 @@ namespace NEP.Paranoia.ParanoiaUtilities
         {
             string gamePath = MelonLoader.MelonUtils.GameDirectory;
             string cut = gamePath.Substring(2);
+            MelonLoader.MelonLogger.Msg(cut);
 
-            return cut.Contains("BONEWORKS.v1.6") // Obvious pirated copy
-                || !cut.Contains("steamapps")
-                || !cut.Contains("Steam") // Steam checks
-                || !cut.Contains("stress-level-zero-inc-boneworks"); // Oculus version
+            return false; /*cut.EndsWith(@"BONEWORKS.v1.6\BONEWORKS")
+                || !cut.EndsWith(@"steamapps\common\BONEWORKS\BONEWORKS")
+                || !cut.EndsWith("stress-level-zero-inc-boneworks");*/
         }
 
         /// <summary>
@@ -417,6 +417,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
             rendererMaterials = CacheAllRendererMaterials(Object.FindObjectsOfType<Renderer>());
             lightmaps = LightmapSettings.lightmaps;
             bakedProbes = LightmapSettings.lightProbes.bakedProbes;
+            bakedProbes = LightmapSettings.lightProbes.bakedProbes;
             staticPlaneObjects = FindGameObjectsWithLayer("Static");
             staticPlaneMaterials = CacheMaterialsFromPlanes(staticPlaneObjects);
             staticPlaneCubeMapScalars = CacheCubeMapScalars(staticPlaneMaterials);
@@ -428,14 +429,17 @@ namespace NEP.Paranoia.ParanoiaUtilities
 
             InitializeLevel(currentLevel);
 
-            baseFog = new FogSettings()
+            if(fog != null)
             {
-                startDistance = fog.startDistance,
-                endDistance = fog.endDistance,
-                heightFogThickness = fog.heightFogThickness,
-                heightFogFalloff = fog.heightFogFalloff,
-                heightFogColor = fog.heightFogColor
-            };
+                baseFog = new FogSettings()
+                {
+                    startDistance = fog.startDistance,
+                    endDistance = fog.endDistance,
+                    heightFogThickness = fog.heightFogThickness,
+                    heightFogFalloff = fog.heightFogFalloff,
+                    heightFogColor = fog.heightFogColor
+                };
+            }
 
             darkFog = new FogSettings()
             {
@@ -464,16 +468,16 @@ namespace NEP.Paranoia.ParanoiaUtilities
                     collectAllSign = GameObject.Find("holographic_sign_CollectThemAll");
                     break;
                 case MapLevel.Blankbox:
-                    GameObject.Find("MUSICMACHINE (1)").SetActive(false);
-                    GameObject.Find("AMMODISPENSER").SetActive(false);
-                    GameObject.Find("HEALTHMACHINE").SetActive(false);
-                    GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE").SetActive(false);
-                    GameObject.Find("Decal_SafeGrav").SetActive(false);
+                    GameObject.Find("MUSICMACHINE (1)")?.SetActive(false);
+                    GameObject.Find("AMMODISPENSER")?.SetActive(false);
+                    GameObject.Find("HEALTHMACHINE")?.SetActive(false);
+                    GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE")?.SetActive(false);
+                    GameObject.Find("Decal_SafeGrav")?.SetActive(false);
 
                     staticCeiling = GameObject.Find("------STATICENV------");
-                    staticCeiling.SetActive(false);
+                    staticCeiling?.SetActive(false);
                     mainLight = GameObject.Find("REALTIMELIGHT");
-                    clipboardText = GameObject.Find("prop_clipboard_MuseumBasement/TMP").GetComponent<TextMeshPro>();
+                    clipboardText = GameObject.Find("prop_clipboard_MuseumBasement/TMP")?.GetComponent<TextMeshPro>();
                     lightBeams = UnityEngine.Object.FindObjectsOfType<VLB.VolumetricLightBeam>();
                     break;
             }
@@ -508,20 +512,23 @@ namespace NEP.Paranoia.ParanoiaUtilities
 
         private static IEnumerator CoSwitchFog(FogSettings start, FogSettings end, float lerp, float maxTime)
         {
-            float time = 0f;
-
-            while(time < maxTime)
+            if(fog != null)
             {
-                time += Time.deltaTime;
+                float time = 0f;
 
-                fog.startDistance = Mathf.MoveTowards(fog.startDistance, -end.startDistance, lerp * Time.deltaTime);
-                fog.heightFogThickness = Mathf.MoveTowards(fog.heightFogThickness, end.heightFogThickness, (lerp * 0.00001f) * Time.deltaTime);
-                fog.heightFogFalloff = Mathf.MoveTowards(fog.heightFogFalloff, end.heightFogFalloff, (lerp / 20f) * Time.deltaTime);
-                fog.heightFogColor = Color.Lerp(fog.heightFogColor, end.heightFogColor, lerp * Time.deltaTime);
+                while (time < maxTime)
+                {
+                    time += Time.deltaTime;
 
-                fog.UpdateConstants();
+                    fog.startDistance = Mathf.MoveTowards(fog.startDistance, -end.startDistance, lerp * Time.deltaTime);
+                    fog.heightFogThickness = Mathf.MoveTowards(fog.heightFogThickness, end.heightFogThickness, (lerp * 0.00001f) * Time.deltaTime);
+                    fog.heightFogFalloff = Mathf.MoveTowards(fog.heightFogFalloff, end.heightFogFalloff, (lerp / 20f) * Time.deltaTime);
+                    fog.heightFogColor = Color.Lerp(fog.heightFogColor, end.heightFogColor, lerp * Time.deltaTime);
 
-                yield return null;
+                    fog.UpdateConstants();
+
+                    yield return null;
+                }
             }
 
             yield return null;

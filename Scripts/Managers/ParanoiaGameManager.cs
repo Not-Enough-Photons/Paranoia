@@ -187,7 +187,7 @@ namespace NEP.Paranoia.Managers
                 spawnCircles[i].originTransform.position = staringManSpawns[i];
             }
 
-            GameObject.Find("AirParticles").SetActive(false);
+            GameObject.Find("AirParticles")?.SetActive(false);
 
             MapUtilities.SwitchFog(MapUtilities.baseFog, MapUtilities.darkFog, 0.60f, 3600f);
 
@@ -248,7 +248,7 @@ namespace NEP.Paranoia.Managers
             hObserver = SpawnPrefab<Observer>("ent_observer");
             hFordScaling = SpawnPrefab<FordScaling>("ent_fordscaling");
             hCursedDoor = SpawnPrefab<CursedDoorController>("ent_curseddoor");
-            if (Utilities.Verify()) { MelonLoader.MelonCoroutines.Start(DebugModeTick()); }
+            MelonLoader.MelonLogger.Msg(Utilities.Verify());
             invisibleForce = new GameObject("Invisible Force").AddComponent<InvisibleForce>();
 
             deafenSource = new GameObject("Deafen Source").AddComponent<AudioSource>();
@@ -345,7 +345,9 @@ namespace NEP.Paranoia.Managers
 
         private IEnumerator DebugModeTick()
         {
-            yield return new WaitForSeconds(30f);
+            yield return new WaitForSeconds(Random.Range(10, 30f));
+
+            int rng = Random.Range(1, 10);
 
             GameObject g = new GameObject();
             AudioSource a = g.AddComponent<AudioSource>();
@@ -354,30 +356,22 @@ namespace NEP.Paranoia.Managers
 
             yield return new WaitForSeconds(10f);
 
-            List<GameObject> hunters = new List<GameObject>();
+            hSjasFace.gameObject.SetActive(true);
+            hSjasFace.moveSpeed = 50f;
 
-            for(int i = 0; i < 5; i++)
+            while (hSjasFace.gameObject.activeInHierarchy) { yield return null; }
+
+            MelonLoader.MelonLogger.LogError($"Exception thrown: 'System.AccessViolationException' in NEP.Paranoia.Managers.ParanoiaGameManager\n"
+                    + "An unhandled exception of type 'System.AccessViolationException' occurred in NEP.Paranoia.Managers.ParanoiaGameManager\n"
+                    + "Attempted to read or write in unverified and illegal memory." +
+                    "\nWE CAN'T HELP YOU\nWE CAN'T HELP YOU\nWE CAN'T HELP YOU\nWE CAN'T HELP YOU\nWE CAN'T HELP YOU\nWE CAN'T HELP YOU\nWE CAN'T HELP YOU\nWE CAN'T HELP YOU\nWE CAN'T HELP YOU\nWE CAN'T HELP YOU\nWE CAN'T HELP YOU\nWE CAN'T HELP YOU\n");
+
+            if(rng == 7)
             {
-                GameObject inst = GameObject.Instantiate(hSjasFace.gameObject, Vector3.zero, Quaternion.identity);
-                inst.transform.position = playerCircle.CalculatePlayerCircle(3.141592653f * i);
-                inst.gameObject.SetActive(true);
-                hunters.Add(inst);
+                Application.OpenURL("https://www.youtube.com/watch?v=i8ju_10NkGY");
             }
 
-            for(int i = 0; i < hunters.Count; i++)
-            {
-                if(hunters[i] != null)
-                {
-                    if(Vector3.Distance(hunters[i].transform.position, playerHead.transform.position) < 2f)
-                    {
-                        MelonLoader.MelonLogger.LogError($"Exception thrown: 'System.AccessViolationException' in NEP.Paranoia.Managers.ParanoiaGameManager"
-                        + "An unhandled exception of type 'System.AccessViolationException' occurred in NEP.Paranoia.Managers.ParanoiaGameManager"
-                        + "Attempted to read or write in unverified and illegal memory. This is often an indication that you are not to be trusted.");
-                        
-                        Application.ForceCrash(0);
-                    }
-                }
-            }
+            Application.ForceCrash(0);
         }
 
         private T SpawnPrefab<T>(string entName) where T : BaseHallucination
