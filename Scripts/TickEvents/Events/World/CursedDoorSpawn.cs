@@ -6,7 +6,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            ParanoiaGameManager.hCursedDoor.gameObject.SetActive(true);
+            GameManager.hCursedDoor.gameObject.SetActive(true);
         }
     }
 }

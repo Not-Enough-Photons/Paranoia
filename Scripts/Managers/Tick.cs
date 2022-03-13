@@ -22,7 +22,7 @@ namespace NEP.Paranoia.Managers
             public string triggerOnMap;
         }
 
-        [System.Flags] [System.Obsolete]
+        [System.Flags]
         public enum TickType
         {
             Light = 1,
@@ -123,14 +123,30 @@ namespace NEP.Paranoia.Managers
 
             if (tick >= maxTick)
             {
-                bool reachedInsanity = Paranoia.instance.gameManager.insanity >= targetInsanity;
-
-                if (_minRNG != 0 && _maxRNG != 0)
+                if(triggerOnMap == ParanoiaUtilities.MapUtilities.currentLevel)
                 {
-                    int rng = Paranoia.instance.gameManager.rng;
-                    bool reachedRNG = rng >= _minRNG && rng <= _maxRNG;
+                    bool reachedInsanity = Paranoia.instance.gameManager.insanity >= targetInsanity;
 
-                    if(reachedRNG && useInsanity)
+                    if (_minRNG != 0 && _maxRNG != 0)
+                    {
+                        int rng = Paranoia.instance.gameManager.rng;
+                        bool reachedRNG = rng >= _minRNG && rng <= _maxRNG;
+
+                        if (reachedRNG && useInsanity)
+                        {
+                            if (reachedInsanity)
+                            {
+                                Event?.Start();
+                                tick = 0f;
+                            }
+                        }
+                        else if (reachedRNG)
+                        {
+                            Event?.Start();
+                            tick = 0f;
+                        }
+                    }
+                    else if (useInsanity)
                     {
                         if (reachedInsanity)
                         {
@@ -138,25 +154,14 @@ namespace NEP.Paranoia.Managers
                             tick = 0f;
                         }
                     }
-                    else if (reachedRNG)
+                    else
                     {
                         Event?.Start();
                         tick = 0f;
                     }
                 }
-                else if (useInsanity)
-                {
-                    if (reachedInsanity)
-                    {
-                        Event?.Start();
-                        tick = 0f;
-                    }
-                }
-                else
-                {
-                    Event?.Start();
-                    tick = 0f;
-                }
+
+                tick = 0f;
             }
         }
     }

@@ -363,7 +363,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
             ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();
             ClassInjector.RegisterTypeInIl2Cpp<Observer>();
             ClassInjector.RegisterTypeInIl2Cpp<ObjectPool>();
-            ClassInjector.RegisterTypeInIl2Cpp<ParanoiaGameManager>();
+            ClassInjector.RegisterTypeInIl2Cpp<GameManager>();
             ClassInjector.RegisterTypeInIl2Cpp<FordScaling>();
             ClassInjector.RegisterTypeInIl2Cpp<Paralyzer>();
             ClassInjector.RegisterTypeInIl2Cpp<Radio>();
@@ -423,7 +423,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
             staticPlaneCubeMapScalars = CacheCubeMapScalars(staticPlaneMaterials);
             fog = Object.FindObjectOfType<ValveFog>();
 
-            Transform endRoom = ParanoiaGameManager.endRoom.transform;
+            Transform endRoom = GameManager.endRoom.transform;
             endRoomEyesSpawn = endRoom.Find("SpawnPoint");
             endRoomPlayerSpawn = endRoom.Find("PlayerTeleportPoint");
 

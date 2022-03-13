@@ -33,12 +33,12 @@ namespace NEP.Paranoia.Entities
 
             trigger.TriggerEnterEvent.AddListener(new System.Action(() =>
             {
-                ParanoiaGameManager.endRoom.SetActive(true);
+                GameManager.endRoom.SetActive(true);
                 Utilities.GetRigManager().GetComponent<RigManager>().Teleport(MapUtilities.endRoomPlayerSpawn.position, true);
-                ParanoiaGameManager.hStaringMan.gameObject.SetActive(true);
-                ParanoiaGameManager.hStaringMan.transform.position = MapUtilities.endRoomEyesSpawn.position;
-                ParanoiaGameManager.hStaringMan.moveSpeed = 0.15f;
-                ParanoiaGameManager.hStaringMan.disableDistance = 0.25f;
+                GameManager.hStaringMan.gameObject.SetActive(true);
+                GameManager.hStaringMan.transform.position = MapUtilities.endRoomEyesSpawn.position;
+                GameManager.hStaringMan.moveSpeed = 0.15f;
+                GameManager.hStaringMan.disableDistance = 0.25f;
 
                 MelonLoader.MelonCoroutines.Start(CoEndRoutine());
             }));
@@ -97,9 +97,9 @@ namespace NEP.Paranoia.Entities
         {
             FreezePlayer(Object.FindObjectOfType<PhysicsRig>(), true);
 
-            Transform staringManPos = ParanoiaGameManager.hStaringMan.transform;
+            Transform staringManPos = GameManager.hStaringMan.transform;
             Transform playerPos = Utilities.FindPlayer().transform;
-            AudioSource source = ParanoiaGameManager.endRoom.transform.Find("Audio Source").GetComponent<AudioSource>();
+            AudioSource source = GameManager.endRoom.transform.Find("Audio Source").GetComponent<AudioSource>();
 
             yield return new WaitForSeconds(source.clip.length - 1.75f);
 

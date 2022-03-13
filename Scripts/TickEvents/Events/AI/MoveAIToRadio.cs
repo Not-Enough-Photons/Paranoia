@@ -13,7 +13,7 @@ namespace NEP.Paranoia.TickEvents.Events
             BehaviourBaseNav[] navs;
             ParanoiaUtilities.Utilities.FindAIBrains(out navs);
 
-            GameObject radio = ParanoiaGameManager.hRadio.gameObject;
+            GameObject radio = GameManager.hRadio.gameObject;
 
             if(radio == null) { return; }
 

@@ -6,7 +6,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            ParanoiaGameManager.invisibleForce.gameObject.SetActive(true);
+            GameManager.invisibleForce.gameObject.SetActive(true);
         }
     }
 }

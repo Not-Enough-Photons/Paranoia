@@ -6,6 +6,7 @@ using NEP.Paranoia.Entities;
 using NEP.Paranoia.TickEvents;
 using NEP.Paranoia.TickEvents.Mirages;
 using NEP.Paranoia.ParanoiaUtilities;
+using static NEP.Paranoia.Managers.Tick;
 
 using StressLevelZero.AI;
 using PuppetMasta;
@@ -13,20 +14,21 @@ using PuppetMasta;
 using UnityEngine;
 
 using Newtonsoft.Json;
-using static NEP.Paranoia.Managers.Tick;
 using StressLevelZero.Rig;
 
 namespace NEP.Paranoia.Managers
 {
-    public class ParanoiaGameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
-        public ParanoiaGameManager(System.IntPtr ptr) : base(ptr) { }
+        public GameManager(System.IntPtr ptr) : base(ptr) { }
 
         internal static bool debug = false;
+        public static TickManager tickManager { get; private set; }
         public static bool insanityMode { get; private set;}
+        public static SpawnCircle playerCircle;
 
-        public List<Tick> ticks;
-        public List<Tick> darkTicks;
+        public static List<Tick> ticks;
+        public static List<Tick> darkTicks;
 
         // Main prefabs
         public GameObject shadowMan;
@@ -39,7 +41,6 @@ namespace NEP.Paranoia.Managers
         public GameObject monitorObject;
         public GameObject cursedDoorObject;
 
-        public SpawnCircle playerCircle;
 
         public List<UnityEngine.Video.VideoClip> clipList;
 
@@ -57,8 +58,7 @@ namespace NEP.Paranoia.Managers
             new Vector3(52.1f, 75f, 54.4f)
         };
 
-        private Transform _playerTrigger;
-        public Transform playerTrigger { get { return _playerTrigger; } }
+        public Transform playerTrigger { get; private set; }
 
         public GameObject playerHead;
 
@@ -89,11 +89,9 @@ namespace NEP.Paranoia.Managers
 
         public AudioSource deafenSource;
         
-        private AudioSource _radioSource;
-        public AudioSource radioSource { get { return _radioSource; } }
+        public AudioSource radioSource { get; private set; }
 
-        private int _rng = 1;
-        public int rng {  get { return _rng; } }
+        public int rng { get; private set; }
 
         public bool paralysisMode;
 
@@ -112,7 +110,7 @@ namespace NEP.Paranoia.Managers
 
         public void SetRNG(int rng)
         {
-            this._rng = rng;
+            this.rng = rng;
         }
 
         /// <summary>
@@ -132,11 +130,14 @@ namespace NEP.Paranoia.Managers
                 Destroy(hallucination.gameObject);  
             }
 
-            ticks.Clear();
-            darkTicks.Clear();
+            tickManager.ticks.Clear();
+            tickManager.darkTicks.Clear();
 
-            ticks = null;
-            darkTicks = null;
+            tickManager.ticks = null;
+            tickManager.darkTicks = null;
+
+            Destroy(tickManager.gameObject);
+            tickManager = null;
 
             hAmbience = null;
             hCeilingMan = null;
@@ -174,7 +175,7 @@ namespace NEP.Paranoia.Managers
 
             MapUtilities.Initialize();
 
-            _playerTrigger = Utilities.FindPlayer();
+            playerTrigger = Utilities.FindPlayer();
 
             playerCircle = new SpawnCircle(Utilities.FindPlayer());
 
@@ -193,35 +194,7 @@ namespace NEP.Paranoia.Managers
 
             InitializeEntities();
 
-            InitializeTicks();
-        }
-
-        private void Update()
-        {
-			if (Paranoia.instance.isTargetLevel)
-			{
-                playerCircle.CalculatePlayerCircle(0f);
-
-                if (debug || Time.timeScale == 0) { return; }
-
-                try
-                {
-                    UpdateTicks(ticks);
-                    UpdateTicks(darkTicks);
-                }
-                catch(System.Exception e)
-                {
-                    MelonLoader.MelonLogger.Error(e);
-                }
-            }
-        }
-
-        private void InitializeTicks()
-        {
-            ticks = new List<Tick>();
-            darkTicks = new List<Tick>();
-
-            ReadTicksFromJSON(System.IO.File.ReadAllText("UserData/paranoia/json/Ticks/ticks.json"));
+            tickManager = new GameObject("Tick Manager").AddComponent<TickManager>();
         }
 
         private void InitializeEntities()
@@ -257,92 +230,6 @@ namespace NEP.Paranoia.Managers
             deafenSource.loop = true;
         }
 
-        private void ReadTicksFromJSON(string json)
-        {
-            List<Tick.JSONSettings> tickSettings = JsonConvert.DeserializeObject<List<Tick.JSONSettings>>(json);
-
-            foreach(Tick.JSONSettings settings in tickSettings)
-            {
-                    if (settings.fireEvent.StartsWith("E_"))
-                    {
-                        string mainFunc = settings.fireEvent.Replace("E_", string.Empty);
-                        string nameSpace = "NEP.Paranoia.TickEvents.Events.";
-                        FinalizeTick(settings, nameSpace, mainFunc);
-                    }
-                    else if (settings.fireEvent.StartsWith("M_"))
-                    {
-                        string mainFunc = settings.fireEvent.Replace("M_", string.Empty);
-                        string nameSpace = "NEP.Paranoia.TickEvents.Mirages.";
-                        FinalizeTick(settings, nameSpace, mainFunc);
-                    }
-            }
-        }
-
-        private void FinalizeTick(JSONSettings settings, string nameSpace, string mainFunc)
-        {
-            try
-            {
-                TickType tickType = (TickType)System.Enum.Parse(typeof(TickType), settings.tickType);
-
-                if (mainFunc.Contains('('))
-                {
-                    FinalizeTickMethod(settings, tickType, nameSpace, mainFunc);
-                }
-                else
-                {
-                    System.Type targetActionType = System.Type.GetType(nameSpace + mainFunc);
-
-                    ParanoiaEvent ctorEvent = System.Activator.CreateInstance(targetActionType) as ParanoiaEvent;
-
-                    CreateTick(settings.minRange != 0 || settings.maxRange != 0, settings, tickType, ctorEvent);
-                }
-            }
-            catch(System.Exception e)
-            {
-                throw new System.Exception($"Exception at {settings.fireEvent} in {settings.tickName}: {e.ToString()}");
-            }
-            
-        }
-
-        private void FinalizeTickMethod(JSONSettings settings, TickType tickType, string nameSpace, string mainFunc)
-        {
-            string method = Utilities.GetMethodNameString(mainFunc);
-            string parameter = Utilities.GetParameterString(mainFunc);
-
-            System.Type type = System.Type.GetType(nameSpace + method);
-
-            object instance = System.Activator.CreateInstance(type, new object[] { Utilities.GetHallucination(parameter) });
-
-            CreateTick(settings.minRange != 0f || settings.maxRange != 0f, settings, tickType, instance as SpawnMirage);
-        }
-
-        private Tick CreateTick(bool isRandom, JSONSettings settings, TickType tickType, ParanoiaEvent Event)
-        {
-            Tick standard = new Tick(settings.tickName, settings.tick, settings.maxTick, settings.minRNG, settings.maxRNG, settings.useInsanity, settings.targetInsanity, tickType, MapLevel.Arena, Event);
-            Tick random = new Tick(settings.tickName, settings.tick, settings.minRange, settings.maxRange, settings.minRNG, settings.maxRNG, settings.useInsanity, settings.targetInsanity, tickType, MapLevel.Arena, Event);
-
-            if(tickType == TickType.Any || tickType == TickType.Light)
-            {
-                ticks?.Add(isRandom ? random : standard);
-            }
-            else if(tickType == TickType.Dark)
-            {
-                darkTicks?.Add(isRandom ? random : standard);
-            }
-
-            return isRandom ? random : standard;
-        }
-
-        private void UpdateTicks(List<Tick> ticks)
-        {
-            for (int i = 0; i < ticks.Count; i++)
-            {
-                if (ticks[i].GetEvent() == null) { continue; }
-
-                ticks[i].Update();
-            }
-        }
-
         private IEnumerator DebugModeTick()
         {
             yield return new WaitForSeconds(Random.Range(10, 30f));
@@ -357,7 +244,7 @@ namespace NEP.Paranoia.Managers
             yield return new WaitForSeconds(10f);
 
             hSjasFace.gameObject.SetActive(true);
-            hSjasFace.moveSpeed = 50f;
+            //hSjasFace.moveSpeed = 50f;
 
             while (hSjasFace.gameObject.activeInHierarchy) { yield return null; }
 
