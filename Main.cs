@@ -122,7 +122,14 @@ namespace NEP.Paranoia
         {
             currentScene = sceneName;
 
-            switch (currentScene.ToLower())
+            if(currentScene.ToLower() == "scene_blankbox")
+            {
+                MapUtilities.currentLevel = MapLevel.Blankbox;
+            }
+
+            gameManager = new GameManager();
+
+            /*switch (currentScene.ToLower())
             {
                 case "scene_breakroom": MapUtilities.currentLevel = MapLevel.Breakroom; break;
                 case "scene_museum": MapUtilities.currentLevel = MapLevel.Museum; break;
@@ -147,20 +154,8 @@ namespace NEP.Paranoia
                 case "custom_map_bbl": MapUtilities.currentLevel = MapLevel.CustomMap; MelonCoroutines.Start(CoCustomMapsRoutine()); break;
                 default: break;
             }
-
-            gameManager = new GameObject("Game Manager").AddComponent<GameManager>();
-        }
-
-        public override void OnSceneWasUnloaded(int buildIndex, string sceneName)
-        {
-            if (sceneName == nextScene)
-            {
-                if (gameManager != null && !gameManager.WasCollected)
-                {
-                    gameManager.Cleanup();
-                    UnityEngine.Object.Destroy(gameManager);
-                }
-            }
+            */
+            
         }
 
         internal void RegisterObject(GameObject bundleObject, string assetName)
@@ -173,7 +168,7 @@ namespace NEP.Paranoia
         {
             yield return new WaitForSecondsRealtime(5f);
 
-            gameManager = new GameObject("Game Manager").AddComponent<GameManager>();
+            gameManager = new GameManager();
 
             yield return null;
         }
