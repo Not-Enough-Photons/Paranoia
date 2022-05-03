@@ -12,7 +12,7 @@ namespace NEP.Paranoia.Entities
         {
             public string baseFlags;
             public string startFlags;
-
+                
             public bool useRandomSpawnAngle;
             public float spawnRadius;
             public float spawnAngle;
@@ -56,7 +56,7 @@ namespace NEP.Paranoia.Entities
         public Settings settings { get; set; }
 
         public HallucinationFlags flags { get; protected set; }
-        public StartFlags startFlags { get; protected set; }
+        public StartFlags startFlags    { get; protected set; }
 
         public bool useRandomSpawnAngle { get; protected set; }
         public bool usesDelay { get; protected set; }
@@ -136,11 +136,11 @@ namespace NEP.Paranoia.Entities
             {
                 if (useRandomSpawnAngle)
                 {
-                    transform.position = Paranoia.instance.gameManager.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), spawnRadius, yOffset);
+                    transform.position = GameManager.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), spawnRadius, yOffset);
                 }
                 else
                 {
-                    transform.position = Paranoia.instance.gameManager.playerCircle.CalculatePlayerCircle(spawnAngle, spawnRadius, yOffset);
+                    transform.position = GameManager.playerCircle.CalculatePlayerCircle(spawnAngle, spawnRadius, yOffset);
                 }
             }
 
@@ -213,7 +213,7 @@ namespace NEP.Paranoia.Entities
 
             if (flags.HasFlag(HallucinationFlags.SpinAroundPlayer))
             {
-                transform.position = Paranoia.instance.gameManager.playerCircle.CalculatePlayerCircle(Time.time, spawnRadius);
+                transform.position = GameManager.playerCircle.CalculatePlayerCircle(Time.time, spawnRadius);
             }
 
             if (flags.HasFlag(HallucinationFlags.Teleporting))
