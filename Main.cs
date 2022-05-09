@@ -11,10 +11,10 @@ namespace NEP.Paranoia
     public static class BuildInfo
     {
         public const string Name = "paranoia"; // Name of the Mod.  (MUST BE SET)
-        public const string Description = "Stay away from there. Please."; // Description for the Mod.  (Set as null if none)
+        public const string Description = "They're everywhere."; // Description for the Mod.  (Set as null if none)
         public const string Author = "Not Enough Photons"; // Author of the Mod.  (MUST BE SET)
         public const string Company = "Not Enough Photons"; // Company that made the Mod.  (Set as null if none)
-        public const string Version = "3.0.2"; // Version of the Mod.  (MUST BE SET)
+        public const string Version = "4.0.0"; // Version of the Mod.  (MUST BE SET)
         public const string DownloadLink = null; // Download Link for the Mod.  (Set as null if none)
     }
 
@@ -31,35 +31,11 @@ namespace NEP.Paranoia
 
         private Dictionary<string, GameObject> baseEntities;
 
-        public List<AudioClip> genericAmbience = new List<AudioClip>();
-        public List<AudioClip> screamAmbience = new List<AudioClip>();
-
-        public List<AudioClip> chaserAmbience = new List<AudioClip>();
-        public List<AudioClip> teleporterAmbience = new List<AudioClip>();
-        public List<AudioClip> paralyzerAmbience = new List<AudioClip>();
-        public List<AudioClip> watcherAmbience = new List<AudioClip>();
-        public List<AudioClip> cryingAmbience = new List<AudioClip>();
-        public List<AudioClip> darkVoices = new List<AudioClip>();
-
-        public List<AudioClip> deafenSounds = new List<AudioClip>();
-        public List<AudioClip> grabSounds = new List<AudioClip>();
-        public List<AudioClip> doorIdleSounds = new List<AudioClip>();
-        public List<AudioClip> doorOpenSounds = new List<AudioClip>();
-        public List<AudioClip> radioTunes = new List<AudioClip>();
+        public List<AudioClip> mainClips;
 
         public List<Texture2D> decorTextures = new List<Texture2D>();
 
         private string dataPath = MelonUtils.UserDataDirectory + "/paranoia";
-
-        public bool _debugMode = false;
-
-        public string[] supportedMaps = new string[]
-        {
-            "sandbox_blankbox",
-            "sandbox_museumbasement"
-        };
-
-        public bool isTargetLevel;
 
         /// <summary>
         /// Gets an entity in the entity list.
@@ -68,6 +44,11 @@ namespace NEP.Paranoia
         /// <returns></returns>
         public GameObject GetEntInDirectory(string name)
         {
+            if(baseEntities[name] == null)
+            {
+                return null;
+            }
+
             return baseEntities[name];
         }
 
@@ -77,9 +58,9 @@ namespace NEP.Paranoia
         /// <param name="list"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public AudioClip GetClipInDirectory(List<AudioClip> list, string name)
+        public AudioClip GetClipInDirectory(string name)
         {
-            return list.FirstOrDefault((clip) => clip.name == name);
+            return mainClips.FirstOrDefault((clip) => clip.name == name);
         }
 
         public Texture2D GetTextureInList(string name)
@@ -96,10 +77,10 @@ namespace NEP.Paranoia
                     instance = this;
                 }
 
+                mainClips = new List<AudioClip>();
+
                 Utilities utils = new Utilities();
                 MapUtilities mapUtils = new MapUtilities();
-
-                Utilities.RegisterTypesInIL2CPP();
 
                 if (!System.IO.Directory.Exists(dataPath))
                 {
@@ -122,12 +103,13 @@ namespace NEP.Paranoia
         {
             currentScene = sceneName;
 
-            if(currentScene.ToLower() == "scene_blankbox")
+            gameManager = new GameManager();
+
+            if (currentScene.ToLower() == "scene_blankbox")
             {
                 MapUtilities.currentLevel = MapLevel.Blankbox;
+                
             }
-
-            gameManager = new GameManager();
 
             /*switch (currentScene.ToLower())
             {
@@ -158,19 +140,18 @@ namespace NEP.Paranoia
             
         }
 
+        public override void OnUpdate()
+        {
+            if(gameManager != null)
+            {
+                gameManager.tickManager.Update();
+            }
+        }
+
         internal void RegisterObject(GameObject bundleObject, string assetName)
         {
             bundleObject = bundle.LoadAsset(assetName).Cast<GameObject>();
             bundleObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
-        }
-
-        private System.Collections.IEnumerator CoCustomMapsRoutine()
-        {
-            yield return new WaitForSecondsRealtime(5f);
-
-            gameManager = new GameManager();
-
-            yield return null;
         }
 
         private void PrecacheEntityObjects()
@@ -191,56 +172,16 @@ namespace NEP.Paranoia
 
         private void PrecacheAudioAssets()
         {
-            string[] nameLUT = new string[]
-            {
-                "amb_generic",
-                "amb_scream",
-                "amb_chaser",
-                "amb_watcher",
-                "amb_teleportingthing",
-                "amb_dark_voice",
-                "amb_paralysis",
-                "amb_crying",
-                "amb_deafen",
-                "player_grab",
-                "door_idle",
-                "door_open",
-                "radio_tune"
-            };
-
-            Dictionary<string, List<AudioClip>> directory = new Dictionary<string, List<AudioClip>>()
-            {
-                { "amb_generic", genericAmbience },
-                { "amb_scream", screamAmbience },
-                { "amb_chaser", chaserAmbience },
-                { "amb_watcher", watcherAmbience },
-                { "amb_teleportingthing", teleporterAmbience },
-                { "amb_crying", cryingAmbience },
-                { "amb_dark_voice", darkVoices },
-                { "amb_paralysis", paralyzerAmbience },
-                { "amb_deafen", deafenSounds },
-                { "player_grab", grabSounds },
-                { "door_idle", doorIdleSounds },
-                { "door_open", doorOpenSounds },
-                { "radio_tune", radioTunes }
-            };
-
             Il2CppReferenceArray<UnityEngine.Object> assets = bundle.LoadAllAssets();
 
-            for (int i = 0; i < directory.Keys.Count; i++)
+            for (int j = 0; j < assets.Count; j++)
             {
-                for (int j = 0; j < assets.Count; j++)
-                {
-                    if (assets[j].TryCast<AudioClip>() == null) { continue; }
+                if (assets[j].TryCast<AudioClip>() == null) { continue; }
 
-                    AudioClip clip = assets[j].Cast<AudioClip>();
-                    clip.hideFlags = HideFlags.DontUnloadUnusedAsset;
+                AudioClip clip = assets[j].Cast<AudioClip>();
+                clip.hideFlags = HideFlags.DontUnloadUnusedAsset;
 
-                    if (clip.name.StartsWith(nameLUT[i]))
-                    {
-                        directory[nameLUT[i]].Add(clip);
-                    }
-                }
+                mainClips.Add(clip);
             }
         }
 

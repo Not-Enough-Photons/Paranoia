@@ -31,30 +31,53 @@ namespace NEP.Paranoia.Managers
 
         public TickManager tickManager;
 
+        public List<GameObject> entities;
+
         private void Initialize()
         {
             tickManager = new TickManager();
 
-            GameObject audioChaser = Paranoia.instance.GetEntInDirectory("ent_a_Chaser");
+            entities = new List<GameObject>();
+
+            string[] entityReg = DataReader.ReadEntityRegistry("entityreg.txt");
+
+            foreach(string ent in entityReg)
+            {
+                SpawnEntity(ent);
+            }
         }
 
-        private void SpawnEntity(string name)
+        private GameObject SpawnEntity(string name)
         {
             GameObject directoryEntity = Paranoia.instance.GetEntInDirectory(name);
 
-            string entName = directoryEntity.name.Substring(3);
+            if(directoryEntity == null)
+            {
+                return null;
+            }
+
+            string entName = directoryEntity.name.Substring(4);
             bool isAudioEntity = entName.StartsWith("a_");
+            MelonLoader.MelonLogger.Msg("Is Audio Entity " + isAudioEntity);
 
             GameObject spawnedObject = GameObject.Instantiate(directoryEntity, Vector3.zero, Quaternion.identity);
 
             if (isAudioEntity)
             {
+                entName = entName.Substring(2);
                 spawnedObject.AddComponent<AudioMirage>();
             }
             else
             {
                 spawnedObject.AddComponent<BaseMirage>();
             }
+
+            spawnedObject.name = entName;
+            spawnedObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
+
+            entities.Add(spawnedObject);
+
+            return spawnedObject;
         }
     }
 }

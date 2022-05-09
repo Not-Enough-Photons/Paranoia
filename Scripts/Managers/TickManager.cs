@@ -1,15 +1,4 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-
-using Newtonsoft.Json;
-
-using NEP.Paranoia.Entities;
-using NEP.Paranoia.TickEvents;
-using NEP.Paranoia.TickEvents.Mirages;
-using NEP.Paranoia.ParanoiaUtilities;
-using static NEP.Paranoia.Managers.Tick;
-
-namespace NEP.Paranoia.Managers
+﻿namespace NEP.Paranoia.Managers
 {
     public class TickManager
     {

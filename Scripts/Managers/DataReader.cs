@@ -25,9 +25,21 @@ namespace NEP.Paranoia.Managers
             return files.ToArray();
         }
 
+        public static string[] ReadEntityRegistry(string file)
+        {
+            string dir = MelonUtils.UserDataDirectory + "/paranoia/" + file;
+
+            if(file == "entityreg.txt")
+            {
+                return File.ReadAllLines(dir);
+            }
+
+            return new string[0];
+        }
+
         public static Entities.BaseMirage.Stats ReadStats(string file)
         {
-            string[] files = ReadFiles(MelonUtils.UserDataDirectory + "paranoia/Data/Mirages/");
+            string[] files = ReadFiles(MelonUtils.UserDataDirectory + "/paranoia/json/Mirages/");
             Entities.BaseMirage.Stats stats = new Entities.BaseMirage.Stats();
 
             foreach (string current in files)
@@ -44,7 +56,7 @@ namespace NEP.Paranoia.Managers
 
         public static Tick[] ReadTicks()
         {
-            string[] files = ReadFiles(MelonUtils.UserDataDirectory + "paranoia/Data/Ticks/");
+            string[] files = ReadFiles(MelonUtils.UserDataDirectory + "/paranoia/json/Ticks/");
             ticks = new List<Tick>();
 
             foreach (string file in files)
@@ -63,7 +75,7 @@ namespace NEP.Paranoia.Managers
 
                 TickTemplate template = JsonConvert.DeserializeObject<TickTemplate>(json);
 
-                string func = template.pEvent;
+                string func = "NEP.Paranoia.TickEvents.Mirages." + template.pEvent;
 
                 if (string.IsNullOrEmpty(func))
                 {

@@ -26,12 +26,12 @@ namespace NEP.Paranoia.Managers
 
         public void Update()
         {
-            _tTick += UnityEngine.Time.deltaTime;
+            _tTick += Time.deltaTime;
 
             if (_tTick >= tick)
             {
-                pEvent?.Start();
                 _tTick = 0f;
+                pEvent?.Start();
             }
         }
     }
