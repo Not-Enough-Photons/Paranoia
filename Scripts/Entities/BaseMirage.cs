@@ -17,7 +17,6 @@ namespace NEP.Paranoia.Entities
             // -- GENERIC STATS -- 
             public float[] position;
             public float[] scale;
-            public float[] spawnPoints;
             public float spawnRadius;
             public float spawnAngle;
             public float yOffset;
@@ -75,6 +74,7 @@ namespace NEP.Paranoia.Entities
         private Vector3 targetCircle;
 
         private float randAngle;
+        private float spin;
 
         private float t_Teleport;
         private float t_Wait;
@@ -158,7 +158,7 @@ namespace NEP.Paranoia.Entities
 
             if(stats.textures != null)
             {
-                if(meshRenderer != null)
+                if(meshRenderer != null && meshRenderer.name == "Quad")
                 {
                     int random = UnityEngine.Random.Range(0, textures.Count);
                     meshRenderer.sharedMaterial.mainTexture = textures[random];
@@ -166,7 +166,7 @@ namespace NEP.Paranoia.Entities
             }
             else
             {
-                if(meshRenderer != null)
+                if(meshRenderer != null && meshRenderer.name == "Quad")
                 {
                     Texture2D missingTexture = Paranoia.instance.GetTextureInList("tex_missing_texture");
                     meshRenderer.sharedMaterial.mainTexture = missingTexture;
@@ -226,6 +226,35 @@ namespace NEP.Paranoia.Entities
                 }
 
                 transform.LookAt(target);
+            }
+
+            if (entityFlags.HasFlag(EntityFlags.HideWhenSeen))
+            {
+                if(target == null)
+                {
+                    return;
+                }
+
+                Vector3 targetForward = target.forward;
+                Vector3 forward = transform.forward;
+                float angle = Vector3.SignedAngle(forward, targetForward, Vector3.up);
+
+                if(angle > 135f)
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+
+            if (entityFlags.HasFlag(EntityFlags.SpinAroundTarget))
+            {
+                if(target == null)
+                {
+                    return;
+                }
+
+                spin += Time.deltaTime;
+                Vector3 circle = SpawnCircle.SolveCircle(target.position, target.position.y, stats.spawnRadius, spin);
+                transform.position = circle;
             }
 
             if (entityFlags.HasFlag(EntityFlags.Moving))

@@ -135,6 +135,7 @@
     <Compile Include="Scripts\TickEvents\Events\World\SpawnRadio.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\TPose.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnAmbience.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\SpawnSjasFace.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnStaringMan2.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnStaringMan.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnShadowMan.cs" />
