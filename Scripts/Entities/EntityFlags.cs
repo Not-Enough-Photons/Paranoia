@@ -13,6 +13,9 @@
         SpinAroundTarget = (1 << 6),
         Teleporting = (1 << 7),
         MoveWhenNotSeen = (1 << 8),
-        Wait = (1 << 9)
+        Wait = (1 << 9),
+        HideWhenHit = (1 << 10),
+        ParentToPlayer = (1 << 11),
+        Fade = (1 << 12)
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 using NEP.Paranoia.Managers;
@@ -14,6 +15,9 @@ namespace NEP.Paranoia.Entities
         public struct Stats
         {
             // -- GENERIC STATS -- 
+            public float[] position;
+            public float[] scale;
+            public float[] spawnPoints;
             public float spawnRadius;
             public float spawnAngle;
             public float yOffset;
@@ -22,7 +26,9 @@ namespace NEP.Paranoia.Entities
             public float damage;
             public float moveSpeed;
             public float timeTeleport;
-            public float[] position;
+            public float fade;
+
+            public string[] textures;
 
             public string entityFlags;
             public string spawnFlags;
@@ -40,8 +46,6 @@ namespace NEP.Paranoia.Entities
 
                 foreach (string flag in split)
                 {
-                    print(flag);
-
                     object objParsed = Enum.Parse(typeof(EntityFlags), flag);
                     mirage.entityFlags ^= (EntityFlags)objParsed;
                 }
@@ -65,12 +69,27 @@ namespace NEP.Paranoia.Entities
 
         protected Stats stats;
 
+        private List<Texture2D> textures;
+        private MeshRenderer meshRenderer;
+
         private Vector3 targetCircle;
 
         private float randAngle;
 
         private float t_Teleport;
         private float t_Wait;
+
+        public void OnProjectileHit()
+        {
+            if (!entityFlags.HasFlag(EntityFlags.HideWhenHit))
+            {
+                return;
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
+        }
 
         protected virtual void Awake()
         {
@@ -91,7 +110,14 @@ namespace NEP.Paranoia.Entities
             Stats.ParseEntityFlags(this, stats.entityFlags);
             Stats.ParseSpawnFlags(this, stats.spawnFlags);
 
+            if(stats.textures != null)
+            {
+                SetupTextures(stats.textures);
+            }
+
             target = ModThatIsNotMod.Player.GetPlayerHead().transform;
+
+            meshRenderer = GetComponentInChildren<MeshRenderer>();
 
             gameObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
 
@@ -100,12 +126,51 @@ namespace NEP.Paranoia.Entities
 
         protected virtual void OnEnable()
         {
-            transform.position = Vector3.up * 0.5f;
-
             if (stats.position != null)
             {
-                Vector3 newPos = new Vector3(stats.position[0], stats.position[1], stats.position[2]);
+                Vector3 newPos = new Vector3();
+
+                newPos[0] = stats.position[0];
+                newPos[1] = stats.position[1];
+                newPos[2] = stats.position[2];
+
                 transform.position = newPos;
+            }
+            else
+            {
+                transform.position = Vector3.up * 0.5f;
+            }
+
+            if(stats.scale != null)
+            {
+                Vector3 newScale = new Vector3();
+
+                newScale[0] = stats.scale[0];
+                newScale[1] = stats.scale[1];
+                newScale[2] = stats.scale[2];
+
+                transform.localScale = newScale;
+            }
+            else
+            {
+                transform.localScale = Vector3.one;
+            }
+
+            if(stats.textures != null)
+            {
+                if(meshRenderer != null)
+                {
+                    int random = UnityEngine.Random.Range(0, textures.Count);
+                    meshRenderer.sharedMaterial.mainTexture = textures[random];
+                }
+            }
+            else
+            {
+                if(meshRenderer != null)
+                {
+                    Texture2D missingTexture = Paranoia.instance.GetTextureInList("tex_missing_texture");
+                    meshRenderer.sharedMaterial.mainTexture = missingTexture;
+                }
             }
 
             if (spawnFlags.HasFlag(SpawnFlags.SpawnAroundTarget))
@@ -188,6 +253,26 @@ namespace NEP.Paranoia.Entities
         protected virtual void OnTeleport()
         {
             transform.position += transform.forward * stats.moveSpeed;
+        }
+
+        protected virtual void SetupTextures(string[] textureList)
+        {
+            textures = new List<Texture2D>();
+
+            foreach(string texture in textureList)
+            {
+                Texture2D tex = Paranoia.instance.GetTextureInList(texture);
+
+                if(tex != null)
+                {
+                    textures?.Add(tex);
+                }
+                else
+                {
+                    tex = Paranoia.instance.GetTextureInList("tex_missing_texture");
+                    textures?.Add(tex);
+                }
+            }
         }
     }
 

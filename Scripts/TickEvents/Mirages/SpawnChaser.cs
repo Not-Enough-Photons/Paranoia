@@ -1,12 +1,12 @@
 ﻿using NEP.Paranoia.ParanoiaUtilities;
 
-namespace NEP.Paranoia.TickEvents.Mirages
+namespace NEP.Paranoia.TickEvents.Events
 {
     public class SpawnChaser : ParanoiaEvent
     {
         public override void Start()
         {
-            Utilities.GetMirage("ent_a_Chaser").gameObject.SetActive(true);
+            Utilities.GetMirage("Chaser").gameObject.SetActive(true);
         }
 
         public override void Stop()

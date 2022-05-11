@@ -75,7 +75,7 @@ namespace NEP.Paranoia.Managers
 
                 TickTemplate template = JsonConvert.DeserializeObject<TickTemplate>(json);
 
-                string func = "NEP.Paranoia.TickEvents.Mirages." + template.pEvent;
+                string func = "NEP.Paranoia.TickEvents.Events." + template.pEvent;
 
                 if (string.IsNullOrEmpty(func))
                 {

@@ -2,7 +2,6 @@
 
 using StressLevelZero.Rig;
 
-using NEP.Paranoia.TickEvents.Mirages;
 using NEP.Paranoia.Managers;
 
 namespace NEP.Paranoia.TickEvents.Events

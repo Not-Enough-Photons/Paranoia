@@ -1,13 +1,13 @@
 ﻿
 using NEP.Paranoia.ParanoiaUtilities;
 
-namespace NEP.Paranoia.TickEvents.Mirages
+namespace NEP.Paranoia.TickEvents.Events
 {
     public class SpawnAmbience : ParanoiaEvent
     {
         public override void Start()
         {
-            Utilities.GetMirage("ent_a_Ambience").gameObject.SetActive(true);
+            Utilities.GetMirage("Ambience").gameObject.SetActive(true);
         }
 
         public override void Stop()

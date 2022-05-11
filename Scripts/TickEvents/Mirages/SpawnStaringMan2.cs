@@ -2,11 +2,11 @@
 
 namespace NEP.Paranoia.TickEvents.Events
 {
-    public class SpawnShadowMan : ParanoiaEvent
+    public class SpawnStaringMan2 : ParanoiaEvent
     {
         public override void Start()
         {
-            Utilities.GetMirage("ShadowMan").gameObject.SetActive(true);
+            Utilities.GetMirage("StaringMan2").gameObject.SetActive(true);
         }
 
         public override void Stop()

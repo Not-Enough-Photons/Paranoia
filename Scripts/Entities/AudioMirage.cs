@@ -97,8 +97,6 @@ namespace NEP.Paranoia.Entities
 
             foreach(string clipName in nameList)
             {
-                MelonLoader.MelonLogger.Msg(clipName);
-
                 foreach(AudioClip clip in Paranoia.instance.mainClips)
                 {
                     if(clips == null)

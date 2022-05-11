@@ -33,7 +33,7 @@ namespace NEP.Paranoia
 
         public List<AudioClip> mainClips;
 
-        public List<Texture2D> decorTextures = new List<Texture2D>();
+        public List<Texture2D> textures = new List<Texture2D>();
 
         private string dataPath = MelonUtils.UserDataDirectory + "/paranoia";
 
@@ -65,7 +65,7 @@ namespace NEP.Paranoia
 
         public Texture2D GetTextureInList(string name)
         {
-            return decorTextures.FirstOrDefault((texture) => texture.name == name);
+            return textures.FirstOrDefault((texture) => texture.name == name);
         }
 
         public override void OnApplicationStart()
@@ -77,6 +77,7 @@ namespace NEP.Paranoia
                     instance = this;
                 }
 
+                textures = new List<Texture2D>();
                 mainClips = new List<AudioClip>();
 
                 Utilities utils = new Utilities();
@@ -103,13 +104,13 @@ namespace NEP.Paranoia
         {
             currentScene = sceneName;
 
-            gameManager = new GameManager();
-
             if (currentScene.ToLower() == "scene_blankbox")
             {
-                MapUtilities.currentLevel = MapLevel.Blankbox;
                 
+                MapUtilities.currentLevel = MapLevel.Blankbox;
             }
+
+            gameManager = new GameManager();
 
             /*switch (currentScene.ToLower())
             {
@@ -137,7 +138,6 @@ namespace NEP.Paranoia
                 default: break;
             }
             */
-            
         }
 
         public override void OnUpdate()
@@ -196,7 +196,7 @@ namespace NEP.Paranoia
                 Texture2D texture = assets[i].Cast<Texture2D>();
                 texture.hideFlags = HideFlags.DontUnloadUnusedAsset;
 
-                decorTextures.Add(texture);
+                textures.Add(texture);
             }
         }
     }

@@ -4,7 +4,6 @@ using System.Linq;
 
 using NEP.Paranoia.Entities;
 using NEP.Paranoia.TickEvents;
-using NEP.Paranoia.TickEvents.Mirages;
 using NEP.Paranoia.ParanoiaUtilities;
 using static NEP.Paranoia.Managers.Tick;
 
@@ -58,7 +57,6 @@ namespace NEP.Paranoia.Managers
 
             string entName = directoryEntity.name.Substring(4);
             bool isAudioEntity = entName.StartsWith("a_");
-            MelonLoader.MelonLogger.Msg("Is Audio Entity " + isAudioEntity);
 
             GameObject spawnedObject = GameObject.Instantiate(directoryEntity, Vector3.zero, Quaternion.identity);
 

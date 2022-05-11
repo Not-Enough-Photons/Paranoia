@@ -1,12 +1,12 @@
 ﻿using NEP.Paranoia.ParanoiaUtilities;
 
-namespace NEP.Paranoia.TickEvents.Mirages
+namespace NEP.Paranoia.TickEvents.Events
 {
     public class SpawnStaringMan : ParanoiaEvent
     {
         public override void Start()
         {
-            Utilities.GetMirage("ent_StaringMan").gameObject.SetActive(true);
+            Utilities.GetMirage("StaringMan").gameObject.SetActive(true);
         }
 
         public override void Stop()

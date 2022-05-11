@@ -570,6 +570,32 @@ namespace NEP.Paranoia.ParanoiaUtilities
         }
     }
 
+    public class Patches
+    {
+        [HarmonyLib.HarmonyPatch(typeof(StressLevelZero.Combat.Projectile))]
+        [HarmonyLib.HarmonyPatch(nameof(StressLevelZero.Combat.Projectile.Awake))]
+        public static class OnProjectileCollision
+        {
+            public static void Postfix(StressLevelZero.Combat.Projectile __instance)
+            {
+                __instance.onCollision.AddListener(new Action<Collider, Vector3, Vector3>((col, position, normal) =>
+                {
+                    Hit(col, position, normal);
+                }));
+            }
+
+            private static void Hit(Collider collider, Vector3 positionWorld, Vector3 normal)
+            {
+                BaseMirage mirageHit = collider.GetComponentInParent<BaseMirage>();
+
+                if (mirageHit != null)
+                {
+                    mirageHit.OnProjectileHit();
+                }
+            }
+        }
+    }
+
     public class EntanglementUtilities
     {
         public static void Initialize()
