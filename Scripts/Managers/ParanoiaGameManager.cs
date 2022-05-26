@@ -248,7 +248,6 @@ namespace NEP.Paranoia.Managers
             hObserver = SpawnPrefab<Observer>("ent_observer");
             hFordScaling = SpawnPrefab<FordScaling>("ent_fordscaling");
             hCursedDoor = SpawnPrefab<CursedDoorController>("ent_curseddoor");
-            MelonLoader.MelonLogger.Msg(Utilities.Verify());
             invisibleForce = new GameObject("Invisible Force").AddComponent<InvisibleForce>();
 
             deafenSource = new GameObject("Deafen Source").AddComponent<AudioSource>();
