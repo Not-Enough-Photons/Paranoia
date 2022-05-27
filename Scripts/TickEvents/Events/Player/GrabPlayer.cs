@@ -36,7 +36,7 @@ namespace NEP.Paranoia.TickEvents.Events
             float timer = 0f;
 
             // Insert grab sound effect here.
-            AudioSource.PlayClipAtPoint(Paranoia.instance.grabSounds[Random.Range(0, Paranoia.instance.grabSounds.Count)], part.position);
+            //AudioSource.PlayClipAtPoint(Paranoia.instance.grabSounds[Random.Range(0, Paranoia.instance.grabSounds.Count)], part.position);
 
             yield return new WaitForSeconds(2f);
 

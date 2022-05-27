@@ -40,7 +40,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
         private System.Collections.IEnumerator CoGrabRoutine(AIBrain brain, Rigidbody part)
         {
-            float timer = 0f;
+            /*float timer = 0f;
 
             // Insert grab sound effect here.
             AudioSource.PlayClipAtPoint(Paranoia.instance.grabSounds[Random.Range(0, Paranoia.instance.grabSounds.Count)], part.position);
@@ -58,7 +58,9 @@ namespace NEP.Paranoia.TickEvents.Events
                 yield return null;
             }
 
-            brain.gameObject.SetActive(false);
+            brain.gameObject.SetActive(false);*/
+
+            yield return null;
         }
     }
 }

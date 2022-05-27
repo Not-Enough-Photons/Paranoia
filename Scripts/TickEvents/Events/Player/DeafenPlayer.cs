@@ -10,13 +10,13 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            Audio_Manager audioManager = Object.FindObjectOfType<Audio_Manager>();
+            /*Audio_Manager audioManager = Object.FindObjectOfType<Audio_Manager>();
 
-            Paranoia.instance.gameManager.deafenSource.clip = Paranoia.instance.deafenSounds[0];
+            //Paranoia.instance.gameManager.deafenSource.clip = Paranoia.instance.deafenSounds[0];
 
-            Paranoia.instance.gameManager.deafenSource.Play();
+            //Paranoia.instance.gameManager.deafenSource.Play();
 
-            MelonLoader.MelonCoroutines.Start(CoVolumeRoutine(audioManager, Paranoia.instance.gameManager.deafenSource));
+            MelonLoader.MelonCoroutines.Start(CoVolumeRoutine(audioManager, Paranoia.instance.gameManager.deafenSource));*/
         }
 
         private System.Collections.IEnumerator CoVolumeRoutine(Audio_Manager manager, AudioSource deafSource)

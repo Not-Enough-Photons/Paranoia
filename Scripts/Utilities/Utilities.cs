@@ -112,18 +112,10 @@ namespace NEP.Paranoia.ParanoiaUtilities
             return ModThatIsNotMod.Player.GetRigManager().GetComponentInChildren<TriggerRefProxy>();
         }
 
-        public static BaseHallucination GetHallucination(string name)
+        public static BaseMirage GetMirage(string name)
         {
-            System.Type type = Paranoia.instance.gameManager.GetType();
-            FieldInfo info = type.GetField(name);
-            
-            object obj = info?.GetValue(null);
-
-            if(obj == null) { return null; }
-
-            BaseHallucination hallucination = obj as BaseHallucination;
-
-            return hallucination;
+            BaseMirage mirage = GameManager.instance.entities.Find((match) => match.name == name).GetComponent<BaseMirage>();
+            return mirage;
         }
 
         public static AudioMixer GetAudioMixer()
@@ -345,34 +337,6 @@ namespace NEP.Paranoia.ParanoiaUtilities
                 }
             }
         }
-
-        internal static void RegisterTypesInIL2CPP()
-        {
-            ClassInjector.RegisterTypeInIl2Cpp<AudioManager>();
-            ClassInjector.RegisterTypeInIl2Cpp<BaseHallucination>();
-            ClassInjector.RegisterTypeInIl2Cpp<AudioHallucination>();
-
-            ClassInjector.RegisterTypeInIl2Cpp<Ambience>();
-            ClassInjector.RegisterTypeInIl2Cpp<CursedDoorController>();
-            ClassInjector.RegisterTypeInIl2Cpp<CeilingMan>();
-            ClassInjector.RegisterTypeInIl2Cpp<Chaser>();
-            ClassInjector.RegisterTypeInIl2Cpp<DarkVoice>();
-            ClassInjector.RegisterTypeInIl2Cpp<SjasFace>();
-            ClassInjector.RegisterTypeInIl2Cpp<CryingEntity>();
-            ClassInjector.RegisterTypeInIl2Cpp<InvisibleForce>();
-            ClassInjector.RegisterTypeInIl2Cpp<MonitorVideo>();
-            ClassInjector.RegisterTypeInIl2Cpp<Observer>();
-            ClassInjector.RegisterTypeInIl2Cpp<ObjectPool>();
-            ClassInjector.RegisterTypeInIl2Cpp<ParanoiaGameManager>();
-            ClassInjector.RegisterTypeInIl2Cpp<FordScaling>();
-            ClassInjector.RegisterTypeInIl2Cpp<Paralyzer>();
-            ClassInjector.RegisterTypeInIl2Cpp<Radio>();
-            ClassInjector.RegisterTypeInIl2Cpp<ShadowPerson>();
-            ClassInjector.RegisterTypeInIl2Cpp<ShadowPersonChaser>();
-            ClassInjector.RegisterTypeInIl2Cpp<FastStaringMan>();
-            ClassInjector.RegisterTypeInIl2Cpp<StaringMan>();
-            ClassInjector.RegisterTypeInIl2Cpp<TeleportingEntity>();
-        }
     }
 
     public class MapUtilities
@@ -423,9 +387,8 @@ namespace NEP.Paranoia.ParanoiaUtilities
             staticPlaneCubeMapScalars = CacheCubeMapScalars(staticPlaneMaterials);
             fog = Object.FindObjectOfType<ValveFog>();
 
-            Transform endRoom = ParanoiaGameManager.endRoom.transform;
-            endRoomEyesSpawn = endRoom.Find("SpawnPoint");
-            endRoomPlayerSpawn = endRoom.Find("PlayerTeleportPoint");
+            //endRoomEyesSpawn = endRoom.Find("SpawnPoint");
+            //endRoomPlayerSpawn = endRoom.Find("PlayerTeleportPoint");
 
             InitializeLevel(currentLevel);
 
@@ -604,6 +567,32 @@ namespace NEP.Paranoia.ParanoiaUtilities
             }
 
             return scalars.ToArray();
+        }
+    }
+
+    public class Patches
+    {
+        [HarmonyLib.HarmonyPatch(typeof(StressLevelZero.Combat.Projectile))]
+        [HarmonyLib.HarmonyPatch(nameof(StressLevelZero.Combat.Projectile.Awake))]
+        public static class OnProjectileCollision
+        {
+            public static void Postfix(StressLevelZero.Combat.Projectile __instance)
+            {
+                __instance.onCollision.AddListener(new Action<Collider, Vector3, Vector3>((col, position, normal) =>
+                {
+                    Hit(col, position, normal);
+                }));
+            }
+
+            private static void Hit(Collider collider, Vector3 positionWorld, Vector3 normal)
+            {
+                BaseMirage mirageHit = collider.GetComponentInParent<BaseMirage>();
+
+                if (mirageHit != null)
+                {
+                    mirageHit.OnProjectileHit();
+                }
+            }
         }
     }
 

@@ -12,7 +12,7 @@ namespace NEP.Paranoia.Entities
         {
             public string baseFlags;
             public string startFlags;
-
+                
             public bool useRandomSpawnAngle;
             public float spawnRadius;
             public float spawnAngle;
@@ -55,121 +55,26 @@ namespace NEP.Paranoia.Entities
 
         public Settings settings { get; set; }
 
-        public HallucinationFlags flags
-        { 
-            get { return m_flags; } 
-            set { m_flags = value; }
-        }
+        public HallucinationFlags flags { get; protected set; }
+        public StartFlags startFlags    { get; protected set; }
 
-        public StartFlags startFlags
-        {
-            get { return m_startFlags; }
-            set { m_startFlags = value; }
-        }
+        public bool useRandomSpawnAngle { get; protected set; }
+        public bool usesDelay { get; protected set; }
 
-        public bool useRandomSpawnAngle
-        {
-            get { return m_useRandomSpawnAngle; }
-            set {  m_useRandomSpawnAngle = value; }
-        }
+        public float spawnRadius { get; protected set; } = 100f;
+        public float spawnAngle { get; protected set; }
+        public float yOffset { get; protected set; }
+        public float maxTime { get; protected set; } = 1f;
+        public float moveSpeed { get; protected set; } = 1f;
+        public float maxTeleportDelay { get; protected set; } = 1f;
+        public float disableDistance { get; protected set; } = 1f;
+        public float lookAtDisableDistance { get; protected set; } = 1f;
+        public float damage { get; protected set; } = 0.1f;
 
-        public float spawnRadius
-        {
-            get { return m_spawnRadius; }
-            set { m_spawnRadius = value; }
-        }
+        public Transform playerTarget;
+        public Transform playerTargetHead;
 
-        public float spawnAngle
-        {
-            get { return m_spawnAngle; }
-            set { m_spawnAngle = value; }
-        }
-
-        public float yOffset
-        {
-            get { return m_yOffset; }
-            set { m_yOffset = value; }
-        }
-
-        public bool usesDelay
-        {
-            get { return m_usesDelay; }
-            set { m_usesDelay = value; }
-        }
-        public float maxTime
-        {
-            get { return m_maxTime; }
-            set { m_maxTime = value; }
-        }
-
-        public float moveSpeed
-        {
-            get { return m_moveSpeed; }
-            set { m_moveSpeed = value; }
-        }
-
-        public float maxTeleportDelay
-        {
-            get { return m_maxTeleportDelay; }
-            set { m_maxTeleportDelay = value; }
-        }
-
-        public float disableDistance
-        {
-            get { return m_disableDistance; }
-            set { m_disableDistance = value; }
-        }
-        public float lookAtDisableDistance
-        {
-            get { return m_lookAtDisableDistance; }
-            set { m_lookAtDisableDistance = value; }
-        }
-        public float damage
-        {
-            get { return m_damage; }
-            set { m_damage = value; }
-        }
-
-        public Transform playerTarget
-        {
-            get { return m_playerTarget; }
-            set { m_playerTarget = value; }
-        }
-        public Transform playerTargetHead
-        {
-            get { return m_playerTargetHead; }
-            set { m_playerTargetHead = value; }
-        }
-
-        public Vector3[] spawnPoints
-        {
-            get { return m_spawnPoints; }
-            set { m_spawnPoints = value; }
-        }
-
-        protected HallucinationFlags m_flags;
-
-        protected StartFlags m_startFlags;
-
-        protected bool m_useRandomSpawnAngle;
-        protected float m_spawnRadius = 100f;
-        protected float m_spawnAngle;
-        protected float m_yOffset;
-
-        protected bool m_usesDelay;
-        protected float m_maxTime = 1f;
-
-        protected float m_moveSpeed = 1f;
-        protected float m_maxTeleportDelay = 1f;
-
-        protected float m_disableDistance = 1f;
-        protected float m_lookAtDisableDistance = 1f;
-        protected float m_damage = 0.1f;
-
-        protected Transform m_playerTarget;
-        protected Transform m_playerTargetHead;
-
-        protected Vector3[] m_spawnPoints;
+        public Vector3[] spawnPoints { get; protected set; }
 
         protected readonly string baseJsonPath = "UserData/paranoia/json/BaseHallucination/";
 
@@ -197,28 +102,28 @@ namespace NEP.Paranoia.Entities
             foreach (string value in flagsTxt) { flags ^= (HallucinationFlags)System.Enum.Parse(typeof(HallucinationFlags), value); }
             foreach (string value in startFlagsTxt) { startFlags ^= (StartFlags)System.Enum.Parse(typeof(StartFlags), value); }
 
-            m_useRandomSpawnAngle = settings.useRandomSpawnAngle;
-            m_spawnRadius = settings.spawnRadius;
-            m_spawnAngle = settings.spawnAngle;
-            m_yOffset = settings.yOffset;
+            useRandomSpawnAngle = settings.useRandomSpawnAngle;
+            spawnRadius = settings.spawnRadius;
+            spawnAngle = settings.spawnAngle;
+            yOffset = settings.yOffset;
 
-            m_usesDelay = settings.usesDelay;
-            m_maxTime = settings.maxTime;
+            usesDelay = settings.usesDelay;
+            maxTime = settings.maxTime;
 
-            m_moveSpeed = settings.moveSpeed;
-            m_maxTeleportDelay = settings.maxTeleportDelay;
+            moveSpeed = settings.moveSpeed;
+            maxTeleportDelay = settings.maxTeleportDelay;
 
-            m_disableDistance = settings.disableDistance;
-            m_lookAtDisableDistance = settings.lookAtDisableDistance;
-            m_damage = settings.damage;
+            disableDistance = settings.disableDistance;
+            lookAtDisableDistance = settings.lookAtDisableDistance;
+            damage = settings.damage;
         }
 
         protected virtual void Awake()
         {
             gameObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
 
-            m_playerTarget = ModThatIsNotMod.Player.GetPlayerHead().transform;
-            m_playerTargetHead = ModThatIsNotMod.Player.GetPlayerHead().transform;
+            playerTarget = ModThatIsNotMod.Player.GetPlayerHead().transform;
+            playerTargetHead = ModThatIsNotMod.Player.GetPlayerHead().transform;
 
             gameObject.SetActive(false);
         }
@@ -227,27 +132,27 @@ namespace NEP.Paranoia.Entities
         {
             transform.position = Vector3.up * 1f;
 
-            if (m_startFlags.HasFlag(StartFlags.SpawnAroundPlayer))
+            if (startFlags.HasFlag(StartFlags.SpawnAroundPlayer))
             {
-                if (m_useRandomSpawnAngle)
+                if (useRandomSpawnAngle)
                 {
-                    transform.position = Paranoia.instance.gameManager.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), m_spawnRadius, yOffset);
+                    transform.position = GameManager.playerCircle.CalculatePlayerCircle(Random.Range(0, 360), spawnRadius, yOffset);
                 }
                 else
                 {
-                    transform.position = Paranoia.instance.gameManager.playerCircle.CalculatePlayerCircle(m_spawnAngle, m_spawnRadius, yOffset);
+                    transform.position = GameManager.playerCircle.CalculatePlayerCircle(spawnAngle, spawnRadius, yOffset);
                 }
             }
 
-            if (m_startFlags.HasFlag(StartFlags.SpawnAtPoints))
+            if (startFlags.HasFlag(StartFlags.SpawnAtPoints))
             {
-                if(m_spawnPoints == null) { return; }
-                if(m_spawnPoints.Length == 0) { return; }
+                if(spawnPoints == null) { return; }
+                if(spawnPoints.Length == 0) { return; }
 
-                transform.position = m_spawnPoints[Random.Range(0, m_spawnPoints.Length)];
+                transform.position = spawnPoints[Random.Range(0, spawnPoints.Length)];
             }
 
-            if (m_startFlags.HasFlag(StartFlags.LookAtTarget))
+            if (startFlags.HasFlag(StartFlags.LookAtTarget))
             {
                 Vector3 lookAtEuler = Quaternion.LookRotation(playerTarget.position - -transform.forward).eulerAngles;
                 transform.eulerAngles = Vector3.up * lookAtEuler.y;
@@ -256,35 +161,35 @@ namespace NEP.Paranoia.Entities
 
         protected virtual void Update()
         {
-            if (m_playerTarget == null) { return; }
-            if (m_playerTargetHead == null) { return; }
+            if (playerTarget == null) { return; }
+            if (playerTargetHead == null) { return; }
 
-            if (m_flags.HasFlag(HallucinationFlags.HideWhenSeen))
+            if (flags.HasFlag(HallucinationFlags.HideWhenSeen))
             {
-                if (Vector3.Dot(m_playerTargetHead.forward, transform.position) < m_lookAtDisableDistance)
+                if (Vector3.Dot(playerTargetHead.forward, transform.position) < lookAtDisableDistance)
                 {
                     gameObject.SetActive(false);
                 }
             }
 
-            if (m_flags.HasFlag(HallucinationFlags.HideWhenClose))
+            if (flags.HasFlag(HallucinationFlags.HideWhenClose))
             {
-                if (Vector3.Distance(m_playerTarget.position, transform.position) < m_disableDistance)
+                if (Vector3.Distance(playerTarget.position, transform.position) < disableDistance)
                 {
                     gameObject.SetActive(false);
                 }
             }
 
-            if (m_flags.HasFlag(HallucinationFlags.LookAtTarget))
+            if (flags.HasFlag(HallucinationFlags.LookAtTarget))
             {
-                transform.LookAt(m_playerTarget);
+                transform.LookAt(playerTarget);
             }
 
-            if (m_usesDelay)
+            if (usesDelay)
             {
                 startDelayTimer += Time.deltaTime;
 
-                if (startDelayTimer >= m_maxTime)
+                if (startDelayTimer >= maxTime)
                 {
                     reachedDelayTimer = true;
                 }
@@ -292,23 +197,23 @@ namespace NEP.Paranoia.Entities
                 if (!reachedDelayTimer) { return; }
             }
 
-            if (m_flags.HasFlag(HallucinationFlags.Moving))
+            if (flags.HasFlag(HallucinationFlags.Moving))
             {
-                transform.position += transform.forward * (m_moveSpeed * Time.deltaTime);
+                transform.position += transform.forward * (moveSpeed * Time.deltaTime);
             }
 
-            if (m_flags.HasFlag(HallucinationFlags.DamageThenHide))
+            if (flags.HasFlag(HallucinationFlags.DamageThenHide))
             {
-                if (Vector3.Distance(m_playerTarget.position, transform.position) < m_disableDistance)
+                if (Vector3.Distance(playerTarget.position, transform.position) < disableDistance)
                 {
-                    playerTarget.GetComponentInParent<Player_Health>().TAKEDAMAGE(m_damage);
+                    playerTarget.GetComponentInParent<Player_Health>().TAKEDAMAGE(damage);
                     gameObject.SetActive(false);
                 }
             }
 
-            if (m_flags.HasFlag(HallucinationFlags.SpinAroundPlayer))
+            if (flags.HasFlag(HallucinationFlags.SpinAroundPlayer))
             {
-                transform.position = Paranoia.instance.gameManager.playerCircle.CalculatePlayerCircle(Time.time, m_spawnRadius);
+                transform.position = GameManager.playerCircle.CalculatePlayerCircle(Time.time, spawnRadius);
             }
 
             if (flags.HasFlag(HallucinationFlags.Teleporting))

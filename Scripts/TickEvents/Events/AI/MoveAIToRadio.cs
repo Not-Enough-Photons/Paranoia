@@ -10,17 +10,17 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            BehaviourBaseNav[] navs;
+            /*BehaviourBaseNav[] navs;
             ParanoiaUtilities.Utilities.FindAIBrains(out navs);
 
-            GameObject radio = ParanoiaGameManager.hRadio.gameObject;
+            GameObject radio = GameManager.hRadio.gameObject;
 
             if(radio == null) { return; }
 
             foreach(BehaviourBaseNav nav in navs)
             {
                 Paranoia.instance.gameManager.MoveAIToPoint(nav, radio.transform.position);
-            }
+            }*/
         }
     }
 }

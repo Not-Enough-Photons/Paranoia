@@ -19,7 +19,7 @@ namespace NEP.Paranoia.Entities
 
         protected override void OnEnable()
         {
-            ParanoiaGameManager manager = Paranoia.instance.gameManager;
+            GameManager manager = Paranoia.instance.gameManager;
 
             int rng = manager.rng;
 
