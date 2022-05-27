@@ -32,6 +32,7 @@ namespace NEP.Paranoia.Managers
         public List<GameObject> entities;
 
         public static float insanity;
+        public static float insanityRate = 0.025f;
 
         private void Initialize()
         {

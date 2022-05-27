@@ -141,6 +141,7 @@
     <Compile Include="Scripts\TickEvents\Events\AI\TPose.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnAmbience.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnDarkVoice.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\SpawnParalyzer.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnSjasFace.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnStaringMan2.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnStaringMan.cs" />

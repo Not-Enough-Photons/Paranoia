@@ -5,6 +5,7 @@
         public int id { get; set; }
         public string name { get; set; }
         public float tick { get; set; }
+        public float insanity { get; set; }
         public string runOnMaps { get; set; }
         public string pEvent { get; set; }
     }
