@@ -1,4 +1,5 @@
 ﻿using NEP.Paranoia.Managers;
+using NEP.Paranoia.ParanoiaUtilities;
 
 namespace NEP.Paranoia.TickEvents.Events
 {
@@ -6,7 +7,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            //GameManager.invisibleForce.gameObject.SetActive(true);
+            Utilities.GetMirage("InvisibleForce").gameObject.SetActive(true);
         }
     }
 }

@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 
 using MelonLoader;
 
+using NEP.Paranoia.ParanoiaUtilities;
+
 namespace NEP.Paranoia.Managers
 {
     public static class DataReader
@@ -35,6 +37,20 @@ namespace NEP.Paranoia.Managers
             }
 
             return new string[0];
+        }
+
+        public static MapLevel ParseTickMapLevel(string flags)
+        {
+            string[] split = flags.Split('|');
+            MapLevel mapLevel = 0;
+
+            foreach (string flag in split)
+            {
+                object objParsed = Enum.Parse(typeof(MapLevel), flag);
+                mapLevel ^= (MapLevel)objParsed;
+            }
+
+            return mapLevel;
         }
 
         public static Entities.BaseMirage.Stats ReadStats(string file)
@@ -70,7 +86,7 @@ namespace NEP.Paranoia.Managers
 
                 if (string.IsNullOrEmpty(json))
                 {
-                    ticks.Add(new Tick(-1, "NULL", 0f, null));
+                    ticks.Add(new Tick(-1, "NULL", 0f, MapLevel.MainMenu, null));
                 }
 
                 TickTemplate template = JsonConvert.DeserializeObject<TickTemplate>(json);
@@ -103,7 +119,7 @@ namespace NEP.Paranoia.Managers
 
         private static Tick BuildTick(List<Tick> list, TickTemplate template, TickEvents.ParanoiaEvent pEvent)
         {
-            Tick tick = new Tick(template.id, template.name, template.tick, pEvent);
+            Tick tick = new Tick(template.id, template.name, template.tick, ParseTickMapLevel(template.runOnMaps), pEvent);
 
             list.Add(tick);
 

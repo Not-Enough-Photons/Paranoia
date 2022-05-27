@@ -28,6 +28,10 @@
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\MelonLoader\Managed\Assembly-CSharp.dll</HintPath>
@@ -130,11 +134,13 @@
     <Compile Include="Scripts\TickEvents\Events\AI\MoveAIToPlayer.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\MoveAIToRadio.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\RemoveRandomObject.cs" />
+    <Compile Include="Scripts\TickEvents\Events\World\SilenceGameAmbience.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnInvisibleForce.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnMonitor.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnRadio.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\TPose.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnAmbience.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\SpawnDarkVoice.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnSjasFace.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnStaringMan2.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnStaringMan.cs" />

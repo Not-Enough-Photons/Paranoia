@@ -42,13 +42,13 @@ namespace NEP.Paranoia.Entities
             {
                 return;
             }
+
+            AddClips();
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-
-            AddClips();
 
             Play();
 

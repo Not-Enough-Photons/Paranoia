@@ -3,6 +3,7 @@
     [System.Flags]
     public enum MapLevel
     {
+        AllMaps,
         MainMenu = 1,
         Cutscene1 = 2,
         Breakroom = 3,
@@ -28,6 +29,6 @@
         ZombieWarehouse = 23,
         EmptyScene = 24,
         LoadingScene = 25,
-        CustomMap = 240
+        CustomMap = 240,
     }
 }

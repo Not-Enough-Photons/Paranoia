@@ -1,4 +1,6 @@
-﻿namespace NEP.Paranoia.Managers
+﻿using NEP.Paranoia.ParanoiaUtilities;
+
+namespace NEP.Paranoia.Managers
 {
     public class TickManager
     {
@@ -17,7 +19,11 @@
         {
             foreach (Tick tick in ticks)
             {
-                tick.Update();
+                if(tick.runOnMaps.HasFlag(MapUtilities.currentLevel) ||
+                    tick.runOnMaps == MapLevel.AllMaps)
+                {
+                    tick.Update();
+                }
             }
         }
     }

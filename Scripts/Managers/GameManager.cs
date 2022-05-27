@@ -27,10 +27,11 @@ namespace NEP.Paranoia.Managers
         }
 
         public static GameManager instance;
-
         public TickManager tickManager;
 
         public List<GameObject> entities;
+
+        public static float insanity;
 
         private void Initialize()
         {

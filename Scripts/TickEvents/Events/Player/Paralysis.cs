@@ -3,6 +3,8 @@
 using StressLevelZero.Rig;
 
 using NEP.Paranoia.Managers;
+using NEP.Paranoia.Entities;
+using NEP.Paranoia.ParanoiaUtilities;
 
 namespace NEP.Paranoia.TickEvents.Events
 {
@@ -28,20 +30,20 @@ namespace NEP.Paranoia.TickEvents.Events
 
         private System.Collections.IEnumerator CoParalysisRoutine()
         {
-            /*Paranoia.instance.gameManager.paralysisMode = true;
             FreezePlayer(physicsRig, true);
 
             yield return new WaitForSeconds(Random.Range(1f, 6f));
 
-            new AmbientParalyzerSpawn().Start();
+            new SpawnParalyzer().Start();
 
-            while (GameManager.hParalyzer.isActiveAndEnabled)
+            BaseMirage paralyzer = Utilities.GetMirage("Paralyzer");
+
+            while (paralyzer.isActiveAndEnabled)
             {
                 yield return null;
             }
 
-            //Paranoia.instance.gameManager.paralysisMode = false;
-            FreezePlayer(physicsRig, false);*/
+            FreezePlayer(physicsRig, false);
 
             yield return null;
         }
