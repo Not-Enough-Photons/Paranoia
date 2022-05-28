@@ -34,6 +34,8 @@ namespace NEP.Paranoia.Managers
         public static float insanity;
         public static float insanityRate = 0.025f;
 
+        public static int rngValue = 0;
+
         private void Initialize()
         {
             tickManager = new TickManager();
@@ -74,6 +76,8 @@ namespace NEP.Paranoia.Managers
 
             spawnedObject.name = entName;
             spawnedObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
+
+            spawnedObject.SetActive(false);
 
             entities.Add(spawnedObject);
 

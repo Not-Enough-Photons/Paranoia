@@ -269,7 +269,7 @@ namespace NEP.Paranoia.Entities
             if (entityFlags.HasFlag(EntityFlags.Teleporting))
             {
                 t_Teleport += Time.deltaTime;
-
+                    
                 if (t_Teleport >= stats.timeTeleport)
                 {
                     OnTeleport();

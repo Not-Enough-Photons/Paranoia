@@ -91,7 +91,7 @@ namespace NEP.Paranoia.Managers
 
                 if (string.IsNullOrEmpty(json))
                 {
-                    ticks.Add(new Tick(-1, "NULL", 0f, 0f, MapLevel.MainMenu, null));
+                    ticks.Add(new Tick(-1, "NULL", 0f, null, null, 0f, MapLevel.MainMenu, null));
                 }
 
                 TickTemplate template = JsonConvert.DeserializeObject<TickTemplate>(json);
@@ -124,7 +124,17 @@ namespace NEP.Paranoia.Managers
 
         private static Tick BuildTick(List<Tick> list, TickTemplate template, TickEvents.ParanoiaEvent pEvent)
         {
-            Tick tick = new Tick(template.id, template.name, template.tick, template.insanity, ParseTickMapLevel(template.runOnMaps), pEvent);
+            Tick tick = new Tick()
+            {
+                id = template.id,
+                name = template.name,
+                tick = template.tick,
+                minMaxTime = template.minMaxTimes,
+                minMaxRNG = template.minMaxRNG,
+                insanity = template.insanity,
+                runOnMaps = ParseTickMapLevel(template.runOnMaps),
+                pEvent = pEvent
+            };
 
             list.Add(tick);
 

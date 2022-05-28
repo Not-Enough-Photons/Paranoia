@@ -6,6 +6,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
+            MelonLoader.MelonLogger.Msg("ChangeInsanity");
             GameManager.insanity += GameManager.insanityRate;
         }
     }
