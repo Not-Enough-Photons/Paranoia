@@ -40,7 +40,7 @@ namespace NEP.Paranoia.Managers
             {
                 _tTick = 0f;
 
-                if (this.insanity > GameManager.insanity)
+                if (GameManager.insanity > this.insanity)
                 {
                     pEvent?.Start();
                 }

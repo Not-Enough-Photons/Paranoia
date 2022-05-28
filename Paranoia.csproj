@@ -130,7 +130,7 @@
     <Compile Include="Scripts\TickEvents\Events\World\FlickerFlashlights.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\FlingRandomObject.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\HideRandomItem.cs" />
-    <Compile Include="Scripts\TickEvents\Events\World\LightFlickering.cs" />
+    <Compile Include="Scripts\TickEvents\Events\World\LightFlicker.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\MoveAIToPlayer.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\MoveAIToRadio.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\RemoveRandomObject.cs" />

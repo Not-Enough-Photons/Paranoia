@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace NEP.Paranoia.TickEvents.Events
 {
-    public class LightFlickering : ParanoiaEvent
+    public class LightFlicker : ParanoiaEvent
     {
         public override void Start()
         {
