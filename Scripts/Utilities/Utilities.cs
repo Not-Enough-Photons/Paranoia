@@ -434,7 +434,6 @@ namespace NEP.Paranoia.ParanoiaUtilities
                     GameObject.Find("MUSICMACHINE (1)")?.SetActive(false);
                     GameObject.Find("AMMODISPENSER")?.SetActive(false);
                     GameObject.Find("HEALTHMACHINE")?.SetActive(false);
-                    GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE")?.SetActive(false);
                     GameObject.Find("Decal_SafeGrav")?.SetActive(false);
 
                     staticCeiling = GameObject.Find("------STATICENV------");
@@ -442,6 +441,9 @@ namespace NEP.Paranoia.ParanoiaUtilities
                     mainLight = GameObject.Find("REALTIMELIGHT");
                     clipboardText = GameObject.Find("prop_clipboard_MuseumBasement/TMP")?.GetComponent<TextMeshPro>();
                     lightBeams = UnityEngine.Object.FindObjectsOfType<VLB.VolumetricLightBeam>();
+
+                    GameObject lightMachine = GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE");
+
                     break;
             }
         }

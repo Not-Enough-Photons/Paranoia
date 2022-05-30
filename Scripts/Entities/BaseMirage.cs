@@ -25,6 +25,10 @@ namespace NEP.Paranoia.Entities
             public float damage;
             public float moveSpeed;
             public float timeTeleport;
+
+            public string reachedPlayerEvent;
+            private TickEvents.ParanoiaEvent _reachedPlayerEvent;
+
             public float fade;
 
             public string[] textures;
@@ -58,6 +62,24 @@ namespace NEP.Paranoia.Entities
                     object objParsed = Enum.Parse(typeof(SpawnFlags), flag);
                     mirage.spawnFlags ^= (SpawnFlags)objParsed;
                 }
+            }
+
+            public static void ParseReachedEvent(BaseMirage mirage, string eventName)
+            {
+                Type eventType = Type.GetType("NEP.Paranoia.TickEvents.Events." + eventName);
+
+                if(eventType == null)
+                {
+                    return;
+                }
+
+                TickEvents.ParanoiaEvent pEvent = Activator.CreateInstance(eventType) as TickEvents.ParanoiaEvent;
+                mirage.stats._reachedPlayerEvent = pEvent;
+            }
+
+            public TickEvents.ParanoiaEvent GetEvent()
+            {
+                return _reachedPlayerEvent;
             }
         }
 
@@ -109,6 +131,7 @@ namespace NEP.Paranoia.Entities
 
             Stats.ParseEntityFlags(this, stats.entityFlags);
             Stats.ParseSpawnFlags(this, stats.spawnFlags);
+            Stats.ParseReachedEvent(this, stats.reachedPlayerEvent);
 
             if(stats.textures != null)
             {
@@ -121,7 +144,7 @@ namespace NEP.Paranoia.Entities
 
             gameObject.hideFlags = HideFlags.DontUnloadUnusedAsset;
 
-            gameObject.SetActive(true);
+            gameObject.SetActive(false);
         }
 
         protected virtual void OnEnable()
@@ -204,6 +227,11 @@ namespace NEP.Paranoia.Entities
                 if (Vector3.Distance(transform.position, target.position) < stats.hideDist)
                 {
                     gameObject.SetActive(false);
+
+                    if (!string.IsNullOrEmpty(stats.reachedPlayerEvent))
+                    {
+                        stats.GetEvent()?.Start();
+                    }
                 }
             }
 

@@ -125,6 +125,7 @@
     <Compile Include="Scripts\TickEvents\Events\Player\DisableWasp.cs" />
     <Compile Include="Scripts\TickEvents\Events\Player\DropHeadItem.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\KillAI.cs" />
+    <Compile Include="Scripts\TickEvents\Events\World\CloseGame.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\CursedDoorSpawn.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\FireGun.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\FlickerFlashlights.cs" />
@@ -143,6 +144,8 @@
     <Compile Include="Scripts\TickEvents\Mirages\SpawnDarkVoice.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnParalyzer.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnSjasFace.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\SpawnWhiteFace.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\SpawnUboa.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnStaringMan2.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnStaringMan.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnShadowMan.cs" />

@@ -26,6 +26,7 @@ namespace NEP.Paranoia
 
         public GameManager gameManager;
 
+        public MapLevel mapLevel;
         public string currentScene;
         public string nextScene;
 
@@ -112,32 +113,32 @@ namespace NEP.Paranoia
 
             gameManager = new GameManager();
 
-            /*switch (currentScene.ToLower())
+            switch (currentScene.ToLower())
             {
-                case "scene_breakroom": MapUtilities.currentLevel = MapLevel.Breakroom; break;
-                case "scene_museum": MapUtilities.currentLevel = MapLevel.Museum; break;
-                case "scene_streets": MapUtilities.currentLevel = MapLevel.Streets; break;
-                case "scene_runoff": MapUtilities.currentLevel = MapLevel.Runoff; break;
-                case "scene_sewerstation": MapUtilities.currentLevel = MapLevel.Sewers; break;
-                case "scene_warehouse": MapUtilities.currentLevel = MapLevel.Warehouse; break;
-                case "scene_subwaystation": MapUtilities.currentLevel = MapLevel.CentralStation; break;
-                case "scene_tower": MapUtilities.currentLevel = MapLevel.Tower; break;
-                case "scene_towerboss": MapUtilities.currentLevel = MapLevel.TimeTower; break;
-                case "scene_dungeon": MapUtilities.currentLevel = MapLevel.Dungeon; break;
-                case "scene_arena": MapUtilities.currentLevel = MapLevel.Arena; break;
-                case "scene_throneroom": MapUtilities.currentLevel = MapLevel.ThroneRoom; break;
-                case "scene_tuscany": MapUtilities.currentLevel = MapLevel.Tuscany; break;
-                case "scene_redactedchamber": MapUtilities.currentLevel = MapLevel.RedactedChamber; break;
-                case "sandbox_handgunbox": MapUtilities.currentLevel = MapLevel.HandgunRange; break;
-                case "scene_hoverjunkers": MapUtilities.currentLevel = MapLevel.HoverJunkers; break;
-                case "sandbox_blankbox": MapUtilities.currentLevel = MapLevel.Blankbox;
-                    MelonCoroutines.Start(CoCustomMapsRoutine()); break;
-                case "sandbox_museumbasement": MapUtilities.currentLevel = MapLevel.MuseumBasement;
-                    break;
-                case "custom_map_bbl": MapUtilities.currentLevel = MapLevel.CustomMap; MelonCoroutines.Start(CoCustomMapsRoutine()); break;
+                case "scene_mainmenu": MapUtilities.currentLevel ^= MapLevel.MainMenu; break;
+                case "scene_breakroom": MapUtilities.currentLevel ^= MapLevel.Breakroom; break;
+                case "scene_museum": MapUtilities.currentLevel ^= MapLevel.Museum; break;
+                case "scene_streets": MapUtilities.currentLevel ^= MapLevel.Streets; break;
+                case "scene_runoff": MapUtilities.currentLevel ^= MapLevel.Runoff; break;
+                case "scene_sewerstation": MapUtilities.currentLevel ^= MapLevel.Sewers; break;
+                case "scene_warehouse": MapUtilities.currentLevel ^= MapLevel.Warehouse; break;
+                case "scene_subwaystation": MapUtilities.currentLevel ^= MapLevel.CentralStation; break;
+                case "scene_tower": MapUtilities.currentLevel ^= MapLevel.Tower; break;
+                case "scene_towerboss": MapUtilities.currentLevel ^= MapLevel.TimeTower; break;
+                case "scene_dungeon": MapUtilities.currentLevel ^= MapLevel.Dungeon; break;
+                case "scene_arena": MapUtilities.currentLevel ^= MapLevel.Arena; break;
+                case "scene_throneroom": MapUtilities.currentLevel ^= MapLevel.ThroneRoom; break;
+                case "scene_tuscany": MapUtilities.currentLevel ^= MapLevel.Tuscany; break;
+                case "scene_redactedchamber": MapUtilities.currentLevel ^= MapLevel.RedactedChamber; break;
+                case "sandbox_handgunbox": MapUtilities.currentLevel ^= MapLevel.HandgunRange; break;
+                case "scene_hoverjunkers": MapUtilities.currentLevel ^= MapLevel.HoverJunkers; break;
+                case "sandbox_blankbox": MapUtilities.currentLevel ^= MapLevel.Blankbox; break;
+                case "sandbox_museumbasement": MapUtilities.currentLevel ^= MapLevel.MuseumBasement; break;
+                case "custom_map_bbl": MapUtilities.currentLevel ^= MapLevel.CustomMap; break;
                 default: break;
             }
-            */
+
+            mapLevel = MapUtilities.currentLevel;
         }
 
         public override void OnUpdate()

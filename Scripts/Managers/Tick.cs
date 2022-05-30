@@ -104,12 +104,15 @@ namespace NEP.Paranoia.Managers
             if(minMaxTime != null)
             {
                 SetRangedTime();
+                return;
             }
             else
             {
                 // No defined min/max time
                 _tTick = 0f;
             }
+
+            _tTick = 0f;
         }
 
         private void SetRangedRNG()
