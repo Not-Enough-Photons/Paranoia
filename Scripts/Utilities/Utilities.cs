@@ -376,6 +376,11 @@ namespace NEP.Paranoia.ParanoiaUtilities
         public static Material[] staticPlaneMaterials;
         public static float[] staticPlaneCubeMapScalars;
 
+        private static int miscButtonPresses;
+        private static int miscButtonRNG;
+        private static bool miscButtonReachedEvent;
+        private static bool miscRNGGenerated;
+
         public static void Initialize()
         {
             rendererMaterials = CacheAllRendererMaterials(Object.FindObjectsOfType<Renderer>());
@@ -443,6 +448,34 @@ namespace NEP.Paranoia.ParanoiaUtilities
                     lightBeams = UnityEngine.Object.FindObjectsOfType<VLB.VolumetricLightBeam>();
 
                     GameObject lightMachine = GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE");
+
+                    Transform onOffButton = lightMachine.transform.Find("prop_bigButton");
+
+                    onOffButton?.GetComponent<ButtonToggle>().onPress.AddListener(new System.Action(() =>
+                    {
+                        if (!miscRNGGenerated)
+                        {
+                            GameManager.miscRng = UnityEngine.Random.Range(1, 10);
+                            miscButtonRNG = UnityEngine.Random.Range(1, 10);
+                            miscRNGGenerated = true;
+                        }
+
+                        miscButtonPresses++;
+
+                        if(miscButtonPresses >= GameManager.miscRng)
+                        {
+                            if(miscButtonRNG == GameManager.miscRng)
+                            {
+                                new TickEvents.Events.SpawnUboa().Start();
+                                miscButtonRNG = 0;
+                                miscRNGGenerated = false;
+                            }
+                            else
+                            {
+                                miscRNGGenerated = false;
+                            }
+                        }
+                    }));
 
                     break;
             }

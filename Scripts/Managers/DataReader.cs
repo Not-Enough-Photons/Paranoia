@@ -124,17 +124,7 @@ namespace NEP.Paranoia.Managers
 
         private static Tick BuildTick(List<Tick> list, TickTemplate template, TickEvents.ParanoiaEvent pEvent)
         {
-            Tick tick = new Tick()
-            {
-                id = template.id,
-                name = template.name,
-                tick = template.tick,
-                minMaxTime = template.minMaxTimes,
-                minMaxRNG = template.minMaxRNG,
-                insanity = template.insanity,
-                runOnMaps = ParseTickMapLevel(template.runOnMaps),
-                pEvent = pEvent
-            };
+            Tick tick = new Tick(template.id, template.name, template.tick, template.minMaxTime, template.minMaxRNG, template.insanity, ParseTickMapLevel(template.runOnMaps), pEvent);
 
             list.Add(tick);
 

@@ -45,6 +45,16 @@ namespace NEP.Paranoia.Entities
 
             public static void ParseEntityFlags(BaseMirage mirage, string flags)
             {
+                if(mirage == null)
+                {
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(flags))
+                {
+                    return;
+                }
+
                 string[] split = flags.Split('|');
 
                 foreach (string flag in split)
@@ -56,6 +66,16 @@ namespace NEP.Paranoia.Entities
 
             public static void ParseSpawnFlags(BaseMirage mirage, string flags)
             {
+                if (mirage == null)
+                {
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(flags))
+                {
+                    return;
+                }
+
                 string[] split = flags.Split('|');
                 foreach (string flag in split)
                 {
@@ -66,6 +86,16 @@ namespace NEP.Paranoia.Entities
 
             public static void ParseReachedEvent(BaseMirage mirage, string eventName)
             {
+                if (mirage == null)
+                {
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(eventName))
+                {
+                    return;
+                }
+
                 Type eventType = Type.GetType("NEP.Paranoia.TickEvents.Events." + eventName);
 
                 if(eventType == null)

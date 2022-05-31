@@ -105,12 +105,6 @@ namespace NEP.Paranoia
         {
             currentScene = sceneName;
 
-            if (currentScene.ToLower() == "scene_blankbox")
-            {
-                
-                MapUtilities.currentLevel = MapLevel.Blankbox;
-            }
-
             gameManager = new GameManager();
 
             switch (currentScene.ToLower())
@@ -139,6 +133,8 @@ namespace NEP.Paranoia
             }
 
             mapLevel = MapUtilities.currentLevel;
+
+            MapUtilities.Initialize();
         }
 
         public override void OnUpdate()
@@ -146,6 +142,18 @@ namespace NEP.Paranoia
             if(gameManager != null)
             {
                 gameManager.tickManager.Update();
+            }
+        }
+
+        public override void OnSceneWasUnloaded(int buildIndex, string sceneName)
+        {
+            if(gameManager != null)
+            {
+                GameManager.insanity = 0;
+                GameManager.rngValue = 0;
+                GameManager.miscRng = 0;
+
+                GameManager.Destroy();
             }
         }
 

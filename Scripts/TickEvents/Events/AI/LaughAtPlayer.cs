@@ -12,10 +12,20 @@ namespace NEP.Paranoia.TickEvents.Events
         {
             AIBrain[] brains = Utilities.FindAIBrains();
 
+            if(brains == null)
+            {
+                return;
+            }
+
             if(brains.Length == 0) { return; }
 
             foreach(AIBrain brain in brains)
             {
+                if(brain == null)
+                {
+                    return;
+                }
+
                 BehaviourPowerLegs powerLegs = brain.behaviour.GetComponent<BehaviourPowerLegs>();
 
                 if(powerLegs == null) { return; }

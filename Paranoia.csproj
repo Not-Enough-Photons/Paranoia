@@ -140,6 +140,9 @@
     <Compile Include="Scripts\TickEvents\Events\World\SpawnMonitor.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnRadio.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\TPose.cs" />
+    <Compile Include="Scripts\TickEvents\Events\World\TestFunc.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\SpawnWhiteFaceLure.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\SpawnLure.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnAmbience.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnDarkVoice.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnParalyzer.cs" />

@@ -31,38 +31,49 @@ namespace NEP.Paranoia.Managers
 
             if(minMaxTime != null)
             {
-                if(minMaxTime[0] > minMaxTime[1]) // Edge case: [25.0, 1.0]
-                {
-                    float lowest = minMaxTime[1];
-                    float highest = minMaxTime[0];
+                float min = minMaxTime[0];
+                float max = minMaxTime[1];
 
-                    minMaxTime[1] = highest;
-                    minMaxTime[0] = lowest;
+                if(min > max)
+                {
+                    float newMin = max;
+                    float newMax = min;
+
+                    min = newMin;
+                    max = newMax;
+
+                    minMaxTime[0] = min;
+                    minMaxTime[1] = max;
                 }
 
-                this.minMaxTime = minMaxTime;
-
-                // No defined base tick?
-                if(tick <= 0f)
+                // No tick is defined
+                // Generate a new number
+                if(this.tick <= 0f)
                 {
-                    // Set one.
-                    SetRangedTime();
+                    this.tick = Random.Range(min, max);
                 }
             }
 
-            if(minMaxRNG != null)
+            if (minMaxRNG != null)
             {
-                if (minMaxRNG[0] > minMaxRNG[1]) // Edge case: [25, 1]
+                int min = minMaxRNG[0];
+                int max = minMaxRNG[1];
+
+                if (min > max)
                 {
-                    int lowest = minMaxRNG[1];
-                    int highest = minMaxRNG[0];
+                    int newMin = max;
+                    int newMax = min;
 
-                    minMaxRNG[1] = highest;
-                    minMaxRNG[0] = lowest;
+                    min = newMin;
+                    max = newMax;
+
+                    minMaxRNG[0] = min;
+                    minMaxRNG[1] = max;
                 }
-
-                this.minMaxTime = minMaxTime;
             }
+
+            this.minMaxTime = minMaxTime;
+            this.minMaxRNG = minMaxRNG;
 
             this.insanity = insanity;
             this.runOnMaps = runOnMaps;
@@ -74,64 +85,59 @@ namespace NEP.Paranoia.Managers
 
         public void Update()
         {
-            _tTick += Time.deltaTime;
-
-            if(_tTick >= tick)
+            try
             {
-                OnTick();
-            }
-        }
+                _tTick += Time.deltaTime;
 
-        private void OnTick()
-        {
-            if(GameManager.insanity > this.insanity)
-            {
-                if (minMaxRNG != null)
+                if (_tTick >= tick)
                 {
-                    SetRangedRNG();
+                    if (GameManager.insanity >= insanity)
+                    {
+                        if (minMaxTime != null)
+                        {
+                            if (minMaxRNG != null)
+                            {
+                                UpdateRNG(minMaxRNG[0], minMaxRNG[1]);
+                            }
+                            else
+                            {
+                                UpdateTime();
+                            }
+                        }
+                        else
+                        {
+                            if (minMaxRNG != null)
+                            {
+                                UpdateRNG(minMaxRNG[0], minMaxRNG[1]);
+                            }
+                            else
+                            {
+                                pEvent?.Start();
+                            }
+                        }
+                    }
+
+                    _tTick = 0f;
                 }
-                else
-                {
-                    pEvent?.Start();
-                }
             }
-            else if(this.insanity <= 0f)
+            catch(System.Exception e)
             {
-                // No defined insanity
-                pEvent?.Start();
-            }
-
-            if(minMaxTime != null)
-            {
-                SetRangedTime();
-                return;
-            }
-            else
-            {
-                // No defined min/max time
-                _tTick = 0f;
-            }
-
-            _tTick = 0f;
-        }
-
-        private void SetRangedRNG()
-        {
-            int min = minMaxRNG[0];
-            int max = minMaxRNG[1];
-
-            if (GameManager.rngValue >= max || GameManager.rngValue <= min)
-            {
-                pEvent?.Start();
+                throw new System.Exception($"Exception at {this.name}! {e.GetBaseException()}");
             }
         }
 
-        private void SetRangedTime()
+        private void UpdateRNG(int min, int max)
         {
-            float min = minMaxTime[0];
-            float max = minMaxTime[1];
+            if (GameManager.rngValue >= min && GameManager.rngValue <= max)
+            {
+                UpdateTime();
+            }
+        }
 
-            _tTick = Random.Range(min, max);
+        private void UpdateTime()
+        {
+            tick = Random.Range(minMaxTime[0], minMaxTime[1]);
+            pEvent?.Start();
         }
     }
 }

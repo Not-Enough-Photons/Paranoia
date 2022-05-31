@@ -93,6 +93,11 @@ namespace NEP.Paranoia.Entities
 
         private void AddClips()
         {
+            if(stats.clips == null)
+            {
+                return;
+            }
+
             string[] nameList = stats.clips;
 
             foreach(string clipName in nameList)
