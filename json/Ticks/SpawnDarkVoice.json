@@ -1,0 +1,8 @@
+{
+	"id": 54,
+	"name": "SpawnDarkVoice",
+	"minMaxTime": [30.0, 120.0],
+	"minMaxRNG": [0, 30],
+	"insanity": 2.0,
+	"pEvent": "SpawnDarkVoice"
+}

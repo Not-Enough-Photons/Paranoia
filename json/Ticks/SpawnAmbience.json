@@ -1,0 +1,8 @@
+{
+	"id": 50,
+	"name": "SpawnAmbience",
+	"minMaxTime": [60.0, 120.0],
+	"minMaxRNG": [25, 50],
+	"insanity": 2.5,
+	"pEvent": "SpawnAmbience"
+}

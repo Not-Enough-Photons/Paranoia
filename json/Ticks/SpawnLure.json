@@ -1,0 +1,8 @@
+{
+	"id": 57,
+	"name": "SpawnLure",
+	"minMaxTime": [120.0, 240.0],
+	"minMaxRNG": [30, 50],
+	"insanity": 2.75,
+	"pEvent": "SpawnLure"
+}

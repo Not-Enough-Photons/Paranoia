@@ -1,0 +1,8 @@
+{
+	"id": 51,
+	"name": "SpawnChaser",
+	"minMaxTime": [30.0, 90.0],
+	"minMaxRNG": [0, 30],
+	"insanity": 2.5,
+	"pEvent": "SpawnChaser"
+}

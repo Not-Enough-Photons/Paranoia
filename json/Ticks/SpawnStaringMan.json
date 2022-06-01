@@ -1,0 +1,8 @@
+{
+	"id": 52,
+	"name": "SpawnStaringMan",
+	"minMaxTime": [60.0, 165.0],
+	"minMaxRNG": [0, 50],
+	"insanity": 2.25,
+	"pEvent": "SpawnStaringMan"
+}

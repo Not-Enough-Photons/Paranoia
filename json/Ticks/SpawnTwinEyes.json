@@ -1,0 +1,8 @@
+{
+	"id": 53,
+	"name": "SpawnTwinEyes",
+	"minMaxTime": [60.0, 165.0],
+	"minMaxRNG": [0, 50],
+	"insanity": 2.5,
+	"pEvent": "SpawnStaringMan2"
+}
