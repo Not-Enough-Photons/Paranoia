@@ -8,5 +8,4 @@
         SpawnAtPoints = (1 << 1),
         LookAtTarget = (1 << 2)
     }
-
 }

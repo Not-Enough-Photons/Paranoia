@@ -1,0 +1,6 @@
+{
+	"id": 1,
+	"name": "UpdateRNG",
+	"tick": 10.0,
+	"pEvent": "UpdateRNG"
+} 

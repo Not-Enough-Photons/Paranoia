@@ -35,6 +35,8 @@ namespace NEP.Paranoia.Managers
 
         public static int miscRng = 0;
 
+        public static bool randomizeTicks = false;
+
         public static void Destroy()
         {
             TickManager.instance = null;

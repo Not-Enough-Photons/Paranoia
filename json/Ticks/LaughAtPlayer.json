@@ -1,0 +1,8 @@
+{
+	"id": 5,
+	"name": "LaughAtPlayer",
+	"minMaxTime": [120.0, 240.0],
+	"minMaxRNG": [80, 100],
+	"insanity": 2.0,
+	"pEvent": "LaughAtPlayer"
+}
