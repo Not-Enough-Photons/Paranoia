@@ -17,7 +17,10 @@ namespace NEP.Paranoia.TickEvents.Events
                 return;
             }
 
-            if(brains.Length == 0) { return; }
+            if(brains.Length == 0)
+            {
+                return;
+            }
 
             foreach(AIBrain brain in brains)
             {
@@ -28,7 +31,10 @@ namespace NEP.Paranoia.TickEvents.Events
 
                 BehaviourPowerLegs powerLegs = brain.behaviour.GetComponent<BehaviourPowerLegs>();
 
-                if(powerLegs == null) { return; }
+                if(powerLegs == null)
+                {
+                    return;
+                }
 
                 MelonLoader.MelonCoroutines.Start(CoLaughRoutine(powerLegs));
             }

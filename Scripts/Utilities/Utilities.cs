@@ -114,7 +114,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
 
         public static BaseMirage GetMirage(string name)
         {
-            BaseMirage mirage = GameManager.instance.entities.Find((match) => match.name == name).GetComponent<BaseMirage>();
+            BaseMirage mirage = GameManager.entities.Find((match) => match.name == name).GetComponent<BaseMirage>();
             return mirage;
         }
 

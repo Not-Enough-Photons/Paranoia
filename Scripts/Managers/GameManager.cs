@@ -21,15 +21,12 @@ namespace NEP.Paranoia.Managers
     {
         public GameManager()
         {
-            instance = this;
-
             Initialize();
         }
 
-        public static GameManager instance;
-        public TickManager tickManager;
+        public static TickManager tickManager;
 
-        public List<GameObject> entities;
+        public static List<GameObject> entities;
 
         public static float insanity;
         public static float insanityRate = 0.025f;
@@ -41,7 +38,6 @@ namespace NEP.Paranoia.Managers
         public static void Destroy()
         {
             TickManager.instance = null;
-            instance = null;
         }
 
         private void Initialize()

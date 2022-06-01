@@ -141,7 +141,7 @@ namespace NEP.Paranoia
         {
             if(gameManager != null)
             {
-                gameManager.tickManager.Update();
+                GameManager.tickManager.Update();
             }
         }
 
