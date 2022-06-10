@@ -2,7 +2,7 @@
 
 namespace NEP.Paranoia.TickEvents.Events
 {
-    public class SpawnStaringMan2 : ParanoiaEvent
+    public class SpawnTwinEyes : ParanoiaEvent
     {
         public override void Start()
         {
