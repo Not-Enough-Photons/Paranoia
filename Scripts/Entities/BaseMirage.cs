@@ -31,6 +31,8 @@ namespace NEP.Paranoia.Entities
 
             public float fade;
 
+            public string usePrefab;
+
             public string[] textures;
 
             public string entityFlags;

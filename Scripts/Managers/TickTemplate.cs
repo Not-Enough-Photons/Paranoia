@@ -8,7 +8,6 @@
         public float[] minMaxTime { get; set; }
         public int[] minMaxRNG { get; set; }
         public float insanity { get; set; }
-        public string runOnMaps { get; set; }
         public string pEvent { get; set; }
     }
 }

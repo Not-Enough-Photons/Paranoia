@@ -168,6 +168,51 @@
   <ItemGroup>
     <Folder Include="Scripts\TickEvents\Events\VFX\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="json\Documentation.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="json\AudioHallucination\Ambience.json" />
+    <None Include="json\AudioHallucination\Chaser.json" />
+    <None Include="json\AudioHallucination\CryingEntity.json" />
+    <None Include="json\AudioHallucination\DarkVoice.json" />
+    <None Include="json\AudioHallucination\Paralyzer.json" />
+    <None Include="json\AudioHallucination\Radio.json" />
+    <None Include="json\AudioHallucination\SjasFace.json" />
+    <None Include="json\AudioHallucination\TeleportingEntity.json" />
+    <None Include="json\BaseHallucination\CeilingMan.json" />
+    <None Include="json\BaseHallucination\CursedDoor.json" />
+    <None Include="json\BaseHallucination\FordScaling.json" />
+    <None Include="json\BaseHallucination\InvisibleForce.json" />
+    <None Include="json\BaseHallucination\Observer.json" />
+    <None Include="json\BaseHallucination\ShadowMan.json" />
+    <None Include="json\BaseHallucination\ShadowManChaser.json" />
+    <None Include="json\BaseHallucination\StaringMan.json" />
+    <None Include="json\BaseHallucination\StaringManFast.json" />
+    <None Include="json\BaseHallucination\TestWeepingAngel.json" />
+    <None Include="json\Ticks\backup\ticks.json" />
+    <None Include="json\Ticks\DragNPCToCeiling.json" />
+    <None Include="json\Ticks\DragRandomNPC.json" />
+    <None Include="json\Ticks\FireGunInHand.json" />
+    <None Include="json\Ticks\FireGunWorld.json" />
+    <None Include="json\Ticks\FlingRandomObject.json" />
+    <None Include="json\Ticks\LaughAtPlayer.json" />
+    <None Include="json\Ticks\SpawnAmbience.json" />
+    <None Include="json\Ticks\SpawnChaser.json" />
+    <None Include="json\Ticks\SpawnDarkVoice.json" />
+    <None Include="json\Ticks\SpawnLure.json" />
+    <None Include="json\Ticks\SpawnShadowMan.json" />
+    <None Include="json\Ticks\SpawnShadowManChaser.json" />
+    <None Include="json\Ticks\SpawnSjasFace.json" />
+    <None Include="json\Ticks\SpawnStaringMan.json" />
+    <None Include="json\Ticks\SpawnTwinEyes.json" />
+    <None Include="json\Ticks\SpawnWhiteFace.json" />
+    <None Include="json\Ticks\SpawnWhiteFaceLure.json" />
+    <None Include="json\Ticks\ticks.json" />
+    <None Include="json\Ticks\TPose.json" />
+    <None Include="json\Ticks\UpdateInsanity.json" />
+    <None Include="json\Ticks\UpdateRNG.json" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>COPY "$(TargetPath)" "E:\Steam Games\steamapps\common\BONEWORKS\BONEWORKS\Mods"
