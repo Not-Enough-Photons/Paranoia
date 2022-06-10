@@ -10,43 +10,23 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            AIBrain[] brains = Utilities.FindAIBrains();
-
-            if(brains == null)
-            {
-                return;
-            }
-
-            if(brains.Length == 0)
-            {
-                return;
-            }
+            UnhollowerBaseLib.Il2CppArrayBase<AIBrain> brains = Utilities.FindAIBrains();
 
             foreach(AIBrain brain in brains)
             {
                 if(brain == null)
                 {
-                    return;
+                    continue;
                 }
 
-                BehaviourPowerLegs powerLegs = brain.behaviour.GetComponent<BehaviourPowerLegs>();
+                BehaviourPowerLegs powerLegs = brain?.behaviour.TryCast<BehaviourPowerLegs>();
 
-                if(powerLegs == null)
+                if(!powerLegs)
                 {
                     return;
                 }
 
-                MelonLoader.MelonCoroutines.Start(CoLaughRoutine(powerLegs));
-            }
-        }
-
-        private IEnumerator CoLaughRoutine(BehaviourPowerLegs powerLegs)
-        {
-            int rand = Random.Range(0, 3);
-            for(int i = 0; i < Random.Range(1, 15); i++)
-            {
-                yield return new WaitForSeconds(1f);
-                powerLegs.faceAnim.Attack1(rand, 1);
+                powerLegs?.faceAnim?.Attack1(Random.Range(1, 3));
             }
         }
     }

@@ -6,13 +6,10 @@ namespace NEP.Paranoia.Managers
     {
         public TickManager() => Initialize();
 
-        public static TickManager instance;
-
         public Tick[] ticks;
 
         private void Initialize()
         {
-            instance = this;
             ticks = DataReader.ReadTicks();
 
             if (GameManager.randomizeTicks)
@@ -28,10 +25,17 @@ namespace NEP.Paranoia.Managers
         {
             foreach (Tick tick in ticks)
             {
-                if(tick.runOnMaps.HasFlag(MapUtilities.currentLevel) ||
-                    tick.runOnMaps == MapLevel.AllMaps)
+                try
                 {
-                    tick.Update();
+                    if (tick.runOnMaps.HasFlag(MapUtilities.currentLevel) ||
+                     tick.runOnMaps == MapLevel.AllMaps)
+                    {
+                        tick.Update();
+                    }
+                }
+                catch
+                {
+
                 }
             }
         }

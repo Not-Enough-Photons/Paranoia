@@ -156,16 +156,9 @@ namespace NEP.Paranoia.ParanoiaUtilities
             return UnityEngine.Object.FindObjectOfType<SteamControllerRig>();
         }
 
-        public static AIBrain[] FindAIBrains()
+        public static Il2CppArrayBase<AIBrain> FindAIBrains()
         {
-            AIBrain[] result = Object.FindObjectsOfType<AIBrain>();
-
-            if (result == null || result.Length < 0)
-            {
-                return null;
-            }
-
-            return result;
+            return Object.FindObjectsOfType<AIBrain>();
         }
 
         public static AIBrain[] FindAIBrains(out BehaviourBaseNav[] navs)
@@ -447,11 +440,9 @@ namespace NEP.Paranoia.ParanoiaUtilities
                     clipboardText = GameObject.Find("prop_clipboard_MuseumBasement/TMP")?.GetComponent<TextMeshPro>();
                     lightBeams = UnityEngine.Object.FindObjectsOfType<VLB.VolumetricLightBeam>();
 
-                    GameObject lightMachine = GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE");
+                    GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE").SetActive(false);
 
-                    Transform onOffButton = lightMachine.transform.Find("prop_bigButton");
-
-                    onOffButton?.GetComponent<ButtonToggle>().onPress.AddListener(new System.Action(() =>
+                    /*onOffButton?.GetComponent<ButtonToggle>().onPress.AddListener(new System.Action(() =>
                     {
                         if (!miscRNGGenerated)
                         {
@@ -475,7 +466,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
                                 miscRNGGenerated = false;
                             }
                         }
-                    }));
+                    }));*/
 
                     break;
             }

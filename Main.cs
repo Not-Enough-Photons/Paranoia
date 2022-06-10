@@ -25,6 +25,7 @@ namespace NEP.Paranoia
         public AssetBundle bundle;
 
         public GameManager gameManager;
+        public TickManager tickManager;
 
         public MapLevel mapLevel;
         public string currentScene;
@@ -101,7 +102,7 @@ namespace NEP.Paranoia
             }
         }
 
-        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
+        public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
             currentScene = sceneName;
 
@@ -141,7 +142,7 @@ namespace NEP.Paranoia
         {
             if(gameManager != null)
             {
-                GameManager.tickManager.Update();
+                gameManager.tickManager?.Update();
             }
         }
 
@@ -152,8 +153,6 @@ namespace NEP.Paranoia
                 GameManager.insanity = 0;
                 GameManager.rngValue = 0;
                 GameManager.miscRng = 0;
-
-                GameManager.Destroy();
             }
         }
 

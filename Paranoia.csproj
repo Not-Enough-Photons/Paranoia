@@ -149,7 +149,7 @@
     <Compile Include="Scripts\TickEvents\Mirages\SpawnSjasFace.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnWhiteFace.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnUboa.cs" />
-    <Compile Include="Scripts\TickEvents\Mirages\SpawnStaringMan2.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\SpawnTwinEyes.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnStaringMan.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnShadowMan.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnShadowChaser.cs" />

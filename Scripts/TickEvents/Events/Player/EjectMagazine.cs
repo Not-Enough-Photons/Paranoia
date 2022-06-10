@@ -9,15 +9,29 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            Gun gun = Utilities.GetGunInHand(StressLevelZero.Handedness.BOTH);
+            try
+            {
+                Gun gun = Utilities.GetGunInHand(StressLevelZero.Handedness.RIGHT);
 
-            if(gun == null) { return; }
+                if (gun == null)
+                {
+                    return;
+                }
 
-            MagazineSocket socket = gun.magazineSocket;
+                MagazineSocket socket = gun.magazineSocket;
 
-            if(socket == null) { return; }
+                if (socket == null)
+                {
+                    return;
+                }
 
-            socket.EjectMagazine();
+                socket?.EjectMagazine();
+            }
+            catch
+            {
+
+            }
+            
         }
     }
 }

@@ -24,7 +24,7 @@ namespace NEP.Paranoia.Managers
             Initialize();
         }
 
-        public static TickManager tickManager;
+        public TickManager tickManager;
 
         public static List<GameObject> entities;
 
@@ -37,9 +37,9 @@ namespace NEP.Paranoia.Managers
 
         public static bool randomizeTicks = false;
 
-        public static void Destroy()
+        public void Destroy()
         {
-            TickManager.instance = null;
+            tickManager = null;
         }
 
         private void Initialize()
