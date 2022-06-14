@@ -39,7 +39,7 @@ namespace NEP.Paranoia.Managers
             return new string[0];
         }
 
-        public static MapLevel ParseTickMapLevel(string flags)
+        public static MapLevelFlags ParseTickMapLevel(string flags)
         {
             if (string.IsNullOrEmpty(flags))
             {
@@ -47,12 +47,12 @@ namespace NEP.Paranoia.Managers
             }
 
             string[] split = flags.Split('|');
-            MapLevel mapLevel = 0;
+            MapLevelFlags mapLevel = 0;
 
             foreach (string flag in split)
             {
                 object objParsed = Enum.Parse(typeof(MapLevel), flag);
-                mapLevel ^= (MapLevel)objParsed;
+                mapLevel ^= (MapLevelFlags)objParsed;
             }
 
             return mapLevel;
@@ -91,7 +91,7 @@ namespace NEP.Paranoia.Managers
 
                 if (string.IsNullOrEmpty(json))
                 {
-                    ticks.Add(new Tick(-1, "NULL", 0f, null, null, 0f, MapLevel.MainMenu, null));
+                    ticks.Add(new Tick(-1, "NULL", 0f, null, null, 0f, MapLevelFlags.MainMenu, null));
                 }
 
                 TickTemplate template = JsonConvert.DeserializeObject<TickTemplate>(json);

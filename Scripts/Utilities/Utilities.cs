@@ -410,6 +410,8 @@ namespace NEP.Paranoia.ParanoiaUtilities
                 heightFogFalloff = 1.17f,
                 heightFogColor = Color.black
             };
+
+            SwitchFog(baseFog, darkFog, 0.15f, 2048f);
         }
 
         private static void InitializeLevel(MapLevel level)
@@ -440,9 +442,11 @@ namespace NEP.Paranoia.ParanoiaUtilities
                     clipboardText = GameObject.Find("prop_clipboard_MuseumBasement/TMP")?.GetComponent<TextMeshPro>();
                     lightBeams = UnityEngine.Object.FindObjectsOfType<VLB.VolumetricLightBeam>();
 
-                    GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE").SetActive(false);
+                    GameObject lightMachine = GameObject.Find("CUSTOMLIGHTMACHINE/LIGHTMACHINE");
 
-                    /*onOffButton?.GetComponent<ButtonToggle>().onPress.AddListener(new System.Action(() =>
+                    Transform onOffButton = lightMachine.transform.Find("prop_bigButton");
+
+                    onOffButton?.GetComponent<ButtonToggle>().onPress.AddListener(new System.Action(() =>
                     {
                         if (!miscRNGGenerated)
                         {
@@ -466,7 +470,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
                                 miscRNGGenerated = false;
                             }
                         }
-                    }));*/
+                    }));
 
                     break;
             }

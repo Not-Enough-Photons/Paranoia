@@ -138,9 +138,11 @@
     <Compile Include="Scripts\TickEvents\Events\World\SilenceGameAmbience.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnInvisibleForce.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\SpawnMonitor.cs" />
-    <Compile Include="Scripts\TickEvents\Events\World\SpawnRadio.cs" />
     <Compile Include="Scripts\TickEvents\Events\AI\TPose.cs" />
     <Compile Include="Scripts\TickEvents\Events\World\TestFunc.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\SpawnLifeForce.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\SpawnRadio.cs" />
+    <Compile Include="Scripts\TickEvents\Mirages\SpawnCeilingMan.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnWhiteFaceLure.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnLure.cs" />
     <Compile Include="Scripts\TickEvents\Mirages\SpawnAmbience.cs" />

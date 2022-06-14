@@ -231,8 +231,17 @@ namespace NEP.Paranoia.Entities
             if (spawnFlags.HasFlag(SpawnFlags.SpawnAroundTarget))
             {
                 randAngle = UnityEngine.Random.Range(0f, 360f);
-                targetCircle = SpawnCircle.SolveCircle(target.position, 1f, stats.spawnRadius, randAngle);
-                transform.position = targetCircle;
+
+                if (stats.yOffset != 0f)
+                {
+                    targetCircle = SpawnCircle.SolveCircle(target.position, stats.yOffset, stats.spawnRadius, randAngle);
+                    transform.position = targetCircle;
+                }
+                else
+                {
+                    targetCircle = SpawnCircle.SolveCircle(target.position, 1f, stats.spawnRadius, randAngle);
+                    transform.position = targetCircle;
+                }
             }
 
             if (spawnFlags.HasFlag(SpawnFlags.None))

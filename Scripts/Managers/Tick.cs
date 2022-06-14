@@ -15,7 +15,7 @@ namespace NEP.Paranoia.Managers
         public int[] minMaxRNG { get; set; }
         public float insanity { get; set; }
 
-        public MapLevel runOnMaps { get; set; }
+        public MapLevelFlags runOnMaps { get; set; }
 
         public ParanoiaEvent pEvent { get; set; }
 
@@ -23,7 +23,7 @@ namespace NEP.Paranoia.Managers
 
         public Tick() { }
 
-        public Tick(int id, string name, float tick, float[] minMaxTime, int[] minMaxRNG, float insanity, MapLevel runOnMaps, ParanoiaEvent pEvent)
+        public Tick(int id, string name, float tick, float[] minMaxTime, int[] minMaxRNG, float insanity, MapLevelFlags runOnMaps, ParanoiaEvent pEvent)
         {
             this.id = id;
             this.name = name;

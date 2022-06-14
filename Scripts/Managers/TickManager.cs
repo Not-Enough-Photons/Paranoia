@@ -27,11 +27,11 @@ namespace NEP.Paranoia.Managers
             {
                 try
                 {
-                    if (tick.runOnMaps.HasFlag(MapUtilities.currentLevel) ||
-                     tick.runOnMaps == MapLevel.AllMaps)
-                    {
-                        tick.Update();
-                    }
+                    if(MapUtilities.currentLevel == MapLevel.Blankbox ||
+                        MapUtilities.currentLevel == MapLevel.Streets ||
+                        MapUtilities.currentLevel == MapLevel.Sewers ||
+                        MapUtilities.currentLevel == MapLevel.MuseumBasement)
+                    tick?.Update();
                 }
                 catch
                 {
