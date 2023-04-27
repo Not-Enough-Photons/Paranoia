@@ -7,13 +7,13 @@ using NEP.Paranoia.TickEvents;
 using NEP.Paranoia.ParanoiaUtilities;
 using static NEP.Paranoia.Managers.Tick;
 
-using StressLevelZero.AI;
+using SLZ.AI;
 using PuppetMasta;
 
 using UnityEngine;
 
 using Newtonsoft.Json;
-using StressLevelZero.Rig;
+using SLZ.Rig;
 
 namespace NEP.Paranoia.Managers
 {

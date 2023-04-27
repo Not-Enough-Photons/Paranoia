@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using NEP.Paranoia.ParanoiaUtilities;
-using StressLevelZero.Props.Weapons;
-using StressLevelZero.Interaction;
+using SLZ.Props.Weapons;
+using SLZ.Interaction;
 
 namespace NEP.Paranoia.TickEvents.Events
 {
@@ -9,9 +9,9 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            try
+            /*try
             {
-                Gun gun = Utilities.GetGunInHand(StressLevelZero.Handedness.RIGHT);
+                Gun gun = Utilities.GetGunInHand(SLZ.Handedness.RIGHT);
 
                 if (gun == null)
                 {
@@ -30,7 +30,7 @@ namespace NEP.Paranoia.TickEvents.Events
             catch
             {
 
-            }
+            }*/
             
         }
     }

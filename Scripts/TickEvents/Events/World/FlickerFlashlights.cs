@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using SLZ.Props;
 
 namespace NEP.Paranoia.TickEvents.Events
 {

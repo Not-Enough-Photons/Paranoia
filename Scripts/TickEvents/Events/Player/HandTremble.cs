@@ -1,5 +1,5 @@
-﻿using StressLevelZero.Rig;
-using StressLevelZero.Interaction;
+﻿using SLZ.Rig;
+using SLZ.Interaction;
 
 using UnityEngine;
 
@@ -11,7 +11,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            PhysicsRig physicsRig = ParanoiaUtilities.Utilities.GetPhysicsRig();
+            PhysicsRig physicsRig = BoneLib.Player.physicsRig;
 
             Rigidbody leftHand = physicsRig?.leftHand.rb;
             Rigidbody rightHand = physicsRig?.rightHand.rb;

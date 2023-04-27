@@ -170,7 +170,7 @@ namespace NEP.Paranoia.Entities
                 SetupTextures(stats.textures);
             }
 
-            target = ModThatIsNotMod.Player.GetPlayerHead().transform;
+            target = BoneLib.Player.playerHead;
 
             meshRenderer = GetComponentInChildren<MeshRenderer>();
 

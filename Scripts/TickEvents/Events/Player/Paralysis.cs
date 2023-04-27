@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 
-using StressLevelZero.Rig;
+using SLZ.Rig;
 
-using NEP.Paranoia.Managers;
 using NEP.Paranoia.Entities;
 using NEP.Paranoia.ParanoiaUtilities;
 
@@ -20,12 +19,15 @@ namespace NEP.Paranoia.TickEvents.Events
 
         private void FreezePlayer(PhysicsRig rig, bool freeze)
         {
-            StressLevelZero.VRMK.PhysBody physBody = rig.physBody;
+            Rigidbody pelvis = rig.torso.rbPelvis;
+            Rigidbody feet = rig.rbFeet;
+            Rigidbody leftHand = rig.leftHand.rb;
+            Rigidbody rightHand = rig.rightHand.rb;
 
-            physBody.rbFeet.isKinematic = freeze;
-            physBody.rbPelvis.isKinematic = freeze;
-            rig.leftHand.rb.isKinematic = freeze;
-            rig.rightHand.rb.isKinematic = freeze;
+            feet.isKinematic = freeze;
+            pelvis.isKinematic = freeze;
+            leftHand.isKinematic = freeze;
+            rightHand.isKinematic = freeze;
         }
 
         private System.Collections.IEnumerator CoParalysisRoutine()

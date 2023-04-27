@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SLZ.Interaction;
+using UnityEngine;
 
 namespace NEP.Paranoia.TickEvents.Events
 {
@@ -6,15 +7,15 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            string objName = "[RigManager (Default Brett)]/[SkeletonRig (GameWorld Brett)]/Body/skull/Head/HeadSlotContainer/WeaponReciever";
+            /*string objName = "[RigManager (Default Brett)]/[SkeletonRig (GameWorld Brett)]/Body/skull/Head/HeadSlotContainer/WeaponReciever";
             GameObject slotObj = GameObject.Find(objName);
-            StressLevelZero.Props.Weapons.HandWeaponSlotReciever slot = slotObj.GetComponent<StressLevelZero.Props.Weapons.HandWeaponSlotReciever>();
+            InventorySlotReceiver slot = slotObj.GetComponent<InventorySlotReceiver>();
 
             if (slot.m_WeaponHost != null)
             {
                 slot.GetHost().DisableColliders();
                 slot.DropWeapon();
-            }
+            }*/
         }
     }
 }

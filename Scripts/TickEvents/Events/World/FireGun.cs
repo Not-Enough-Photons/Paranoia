@@ -1,5 +1,5 @@
 ﻿using NEP.Paranoia.ParanoiaUtilities;
-using StressLevelZero.Props.Weapons;
+using SLZ.Props.Weapons;
 
 namespace NEP.Paranoia.TickEvents.Events
 {

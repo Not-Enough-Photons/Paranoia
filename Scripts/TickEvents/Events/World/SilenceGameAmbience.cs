@@ -1,10 +1,9 @@
 ﻿using NEP.Paranoia.TickEvents;
-using ModThatIsNotMod;
 
 using UnityEngine;
 
-using StressLevelZero.Rig;
-using StressLevelZero.SFX;
+using SLZ.Rig;
+using SLZ.SFX;
 
 namespace NEP.Paranoia.TickEvents.Events
 {
@@ -12,7 +11,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            GameObject rig = Player.GetRigManager();
+            GameObject rig = BoneLib.Player.rigManager.gameObject;
             RigManager rigManager = rig.GetComponent<RigManager>();
             PhysicsRig physRig = rigManager.physicsRig;
 

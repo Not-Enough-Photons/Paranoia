@@ -1,6 +1,6 @@
 ﻿using NEP.Paranoia.ParanoiaUtilities;
-using StressLevelZero.Rig;
-using StressLevelZero.VRMK;
+using SLZ.Rig;
+using SLZ.VRMK;
 
 using UnityEngine;
 
@@ -10,7 +10,7 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            // Get physics rig
+            /*// Get physics rig
             PhysicsRig rig = ParanoiaUtilities.Utilities.GetPhysicsRig();
             PhysBody physBody = rig.physBody;
 
@@ -20,7 +20,7 @@ namespace NEP.Paranoia.TickEvents.Events
                 rig.rightHand.rb
             };
 
-            MelonLoader.MelonCoroutines.Start(CoGrabRoutine(rbs[Random.Range(0, rbs.Length)]));
+            MelonLoader.MelonCoroutines.Start(CoGrabRoutine(rbs[Random.Range(0, rbs.Length)]));*/
         }
 
         private System.Collections.IEnumerator CoGrabRoutine(Rigidbody part)

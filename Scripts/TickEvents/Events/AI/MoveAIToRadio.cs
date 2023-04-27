@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using NEP.Paranoia.Managers;
 using NEP.Paranoia.ParanoiaUtilities;
-using StressLevelZero.AI;
+using SLZ.AI;
 using PuppetMasta;
 
 namespace NEP.Paranoia.TickEvents.Events
