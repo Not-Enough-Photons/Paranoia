@@ -6,15 +6,18 @@ using System.Linq;
 using UnhollowerBaseLib;
 using UnityEngine;
 
+using BoneLib;
+using static SLZ.UI.SceneAmmoUI;
+
 namespace NEP.Paranoia
 {
     public static class BuildInfo
     {
         public const string Name = "paranoia"; // Name of the Mod.  (MUST BE SET)
-        public const string Description = "Escaping."; // Description for the Mod.  (Set as null if none)
+        public const string Description = "..."; // Description for the Mod.  (Set as null if none)
         public const string Author = "Not Enough Photons"; // Author of the Mod.  (MUST BE SET)
         public const string Company = "Not Enough Photons"; // Company that made the Mod.  (Set as null if none)
-        public const string Version = "3.5.0"; // Version of the Mod.  (MUST BE SET)
+        public const string Version = "4.0.0"; // Version of the Mod.  (MUST BE SET)
         public const string DownloadLink = null; // Download Link for the Mod.  (Set as null if none)
     }
 
@@ -70,7 +73,7 @@ namespace NEP.Paranoia
             return textures.FirstOrDefault((texture) => texture.name == name);
         }
 
-        public override void OnApplicationStart()
+        public override void OnInitializeMelon()
         {
             try
             {
@@ -95,47 +98,13 @@ namespace NEP.Paranoia
                 PrecacheEntityObjects();
                 PrecacheAudioAssets();
                 PrecacheTextureAssets();
+
+                BoneLib.Hooking.OnLevelInitialized += OnSceneInitialized;
             }
             catch (System.Exception e)
             {
                 throw e;
             }
-        }
-
-        public override void OnSceneWasInitialized(int buildIndex, string sceneName)
-        {
-            currentScene = sceneName;
-
-            gameManager = new GameManager();
-
-            switch (currentScene.ToLower())
-            {
-                case "scene_mainmenu": MapUtilities.currentLevel = MapLevel.MainMenu; break;
-                case "scene_breakroom": MapUtilities.currentLevel = MapLevel.Breakroom; break;
-                case "scene_museum": MapUtilities.currentLevel = MapLevel.Museum; break;
-                case "scene_streets": MapUtilities.currentLevel = MapLevel.Streets; break;
-                case "scene_runoff": MapUtilities.currentLevel = MapLevel.Runoff; break;
-                case "scene_sewerstation": MapUtilities.currentLevel = MapLevel.Sewers; break;
-                case "scene_warehouse": MapUtilities.currentLevel = MapLevel.Warehouse; break;
-                case "scene_subwaystation": MapUtilities.currentLevel = MapLevel.CentralStation; break;
-                case "scene_tower": MapUtilities.currentLevel = MapLevel.Tower; break;
-                case "scene_towerboss": MapUtilities.currentLevel = MapLevel.TimeTower; break;
-                case "scene_dungeon": MapUtilities.currentLevel = MapLevel.Dungeon; break;
-                case "scene_arena": MapUtilities.currentLevel = MapLevel.Arena; break;
-                case "scene_throneroom": MapUtilities.currentLevel = MapLevel.ThroneRoom; break;
-                case "scene_tuscany": MapUtilities.currentLevel = MapLevel.Tuscany; break;
-                case "scene_redactedchamber": MapUtilities.currentLevel = MapLevel.RedactedChamber; break;
-                case "sandbox_handgunbox": MapUtilities.currentLevel = MapLevel.HandgunRange; break;
-                case "scene_hoverjunkers": MapUtilities.currentLevel = MapLevel.HoverJunkers; break;
-                case "sandbox_blankbox": MapUtilities.currentLevel = MapLevel.Blankbox; break;
-                case "sandbox_museumbasement": MapUtilities.currentLevel = MapLevel.MuseumBasement; break;
-                case "custom_map_bbl": MapUtilities.currentLevel = MapLevel.CustomMap; break;
-                default: break;
-            }
-
-            mapLevel = MapUtilities.currentLevel;
-
-            MapUtilities.Initialize();
         }
 
         public override void OnUpdate()
@@ -144,6 +113,17 @@ namespace NEP.Paranoia
             {
                 gameManager.tickManager?.Update();
             }
+        }
+
+        public void OnSceneInitialized(LevelInfo info)
+        {
+            currentScene = info.title;
+
+            gameManager = new GameManager();
+
+            mapLevel = MapUtilities.currentLevel;
+
+            MapUtilities.Initialize();
         }
 
         public override void OnSceneWasUnloaded(int buildIndex, string sceneName)

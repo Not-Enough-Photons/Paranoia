@@ -27,11 +27,10 @@ namespace NEP.Paranoia.Managers
             {
                 try
                 {
-                    if(MapUtilities.currentLevel == MapLevel.Blankbox ||
-                        MapUtilities.currentLevel == MapLevel.Streets ||
-                        MapUtilities.currentLevel == MapLevel.Sewers ||
-                        MapUtilities.currentLevel == MapLevel.MuseumBasement)
-                    tick?.Update();
+                    if(Paranoia.instance.currentScene == "Baseline")
+                    {
+                        tick?.Update();
+                    }
                 }
                 catch
                 {
