@@ -61,11 +61,9 @@ namespace NEP.Paranoia.Managers
 
                 if (min > max)
                 {
-                    int newMin = max;
-                    int newMax = min;
-
-                    min = newMin;
-                    max = newMax;
+                    int temp = max;
+                    min = max;
+                    max = temp;
 
                     minMaxRNG[0] = min;
                     minMaxRNG[1] = max;
@@ -128,7 +126,7 @@ namespace NEP.Paranoia.Managers
 
         private void UpdateRNG(int min, int max)
         {
-            if (GameManager.rngValue >= min && GameManager.rngValue <= max)
+            if (GameManager.rngValue > min && GameManager.rngValue < max)
             {
                 UpdateTime();
             }

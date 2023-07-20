@@ -5,7 +5,7 @@ using UnityEngine;
 namespace NEP.Paranoia.Entities
 {
     [MelonLoader.RegisterTypeInIl2Cpp]
-    public class AudioMirage : BaseMirage
+    public class AudioMirage : Mirage
     {
         public AudioMirage(System.IntPtr ptr) : base(ptr) { }
 

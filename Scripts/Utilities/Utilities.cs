@@ -69,9 +69,9 @@ namespace NEP.Paranoia.ParanoiaUtilities
             return BoneLib.Player.rigManager.GetComponentInChildren<TriggerRefProxy>();
         }
 
-        public static BaseMirage GetMirage(string name)
+        public static Mirage GetMirage(string name)
         {
-            BaseMirage mirage = GameManager.entities.Find((match) => match.name == name).GetComponent<BaseMirage>();
+            Mirage mirage = GameManager.entities.Find((match) => match.name == name).GetComponent<Mirage>();
             return mirage;
         }
 
@@ -295,13 +295,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
 
         public static void Initialize()
         {
-            rendererMaterials = CacheAllRendererMaterials(Object.FindObjectsOfType<Renderer>());
-            lightmaps = LightmapSettings.lightmaps;
-            bakedProbes = LightmapSettings.lightProbes.bakedProbes;
-            bakedProbes = LightmapSettings.lightProbes.bakedProbes;
-            staticPlaneObjects = FindGameObjectsWithLayer("Static");
-            staticPlaneMaterials = CacheMaterialsFromPlanes(staticPlaneObjects);
-            staticPlaneCubeMapScalars = CacheCubeMapScalars(staticPlaneMaterials);
+
         }
 
         public static void ChangeHoloSign(GameObject holoSign, Texture2D texture)
@@ -410,7 +404,7 @@ namespace NEP.Paranoia.ParanoiaUtilities
 
             private static void Hit(Collider collider, Vector3 positionWorld, Vector3 normal)
             {
-                BaseMirage mirageHit = collider.GetComponentInParent<BaseMirage>();
+                Mirage mirageHit = collider.GetComponentInParent<Mirage>();
 
                 if (mirageHit != null)
                 {

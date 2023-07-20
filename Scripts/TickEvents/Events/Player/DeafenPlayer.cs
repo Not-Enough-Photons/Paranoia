@@ -33,6 +33,7 @@ namespace NEP.Paranoia.TickEvents.Events
                 deafSource.volume = Mathf.MoveTowards(deafSource.volume, 1f, 0.1f * Time.deltaTime);
 
                 yield return null;
+
             }
 
             manager.audio_SFXVolume = 0f;

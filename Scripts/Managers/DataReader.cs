@@ -29,7 +29,7 @@ namespace NEP.Paranoia.Managers
 
         public static string[] ReadEntityRegistry(string file)
         {
-            string dir = MelonUtils.UserDataDirectory + "/paranoia/" + file;
+            string dir = MelonUtils.UserDataDirectory + "/Not Enough Photons/paranoia/" + file;
 
             if(file == "entityreg.txt")
             {
@@ -58,17 +58,17 @@ namespace NEP.Paranoia.Managers
             return mapLevel;
         }
 
-        public static Entities.BaseMirage.Stats ReadStats(string file)
+        public static Entities.Mirage.Stats ReadStats(string file)
         {
-            string[] files = ReadFiles(MelonUtils.UserDataDirectory + "/paranoia/json/Mirages/");
-            Entities.BaseMirage.Stats stats = new Entities.BaseMirage.Stats();
+            string[] files = ReadFiles(MelonUtils.UserDataDirectory + "/Not Enough Photons/paranoia/json/Mirages/");
+            Entities.Mirage.Stats stats = new Entities.Mirage.Stats();
 
             foreach (string current in files)
             {
                 if (current.EndsWith(file + ".json"))
                 {
                     string json = File.ReadAllText(current);
-                    return JsonConvert.DeserializeObject<Entities.BaseMirage.Stats>(json);
+                    return JsonConvert.DeserializeObject<Entities.Mirage.Stats>(json);
                 }
             }
 
@@ -77,7 +77,7 @@ namespace NEP.Paranoia.Managers
 
         public static Tick[] ReadTicks()
         {
-            string[] files = ReadFiles(MelonUtils.UserDataDirectory + "/paranoia/json/Ticks/");
+            string[] files = ReadFiles(MelonUtils.UserDataDirectory + "/Not Enough Photons/paranoia/json/Ticks/");
             ticks = new List<Tick>();
 
             foreach (string file in files)

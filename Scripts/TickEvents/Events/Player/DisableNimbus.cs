@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SLZ.Props;
+using UnityEngine;
 
 namespace NEP.Paranoia.TickEvents.Events
 {
@@ -6,9 +7,9 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            if (GameObject.FindObjectOfType<StressLevelZero.Props.Weapons.FlyingGun>())
+            if (GameObject.FindObjectOfType<FlyingGun>())
             {
-                StressLevelZero.Props.Weapons.FlyingGun nimbus = GameObject.FindObjectOfType<StressLevelZero.Props.Weapons.FlyingGun>();
+                FlyingGun nimbus = GameObject.FindObjectOfType<FlyingGun>();
 
                 nimbus.triggerGrip.ForceDetach();
             }

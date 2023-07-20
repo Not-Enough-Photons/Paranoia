@@ -38,7 +38,7 @@ namespace NEP.Paranoia.TickEvents.Events
 
             new SpawnParalyzer().Start();
 
-            BaseMirage paralyzer = Utilities.GetMirage("Paralyzer");
+            Mirage paralyzer = Utilities.GetMirage("Paralyzer");
 
             while (paralyzer.isActiveAndEnabled)
             {

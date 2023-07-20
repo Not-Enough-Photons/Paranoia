@@ -7,9 +7,9 @@ using NEP.Paranoia.Managers;
 namespace NEP.Paranoia.Entities
 {
     [MelonLoader.RegisterTypeInIl2Cpp]
-    public class BaseMirage : MonoBehaviour
+    public class Mirage : MonoBehaviour
     {
-        public BaseMirage(IntPtr ptr) : base(ptr) { }
+        public Mirage(IntPtr ptr) : base(ptr) { }
 
         [Serializable]
         public struct Stats
@@ -45,7 +45,7 @@ namespace NEP.Paranoia.Entities
             public bool audioTeleport;
             public string[] clips;
 
-            public static void ParseEntityFlags(BaseMirage mirage, string flags)
+            public static void ParseEntityFlags(Mirage mirage, string flags)
             {
                 if(mirage == null)
                 {
@@ -64,9 +64,9 @@ namespace NEP.Paranoia.Entities
                     object objParsed = Enum.Parse(typeof(EntityFlags), flag);
                     mirage.entityFlags ^= (EntityFlags)objParsed;
                 }
-            }
+            } 
 
-            public static void ParseSpawnFlags(BaseMirage mirage, string flags)
+            public static void ParseSpawnFlags(Mirage mirage, string flags)
             {
                 if (mirage == null)
                 {
@@ -86,7 +86,7 @@ namespace NEP.Paranoia.Entities
                 }
             }
 
-            public static void ParseReachedEvent(BaseMirage mirage, string eventName)
+            public static void ParseReachedEvent(Mirage mirage, string eventName)
             {
                 if (mirage == null)
                 {

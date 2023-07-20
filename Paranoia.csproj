@@ -29,7 +29,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Scripts\Entities\AudioMirage.cs" />
-    <Compile Include="Scripts\Entities\BaseMirage.cs" />
+    <Compile Include="Scripts\Entities\Mirage.cs" />
     <Compile Include="Scripts\Entities\EntityFlags.cs" />
     <Compile Include="Scripts\Entities\SpawnFlags.cs" />
     <Compile Include="Scripts\Managers\DataReader.cs" />

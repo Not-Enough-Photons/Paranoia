@@ -27,10 +27,7 @@ namespace NEP.Paranoia.Managers
             {
                 try
                 {
-                    if(Paranoia.instance.currentScene == "Baseline")
-                    {
-                        tick?.Update();
-                    }
+                    tick?.Update();
                 }
                 catch
                 {

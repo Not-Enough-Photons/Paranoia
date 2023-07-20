@@ -1,4 +1,5 @@
-﻿using NEP.Paranoia.ParanoiaUtilities;
+﻿using System.Collections;
+using NEP.Paranoia.ParanoiaUtilities;
 using SLZ.Rig;
 using SLZ.VRMK;
 
@@ -10,9 +11,8 @@ namespace NEP.Paranoia.TickEvents.Events
     {
         public override void Start()
         {
-            /*// Get physics rig
-            PhysicsRig rig = ParanoiaUtilities.Utilities.GetPhysicsRig();
-            PhysBody physBody = rig.physBody;
+            // Get physics rig
+            PhysicsRig rig = Utilities.GetPhysicsRig();
 
             Rigidbody[] rbs = new Rigidbody[]
             {
@@ -20,25 +20,28 @@ namespace NEP.Paranoia.TickEvents.Events
                 rig.rightHand.rb
             };
 
-            MelonLoader.MelonCoroutines.Start(CoGrabRoutine(rbs[Random.Range(0, rbs.Length)]));*/
+            MelonLoader.MelonCoroutines.Start(CoGrabRoutine(rig, rbs[Random.Range(0, rbs.Length)]));
         }
 
-        private System.Collections.IEnumerator CoGrabRoutine(Rigidbody part)
+        private IEnumerator CoGrabRoutine(PhysicsRig physicsRig, Rigidbody part)
         {
-            string originalText = MapUtilities.clipboardText.text;
+            float beforeTimer = 0f;
 
-            MapUtilities.SetClipboardText("DO NOT LET IT GRAB YOU            " +
-                " RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN " +
-                "RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN ");
-
-            yield return new WaitForSeconds(15f);
+            while(beforeTimer <= 15f)
+            {
+                beforeTimer += Time.deltaTime;
+            }
 
             float timer = 0f;
 
             // Insert grab sound effect here.
-            //AudioSource.PlayClipAtPoint(Paranoia.instance.grabSounds[Random.Range(0, Paranoia.instance.grabSounds.Count)], part.position);
 
-            yield return new WaitForSeconds(2f);
+            float grabDelay = 0f;
+
+            while(grabDelay <= 2f)
+            {
+                grabDelay += Time.deltaTime;
+            }
 
             Vector3 dir = Vector3.up + (Random.onUnitSphere * 10f);
             float force = Random.Range(50f, 100f);
@@ -50,8 +53,6 @@ namespace NEP.Paranoia.TickEvents.Events
                 part.AddForce(dir * force, ForceMode.Acceleration);
                 yield return null;
             }
-
-            MapUtilities.SetClipboardText(originalText);
         }
     }
 }

@@ -14,6 +14,7 @@ using UnityEngine;
 
 using Newtonsoft.Json;
 using SLZ.Rig;
+using BoneLib.BoneMenu;
 
 namespace NEP.Paranoia.Managers
 {
@@ -54,6 +55,20 @@ namespace NEP.Paranoia.Managers
             {
                 SpawnEntity(ent);
             }
+
+            InitBoneMenu();
+        }
+
+        private void InitBoneMenu()
+        {
+            var baseMenu = MenuManager.CreateCategory("Not Enough Photons", Color.white);
+            var paranoia = baseMenu.CreateCategory("Paranoia", Color.white);
+            var entMenu = paranoia.CreateCategory("Entities", Color.white);
+
+            foreach(var ent in entities)
+            {
+                entMenu.CreateFunctionElement(ent.name, Color.white, () => ent.gameObject.SetActive(true));
+            }
         }
 
         private GameObject SpawnEntity(string name)
@@ -77,7 +92,7 @@ namespace NEP.Paranoia.Managers
             }
             else
             {
-                spawnedObject.AddComponent<BaseMirage>();
+                spawnedObject.AddComponent<Mirage>();
             }
 
             spawnedObject.name = entName;

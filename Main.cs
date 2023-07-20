@@ -40,7 +40,7 @@ namespace NEP.Paranoia
 
         public List<Texture2D> textures = new List<Texture2D>();
 
-        private string dataPath = MelonUtils.UserDataDirectory + "/paranoia";
+        private string dataPath = MelonUtils.UserDataDirectory + "/Not Enough Photons/paranoia";
 
         /// <summary>
         /// Gets an entity in the entity list.
