@@ -13,8 +13,6 @@ namespace Paranoia.Events
         {
             PropFlashlight[] flashlights = Object.FindObjectsOfType<PropFlashlight>();
 
-            if(flashlights.Length == -1) { return; }
-
             foreach (var t in flashlights)
             {
                 MelonLoader.MelonCoroutines.Start(CoLightFlicker(t, Random.Range(15, 25)));
