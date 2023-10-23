@@ -1,7 +1,0 @@
-{
-	"id": 59,
-	"name": "SpawnWhiteFace",
-	"minMaxTime": [60.0, 90.0],
-	"insanity": 5.0,
-	"pEvent": "SpawnWhiteFace"
-}

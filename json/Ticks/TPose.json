@@ -1,8 +1,0 @@
-{
-	"id": 8,
-	"name": "TPose",
-	"minMaxTime": [240.0, 300.0],
-	"minMaxRNG": [20, 45],
-	"insanity": 1.75,
-	"pEvent": "TPose"
-}

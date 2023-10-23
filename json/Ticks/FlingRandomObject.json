@@ -1,8 +1,0 @@
-{
-	"id": 4,
-	"name": "FlingRandomObject",
-	"minMaxTime": [60.0, 120.0],
-	"minMaxRNG": [15, 25],
-	"insanity": 0.45,
-	"pEvent": "FlingRandomObject"
-}

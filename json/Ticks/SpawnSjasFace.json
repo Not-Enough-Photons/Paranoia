@@ -1,8 +1,0 @@
-{
-	"id": 58,
-	"name": "SpawnSjasFace",
-	"minMaxTime": [240.0, 360.0],
-	"minMaxRNG": [1, 5],
-	"insanity": 3.75,
-	"pEvent": "SpawnSjasFace"
-}

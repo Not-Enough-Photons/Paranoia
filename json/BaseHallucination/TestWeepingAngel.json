@@ -1,8 +1,0 @@
-{
-    "baseFlags": "LookAtTarget | MoveWhenNotSeen",
-    "startFlags": "SpawnAroundPlayer",
-    "useRandomSpawnAngle": true,
-    "spawnRadius": 150.0,
-    "maxTeleportDelay": 2.0,
-    "moveSpeed": 5.0,
-}

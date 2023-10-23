@@ -1,7 +1,0 @@
-{
-    "baseFlags": "None",
-    "startFlags": "SpawnAroundPlayer",
-	"auditoryType": "Darkness",
-    "useRandomSpawnAngle": true,
-    "spawnRadius": 2.0,
-}

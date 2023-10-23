@@ -1,8 +1,0 @@
-{
-	"id": 3,
-	"name": "DragRandomNPC":,
-	"minMaxTime": [60.0, 120.0],
-	"minMaxRNG": [25, 50],
-	"insanity": 0.50,
-	"pEvent": "DragRandomNPC"
-}

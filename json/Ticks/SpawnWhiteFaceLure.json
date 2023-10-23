@@ -1,8 +1,0 @@
-{
-	"id": 59,
-	"name": "SpawnWhiteFaceLure",
-	"minMaxTime": [60.0, 360.0],
-	"minMaxRNG": [1, 10],
-	"insanity": 5.0,
-	"pEvent": "SpawnWhiteFaceLure"
-}

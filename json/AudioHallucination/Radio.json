@@ -1,7 +1,0 @@
-{
-    "baseFlags": "None",
-    "startFlags": "SpawnAroundPlayer | LookAtTarget",
-	"auditoryType": "Ambient",
-    "useRandomSpawnAngle": true,
-    "spawnRadius": 25.0,
-}

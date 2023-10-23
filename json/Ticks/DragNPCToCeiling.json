@@ -1,8 +1,0 @@
-{
-	"id": 2,
-	"name": "DragNPCToCeiling",
-	"minMaxTime": [30.0, 120.0],
-	"minMaxRNG": [25, 50],
-	"insanity": 0.50,
-	"pEvent": "DragNPCToCeiling"
-}

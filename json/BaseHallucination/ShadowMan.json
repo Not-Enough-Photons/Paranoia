@@ -1,8 +1,0 @@
-{
-    "baseFlags": "HideWhenClose | LookAtTarget",
-    "startFlags": "SpawnAroundPlayer",
-    "useRandomSpawnAngle": true,
-	"yOffset": 1.5,
-    "spawnRadius": 100.0,
-    "disableDistance": 50.0,
-}

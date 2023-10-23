@@ -1,8 +1,0 @@
-{
-	"id": 6,
-	"name", "FireGunInHand",
-	"minMaxTime": [90.0, 120.0],
-	"minMaxRNG": [0, 60],
-	"insanity": 1.0,
-	"pEvent": "FireGun",
-}

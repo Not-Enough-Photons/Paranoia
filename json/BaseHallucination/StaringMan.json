@@ -1,6 +1,0 @@
-{
-    "baseFlags": "HideWhenClose | LookAtTarget | Moving",
-    "startFlags": "SpawnAtPoints",
-    "moveSpeed": 0.5,
-    "disableDistance": 20.0,
-}
