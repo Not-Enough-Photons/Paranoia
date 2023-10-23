@@ -36,7 +36,7 @@
         <StartupObject/>
     </PropertyGroup>
     <PropertyGroup>
-      <PostBuildEvent>copy /Y "I:\GitHub\Rider\ParanoiaSDK\bin\Debug\Paranoia.dll" "I:\Steam\steamapps\common\BONELAB\Mods\"</PostBuildEvent>
+      <PostBuildEvent>copy /Y "I:\GitHub\Rider\Paranoia\bin\Debug\Paranoia.dll" "I:\Steam\steamapps\common\BONELAB\Mods\"</PostBuildEvent>
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="FieldInjection.cs" />
