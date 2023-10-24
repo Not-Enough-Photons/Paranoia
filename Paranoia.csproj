@@ -65,6 +65,7 @@
         <Compile Include="Monobehaviours\Events\World\FlickerFlashlights.cs" />
         <Compile Include="Monobehaviours\Events\World\FlingRandomObject.cs" />
         <Compile Include="Monobehaviours\Events\World\LightFlicker.cs" />
+        <Compile Include="Monobehaviours\Helpers\FreezePlayer.cs" />
         <Compile Include="Monobehaviours\Helpers\SeasonalEntity.cs" />
         <Compile Include="Monobehaviours\Helpers\Warehouse.cs" />
         <Compile Include="Monobehaviours\Managers\ClipHolder.cs" />

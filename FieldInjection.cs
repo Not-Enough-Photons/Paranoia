@@ -20,6 +20,8 @@ namespace Paranoia
             SerialisationHandler.Inject<Stalker>();
             SerialisationHandler.Inject<WeepingAngel>();
             SerialisationHandler.Inject<SeasonalEntity>();
+            // Helpers
+            SerialisationHandler.Inject<FreezePlayer>();
             // Managers
             SerialisationHandler.Inject<ParanoiaManager>();
             SerialisationHandler.Inject<ClipHolder>();
