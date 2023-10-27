@@ -19,12 +19,11 @@ namespace Paranoia
             SerialisationHandler.Inject<Radio>();
             SerialisationHandler.Inject<Stalker>();
             SerialisationHandler.Inject<WeepingAngel>();
-            SerialisationHandler.Inject<SeasonalEntity>();
             // Helpers
+            SerialisationHandler.Inject<SeasonalEntity>();
             SerialisationHandler.Inject<FreezePlayer>();
             // Managers
             SerialisationHandler.Inject<ParanoiaManager>();
-            SerialisationHandler.Inject<ClipHolder>();
         }
     }
 }

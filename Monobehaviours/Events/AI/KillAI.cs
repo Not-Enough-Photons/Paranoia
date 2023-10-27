@@ -4,7 +4,6 @@ namespace Paranoia.Events
 {
     public static class KillAI
     {
-#if MELONLOADER
         public static void Activate()
         {
             var brains = Utilities.FindAIBrains();
@@ -20,11 +19,5 @@ namespace Paranoia.Events
                 puppetMaster.Kill();
             }
         }
-#else
-        public static void Activate()
-        {
-
-        }
-#endif
     }
 }

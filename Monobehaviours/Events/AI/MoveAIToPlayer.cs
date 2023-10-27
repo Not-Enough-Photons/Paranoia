@@ -1,13 +1,10 @@
-﻿#if MELONLOADER
-using BoneLib;
-#endif
+﻿using BoneLib;
 using Paranoia.Helpers;
 
 namespace Paranoia.Events
 {
     public static class MoveAIToPlayer
     {
-#if MELONLOADER
         public static void Activate()
         {
             Utilities.FindAIBrains(out var navs);
@@ -21,11 +18,5 @@ namespace Paranoia.Events
                 Utilities.MoveAIToPoint(nav, player.position);
             }
         }
-#else
-        public static void Activate()
-        {
-
-        }
-#endif
     }
 }

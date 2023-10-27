@@ -1,19 +1,13 @@
-﻿#if MELONLOADER
-using System;
+﻿using System;
 using MelonLoader;
 using BoneLib;
-#endif
 using System.Collections;
 using UnityEngine;
 
 namespace Paranoia.Entities
 {
-#if UNITY_EDITOR
-    [AddComponentMenu("Paranoia/Entities/Mirage")]
-#endif
     public class Mirage : MonoBehaviour
     {
-#if MELONLOADER
         public float movementSpeed;
         public float despawnTime;
         public bool shootable;
@@ -24,28 +18,7 @@ namespace Paranoia.Entities
         private Transform _player;
         private Transform This => transform;
         private Vector3 _targetPosition;
-#else
-        [Header("Mirage Settings")]
-        [Tooltip("How fast the mirage moves")]
-        public float movementSpeed;
-        [Tooltip("How long until the mirage despawns")]
-        public float despawnTime;
-        [Tooltip("If this is enabled, the mirage will not despawn after the amounted time. You will have to implement shooting events yourself with a generic attack reciever.")]
-        public bool shootable;
-        [Header("Bounds Settings")]
-        [Tooltip("The minimum X value the mirage can move to")]
-        public float minX = -195f;
-        [Tooltip("The minimum Z value the mirage can move to")]
-        public float minZ = -195f;
-        [Tooltip("The maximum X value the mirage can move to")]
-        public float maxX = 195f;
-        [Tooltip("The maximum Z value the mirage can move to")]
-        public float maxZ = 195f;
-        private Transform _player;
-        private Transform This => transform;
-        private Vector3 _targetPosition;
-#endif
-#if MELONLOADER
+
         private void Start()
         {
             _player = Player.playerHead;
@@ -77,30 +50,7 @@ namespace Paranoia.Entities
             MelonLogger.Msg("Mirage despawned");
             Destroy(gameObject);
         }
-#else
-        private void Start()
-        {
 
-        }
-
-        private void Update()
-        {
-
-        }
-
-        private void SetTargetPosition()
-        {
-
-        }
-
-        private IEnumerator DespawnSelf(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-        }
-#endif
-
-#if MELONLOADER
         public Mirage(IntPtr ptr) : base(ptr) { }
-#endif
     }
 }

@@ -1,6 +1,4 @@
-﻿#if MELONLOADER
-using BoneLib;
-#endif
+﻿using BoneLib;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -9,7 +7,6 @@ namespace Paranoia.Events
 {
     public static class FlingRandomObject
     {
-#if MELONLOADER
         public static void Activate()
         {
             Rigidbody[] rbs = Object.FindObjectsOfType<Rigidbody>();
@@ -19,11 +16,5 @@ namespace Paranoia.Events
 
             randomRb.AddForce((player.position - randomRb.transform.position) * Random.Range(100f, 200f), ForceMode.Impulse);
         }
-#else
-        public static void Activate()
-        {
-
-        }
-#endif
     }
 }

@@ -8,7 +8,6 @@ namespace Paranoia.Events
 {
     public static class FlickerFlashlights
     {
-#if MELONLOADER
         public static void Activate()
         {
             PropFlashlight[] flashlights = Object.FindObjectsOfType<PropFlashlight>();
@@ -27,16 +26,5 @@ namespace Paranoia.Events
                 light.SwitchLight();
             }
         }
-#else
-        public static void Activate()
-        {
-
-        }
-
-        private static IEnumerator CoLightFlicker(PropFlashlight light, int iterations)
-        {
-            yield return null;
-        }
-#endif
     }
 }

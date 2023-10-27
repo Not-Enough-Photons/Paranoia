@@ -1,36 +1,19 @@
-﻿#if MELONLOADER
-using System;
+﻿using System;
 using BoneLib;
 using MelonLoader;
-#endif
 using SLZ.Rig;
 using UnityEngine;
 
 namespace Paranoia.Entities
 {
-#if UNITY_EDITOR
-    [AddComponentMenu("Paranoia/Entities/Weeping Angel")]
-#endif
     public class WeepingAngel : MonoBehaviour
     {
-#if MELONLOADER
         public float lookThreshold = 0.5f;
         public float movementSpeed;
         public bool shootable;
         private Transform _player;
         private Transform This => transform;
-#else
-        [Header("Weeping Angel Settings")]
-        [Tooltip("The threshold for looking at it")]
-        public float lookThreshold = 0.5f;
-        [Tooltip("How fast the weeping angel moves towards the player")]
-        public float movementSpeed;
-        [Tooltip("If this is enabled, the weeping angel will not despawn when it gets near the player. You will have to implement shooting events yourself with a generic attack reciever.")]
-        public bool shootable;
-        private Transform _player;
-        private Transform This => transform;
-#endif
-#if MELONLOADER
+
         private void Start()
         {
             MelonLogger.Msg("Weeping Angel spawned");
@@ -56,24 +39,7 @@ namespace Paranoia.Entities
                 Destroy(gameObject);
             }
         }
-#else
-        private void Start()
-        {
-            
-        }
 
-        private void FixedUpdate()
-        {
-            
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            return;
-        }
-#endif
-#if MELONLOADER
         public WeepingAngel(IntPtr ptr) : base(ptr) { }
-#endif
     }
 }

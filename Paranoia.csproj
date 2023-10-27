@@ -68,7 +68,7 @@
         <Compile Include="Monobehaviours\Helpers\FreezePlayer.cs" />
         <Compile Include="Monobehaviours\Helpers\SeasonalEntity.cs" />
         <Compile Include="Monobehaviours\Helpers\Warehouse.cs" />
-        <Compile Include="Monobehaviours\Managers\ClipHolder.cs" />
+        <Compile Include="Monobehaviours\Internal\ParanoiaEvent.cs" />
         <Compile Include="Monobehaviours\Managers\ParanoiaManager.cs" />
         <Compile Include="Monobehaviours\Helpers\Utilities.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

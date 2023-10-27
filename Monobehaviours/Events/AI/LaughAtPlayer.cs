@@ -6,7 +6,6 @@ namespace Paranoia.Events
 {
     public static class LaughAtPlayer
     {
-#if MELONLOADER
         public static void Activate()
         {
             var brains = Utilities.FindAIBrains();
@@ -28,11 +27,5 @@ namespace Paranoia.Events
                 powerLegs.faceAnim.Attack1(Random.Range(1, 3));
             }
         }
-#else
-        public static void Activate()
-        {
-
-        }
-#endif
     }
 }

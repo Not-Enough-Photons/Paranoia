@@ -1,6 +1,4 @@
-﻿#if MELONLOADER
-using BoneLib;
-#endif
+﻿using BoneLib;
 using Paranoia.Helpers;
 using PuppetMasta;
 using SLZ.Marrow.Warehouse;
@@ -10,7 +8,6 @@ namespace Paranoia.Events
 {
     public static class Crabtroll
     {
-#if MELONLOADER
         public static void Activate()
         {
             var playerPos = Player.playerHead;
@@ -23,11 +20,5 @@ namespace Paranoia.Events
                 crab.Activate();
             });
         }
-#else
-        public static void Activate()
-        {
-
-        }
-#endif
     }
 }

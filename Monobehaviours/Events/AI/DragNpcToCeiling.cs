@@ -1,6 +1,4 @@
-﻿#if MELONLOADER
-using MelonLoader;
-#endif
+﻿using MelonLoader;
 using Paranoia.Helpers;
 using Paranoia.Managers;
 using SLZ.AI;
@@ -12,11 +10,10 @@ namespace Paranoia.Events
 {
     public static class DragNpcToCeiling
     {
-#if MELONLOADER
-        public static void Activate(GameObject clipHolder)
+        public static void Activate(GameObject paranoiaManager)
         {
             MelonLogger.Msg("DragNpcToCeiling activated");
-            var clips = clipHolder.GetComponent<ClipHolder>().clips;
+            var clips = paranoiaManager.GetComponent<ParanoiaManager>().grabSounds;
             var brains = Utilities.FindAIBrains();
             if (brains == null || brains.Length == 0) { return; }
             MelonLogger.Msg($"Got AIBrains: {brains.Length}");
@@ -56,15 +53,5 @@ namespace Paranoia.Events
 
             brain.gameObject.SetActive(false);
         }
-#else 
-        public static void Activate(GameObject clipHolder)
-        {
-
-        }
-        private static IEnumerator CoGrabRoutine(AIBrain brain, Rigidbody part, AudioClip[] grabClips)
-        {
-            yield return null;
-        }
-#endif
     }
 }

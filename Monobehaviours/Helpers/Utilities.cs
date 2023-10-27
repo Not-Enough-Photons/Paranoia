@@ -1,8 +1,6 @@
-﻿#if MELONLOADER
-using System;
+﻿using System;
 using BoneLib;
 using UnhollowerBaseLib;
-#endif
 using System.Collections.Generic;
 using System.Linq;
 using PuppetMasta;
@@ -14,7 +12,6 @@ namespace Paranoia.Helpers
 {
     public static class Utilities
     {
-#if MELONLOADER
         public static Il2CppArrayBase<AIBrain> FindAIBrains()
         {
             return Object.FindObjectsOfType<AIBrain>();
@@ -61,37 +58,5 @@ namespace Paranoia.Helpers
             var currentDate = DateTime.Now;
             return currentDate.Month == month && currentDate.Day == day;
         }
-#else
-        public static AIBrain[] FindAIBrains()
-        {
-            return null;
-        }
-        
-        public static AIBrain[] FindAIBrains(out BehaviourBaseNav[] navs)
-        {
-            navs = null;
-            return null;
-        }
-
-        private static BehaviourBaseNav[] FindBaseNavs(AIBrain[] brains)
-        {
-            return null;
-        }
-
-        public static void MoveAIToPoint(BehaviourBaseNav behaviour, Vector3 point)
-        {
-
-        }
-
-        public static void FreezePlayer(bool freeze)
-        {
-
-        }
-        
-        public static bool CheckDate(int month, int day)
-        {
-            return false;
-        }
-#endif
     }
 }

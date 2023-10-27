@@ -1,7 +1,5 @@
-﻿#if MELONLOADER
-using BoneLib.Nullables;
+﻿using BoneLib.Nullables;
 using MelonLoader;
-#endif
 using System;
 using SLZ.Marrow.Data;
 using SLZ.Marrow.Pool;
@@ -12,7 +10,6 @@ namespace Paranoia.Helpers
 {
     public static class Warehouse
     {
-#if MELONLOADER
         public static void Spawn(SpawnableCrateReference crateRef, Vector3 position, Quaternion rotation, bool ignorePolicy, Action<GameObject> callback)
         {
             MelonLogger.Msg($"Spawning {crateRef.Crate._title}");
@@ -27,11 +24,5 @@ namespace Paranoia.Helpers
             };
             AssetSpawner.Spawn(spawnable, position, rotation, new BoxedNullable<Vector3>(null), ignorePolicy, new BoxedNullable<int>(null), spawnAction);
         }
-#else
-        public static void Spawn(SpawnableCrateReference crateRef, Vector3 position, Quaternion rotation, bool ignorePolicy, Action<GameObject> callback)
-        {
-
-        }
-#endif
     }
 }

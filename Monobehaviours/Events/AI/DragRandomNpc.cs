@@ -9,10 +9,9 @@ namespace Paranoia.Events
 {
     public static class DragRandomNpc
     {
-#if MELONLOADER
-        public static void Activate(GameObject clipHolder)
+        public static void Activate(GameObject paranoiaManager)
         {
-            var grabClips = clipHolder.GetComponent<ClipHolder>().clips;
+            var grabClips = paranoiaManager.GetComponent<ParanoiaManager>().grabSounds;
             
             var brains = Utilities.FindAIBrains();
 
@@ -64,16 +63,5 @@ namespace Paranoia.Events
 
             yield return null;
         }
-#else 
-        public static void Activate(GameObject clipHolder)
-        {
-
-        }
-
-        private static IEnumerator CoGrabRoutine(AIBrain brain, Rigidbody part, AudioClip[] grabClips)
-        {
-            yield return null;
-        }
-#endif
     }
 }

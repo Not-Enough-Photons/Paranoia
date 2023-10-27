@@ -4,12 +4,8 @@ using Random = UnityEngine.Random;
 
 namespace Paranoia.Events
 {
-#if UNITY_EDITOR
-    [AddComponentMenu("Paranoia/Events/World/Light Flicker")]
-#endif
     public static class LightFlicker
     {
-#if MELONLOADER
         public static void Activate(GameObject lights)
         {
             if(lights == null) { return; }
@@ -25,16 +21,5 @@ namespace Paranoia.Events
                 lights.SetActive(i % 2 == 0);
             }
         }
-#else
-        public static void Activate(GameObject lights)
-        {
-
-        }
-
-        private static IEnumerator CoLightFlicker(GameObject lights, int iterations)
-        {
-            yield return null;
-        }
-#endif
     }
 }

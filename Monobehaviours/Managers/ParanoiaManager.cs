@@ -1,7 +1,5 @@
-﻿#if MELONLOADER
-using System;
+﻿using System;
 using MelonLoader;
-#endif
 using System.Collections;
 using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
@@ -10,17 +8,13 @@ using Random = UnityEngine.Random;
 
 namespace Paranoia.Managers
 {
-#if UNITY_EDITOR
-    [AddComponentMenu("Paranoia/Managers/Paranoia Manager")]
-    [RequireComponent(typeof(ClipHolder))]
-#endif
     public class ParanoiaManager : MonoBehaviour
     {
-#if MELONLOADER
         public float eventTimerMin = 30f;
         public float eventTimerMax = 60f;
         public GameObject lights;
         public Transform[] npcMoveLocations;
+        public AudioClip[] grabSounds;
         public float entityTimerMin = 60f;
         public float entityTimerMax = 80f;
         public SpawnableCrateReference[] entities;
@@ -34,44 +28,7 @@ namespace Paranoia.Managers
         public Transform[] doorSpawnLocations;
         private bool _enabled;
         private bool _doorSpawned;
-#else
-        [Header("Event Tick")]
-        [Tooltip("The minimum amount of time between events.")]
-        public float eventTimerMin = 30f;
-        [Tooltip("The maximum amount of time between events.")]
-        public float eventTimerMax = 60f;
-        [Tooltip("The lights that will flicker during the LightFlicker event.")]
-        public GameObject lights;
-        [Tooltip("The list of locations that NPCs may be moved to.")]
-        public Transform[] npcMoveLocations;
-        [Header("Entity Tick")]
-        [Tooltip("The minimum amount of time between entities spawning.")]
-        public float entityTimerMin = 60f;
-        [Tooltip("The maximum amount of time between entities spawning.")]
-        public float entityTimerMax = 80f;
-        [Tooltip("The list of entities that might spawn.")]
-        public SpawnableCrateReference[] entities;
-        [Tooltip("The list of locations that entities may spawn in the air.")]
-        public Transform[] airSpawns;
-        [Tooltip("The list of locations that entities may spawn on the ground.")]
-        public Transform[] groundSpawns;
-        [Tooltip("The list of locations that audio events will spawn at")]
-        public Transform[] audioSpawns;
-        [Tooltip("The location that the mirage will spawn.")]
-        public Transform mirageSpawn;
-        [Header("Door Tick")]
-        [Tooltip("The minimum amount of time between the door spawning.")]
-        public float doorTimerMin = 480f;
-        [Tooltip("The maximum amount of time between the door spawning.")]
-        public float doorTimerMax = 600f;
-        [Tooltip("The door prefab that will spawn.")]
-        public GameObject door;
-        [Tooltip("The list of locations that the door may spawn.")]
-        public Transform[] doorSpawnLocations;
-        private bool _enabled;
-        private bool _doorSpawned;
-#endif
-#if MELONLOADER
+        
         public void Enable()
         {
             if (_enabled) return;
@@ -231,34 +188,7 @@ namespace Paranoia.Managers
             Instantiate(door, location.position, location.rotation);
             _doorSpawned = true;
         }
-#else
-        public void Enable()
-        {
-        
-        }
-        
-        public void Disable()
-        {
-        
-        }
-        
-        private IEnumerator EntityTick()
-        {
-            yield return null;
-        }
-        
-        private IEnumerator EventTick()
-        {
-            yield return null;
-        }
-        
-        private IEnumerator DoorTick()
-        {
-            yield return null;
-        }
-#endif
-#if MELONLOADER
+
         public ParanoiaManager(IntPtr ptr) : base(ptr) { }
-#endif
     }
 }

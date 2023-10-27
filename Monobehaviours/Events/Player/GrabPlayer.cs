@@ -1,6 +1,4 @@
-﻿#if MELONLOADER
-using BoneLib;
-#endif
+﻿using BoneLib;
 using Paranoia.Managers;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -10,10 +8,9 @@ namespace Paranoia.Events
 {
     public static class GrabPlayer
     {
-#if MELONLOADER
-        public static void Activate(GameObject clipHolder)
+        public static void Activate(GameObject paranoiaManager)
         {
-            var grabClips = clipHolder.GetComponent<ClipHolder>().clips;
+            var grabClips = paranoiaManager.GetComponent<ParanoiaManager>().grabSounds;
             
             var rig = Player.physicsRig;
 
@@ -46,16 +43,5 @@ namespace Paranoia.Events
                 yield return null;
             }
         }
-#else
-        public static void Activate(GameObject clipHolder)
-        {
-
-        }
-
-        private static IEnumerator CoGrabRoutine(Rigidbody part, AudioClip[] grabClips)
-        {
-            yield return null;
-        }
-#endif
     }
 }

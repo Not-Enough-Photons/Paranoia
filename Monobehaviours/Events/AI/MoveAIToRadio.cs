@@ -6,7 +6,6 @@ namespace Paranoia.Events
 {
     public static class MoveAIToRadio
     {
-        #if MELONLOADER
         private static GameObject _radioObj;
         
         public static void Activate(string barcode, Transform location)
@@ -28,13 +27,5 @@ namespace Paranoia.Events
 
             _radioObj = null;
         }
-#else
-        private static GameObject _radioObj;
-
-        public static void Activate(string barcode, Transform location)
-        {
-
-        }
-#endif
     }
 }

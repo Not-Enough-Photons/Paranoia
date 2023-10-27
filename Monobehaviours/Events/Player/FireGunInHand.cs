@@ -1,12 +1,9 @@
-﻿#if MELONLOADER
-using BoneLib;
-#endif
+﻿using BoneLib;
 
 namespace Paranoia.Events
 {
     public static class FireGunInHand
     {
-#if MELONLOADER
         public static void Activate()
         {
             if (Player.GetGunInHand(Player.rightHand) == null)
@@ -18,11 +15,5 @@ namespace Paranoia.Events
 
             gun.Fire();
         }
-#else
-        public static void Activate()
-        {
-
-        }
-#endif
     }
 }
