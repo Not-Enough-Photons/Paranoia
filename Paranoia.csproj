@@ -48,6 +48,7 @@
         <Compile Include="Melon\Preferences.cs" />
         <Compile Include="Scripts\Entities\AudioEvent.cs" />
         <Compile Include="Scripts\Entities\Crasher.cs" />
+        <Compile Include="Scripts\Entities\Crying.cs" />
         <Compile Include="Scripts\Entities\Follower.cs" />
         <Compile Include="Scripts\Entities\Chaser.cs" />
         <Compile Include="Scripts\Entities\Mirage.cs" />
@@ -121,6 +122,9 @@
         <Reference Include="UnityEngine.PhysicsModule">
           <HintPath>References\UnityEngine.PhysicsModule.dll</HintPath>
         </Reference>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="UnityIntegration\Paranoia\Runtime\Entities\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
