@@ -29,7 +29,7 @@
         <DebugType>pdbonly</DebugType>
         <Optimize>true</Optimize>
         <OutputPath>bin\Release\</OutputPath>
-        <DefineConstants>TRACE;MELONLOADER</DefineConstants>
+        <DefineConstants>TRACE;MELONLOADER;RELEASE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>3</WarningLevel>
         <DocumentationFile>bin\Release\Paranoia.xml</DocumentationFile>

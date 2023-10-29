@@ -1,9 +1,9 @@
 ﻿using BoneLib;
 using MelonLoader;
+using Paranoia.Internal;
 using UnityEngine;
 #if DEBUG
 using BoneLib.BoneMenu;
-using BoneLib.BoneMenu.Elements;
 using Paranoia.Helpers;
 using Paranoia.Events;
 using Paranoia.Managers;
@@ -23,14 +23,15 @@ namespace Paranoia
         public override void OnInitializeMelon()
         {
             ModConsole.Setup(LoggerInstance);
-            ModConsole.Warning("THIS PERSON IS USING PARANOIA. THERE IS AN EVENT THAT CRASHES THE GAME. THIS LOG MAY BE VOID, CHECK LATER IN THE LOG FOR A SIMILAR WARNING TO CONFIRM");
             Preferences.Setup();
+            BaselineCheck.enabled = Preferences.baselineSchizophrenia.entry.Value;
+            ModConsole.Msg("THIS PERSON IS USING PARANOIA. THERE IS AN EVENT THAT CRASHES THE GAME. THIS LOG MAY BE VOID, CHECK LATER IN THE LOG FOR A SIMILAR WARNING TO CONFIRM");
             FieldInjection.Inject();
             Hooking.OnLevelInitialized += OnLevelLoad;
-            #if DEBUG
-            ModConsole.Warning("THE DEBUG BUILD OF PARANOIA IS BEING USED. THIS IS NOT RECOMMENDED FOR NORMAL USE.");
+#if DEBUG
+            ModConsole.Msg("THE DEBUG BUILD OF PARANOIA IS BEING USED. THIS IS NOT RECOMMENDED FOR NORMAL USE.");
             SetupBoneMenu();
-            #endif
+#endif
         }
         
         public static string levelTitle;
@@ -43,7 +44,8 @@ namespace Paranoia
 #if DEBUG
         private static void SetupBoneMenu()
         {
-            var cat = MenuManager.CreateCategory("Paranoia", Color.white);
+            var maincat = MenuManager.CreateCategory("Not Enough Photons", Color.white);
+            var cat = maincat.CreateCategory("Paranoia", Color.grey);
             cat.CreateFunctionElement("Force Door Spawn", Color.white, delegate
             {
                 var manager = GameObject.Find("ParanoiaManager").GetComponent<ParanoiaManager>();
