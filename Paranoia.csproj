@@ -59,6 +59,7 @@
         <Compile Include="Monobehaviours\Events\AI\MoveAIToPlayer.cs" />
         <Compile Include="Monobehaviours\Events\AI\MoveAIToRadio.cs" />
         <Compile Include="Monobehaviours\Events\AI\MoveAIToSpecificLocation.cs" />
+        <Compile Include="Monobehaviours\Events\Player\FakeFireGun.cs" />
         <Compile Include="Monobehaviours\Events\Player\FireGunInHand.cs" />
         <Compile Include="Monobehaviours\Events\Player\GrabPlayer.cs" />
         <Compile Include="Monobehaviours\Events\World\FireGun.cs" />
@@ -111,6 +112,9 @@
         <Reference Include="UnityEngine.PhysicsModule">
           <HintPath>References\UnityEngine.PhysicsModule.dll</HintPath>
         </Reference>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="UnityIntegration\Paranoia\Runtime\Events\Player\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>

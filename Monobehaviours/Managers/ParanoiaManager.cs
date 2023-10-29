@@ -109,7 +109,7 @@ namespace Paranoia.Managers
                 var time = Random.Range(eventTimerMin, eventTimerMax);
                 yield return new WaitForSeconds(time);
                 MelonLogger.Msg("Event tick event phase");
-                var rand = Random.Range(1, 14);
+                var rand = Random.Range(1, 15);
                 switch (rand)
                 {
                     case 1:
@@ -169,6 +169,10 @@ namespace Paranoia.Managers
                         MelonLogger.Msg("Chosen event: MoveAIToSpecificLocation");
                         var location3 = npcMoveLocations[Random.Range(0, npcMoveLocations.Length)];
                         Events.MoveAIToSpecificLocation.Activate(location3);
+                        break;
+                    case 15:
+                        MelonLogger.Msg("Chosen event: FakeFireGun");
+                        Events.FakeFireGun.Activate();
                         break;
                     default:
                         MelonLogger.Error("Something broke. Random number couldn't be read. Falling back to DragRandomNpc.");
