@@ -24,6 +24,7 @@ namespace Paranoia.Entities
 
         private void Start()
         {
+            ModConsole.Msg("Mirage spawned", LoggingMode.DEBUG);
             _player = Player.playerHead;
             SetTargetPosition();
             if (shootable) return;
@@ -50,7 +51,7 @@ namespace Paranoia.Entities
         private IEnumerator DespawnSelf(float delay)
         {
             yield return new WaitForSeconds(delay);
-            MelonLogger.Msg("Mirage despawned");
+            ModConsole.Msg("Mirage despawned", LoggingMode.DEBUG);
             Destroy(gameObject);
         }
 

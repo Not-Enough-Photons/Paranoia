@@ -1,6 +1,7 @@
 ﻿using SLZ.Combat;
 using SLZ.Rig;
 using UnityEngine;
+using UltEvents;
 
 using Random = UnityEngine.Random;
 

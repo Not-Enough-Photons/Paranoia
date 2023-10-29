@@ -1,6 +1,7 @@
 ﻿using System;
 using MelonLoader;
 using System.Collections;
+using System.Collections.Generic;
 using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
 using UnityEngine;
@@ -12,7 +13,8 @@ namespace Paranoia.Managers
     {
         public float eventTimerMin = 30f;
         public float eventTimerMax = 60f;
-        public GameObject lights;
+        public Light[] lights;
+        public List<Light> _lights;
         public Transform[] npcMoveLocations;
         public AudioClip[] grabSounds;
         public float entityTimerMin = 60f;
@@ -28,6 +30,15 @@ namespace Paranoia.Managers
         public Transform[] doorSpawnLocations;
         private bool _enabled;
         private bool _doorSpawned;
+        
+        /// <summary>
+        /// Used within the baseline support.
+        /// <br/> It is advised that you do not use this yourself.
+        /// </summary>
+        public void AddLightsToArray()
+        {
+            lights = _lights.ToArray();
+        }
         
         /// <summary>
         /// Enables all tick coroutines.

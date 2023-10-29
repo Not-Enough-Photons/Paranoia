@@ -23,7 +23,7 @@ namespace Paranoia.Entities
         
         private void Start()
         {
-            MelonLogger.Msg("Crasher spawned");
+            ModConsole.Msg("Crasher spawned", LoggingMode.DEBUG);
             audioSource.clip = possibleSounds[Random.Range(0, possibleSounds.Length)];
             audioSource.Play();
             _player = Player.playerHead;
@@ -45,7 +45,7 @@ namespace Paranoia.Entities
 
         public void Despawn()
         {
-            MelonLogger.Msg("Crasher despawned");
+            ModConsole.Msg("Crasher despawned", LoggingMode.DEBUG);
             Destroy(gameObject);
         }
         

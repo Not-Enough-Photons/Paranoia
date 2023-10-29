@@ -18,15 +18,27 @@ namespace Paranoia.Events
             
             var brains = Utilities.FindAIBrains();
 
-            if(brains == null || brains.Length == 0) { return; }
+            if (brains == null || brains.Length == 0)
+            {
+                ModConsole.Error("No AI brains found!");
+                return;
+            }
 
             var rand = brains[Random.Range(0, brains.Length)];
 
-            if(rand == null) { return; }
+            if (rand == null)
+            {
+                ModConsole.Error("Random AI brain is null!");
+                return;
+            }
 
             var physRoot = rand.transform.Find("Physics/Root_M");
 
-            if(physRoot == null) { return; }
+            if (physRoot == null)
+            {
+                ModConsole.Error("Physics root is null!");
+                return;
+            }
 
             var rbs = new Rigidbody[]
             {
@@ -38,7 +50,11 @@ namespace Paranoia.Events
 
             var targetRb = rbs[Random.Range(0, rbs.Length)];
 
-            if(targetRb == null) { return; }
+            if (targetRb == null)
+            {
+                ModConsole.Error("Target rigidbody is null!");
+                return;
+            }
 
             MelonLoader.MelonCoroutines.Start(CoGrabRoutine(rand, targetRb, grabClips));
         }

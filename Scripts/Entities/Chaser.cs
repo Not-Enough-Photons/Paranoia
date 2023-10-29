@@ -3,22 +3,27 @@ using BoneLib;
 using MelonLoader;
 using SLZ.Rig;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Paranoia.Entities
 {
     /// <summary>
-    /// Follows the player.
+    /// Chases the player. Very similar to Follower, but plays a random sound.
     /// </summary>
-    public class Follower : MonoBehaviour
+    public class Chaser : MonoBehaviour
     {
         public float movementSpeed;
         public bool shootable;
+        public AudioClip[] possibleSounds;
+        public AudioSource audioSource;
         private Transform _player;
         private Transform This => transform;
-        
+
         private void Start()
         {
-            MelonLogger.Msg("Follower spawned");
+            ModConsole.Msg("Chaser spawned", LoggingMode.DEBUG);
+            audioSource.clip = possibleSounds[Random.Range(0, possibleSounds.Length)];
+            audioSource.Play();
             _player = Player.playerHead;
         }
         
@@ -33,11 +38,11 @@ namespace Paranoia.Entities
             if (shootable) return;
             if (other.GetComponentInParent<RigManager>() != null)
             {
-                MelonLogger.Msg("Follower despawned");
+                ModConsole.Msg("Chaser despawned", LoggingMode.DEBUG);
                 Destroy(gameObject);
             }
         }
-        
-        public Follower(IntPtr ptr) : base(ptr) { }
+
+        public Chaser(IntPtr ptr) : base(ptr) { }
     }
 }

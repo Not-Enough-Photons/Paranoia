@@ -7,30 +7,25 @@ using UnityEngine;
 namespace Paranoia.Entities
 {
     /// <summary>
-    /// Moves when the player isn't looking at it.
+    /// Follows the player.
     /// </summary>
-    public class WeepingAngel : MonoBehaviour
+    public class Follower : MonoBehaviour
     {
-        public float lookThreshold = 0.5f;
         public float movementSpeed;
         public bool shootable;
         private Transform _player;
         private Transform This => transform;
-
+        
         private void Start()
         {
-            MelonLogger.Msg("Weeping Angel spawned");
+            ModConsole.Msg("Follower spawned", LoggingMode.DEBUG);
             _player = Player.playerHead;
         }
-
+        
         private void FixedUpdate()
         {
+            This.localPosition += This.forward * (movementSpeed * Time.deltaTime);
             This.LookAt(_player);
-            var dotProduct = Vector3.Dot(_player.forward, This.forward);
-            if (dotProduct >= lookThreshold)
-            {
-                This.localPosition += This.forward * (movementSpeed * Time.deltaTime);
-            }
         }
         
         private void OnTriggerEnter(Collider other)
@@ -38,11 +33,11 @@ namespace Paranoia.Entities
             if (shootable) return;
             if (other.GetComponentInParent<RigManager>() != null)
             {
-                MelonLogger.Msg("Weeping Angel despawned");
+                ModConsole.Msg("Follower despawned", LoggingMode.DEBUG);
                 Destroy(gameObject);
             }
         }
-
-        public WeepingAngel(IntPtr ptr) : base(ptr) { }
+        
+        public Follower(IntPtr ptr) : base(ptr) { }
     }
 }

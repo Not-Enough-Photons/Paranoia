@@ -40,40 +40,47 @@
     <ItemGroup>
         <Compile Include="FieldInjection.cs" />
         <Compile Include="Main.cs"/>
-        <Compile Include="Monobehaviours\Entities\AudioEvent.cs" />
-        <Compile Include="Monobehaviours\Entities\Crasher.cs" />
-        <Compile Include="Monobehaviours\Entities\Follower.cs" />
-        <Compile Include="Monobehaviours\Entities\Chaser.cs" />
-        <Compile Include="Monobehaviours\Entities\Mirage.cs" />
-        <Compile Include="Monobehaviours\Entities\Stalker.cs" />
-        <Compile Include="Monobehaviours\Entities\Watcher.cs" />
-        <Compile Include="Monobehaviours\Entities\Paralyzer.cs" />
-        <Compile Include="Monobehaviours\Entities\Radio.cs" />
-        <Compile Include="Monobehaviours\Entities\WeepingAngel.cs" />
-        <Compile Include="Monobehaviours\Events\AI\Crabtroll.cs" />
-        <Compile Include="Monobehaviours\Events\AI\DragNpcToCeiling.cs" />
-        <Compile Include="Monobehaviours\Events\AI\DragRandomNpc.cs" />
-        <Compile Include="Monobehaviours\Events\AI\KillAI.cs" />
-        <Compile Include="Monobehaviours\Events\AI\LaughAtPlayer.cs" />
-        <Compile Include="Monobehaviours\Events\AI\MoveAIToPlayer.cs" />
-        <Compile Include="Monobehaviours\Events\AI\MoveAIToRadio.cs" />
-        <Compile Include="Monobehaviours\Events\AI\MoveAIToSpecificLocation.cs" />
-        <Compile Include="Monobehaviours\Events\Player\FakeFireGun.cs" />
-        <Compile Include="Monobehaviours\Events\Player\FireGunInHand.cs" />
-        <Compile Include="Monobehaviours\Events\Player\GrabPlayer.cs" />
-        <Compile Include="Monobehaviours\Events\World\FireGun.cs" />
-        <Compile Include="Monobehaviours\Events\World\FlickerFlashlights.cs" />
-        <Compile Include="Monobehaviours\Events\World\FlingRandomObject.cs" />
-        <Compile Include="Monobehaviours\Events\World\LightFlicker.cs" />
-        <Compile Include="Monobehaviours\Helpers\FreezePlayer.cs" />
-        <Compile Include="Monobehaviours\Helpers\SeasonalEntity.cs" />
-        <Compile Include="Monobehaviours\Helpers\Warehouse.cs" />
-        <Compile Include="Monobehaviours\Internal\ParanoiaEvent.cs" />
-        <Compile Include="Monobehaviours\Managers\ParanoiaManager.cs" />
-        <Compile Include="Monobehaviours\Helpers\Utilities.cs" />
+        <Compile Include="Melon\ModConsole.cs" />
+        <Compile Include="Melon\ModPref.cs" />
+        <Compile Include="Melon\Preferences.cs" />
+        <Compile Include="Scripts\Entities\AudioEvent.cs" />
+        <Compile Include="Scripts\Entities\Crasher.cs" />
+        <Compile Include="Scripts\Entities\Follower.cs" />
+        <Compile Include="Scripts\Entities\Chaser.cs" />
+        <Compile Include="Scripts\Entities\Mirage.cs" />
+        <Compile Include="Scripts\Entities\Stalker.cs" />
+        <Compile Include="Scripts\Entities\Watcher.cs" />
+        <Compile Include="Scripts\Entities\Paralyzer.cs" />
+        <Compile Include="Scripts\Entities\Radio.cs" />
+        <Compile Include="Scripts\Entities\WeepingAngel.cs" />
+        <Compile Include="Scripts\Events\AI\Crabtroll.cs" />
+        <Compile Include="Scripts\Events\AI\DragNpcToCeiling.cs" />
+        <Compile Include="Scripts\Events\AI\DragRandomNpc.cs" />
+        <Compile Include="Scripts\Events\AI\KillAI.cs" />
+        <Compile Include="Scripts\Events\AI\LaughAtPlayer.cs" />
+        <Compile Include="Scripts\Events\AI\MoveAIToPlayer.cs" />
+        <Compile Include="Scripts\Events\AI\MoveAIToRadio.cs" />
+        <Compile Include="Scripts\Events\AI\MoveAIToSpecificLocation.cs" />
+        <Compile Include="Scripts\Events\Player\FakeFireGun.cs" />
+        <Compile Include="Scripts\Events\Player\FireGunInHand.cs" />
+        <Compile Include="Scripts\Events\Player\GrabPlayer.cs" />
+        <Compile Include="Scripts\Events\World\FireGun.cs" />
+        <Compile Include="Scripts\Events\World\FlickerFlashlights.cs" />
+        <Compile Include="Scripts\Events\World\FlingRandomObject.cs" />
+        <Compile Include="Scripts\Events\World\LightFlicker.cs" />
+        <Compile Include="Scripts\Helpers\FreezePlayer.cs" />
+        <Compile Include="Scripts\Helpers\SeasonalEntity.cs" />
+        <Compile Include="Scripts\Helpers\Warehouse.cs" />
+        <Compile Include="Scripts\Internal\BaselineCheck.cs" />
+        <Compile Include="Scripts\Internal\ParanoiaEvent.cs" />
+        <Compile Include="Scripts\Managers\ParanoiaManager.cs" />
+        <Compile Include="Scripts\Helpers\Utilities.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
+        <Reference Include="0Harmony">
+          <HintPath>References\0Harmony.dll</HintPath>
+        </Reference>
         <Reference Include="Assembly-CSharp">
           <HintPath>References\Assembly-CSharp.dll</HintPath>
         </Reference>

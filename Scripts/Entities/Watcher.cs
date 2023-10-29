@@ -17,7 +17,7 @@ namespace Paranoia.Entities
 
         private void Start()
         {
-            MelonLogger.Msg("Watcher spawned");
+            ModConsole.Msg("Watcher spawned", LoggingMode.DEBUG);
             _player = Player.playerHead;
             MelonCoroutines.Start(DespawnSelf(timeToDespawn));
         }
@@ -30,7 +30,7 @@ namespace Paranoia.Entities
         private IEnumerator DespawnSelf(float delay)
         {
             yield return new WaitForSeconds(delay);
-            MelonLogger.Msg("Watcher despawned");
+            ModConsole.Msg("Watcher despawned", LoggingMode.DEBUG);
             Destroy(gameObject);
         }
 

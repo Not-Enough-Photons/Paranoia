@@ -17,7 +17,7 @@ namespace Paranoia.Entities
 
         private void Start()
         {
-            MelonLogger.Msg("Radio spawned");
+            ModConsole.Msg("Radio spawned", LoggingMode.DEBUG);
             audioSource.clip = audioClips[Random.Range(0, audioClips.Length)];
             audioSource.Play();
             MelonCoroutines.Start(DespawnSelf(audioSource.clip.length));
@@ -26,7 +26,7 @@ namespace Paranoia.Entities
         private IEnumerator DespawnSelf(float delay)
         {
             yield return new WaitForSeconds(delay);
-            MelonLogger.Msg("Radio despawned");
+            ModConsole.Msg("Radio despawned", LoggingMode.DEBUG);
             Destroy(gameObject);
         }
         

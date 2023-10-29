@@ -23,7 +23,7 @@ namespace Paranoia.Helpers
         /// <param name="callback">The code to run when the crate is spawned.</param>
         public static void Spawn(SpawnableCrateReference crateRef, Vector3 position, Quaternion rotation, bool ignorePolicy, Action<GameObject> callback)
         {
-            MelonLogger.Msg($"Spawning {crateRef.Crate._title}");
+            ModConsole.Msg($"Spawning {crateRef.Crate._title}", LoggingMode.DEBUG);
             var spawnable = new Spawnable()
             {
                 crateRef = crateRef

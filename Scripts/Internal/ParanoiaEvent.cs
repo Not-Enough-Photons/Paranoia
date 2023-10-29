@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Paranoia
+namespace Paranoia.Internal
 {
     /// <summary>
     /// Used for Unity Editor, kept in built code just in case.

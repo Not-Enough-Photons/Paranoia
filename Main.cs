@@ -1,4 +1,7 @@
-﻿using MelonLoader;
+﻿using BoneLib;
+using HarmonyLib;
+using MelonLoader;
+using Paranoia.Helpers;
 
 namespace Paranoia
 {
@@ -13,7 +16,16 @@ namespace Paranoia
         
         public override void OnInitializeMelon()
         {
+            ModConsole.Setup(LoggerInstance);
+            Preferences.Setup();
             FieldInjection.Inject();
+            Hooking.OnLevelInitialized += OnLevelLoad;
+        }
+        
+        public static string levelTitle;
+        private static void OnLevelLoad(LevelInfo levelInfo)
+        {
+            levelTitle = levelInfo.title;
         }
     }
 }

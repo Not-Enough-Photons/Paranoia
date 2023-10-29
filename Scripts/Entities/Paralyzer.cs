@@ -18,7 +18,7 @@ namespace Paranoia.Entities
 
         private void Start()
         {
-            MelonLogger.Msg("Paralyzer spawned");
+            ModConsole.Msg("Paralyzer spawned", LoggingMode.DEBUG);
             _player = Player.physicsRig.m_chest;
             This.position = _player.position + _player.forward * 25f;
             Utilities.FreezePlayer(true);
@@ -46,7 +46,7 @@ namespace Paranoia.Entities
         private IEnumerator DespawnSelf()
         {
             yield return new WaitForSeconds(5f);
-            MelonLogger.Msg("Paralyzer despawned");
+            ModConsole.Msg("Paralyzer despawned", LoggingMode.DEBUG);
             Utilities.FreezePlayer(false);
             Destroy(gameObject);
         }

@@ -16,15 +16,17 @@ namespace Paranoia.Events
 
             foreach(var brain in brains)
             {
-                if(brain == null)
+                if (brain == null)
                 {
-                    continue;
+                    ModConsole.Error("Brain is null!");
+                    return;
                 }
 
                 var powerLegs = brain.gameObject.GetComponentInChildren<BehaviourPowerLegs>();
 
-                if(!powerLegs)
+                if (powerLegs == null)
                 {
+                    ModConsole.Error("Power legs is null!");
                     return;
                 }
 

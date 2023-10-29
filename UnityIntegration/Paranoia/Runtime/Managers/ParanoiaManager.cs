@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,7 +17,9 @@ namespace Paranoia.Managers
         [Tooltip("The maximum amount of time between events.")]
         public float eventTimerMax = 60f;
         [Tooltip("The lights that will flicker during the LightFlicker event.")]
-        public GameObject lights;
+        public Light[] lights;
+        [HideInInspector]
+        public List<Light> _lights;
         [Tooltip("The list of locations that NPCs may be moved to.")]
         public Transform[] npcMoveLocations;
         [Tooltip("The sounds used for the grab events.")]
@@ -47,6 +50,11 @@ namespace Paranoia.Managers
         public Transform[] doorSpawnLocations;
         private bool _enabled;
         private bool _doorSpawned;
+
+        public void AddLightsToArray()
+        {
+
+        }
 
         public void Enable()
         {

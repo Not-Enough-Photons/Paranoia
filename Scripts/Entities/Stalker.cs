@@ -19,7 +19,7 @@ namespace Paranoia.Entities
         
         private void Start()
         {
-            MelonLogger.Msg("Stalker spawned");
+            ModConsole.Msg("Stalker spawned", LoggingMode.DEBUG);
             _player = Player.physicsRig.m_chest;
             _playerHead = Player.playerHead;
             var randint = Random.Range(0, 1);
@@ -47,7 +47,7 @@ namespace Paranoia.Entities
         private IEnumerator DespawnSelf(float delay)
         {
             yield return new WaitForSeconds(delay);
-            MelonLogger.Msg("Stalker despawned");
+            ModConsole.Msg("Stalker despawned", LoggingMode.DEBUG);
             Destroy(gameObject);
         }
 

@@ -15,20 +15,31 @@ namespace Paranoia.Events
     {
         public static void Activate(GameObject paranoiaManager)
         {
-            MelonLogger.Msg("DragNpcToCeiling activated");
             var clips = paranoiaManager.GetComponent<ParanoiaManager>().grabSounds;
             var brains = Utilities.FindAIBrains();
-            if (brains == null || brains.Length == 0) { return; }
-            MelonLogger.Msg($"Got AIBrains: {brains.Length}");
+            if (brains == null || brains.Length == 0)
+            {
+                ModConsole.Error("No AI brains found!");
+                return;
+            }
             var rand = brains[Random.Range(0, brains.Length)];
-            if (rand == null) { return; }
-            MelonLogger.Msg($"Got random AIBrain: {rand.name}");
+            if (rand == null)
+            {
+                ModConsole.Error("Random AI brain is null!");
+                return; 
+            }
             var physRoot = rand.transform.Find("Physics/Root_M");
-            if (physRoot == null) { return; }
-            MelonLogger.Msg($"Got physRoot: {physRoot.name}");
+            if (physRoot == null)
+            {
+                ModConsole.Error("Physics root is null!");
+                return;
+            }
             var targetRB = physRoot.Find("Spine_M/Chest_M/Head_M").GetComponent<Rigidbody>();
-            if (targetRB == null) { return; }
-            MelonLogger.Msg($"Got targetRB: {targetRB.name}");
+            if (targetRB == null)
+            {
+                ModConsole.Error("Target rigidbody is null!");
+                return;
+            }
             rand.puppetMaster.muscleWeight = 0f;
             MelonCoroutines.Start(CoGrabRoutine(rand, targetRB, clips));
         }
