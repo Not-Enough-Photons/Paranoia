@@ -71,44 +71,51 @@ namespace Paranoia.Managers
         /// </summary>
         private IEnumerator EntityTick()
         {
-            MelonLogger.Msg("Entity tick started");
+            ModConsole.Msg("Entity tick started", LoggingMode.DEBUG);
             while (_enabled)
             {
-                MelonLogger.Msg("Entity tick begin");
+                ModConsole.Msg("Entity tick begin", LoggingMode.DEBUG);
                 var time = Random.Range(entityTimerMin, entityTimerMax);
                 yield return new WaitForSeconds(time);
-                MelonLogger.Msg("Entity tick spawn phase");
+                ModConsole.Msg("Entity tick spawn phase", LoggingMode.DEBUG);
                 var entity = entities[Random.Range(0, entities.Length)];
-                MelonLogger.Msg($"Chosen entity: {entity.Crate.name}");
+                ModConsole.Msg($"Chosen entity: {entity.Crate.name}", LoggingMode.DEBUG);
                 var crateTag = entity.Crate.Tags;
                 switch (crateTag.Contains("Air") ? "Air" : crateTag.Contains("Ground") ? "Ground" : crateTag.Contains("Special") ? "Special" : crateTag.Contains("Audio") ? "Audio" : "None")
                 {
                     case "Air":
                     {
+                        ModConsole.Msg("Entity had Air tag", LoggingMode.DEBUG);
                         var location = airSpawns[Random.Range(0, airSpawns.Length)];
                         Warehouse.Spawn(entity, location.position, Quaternion.identity, false, go => { });
                         break;
                     }
                     case "Ground":
                     {
+                        ModConsole.Msg("Entity had Ground tag", LoggingMode.DEBUG);
                         var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
                         Warehouse.Spawn(entity, location.position, Quaternion.identity, false, go => { });
                         break;
                     }
                     case "Special":
                     {
+                        ModConsole.Msg("Entity had Special tag", LoggingMode.DEBUG);
                         Warehouse.Spawn(entity, mirageSpawn.position, Quaternion.identity, false, go => { });
                         break;
                     }
                     case "Audio":
                     {
+                        ModConsole.Msg("Entity had Audio tag", LoggingMode.DEBUG);
                         var location = audioSpawns[Random.Range(0, audioSpawns.Length)];
                         Warehouse.Spawn(entity, location.position, Quaternion.identity, false, go => { });
                         break;
                     }
                     case "None":
                     {
-                        MelonLogger.Msg("You forgot to set a tag lol");
+                        ModConsole.Warning("You idiot. You absolute buffoon. You have a crate with no tag. It has no way of spawning. You moron.");
+                        ModConsole.Warning("I'm gonna slap this guy at a random ground spawn. I hope you're happy.");
+                        var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
+                        Warehouse.Spawn(entity, location.position, Quaternion.identity, false, go => { });
                         break;
                     }
                     default:
@@ -125,81 +132,81 @@ namespace Paranoia.Managers
         /// </summary>
         private IEnumerator EventTick()
         {
-            MelonLogger.Msg("Event tick started");
+            ModConsole.Msg("Event tick started", LoggingMode.DEBUG);
             while (_enabled)
             {
-                MelonLogger.Msg("Event tick begin");
+                ModConsole.Msg("Event tick begin", LoggingMode.DEBUG);
                 var time = Random.Range(eventTimerMin, eventTimerMax);
                 yield return new WaitForSeconds(time);
-                MelonLogger.Msg("Event tick event phase");
+                ModConsole.Msg("Event tick event phase", LoggingMode.DEBUG);
                 // When adding new events, make sure to add them to the switch statement below. Increment the random range by 1, and add a new case.
                 var rand = Random.Range(1, 15);
                 switch (rand)
                 {
                     case 1:
-                        MelonLogger.Msg("Chosen event: DragRandomNpc");
+                        ModConsole.Msg("Chosen event: DragRandomNpc", LoggingMode.DEBUG);
                         Events.DragRandomNpc.Activate(gameObject);
                         break;
                     case 2:
-                        MelonLogger.Msg("Chosen event: DragNpcToCeiling");
+                        ModConsole.Msg("Chosen event: DragNpcToCeiling", LoggingMode.DEBUG);
                         Events.DragNpcToCeiling.Activate(gameObject);
                         break;
                     case 3:
-                        MelonLogger.Msg("Chosen event: KillAI");
+                        ModConsole.Msg("Chosen event: KillAI", LoggingMode.DEBUG);
                         Events.KillAI.Activate();
                         break;
                     case 4:
-                        MelonLogger.Msg("Chosen event: LaughAtPlayer");
+                        ModConsole.Msg("Chosen event: LaughAtPlayer", LoggingMode.DEBUG);
                         Events.LaughAtPlayer.Activate();
                         break;
                     case 5:
-                        MelonLogger.Msg("Chosen event: MoveAIToPlayer");
+                        ModConsole.Msg("Chosen event: MoveAIToPlayer", LoggingMode.DEBUG);
                         Events.MoveAIToPlayer.Activate();
                         break;
                     case 6:
-                        MelonLogger.Msg("Chosen event: MoveAIToRadio");
+                        ModConsole.Msg("Chosen event: MoveAIToRadio", LoggingMode.DEBUG);
                         var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
                         Events.MoveAIToRadio.Activate("NotEnoughPhotons.Paranoia.Spawnable.Radio", location);
                         break;
                     case 7:
-                        MelonLogger.Msg("Chosen event: FireGunInHand");
+                        ModConsole.Msg("Chosen event: FireGunInHand", LoggingMode.DEBUG);
                         Events.FireGunInHand.Activate();
                         break;
                     case 8:
-                        MelonLogger.Msg("Chosen event: FireGun");
+                        ModConsole.Msg("Chosen event: FireGun", LoggingMode.DEBUG);
                         Events.FireGun.Activate();
                         break;
                     case 9:
-                        MelonLogger.Msg("Chosen Event: FlickerFlashlights");
+                        ModConsole.Msg("Chosen Event: FlickerFlashlights", LoggingMode.DEBUG);
                         Events.FlickerFlashlights.Activate();
                         break;
                     case 10:
-                        MelonLogger.Msg("Chosen event: FlingRandomObject");
+                        ModConsole.Msg("Chosen event: FlingRandomObject", LoggingMode.DEBUG);
                         Events.FlingRandomObject.Activate();
                         break;
                     case 11:
-                        MelonLogger.Msg("Chosen event: LightFlicker");
+                        ModConsole.Msg("Chosen event: LightFlicker", LoggingMode.DEBUG);
                         Events.LightFlicker.Activate(lights);
                         break;
                     case 12:
-                        MelonLogger.Msg("Chosen event: GrabPlayer");
+                        ModConsole.Msg("Chosen event: GrabPlayer", LoggingMode.DEBUG);
                         Events.GrabPlayer.Activate(gameObject);
                         break;
                     case 13:
-                        MelonLogger.Msg("Chosen event: Crabtroll");
+                        ModConsole.Msg("Chosen event: Crabtroll", LoggingMode.DEBUG);
                         Events.Crabtroll.Activate();
                         break;
                     case 14:
-                        MelonLogger.Msg("Chosen event: MoveAIToSpecificLocation");
+                        ModConsole.Msg("Chosen event: MoveAIToSpecificLocation", LoggingMode.DEBUG);
                         var location3 = npcMoveLocations[Random.Range(0, npcMoveLocations.Length)];
                         Events.MoveAIToSpecificLocation.Activate(location3);
                         break;
                     case 15:
-                        MelonLogger.Msg("Chosen event: FakeFireGun");
+                        ModConsole.Msg("Chosen event: FakeFireGun", LoggingMode.DEBUG);
                         Events.FakeFireGun.Activate();
                         break;
                     default:
-                        MelonLogger.Error("Something broke. Random number couldn't be read. Falling back to DragRandomNpc.");
+                        ModConsole.Error("Something broke. Random number couldn't be read. Falling back to DragRandomNpc.");
                         Events.DragRandomNpc.Activate(gameObject);
                         break;
                 }
@@ -211,10 +218,10 @@ namespace Paranoia.Managers
         /// </summary>
         private IEnumerator DoorTick()
         {
-            MelonLogger.Msg("Door tick started");
+            ModConsole.Msg("Door tick started", LoggingMode.DEBUG);
             var time = Random.Range(doorTimerMin, doorTimerMax);
             yield return new WaitForSeconds(time);
-            MelonLogger.Msg("Door tick door phase");
+            ModConsole.Msg("Door tick door phase", LoggingMode.DEBUG);
             var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
             Instantiate(door, location.position, location.rotation);
             _doorSpawned = true;

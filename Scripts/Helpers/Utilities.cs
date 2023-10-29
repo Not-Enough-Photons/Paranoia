@@ -88,7 +88,7 @@ namespace Paranoia.Helpers
         /// </summary>
         public static void CrashGame()
         {
-            ModConsole.Warning("THE CRASH WAS INTENTIONAL! IF SOMEONE POSTS A LOG OF WHY THE GAME CRASHED AND THIS LINE IS HERE, THEIR POST IS NULL. THIS IS AN INTENTIONAL CRASH.");
+            ModConsole.Warning("THIS IS THAT LATER WARNING. THIS WAS CAUSED BY INTENTIONAL MOD DESIGN. THIS IS NOT A BUG. THIS LOG IS VOID!");
             Utils.ForceCrash(ForcedCrashCategory.AccessViolation);
         }
     }
