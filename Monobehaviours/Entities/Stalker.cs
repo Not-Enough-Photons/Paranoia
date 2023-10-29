@@ -11,12 +11,14 @@ namespace Paranoia.Entities
     {
         public float timeToDespawn;
         private Transform _player;
+        private Transform _playerHead;
         private Transform This => transform;
         
         private void Start()
         {
             MelonLogger.Msg("Stalker spawned");
-            _player = Player.playerHead;
+            _player = Player.physicsRig.m_chest;
+            _playerHead = Player.playerHead;
             var randint = Random.Range(0, 1);
             switch (randint)
             {
@@ -36,7 +38,7 @@ namespace Paranoia.Entities
         
         private void FixedUpdate()
         {
-            This.LookAt(_player);
+            This.LookAt(_playerHead);
         }
         
         private IEnumerator DespawnSelf(float delay)

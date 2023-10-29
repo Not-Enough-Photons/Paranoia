@@ -16,7 +16,7 @@ namespace Paranoia.Entities
         private void Start()
         {
             MelonLogger.Msg("Paralyzer spawned");
-            _player = Player.playerHead;
+            _player = Player.physicsRig.m_chest;
             This.position = _player.position + _player.forward * 25f;
             Utilities.FreezePlayer(true);
             paralysisSound.Play();
