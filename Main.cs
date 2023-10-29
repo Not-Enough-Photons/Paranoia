@@ -2,6 +2,7 @@
 using MelonLoader;
 using UnityEngine;
 #if DEBUG
+using BoneLib.BoneMenu;
 using BoneLib.BoneMenu.Elements;
 using Paranoia.Helpers;
 using Paranoia.Events;
@@ -42,7 +43,7 @@ namespace Paranoia
 #if DEBUG
         private static void SetupBoneMenu()
         {
-            var cat = new MenuCategory("Paranoia", Color.white);
+            var cat = MenuManager.CreateCategory("Paranoia", Color.white);
             cat.CreateFunctionElement("Force Door Spawn", Color.white, delegate
             {
                 var manager = GameObject.Find("ParanoiaManager").GetComponent<ParanoiaManager>();
