@@ -8,12 +8,12 @@ namespace Paranoia
 
         public static ModPref<LoggingMode> loggingMode;
 
-        public static ModPref<bool> baselineSchizophrenia;
+        public static ModPref<bool> enabledInBaseGameMaps;
 
         public static void Setup()
         {
             loggingMode = new ModPref<LoggingMode>(category, "LoggingMode", LoggingMode.NORMAL, "Logging Mode", "The logging mode to use: NORMAL, DEBUG");
-            baselineSchizophrenia = new ModPref<bool>(category, "BaselineSchizophrenia", true, "Baseline Activation", "Whether to activate Paranoia in Baseline or not.");
+            enabledInBaseGameMaps = new ModPref<bool>(category, "EnabledInBaseGameMaps", true, "Baseline/Museum Basement Activation", "Whether to activate Paranoia in Baseline/Museum Basement or not.");
             category.SaveToFile(false);
             ModConsole.Msg("Finished preferences setup", LoggingMode.DEBUG);
         }

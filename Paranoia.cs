@@ -31,7 +31,7 @@ namespace Paranoia
         {
             ModConsole.Setup(LoggerInstance);
             Preferences.Setup();
-            BaselineCheck.enabled = Preferences.baselineSchizophrenia.entry.Value;
+            MapCheck.enabled = Preferences.enabledInBaseGameMaps.entry.Value;
             ModConsole.Msg("THIS PERSON IS USING PARANOIA. THERE IS AN EVENT THAT CRASHES THE GAME. THIS LOG MAY BE VOID, CHECK LATER IN THE LOG FOR A SIMILAR WARNING TO CONFIRM");
             FieldInjection.Inject();
             Hooking.OnLevelInitialized += OnLevelLoaded;
@@ -42,7 +42,7 @@ namespace Paranoia
         }
         
         /// <summary>
-        /// Set to be whatever level you're in. Used in <see cref="BaselineCheck"/>.
+        /// Set to be whatever level you're in. Used in <see cref="MapCheck"/>.
         /// </summary>
         public static string levelTitle;
         /// <summary>
