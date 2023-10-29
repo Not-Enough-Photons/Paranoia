@@ -21,7 +21,7 @@
         <OutputPath>bin\Debug\</OutputPath>
         <DefineConstants>DEBUG;TRACE;MELONLOADER</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
+        <WarningLevel>2</WarningLevel>
         <DocumentationFile>bin\Debug\Paranoia.xml</DocumentationFile>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -31,14 +31,11 @@
         <OutputPath>bin\Release\</OutputPath>
         <DefineConstants>TRACE;MELONLOADER</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
+        <WarningLevel>3</WarningLevel>
         <DocumentationFile>bin\Release\Paranoia.xml</DocumentationFile>
     </PropertyGroup>
     <PropertyGroup>
         <StartupObject/>
-    </PropertyGroup>
-    <PropertyGroup>
-      <PostBuildEvent>copy /Y "I:\GitHub\Rider\Paranoia\bin\Debug\Paranoia.dll" "I:\Steam\steamapps\common\BONELAB\Mods\"</PostBuildEvent>
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="FieldInjection.cs" />
