@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Fires a random gun in the scene.
+    /// </summary>
     public static class FireGun
     {
         public static void Activate()

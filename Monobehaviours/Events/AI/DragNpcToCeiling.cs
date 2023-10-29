@@ -8,6 +8,9 @@ using Random = UnityEngine.Random;
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Drags a random NPC to the ceiling.
+    /// </summary>
     public static class DragNpcToCeiling
     {
         public static void Activate(GameObject paranoiaManager)

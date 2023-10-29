@@ -4,6 +4,10 @@ using Random = UnityEngine.Random;
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Flickers the given lights by toggling the gameobject over and over.
+    /// <br/>Parent your lights to the gameobject given to this script.
+    /// </summary>
     public static class LightFlicker
     {
         public static void Activate(GameObject lights)

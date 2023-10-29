@@ -9,6 +9,10 @@ using Random = UnityEngine.Random;
 
 namespace Paranoia.Entities
 {
+    /// <summary>
+    /// Crashes the game if it gets too close.
+    /// <br/>Assuming the person who set up the crasher is smart enough to read instructions, it disappears when shot, so you have a chance.
+    /// </summary>
     public class Crasher : MonoBehaviour
     {
         public float movementSpeed;

@@ -6,8 +6,12 @@ using System.Collections;
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Grabs the player and moves them around for a bit.
+    /// </summary>
     public static class GrabPlayer
     {
+        // TODO: Currently this gets nullref'd. Add logging, figure out why.
         public static void Activate(GameObject paranoiaManager)
         {
             var grabClips = paranoiaManager.GetComponent<ParanoiaManager>().grabSounds;

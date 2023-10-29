@@ -2,6 +2,9 @@
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Kills all NPCs.
+    /// </summary>
     public static class KillAI
     {
         public static void Activate()

@@ -5,6 +5,9 @@ using Random = UnityEngine.Random;
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Flings a random object.
+    /// </summary>
     public static class FlingRandomObject
     {
         public static void Activate()

@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace Paranoia.Entities
 {
+    /// <summary>
+    /// Freezes the player in place and moves towards them.
+    /// </summary>
     public class Paralyzer : MonoBehaviour
     {
         public AudioSource paralysisSound;

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Spawns a radio and sends all AI to the radio.
+    /// </summary>
     public static class MoveAIToRadio
     {
         private static GameObject _radioObj;

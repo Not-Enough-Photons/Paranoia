@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Paranoia.Entities
 {
+    /// <summary>
+    /// Moves when the player isn't looking at it.
+    /// </summary>
     public class WeepingAngel : MonoBehaviour
     {
         public float lookThreshold = 0.5f;

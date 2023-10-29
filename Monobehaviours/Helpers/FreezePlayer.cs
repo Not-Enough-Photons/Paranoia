@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Paranoia.Helpers
 {
+    /// <summary>
+    /// A way to freeze the player through UltEvents.
+    /// </summary>
     public class FreezePlayer : MonoBehaviour
     {
         public void Freeze()

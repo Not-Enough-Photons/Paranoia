@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Paranoia.Entities
 {
+    /// <summary>
+    /// Rapidly darts around the map.
+    /// </summary>
     public class Mirage : MonoBehaviour
     {
         public float movementSpeed;

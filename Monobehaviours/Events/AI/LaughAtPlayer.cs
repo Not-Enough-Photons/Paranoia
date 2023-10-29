@@ -4,8 +4,12 @@ using Random = UnityEngine.Random;
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Makes all NPCs laugh at the player.
+    /// </summary>
     public static class LaughAtPlayer
     {
+        // TODO: Make this work, bonelab must of changed SOMETHING to break this.
         public static void Activate()
         {
             var brains = Utilities.FindAIBrains();

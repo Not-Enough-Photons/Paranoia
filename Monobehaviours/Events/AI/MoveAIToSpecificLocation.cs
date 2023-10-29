@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Moves all NPCs to a given location.
+    /// </summary>
     public static class MoveAIToSpecificLocation
     {
         public static void Activate(Transform location)

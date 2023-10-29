@@ -7,6 +7,9 @@ using Random = UnityEngine.Random;
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Drags a random NPC to a random place.
+    /// </summary>
     public static class DragRandomNpc
     {
         public static void Activate(GameObject paranoiaManager)

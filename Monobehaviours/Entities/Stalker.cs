@@ -7,6 +7,9 @@ using Random = UnityEngine.Random;
 
 namespace Paranoia.Entities
 {
+    /// <summary>
+    /// Spawns in a random position near the player.
+    /// </summary>
     public class Stalker : MonoBehaviour
     {
         public float timeToDespawn;

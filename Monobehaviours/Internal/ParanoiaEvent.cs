@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace Paranoia
 {
+    /// <summary>
+    /// Used for Unity Editor, kept in built code just in case.
+    /// <br/>You can ignore this.
+    /// </summary>
     public class ParanoiaEvent : MonoBehaviour
     {
         public ParanoiaEvent(IntPtr ptr) : base(ptr) { }

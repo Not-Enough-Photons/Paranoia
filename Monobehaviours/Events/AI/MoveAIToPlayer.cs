@@ -3,6 +3,9 @@ using Paranoia.Helpers;
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Moves all NPCs to the player's position.
+    /// </summary>
     public static class MoveAIToPlayer
     {
         public static void Activate()

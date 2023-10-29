@@ -6,6 +6,10 @@ using Random = UnityEngine.Random;
 
 namespace Paranoia.Entities
 {
+    /// <summary>
+    /// Very similar to AudioEvent, but is seperate for one reason:
+    /// <br/>It's used to determine where the radio is in MoveAIToRadio.<see cref="Events.MoveAIToRadio.Activate"/>
+    /// </summary>
     public class Radio : MonoBehaviour
     {
         public AudioClip[] audioClips;

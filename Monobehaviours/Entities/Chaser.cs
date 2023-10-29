@@ -7,6 +7,9 @@ using Random = UnityEngine.Random;
 
 namespace Paranoia.Entities
 {
+    /// <summary>
+    /// Chases the player. Very similar to Follower, but plays a random sound.
+    /// </summary>
     public class Chaser : MonoBehaviour
     {
         public float movementSpeed;

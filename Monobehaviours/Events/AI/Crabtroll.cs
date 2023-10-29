@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Spawns a Crablet behind the player. Lol
+    /// </summary>
     public static class Crabtroll
     {
         public static void Activate()

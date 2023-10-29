@@ -2,6 +2,9 @@
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Actually fires the gun in the player's hand.
+    /// </summary>
     public static class FireGunInHand
     {
         public static void Activate()

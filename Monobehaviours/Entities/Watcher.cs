@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Paranoia.Entities
 {
+    /// <summary>
+    /// Watches the player from wherever they spawned, never moving.
+    /// </summary>
     public class Watcher : MonoBehaviour
     {
         public float timeToDespawn;

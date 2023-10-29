@@ -6,6 +6,9 @@ using System.Collections;
 
 namespace Paranoia.Events
 {
+    /// <summary>
+    /// Flicker all flashlights in the scene.
+    /// </summary>
     public static class FlickerFlashlights
     {
         public static void Activate()

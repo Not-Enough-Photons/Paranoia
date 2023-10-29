@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace Paranoia.Helpers
 {
+    /// <summary>
+    /// Changes the entity's material based on the holiday.
+    /// <br/>Currently changes for Christmas and April Fools
+    /// </summary>
     public class SeasonalEntity : MonoBehaviour
     {
         public MeshRenderer renderer;

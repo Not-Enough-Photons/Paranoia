@@ -6,6 +6,9 @@ using Random = UnityEngine.Random;
 
 namespace Paranoia.Entities
 {
+    /// <summary>
+    /// Plays a random sound.
+    /// </summary>
     public class AudioEvent : MonoBehaviour
     {
         public AudioClip[] audioClips;

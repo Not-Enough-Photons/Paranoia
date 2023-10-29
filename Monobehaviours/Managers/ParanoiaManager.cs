@@ -29,6 +29,9 @@ namespace Paranoia.Managers
         private bool _enabled;
         private bool _doorSpawned;
         
+        /// <summary>
+        /// Enables all tick coroutines.
+        /// </summary>
         public void Enable()
         {
             if (_enabled) return;
@@ -38,7 +41,10 @@ namespace Paranoia.Managers
             if (_doorSpawned) return;
             MelonCoroutines.Start(DoorTick());
         }
-
+        /// <summary>
+        /// Disables all tick coroutines.
+        /// <br/>This is generally not needed, as the manager is gone when the level is unloaded, but it's just there for further control.
+        /// </summary>
         public void Disable()
         {
             if (!_enabled) return;
@@ -48,7 +54,10 @@ namespace Paranoia.Managers
             if (_doorSpawned) return;
             MelonCoroutines.Stop(DoorTick());
         }
-
+        /// <summary>
+        /// Entity Tick runs every X seconds, where X is generated from a random range between serialized fields entityTimerMin and entityTimerMax.
+        /// <br/>Once that time is up, a random entity crate is chosen from the serialized field "entities" and is spawned through Warehouse.<see cref="Warehouse.Spawn"/>.
+        /// </summary>
         private IEnumerator EntityTick()
         {
             MelonLogger.Msg("Entity tick started");
@@ -99,7 +108,10 @@ namespace Paranoia.Managers
                 }
             }
         }
-        
+        /// <summary>
+        ///  Event Tick runs every X seconds, where X is generated from a random range between serialized fields eventTimerMin and eventTimerMax.
+        ///  <br/>Once that time is up, a random event is chosen from the switch statement below.
+        /// </summary>
         private IEnumerator EventTick()
         {
             MelonLogger.Msg("Event tick started");
@@ -109,6 +121,7 @@ namespace Paranoia.Managers
                 var time = Random.Range(eventTimerMin, eventTimerMax);
                 yield return new WaitForSeconds(time);
                 MelonLogger.Msg("Event tick event phase");
+                // When adding new events, make sure to add them to the switch statement below. Increment the random range by 1, and add a new case.
                 var rand = Random.Range(1, 15);
                 switch (rand)
                 {
@@ -181,7 +194,10 @@ namespace Paranoia.Managers
                 }
             }
         }
-
+        /// <summary>
+        /// Door Tick runs every X seconds, where X is generated from a random range between serialized fields doorTimerMin and doorTimerMax.
+        /// <br/>Once that time is up, the door prefab (serialized as "door") is spawned at a random location from the serialized field "doorSpawnLocations".
+        /// </summary>
         private IEnumerator DoorTick()
         {
             MelonLogger.Msg("Door tick started");
