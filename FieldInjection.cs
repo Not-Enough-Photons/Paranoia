@@ -11,6 +11,7 @@ namespace Paranoia
         {
             // Entities
             SerialisationHandler.Inject<AudioEvent>();
+            SerialisationHandler.Inject<Crasher>();
             SerialisationHandler.Inject<Follower>();
             SerialisationHandler.Inject<Chaser>();
             SerialisationHandler.Inject<Watcher>();
