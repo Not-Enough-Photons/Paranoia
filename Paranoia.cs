@@ -11,7 +11,10 @@ using Paranoia.Managers;
 
 namespace Paranoia
 {
-    public class Main : MelonMod
+    /// <summary>
+    /// <see cref="MelonMod"/>
+    /// </summary>
+    public class Paranoia : MelonMod
     {
         internal const string Name = "Paranoia"; // Required
         internal const string Description = "There's something hostile out there."; // Required
@@ -20,6 +23,10 @@ namespace Paranoia
         internal const string Version = "1.0.0";
         internal const string DownloadLink = "null";
         
+        /// <summary>
+        /// Sets up the logger, preferences, fieldinjection, and hooks.
+        /// <br/>If you're using a debug build, also sets up BoneMenu.
+        /// </summary>
         public override void OnInitializeMelon()
         {
             ModConsole.Setup(LoggerInstance);
@@ -34,7 +41,13 @@ namespace Paranoia
 #endif
         }
         
+        /// <summary>
+        /// Set to be whatever your level is in. Used in <see cref="BaselineCheck"/>.
+        /// </summary>
         public static string levelTitle;
+        /// <summary>
+        /// Detects whatever level is loaded and sets <see cref="levelTitle"/> to it.
+        /// </summary>
         private static void OnLevelLoaded(LevelInfo levelInfo)
         {
             ModConsole.Msg($"Level loaded: {levelInfo.title}", LoggingMode.DEBUG);
@@ -42,6 +55,9 @@ namespace Paranoia
         }
         
 #if DEBUG
+        /// <summary>
+        /// Debug menu for testing various things.
+        /// </summary>
         private static void SetupBoneMenu()
         {
             var maincat = MenuManager.CreateCategory("Not Enough Photons", Color.white);

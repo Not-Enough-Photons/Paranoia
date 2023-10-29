@@ -1,17 +1,17 @@
 ﻿using System.Reflection;
 using MelonLoader;
 
-[assembly: AssemblyTitle(Paranoia.Main.Description)]
-[assembly: AssemblyDescription(Paranoia.Main.Description)]
-[assembly: AssemblyCompany(Paranoia.Main.Company)]
-[assembly: AssemblyProduct(Paranoia.Main.Name)]
-[assembly: AssemblyCopyright("Developed by " + Paranoia.Main.Author)]
-[assembly: AssemblyTrademark(Paranoia.Main.Company)]
-[assembly: AssemblyVersion(Paranoia.Main.Version)]
-[assembly: AssemblyFileVersion(Paranoia.Main.Version)]
+[assembly: AssemblyTitle(Paranoia.Paranoia.Description)]
+[assembly: AssemblyDescription(Paranoia.Paranoia.Description)]
+[assembly: AssemblyCompany(Paranoia.Paranoia.Company)]
+[assembly: AssemblyProduct(Paranoia.Paranoia.Name)]
+[assembly: AssemblyCopyright("Developed by " + Paranoia.Paranoia.Author)]
+[assembly: AssemblyTrademark(Paranoia.Paranoia.Company)]
+[assembly: AssemblyVersion(Paranoia.Paranoia.Version)]
+[assembly: AssemblyFileVersion(Paranoia.Paranoia.Version)]
 [assembly:
-    MelonInfo(typeof(Paranoia.Main), Paranoia.Main.Name, Paranoia.Main.Version,
-        Paranoia.Main.Author, Paranoia.Main.DownloadLink)]
+    MelonInfo(typeof(Paranoia.Paranoia), Paranoia.Paranoia.Name, Paranoia.Paranoia.Version,
+        Paranoia.Paranoia.Author, Paranoia.Paranoia.DownloadLink)]
 [assembly: MelonColor(System.ConsoleColor.White)]
 
 // Create and Setup a MelonGame Attribute to mark a Melon as Universal or Compatible with specific Games.

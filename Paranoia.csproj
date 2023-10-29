@@ -29,7 +29,7 @@
         <DebugType>pdbonly</DebugType>
         <Optimize>true</Optimize>
         <OutputPath>bin\Release\</OutputPath>
-        <DefineConstants>TRACE;MELONLOADER;RELEASE</DefineConstants>
+        <DefineConstants>RELEASE;TRACE;MELONLOADER</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>3</WarningLevel>
         <DocumentationFile>bin\Release\Paranoia.xml</DocumentationFile>
@@ -37,9 +37,12 @@
     <PropertyGroup>
         <StartupObject/>
     </PropertyGroup>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="COPY &quot;$(TargetPath)&quot; &quot;I:\Steam\steamapps\common\BONELAB\Mods&quot;" />
+    </Target>
     <ItemGroup>
         <Compile Include="FieldInjection.cs" />
-        <Compile Include="Main.cs"/>
+        <Compile Include="Paranoia.cs" />
         <Compile Include="Melon\ModConsole.cs" />
         <Compile Include="Melon\ModPref.cs" />
         <Compile Include="Melon\Preferences.cs" />

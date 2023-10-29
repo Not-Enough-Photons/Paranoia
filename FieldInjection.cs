@@ -7,6 +7,9 @@ namespace Paranoia
 {
     public static class FieldInjection
     {
+        /// <summary>
+        /// Handles the injection of fields.
+        /// </summary>
         public static void Inject()
         {
             // Entities

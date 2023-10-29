@@ -25,7 +25,7 @@ namespace Paranoia.Internal
         
         private static void SetupBaseline()
         {
-            if (Main.levelTitle == "Baseline")
+            if (Paranoia.levelTitle == "Baseline")
             {
                 ModConsole.Msg("Baseline detected.", LoggingMode.DEBUG);
             }
