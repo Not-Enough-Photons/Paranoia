@@ -42,7 +42,7 @@ namespace Paranoia
         }
         
         /// <summary>
-        /// Set to be whatever your level is in. Used in <see cref="BaselineCheck"/>.
+        /// Set to be whatever level you're in. Used in <see cref="BaselineCheck"/>.
         /// </summary>
         public static string levelTitle;
         /// <summary>
