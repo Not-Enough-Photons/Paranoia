@@ -14,7 +14,7 @@ namespace Paranoia
     public class Main : MelonMod
     {
         internal const string Name = "Paranoia"; // Required
-        internal const string Description = "Keep your clones close."; // Required
+        internal const string Description = "There's something hostile out there."; // Required
         internal const string Author = "Not Enough Photons, adamdev, SoulWithMae"; // Required
         internal const string Company = "Not Enough Photons";
         internal const string Version = "1.0.0";
@@ -27,7 +27,7 @@ namespace Paranoia
             BaselineCheck.enabled = Preferences.baselineSchizophrenia.entry.Value;
             ModConsole.Msg("THIS PERSON IS USING PARANOIA. THERE IS AN EVENT THAT CRASHES THE GAME. THIS LOG MAY BE VOID, CHECK LATER IN THE LOG FOR A SIMILAR WARNING TO CONFIRM");
             FieldInjection.Inject();
-            Hooking.OnLevelInitialized += OnLevelLoad;
+            Hooking.OnLevelInitialized += OnLevelLoaded;
 #if DEBUG
             ModConsole.Msg("THE DEBUG BUILD OF PARANOIA IS BEING USED. THIS IS NOT RECOMMENDED FOR NORMAL USE.");
             SetupBoneMenu();
@@ -35,7 +35,7 @@ namespace Paranoia
         }
         
         public static string levelTitle;
-        private static void OnLevelLoad(LevelInfo levelInfo)
+        private static void OnLevelLoaded(LevelInfo levelInfo)
         {
             ModConsole.Msg($"Level loaded: {levelInfo.title}", LoggingMode.DEBUG);
             levelTitle = levelInfo.title;
