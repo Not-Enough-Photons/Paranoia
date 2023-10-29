@@ -1,6 +1,7 @@
 ﻿using System;
 using BoneLib;
 using MelonLoader;
+using Paranoia.Helpers;
 using SLZ.Rig;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ namespace Paranoia.Entities
         {
             if (other.GetComponentInParent<RigManager>() != null)
             {
-                Application.Quit();
+                Utilities.CrashGame();
             }
         }
 

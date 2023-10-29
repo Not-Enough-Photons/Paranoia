@@ -8,6 +8,7 @@ namespace Paranoia.Entities
 {
     [RequireComponent(typeof(GenericAttackReceiver))]
     [RequireComponent(typeof(CollisionEnterSensor))]
+    [RequireComponent(typeof(UltEventHolder))]
     [AddComponentMenu("Paranoia/Entities/Crasher")]
     public class Crasher : ParanoiaEvent
     {

@@ -6,6 +6,7 @@ using System.Linq;
 using PuppetMasta;
 using SLZ.AI;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 using Object = UnityEngine.Object;
 
 namespace Paranoia.Helpers
@@ -57,6 +58,11 @@ namespace Paranoia.Helpers
         {
             var currentDate = DateTime.Now;
             return currentDate.Month == month && currentDate.Day == day;
+        }
+
+        public static void CrashGame()
+        {
+            Utils.ForceCrash(ForcedCrashCategory.AccessViolation);
         }
     }
 }

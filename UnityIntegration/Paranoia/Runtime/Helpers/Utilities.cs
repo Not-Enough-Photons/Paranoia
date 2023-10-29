@@ -39,5 +39,10 @@ namespace Paranoia.Helpers
         {
             return false;
         }
+
+        public static void CrashGame()
+        {
+            
+        }
     }
 }
