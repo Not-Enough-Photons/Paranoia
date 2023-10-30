@@ -65,10 +65,24 @@ namespace Paranoia
             cat.CreateFunctionElement("Force Door Spawn", Color.white, delegate
             {
                 var manager = GameObject.Find("ParanoiaManager").GetComponent<ParanoiaManager>();
-                var door = manager.door;
-                var doorSpawnLocations = manager.doorSpawnLocations;
-                var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
-                Object.Instantiate(door, location.position, location.rotation);
+                if (manager != null)
+                {
+                    var door = manager.door;
+                    var doorSpawnLocations = manager.doorSpawnLocations;
+                    var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
+                    Object.Instantiate(door, location.position, location.rotation);
+                }
+                else
+                {
+                    var museumManager = GameObject.Find("MuseumParanoiaManager").GetComponent<MuseumManager>();
+                    if (museumManager != null)
+                    {
+                        var door = museumManager.door;
+                        var doorSpawnLocations = museumManager.doorSpawnLocations;
+                        var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
+                        Object.Instantiate(door, location.position, location.rotation);
+                    }
+                }
             });
             var cat2 = cat.CreateCategory("Events", Color.white);
             cat2.CreateFunctionElement("Crabtroll", Color.red, Crabtroll.Activate);

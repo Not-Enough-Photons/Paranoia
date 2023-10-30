@@ -22,7 +22,7 @@ namespace Paranoia.Events
                     return;
                 }
 
-                var powerLegs = brain.gameObject.GetComponentInChildren<BehaviourPowerLegs>();
+                var powerLegs = brain.behaviour.gameObject.GetComponent<BehaviourPowerLegs>();
 
                 if (powerLegs == null)
                 {
