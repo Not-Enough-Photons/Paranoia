@@ -3,35 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
+using SLZ.SFX;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Paranoia.Managers
 {
-    [AddComponentMenu("Paranoia/Managers/Museum Manager")]
-    public class MuseumManager : ParanoiaEvent
+    [AddComponentMenu("Paranoia/Managers/Baseline Manager")]
+    public class BaselineManager : ParanoiaEvent
     {
-        public override string Warning => "DO NOT USE THIS! THIS IS USED ONLY EVER IN MUSEUM BASEMENT!";
-        [Header("Sign Tick")]
-        [Tooltip("The mesh renderer that will be used for the sign.")]
-        public MeshRenderer signMesh;
-        [Tooltip("The texture that will be used for the sign.")]
-        public Texture2D signTexture;
-        [Tooltip("The minimum amount of time between sign events.")]
-        public float signChangeTimerMin = 30f;
-        [Tooltip("The maximum amount of time between sign events.")]
-        public float signChangeTimerMax = 60f;
-        [Tooltip("The minimum amount of time between sign deletion.")]
-        public float signDeleteTimerMin = 60f;
-        [Tooltip("The maximum amount of time between sign deletion.")]
-        public float signDeleteTimerMax = 75f;
-        [Header("Fog Tick")]
-        [Tooltip("The global volume that will be used for the fog.")]
-        public GameObject globalVolume;
-        [Tooltip("The minimum amount of time between fog events.")]
-        public float fogTimerMin = 120f;
-        [Tooltip("The maximum amount of time between fog events.")]
-        public float fogTimerMax = 240f;
+        public override string Warning => "DO NOT USE THIS! THIS IS ONLY EVER USED IN THE BASELINE LEVEL!";
+        [Header("Baseline Settings")]
+        [Tooltip("The global volume with the fog")]
+        public GameObject thefog;
+        [Tooltip("The zone music that will be disabled when the events start.")]
+        public ZoneMusic zoneMusic;
+        private int _eventsCaused;
+        private bool _musicDisabled;
         [Header("Event Tick")]
         [Tooltip("The minimum amount of time between events.")]
         public float eventTimerMin = 30f;
@@ -41,7 +30,6 @@ namespace Paranoia.Managers
         public Transform[] npcMoveLocations;
         [Tooltip("The sounds used for the grab events.")]
         public AudioClip[] grabSounds;
-        /*
         [Header("Entity Tick")]
         [Tooltip("The minimum amount of time between entities spawning.")]
         public float entityTimerMin = 60f;
@@ -68,31 +56,14 @@ namespace Paranoia.Managers
         public Transform[] doorSpawnLocations;
         private bool _enabled;
         private bool _doorSpawned;
-        */
-        
-        public void AddLightsToArray()
-        {
-
-        }
         
         public void Enable()
         {
-
+            
         }
-
         public void Disable()
         {
 
-        }
-
-        private IEnumerator SignTick()
-        {
-            yield return null;
-        }
-        
-        private IEnumerator FogTick()
-        {
-            yield return null;
         }
 
         private IEnumerator EntityTick()

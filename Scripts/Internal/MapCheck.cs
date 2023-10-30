@@ -3,6 +3,7 @@ using HarmonyLib;
 using Paranoia.Helpers;
 using Paranoia.Managers;
 using SLZ.Marrow.Warehouse;
+using SLZ.SFX;
 using UnityEngine;
 
 namespace Paranoia.Internal
@@ -89,17 +90,16 @@ namespace Paranoia.Internal
             // Get a crateref for the manager
             var managerCrate = new SpawnableCrateReference("NotEnoughPhotons.Paranoia.Spawnable.BaselineParanoia");
             // Get baseline's lights
-            var lights = Object.FindObjectsOfType<Light>();
+            var zoneMusic = Object.FindObjectOfType<ZoneMusic>();
             // Spawn and setup
             ModConsole.Msg("Spawning BaselineParanoia.", LoggingMode.DEBUG);
             Warehouse.Spawn(managerCrate, Vector3.zero, Quaternion.identity, false, go =>
             {
-                var manager = go.GetComponent<ParanoiaManager>();
+                var manager = go.GetComponent<BaselineManager>();
                 if (manager == null) return;
                 ModConsole.Msg($"Got manager: {manager}", LoggingMode.DEBUG);
-                foreach (var light in lights) manager._lights.Add(light);
-                manager.AddLightsToArray();
-                ModConsole.Msg("Added lights to array.", LoggingMode.DEBUG);
+                manager.zoneMusic = zoneMusic;
+                ModConsole.Msg("Set zone music field", LoggingMode.DEBUG);
                 manager.Enable();
                 ModConsole.Msg("Have fun :)");
             });

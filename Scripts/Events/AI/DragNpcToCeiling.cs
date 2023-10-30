@@ -13,9 +13,8 @@ namespace Paranoia.Events
     /// </summary>
     public static class DragNpcToCeiling
     {
-        public static void Activate(GameObject paranoiaManager)
+        public static void Activate(AudioClip[] clips)
         {
-            var clips = paranoiaManager.GetComponent<ParanoiaManager>().grabSounds;
             var brains = Utilities.FindAIBrains();
             if (brains == null || brains.Length == 0)
             {

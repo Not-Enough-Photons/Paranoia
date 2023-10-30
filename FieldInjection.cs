@@ -30,6 +30,7 @@ namespace Paranoia
             // Managers
             SerialisationHandler.Inject<ParanoiaManager>();
             SerialisationHandler.Inject<MuseumManager>();
+            SerialisationHandler.Inject<BaselineManager>();
         }
     }
 }

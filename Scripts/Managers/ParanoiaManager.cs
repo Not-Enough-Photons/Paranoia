@@ -14,7 +14,6 @@ namespace Paranoia.Managers
         public float eventTimerMin = 30f;
         public float eventTimerMax = 60f;
         public Light[] lights;
-        public List<Light> _lights;
         public Transform[] npcMoveLocations;
         public AudioClip[] grabSounds;
         public float entityTimerMin = 60f;
@@ -30,15 +29,6 @@ namespace Paranoia.Managers
         public Transform[] doorSpawnLocations;
         private bool _enabled;
         private bool _doorSpawned;
-        
-        /// <summary>
-        /// Used within the baseline support.
-        /// <br/> It is advised that you do not use this yourself.
-        /// </summary>
-        public void AddLightsToArray()
-        {
-            lights = _lights.ToArray();
-        }
         
         /// <summary>
         /// Enables all tick coroutines.
@@ -145,11 +135,11 @@ namespace Paranoia.Managers
                 {
                     case 1:
                         ModConsole.Msg("Chosen event: DragRandomNpc", LoggingMode.DEBUG);
-                        Events.DragRandomNpc.Activate(gameObject);
+                        Events.DragRandomNpc.Activate(grabSounds);
                         break;
                     case 2:
                         ModConsole.Msg("Chosen event: DragNpcToCeiling", LoggingMode.DEBUG);
-                        Events.DragNpcToCeiling.Activate(gameObject);
+                        Events.DragNpcToCeiling.Activate(grabSounds);
                         break;
                     case 3:
                         ModConsole.Msg("Chosen event: KillAI", LoggingMode.DEBUG);
@@ -190,7 +180,7 @@ namespace Paranoia.Managers
                         break;
                     case 12:
                         ModConsole.Msg("Chosen event: GrabPlayer", LoggingMode.DEBUG);
-                        Events.GrabPlayer.Activate(gameObject);
+                        Events.GrabPlayer.Activate(grabSounds);
                         break;
                     case 13:
                         ModConsole.Msg("Chosen event: Crabtroll", LoggingMode.DEBUG);
@@ -207,7 +197,7 @@ namespace Paranoia.Managers
                         break;
                     default:
                         ModConsole.Error("Something broke. Random number couldn't be read. Falling back to DragRandomNpc.");
-                        Events.DragRandomNpc.Activate(gameObject);
+                        Events.DragRandomNpc.Activate(grabSounds);
                         break;
                 }
             }

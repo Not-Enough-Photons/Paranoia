@@ -78,6 +78,7 @@
         <Compile Include="Scripts\Helpers\Warehouse.cs" />
         <Compile Include="Scripts\Internal\MapCheck.cs" />
         <Compile Include="Scripts\Internal\ParanoiaEvent.cs" />
+        <Compile Include="Scripts\Managers\BaselineManager.cs" />
         <Compile Include="Scripts\Managers\MuseumManager.cs" />
         <Compile Include="Scripts\Managers\ParanoiaManager.cs" />
         <Compile Include="Scripts\Helpers\Utilities.cs" />

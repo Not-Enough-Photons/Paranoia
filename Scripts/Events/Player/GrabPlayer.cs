@@ -12,9 +12,8 @@ namespace Paranoia.Events
     public static class GrabPlayer
     {
         // TODO: Currently this gets nullref'd. Add logging, figure out why.
-        public static void Activate(GameObject paranoiaManager)
+        public static void Activate(AudioClip[] grabClips)
         {
-            var grabClips = paranoiaManager.GetComponent<ParanoiaManager>().grabSounds;
             
             var rig = Player.physicsRig;
 

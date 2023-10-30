@@ -4,28 +4,23 @@ using System.Collections;
 using System.Collections.Generic;
 using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
+using SLZ.SFX;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Paranoia.Managers
 {
-    public class MuseumManager : MonoBehaviour
+    public class BaselineManager : MonoBehaviour
     {
+        public GameObject thefog;
+        public ZoneMusic zoneMusic;
+        private int _eventsCaused;
+        private bool _musicDisabled;
         public float eventTimerMin = 30f;
         public float eventTimerMax = 60f;
-        public Light[] lights;
-        public List<Light> _lights;
         public Transform[] npcMoveLocations;
         public AudioClip[] grabSounds;
-        public MeshRenderer signMesh;
-        public Texture2D signTexture;
-        public float signChangeTimerMin = 30f;
-        public float signChangeTimerMax = 60f;
-        public float signDeleteTimerMin = 60f;
-        public float signDeleteTimerMax = 75f;
-        public GameObject globalVolume;
-        public float fogTimerMin = 120f;
-        public float fogTimerMax = 240f;
         public float entityTimerMin = 60f;
         public float entityTimerMax = 80f;
         public SpawnableCrateReference[] entities;
@@ -41,27 +36,16 @@ namespace Paranoia.Managers
         private bool _doorSpawned;
         
         /// <summary>
-        /// Used within the baseline support.
-        /// <br/> It is advised that you do not use this yourself.
-        /// </summary>
-        public void AddLightsToArray()
-        {
-            lights = _lights.ToArray();
-        }
-        
-        /// <summary>
         /// Enables all tick coroutines.
         /// </summary>
         public void Enable()
         {
             if (_enabled) return;
             _enabled = true;
-            // MelonCoroutines.Start(EntityTick());
+            MelonCoroutines.Start(EntityTick());
             MelonCoroutines.Start(EventTick());
-            MelonCoroutines.Start(SignTick());
-            MelonCoroutines.Start(FogTick());
-            // if (_doorSpawned) return;
-            // MelonCoroutines.Start(DoorTick());
+            if (_doorSpawned) return;
+            MelonCoroutines.Start(DoorTick());
         }
         /// <summary>
         /// Disables all tick coroutines.
@@ -73,39 +57,8 @@ namespace Paranoia.Managers
             _enabled = false;
             MelonCoroutines.Stop(EntityTick());
             MelonCoroutines.Stop(EventTick());
-            MelonCoroutines.Stop(SignTick());
-            MelonCoroutines.Stop(FogTick());
             if (_doorSpawned) return;
             MelonCoroutines.Stop(DoorTick());
-        }
-        /// <summary>
-        /// Sign Tick runs only once after X seconds, where X is generated from a random range between serialized fields signChangeTimerMin and signChangeTimerMax.
-        /// <br/>Once that time is up, the sign's texture gets changed, then after another set of time (signDeleteTimerMin and signDeleteTimerMax), the sign is deleted.
-        /// </summary>
-        private IEnumerator SignTick()
-        {
-            var timeToChange = Random.Range(signChangeTimerMin, signChangeTimerMax);
-            var timeToDelete = Random.Range(signDeleteTimerMin, signDeleteTimerMax);
-            yield return new WaitForSeconds(timeToChange);
-            Events.MuseumEvents.ChangeSign(signMesh, signTexture);
-            yield return new WaitForSeconds(timeToDelete);
-            Events.MuseumEvents.DeleteSign(signMesh);
-        }
-
-        /// <summary>
-        /// Fog Tick runs every X seconds, where X is generated from a random range between serialized fields fogTimerMin and fogTimerMax.
-        /// <br/>Causes THE FOG to appear and disappear.
-        /// </summary>
-        private IEnumerator FogTick()
-        {
-            while (_enabled)
-            {
-                var time = Random.Range(fogTimerMin, fogTimerMax);
-                yield return new WaitForSeconds(time);
-                Events.MuseumEvents.TheFogIsHere(globalVolume);
-                yield return new WaitForSeconds(time);
-                Events.MuseumEvents.TheFogIsGone(globalVolume);
-            }
         }
         /// <summary>
         /// Entity Tick runs every X seconds, where X is generated from a random range between serialized fields entityTimerMin and entityTimerMax.
@@ -120,6 +73,17 @@ namespace Paranoia.Managers
                 var time = Random.Range(entityTimerMin, entityTimerMax);
                 yield return new WaitForSeconds(time);
                 ModConsole.Msg("Entity tick spawn phase", LoggingMode.DEBUG);
+                switch (_musicDisabled)
+                {
+                    case false when _eventsCaused < 2:
+                        _eventsCaused += 1;
+                        break;
+                    case false when _eventsCaused == 2:
+                        zoneMusic.StopMusic(3);
+                        thefog.SetActive(true);
+                        _musicDisabled = true;
+                        break;
+                }
                 var entity = entities[Random.Range(0, entities.Length)];
                 ModConsole.Msg($"Chosen entity: {entity.Crate.name}", LoggingMode.DEBUG);
                 var crateTag = entity.Crate.Tags;
@@ -182,7 +146,7 @@ namespace Paranoia.Managers
                 yield return new WaitForSeconds(time);
                 ModConsole.Msg("Event tick event phase", LoggingMode.DEBUG);
                 // When adding new events, make sure to add them to the switch statement below. Increment the random range by 1, and add a new case.
-                var rand = Random.Range(1, 14);
+                var rand = Random.Range(1, 15);
                 switch (rand)
                 {
                     case 1:
@@ -265,6 +229,6 @@ namespace Paranoia.Managers
             _doorSpawned = true;
         }
 
-        public MuseumManager(IntPtr ptr) : base(ptr) { }
+        public BaselineManager(IntPtr ptr) : base(ptr) { }
     }
 }

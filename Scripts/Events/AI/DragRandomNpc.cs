@@ -12,10 +12,8 @@ namespace Paranoia.Events
     /// </summary>
     public static class DragRandomNpc
     {
-        public static void Activate(GameObject paranoiaManager)
+        public static void Activate(AudioClip[] grabClips)
         {
-            var grabClips = paranoiaManager.GetComponent<ParanoiaManager>().grabSounds;
-            
             var brains = Utilities.FindAIBrains();
 
             if (brains == null || brains.Length == 0)
