@@ -35,6 +35,10 @@ namespace Paranoia
         {
             ModConsole.Setup(LoggerInstance);
             Preferences.Setup();
+#if DEBUG
+            var recording = Utilities.CheckIfRecording();
+            ModConsole.Msg($"Recording software running = {recording}", LoggingMode.DEBUG);
+#endif
             MapCheck.enabled = Preferences.enabledInBaseGameMaps.entry.Value;
             ModConsole.Msg("THIS PERSON IS USING PARANOIA. THERE IS AN EVENT THAT CRASHES THE GAME. THIS LOG MAY BE VOID, CHECK LATER IN THE LOG FOR A SIMILAR WARNING TO CONFIRM");
             FieldInjection.Inject();

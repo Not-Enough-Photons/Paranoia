@@ -2,6 +2,7 @@
 using BoneLib;
 using UnhollowerBaseLib;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using PuppetMasta;
 using SLZ.AI;
@@ -95,6 +96,40 @@ namespace Paranoia.Helpers
         {
             ModConsole.Warning("THIS IS THAT LATER WARNING. THIS WAS CAUSED BY INTENTIONAL MOD DESIGN. THIS IS NOT A BUG. THIS LOG IS VOID!");
             Utils.ForceCrash(ForcedCrashCategory.AccessViolation);
+        }
+
+        /// <summary>
+        /// Checks if a common recording software is running
+        /// </summary>
+        /// <returns>True if a recording program is running, false if not.</returns>
+        public static bool CheckIfRecording()
+        {
+            var obs = Process.GetProcessesByName("obs64");
+            var fraps = Process.GetProcessesByName("Fraps");
+            var bandicam = Process.GetProcessesByName("bdcam");
+            var xsplit = Process.GetProcessesByName("XSplit.Core");
+            if (obs.Length > 0)
+            {
+                ModConsole.Msg("OBS is running!", LoggingMode.DEBUG);
+                return true;
+            }
+            if (fraps.Length > 0)
+            {
+                ModConsole.Msg("Fraps is running!", LoggingMode.DEBUG);
+                return true;
+            }
+            if (bandicam.Length > 0)
+            {
+                ModConsole.Msg("Bandicam is running!", LoggingMode.DEBUG);
+                return true;
+            }
+            if (xsplit.Length > 0)
+            {
+                ModConsole.Msg("Xsplit is running!", LoggingMode.DEBUG);
+                return true;
+            }
+            ModConsole.Msg("No recording software detected.", LoggingMode.DEBUG);
+            return false;
         }
     }
 }
