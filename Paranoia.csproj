@@ -68,6 +68,7 @@
         <Compile Include="Scripts\Events\Player\FakeFireGun.cs" />
         <Compile Include="Scripts\Events\Player\FireGunInHand.cs" />
         <Compile Include="Scripts\Events\Player\GrabPlayer.cs" />
+        <Compile Include="Scripts\Events\World\MuseumEvents.cs" />
         <Compile Include="Scripts\Events\World\FireGun.cs" />
         <Compile Include="Scripts\Events\World\FlickerFlashlights.cs" />
         <Compile Include="Scripts\Events\World\FlingRandomObject.cs" />
@@ -77,6 +78,7 @@
         <Compile Include="Scripts\Helpers\Warehouse.cs" />
         <Compile Include="Scripts\Internal\MapCheck.cs" />
         <Compile Include="Scripts\Internal\ParanoiaEvent.cs" />
+        <Compile Include="Scripts\Managers\MuseumManager.cs" />
         <Compile Include="Scripts\Managers\ParanoiaManager.cs" />
         <Compile Include="Scripts\Helpers\Utilities.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
@@ -125,6 +127,8 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="UnityIntegration\Paranoia\Runtime\Entities\" />
+      <Folder Include="UnityIntegration\Paranoia\Runtime\Events\World\" />
+      <Folder Include="UnityIntegration\Paranoia\Runtime\Managers\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>

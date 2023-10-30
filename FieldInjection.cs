@@ -29,6 +29,7 @@ namespace Paranoia
             SerialisationHandler.Inject<FreezePlayer>();
             // Managers
             SerialisationHandler.Inject<ParanoiaManager>();
+            SerialisationHandler.Inject<MuseumManager>();
         }
     }
 }
