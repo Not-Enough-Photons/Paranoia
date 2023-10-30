@@ -1,7 +1,11 @@
-﻿using BoneLib;
+﻿using System;
+using System.Reflection;
+using BoneLib;
 using MelonLoader;
 using Paranoia.Internal;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 #if DEBUG
 using BoneLib.BoneMenu;
 using Paranoia.Helpers;
@@ -39,6 +43,34 @@ namespace Paranoia
             ModConsole.Msg("THE DEBUG BUILD OF PARANOIA IS BEING USED. THIS IS NOT RECOMMENDED FOR NORMAL USE.");
             SetupBoneMenu();
 #endif
+        }
+        
+        /// <summary>
+        /// Checks for Monodirector later than normal in case it's loaded after Paranoia.
+        /// </summary>
+        public override void OnLateInitializeMelon()
+        {
+            CheckForMonodirector();
+        }
+        
+        /// <summary>
+        /// Whether Monodirector is installed or not
+        /// </summary>
+        public static bool hasMonodirector;
+        /// <summary>
+        /// Checks loaded assemblies for Monodirector, and sets <see cref="hasMonodirector"/> to true if it's loaded.
+        /// </summary>
+        private static void CheckForMonodirector()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var asm in assemblies)
+            {
+                if (asm.GetName().Name.ToLower().Equals("monodirector"))
+                {
+                    MelonLogger.Msg("Monodirector found!", LoggingMode.DEBUG);
+                    hasMonodirector = true;
+                }
+            }
         }
         
         /// <summary>

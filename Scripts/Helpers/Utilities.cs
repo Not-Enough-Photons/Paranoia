@@ -24,6 +24,7 @@ namespace Paranoia.Helpers
         {
             return Object.FindObjectsOfType<AIBrain>();
         }
+        
         /// <summary>
         /// Similar to Il2CppArayBase FindAIBrains, but also returns the BehaviourBaseNav array.
         /// </summary>
@@ -47,6 +48,7 @@ namespace Paranoia.Helpers
 
             return baseNavs.ToArray();
         }
+        
         /// <summary>
         /// Moves all NPCs to a given point.
         /// </summary>
@@ -58,6 +60,7 @@ namespace Paranoia.Helpers
             behaviour.SetHomePosition(point, true, true);
             behaviour.Investigate(point, true, 120f);
         }
+        
         /// <summary>
         /// Freezes the player.
         /// <br/>Used in Paralyzer.<see cref="Entities.Paralyzer.Start"/>
@@ -71,6 +74,7 @@ namespace Paranoia.Helpers
             physRig.leftHand.GetComponent<Rigidbody>().isKinematic = freeze;
             physRig.rightHand.GetComponent<Rigidbody>().isKinematic = freeze;
         }
+        
         /// <summary>
         /// Checks the date to see if it is a given month and day, then returns as true if it is that day.
         /// </summary>
@@ -82,6 +86,7 @@ namespace Paranoia.Helpers
             var currentDate = DateTime.Now;
             return currentDate.Month == month && currentDate.Day == day;
         }
+        
         /// <summary>
         /// Crashes the game in a truely Unity fashion: Access Violation
         /// <br/>Used in Crasher.<see cref="Entities.Crasher.OnTriggerEnter"/>

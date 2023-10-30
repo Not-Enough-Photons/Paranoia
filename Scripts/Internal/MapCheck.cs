@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using BoneLib;
+using HarmonyLib;
 using Paranoia.Helpers;
 using Paranoia.Managers;
 using SLZ.Marrow.Warehouse;
@@ -27,15 +28,56 @@ namespace Paranoia.Internal
                     case "Baseline":
                         ModConsole.Msg("Baseline detected.");
                         SetupBaseline();
+                        SpecCamSetup();
                         break;
                     case "Museum Basement":
                         ModConsole.Msg("Museum Basement detected.", LoggingMode.DEBUG);
                         SetupMuseum();
+                        SpecCamSetup();
+                        break;
+                    case "Paranoia":
+                        ModConsole.Msg("Paranoia detected.", LoggingMode.DEBUG);
+                        SpecCamSetup();
                         break;
                     default:
-                        ModConsole.Msg("Not in Baseline or museum basement.", LoggingMode.DEBUG);
+                        ModConsole.Msg("Not in Baseline or Museum Basement.", LoggingMode.DEBUG);
+                        ModConsole.Msg("Checking for ParanoiaManager...", LoggingMode.DEBUG);
+                        if (Object.FindObjectsOfType<ParanoiaManager>() != null)
+                        {
+                            ModConsole.Msg("ParanoiaManager found, spec cam setup", LoggingMode.DEBUG);
+                            SpecCamSetup();
+                        }
+                        else
+                        {
+                            ModConsole.Msg("ParanoiaManager not found, avoiding spectator cam setup", LoggingMode.DEBUG);
+                        }
                         break;
                 }
+            }
+        }
+        
+        /// <summary>
+        /// Allows for entities that the player can see but people watching can't.
+        /// </summary>
+        private static void SpecCamSetup()
+        {
+            LayerMask waterLayer = LayerMask.NameToLayer("Water");
+            Player.playerHead.GetComponent<Camera>().cullingMask &= ~waterLayer;
+            if (Paranoia.hasMonodirector)
+            {
+                ModConsole.Msg("Monodirector exists.");
+                var camera = GameObject.Find("Spectator Camera").GetComponent<Camera>();
+                camera.cullingMask &= ~waterLayer;
+            }
+            else if (Paranoia.levelTitle == "Museum Basement" || Paranoia.levelTitle == "Baseline")
+            {
+                var camera = GameObject.Find("[RigManager (Blank)]/Spectator Camera").GetComponent<Camera>();
+                camera.cullingMask &= ~waterLayer;
+            }
+            else
+            {
+                var camera = GameObject.Find("Default Player Rig [0]/[RigManager (Blank)]/Spectator Camera").GetComponent<Camera>();
+                camera.cullingMask &= ~waterLayer;
             }
         }
         
