@@ -70,8 +70,6 @@ namespace Paranoia.Internal
         {
             // Get a crateref for the manager
             var managerCrate = new SpawnableCrateReference("NotEnoughPhotons.Paranoia.Spawnable.MuseumParanoia");
-            // Get museum basement's lights
-            var lights = Object.FindObjectsOfType<Light>();
             // Get museum basement's sign
             var sign = GameObject.Find("//-----ENVIRONMENT/WORLDSHELL/Decals/holographic_sign_SandboxMuseum").GetComponent<MeshRenderer>();
             // Spawn and setup
@@ -82,9 +80,6 @@ namespace Paranoia.Internal
                 var manager = go.GetComponent<MuseumManager>();
                 if (manager == null) return;
                 ModConsole.Msg($"Got manager: {manager}", LoggingMode.DEBUG);
-                foreach (var light in lights) manager._lights.Add(light);
-                manager.AddLightsToArray();
-                ModConsole.Msg("Added lights to array.", LoggingMode.DEBUG);
                 manager.signMesh = sign;
                 ModConsole.Msg("Added sign to array.", LoggingMode.DEBUG);
                 manager.Enable();
