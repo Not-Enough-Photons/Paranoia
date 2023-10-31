@@ -100,26 +100,25 @@ namespace Paranoia
             cat.CreateFunctionElement("Force Door Spawn", Color.white, delegate
             {
                 var manager = GameObject.Find("ParanoiaManager").GetComponent<ParanoiaManager>();
-                var museumManager = GameObject.Find("MuseumManager").GetComponent<MuseumManager>();
-                var baselineManager = GameObject.Find("BaselineManager").GetComponent<BaselineManager>();
+                try
+                {
+                    var baselineManager = GameObject.Find("BaselineManager").GetComponent<BaselineManager>();
+                    if (baselineManager != null)
+                    {
+                        var door = baselineManager.door;
+                        var doorSpawnLocations = baselineManager.doorSpawnLocations;
+                        var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
+                        Object.Instantiate(door, location.position, location.rotation);
+                    }
+                }
+                catch (Exception e)
+                {
+                    ModConsole.Error(e.ToString());
+                }
                 if (manager != null)
                 {
                     var door = manager.door;
                     var doorSpawnLocations = manager.doorSpawnLocations;
-                    var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
-                    Object.Instantiate(door, location.position, location.rotation);
-                }
-                if (museumManager != null)
-                {
-                    var door = museumManager.door;
-                    var doorSpawnLocations = museumManager.doorSpawnLocations;
-                    var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
-                    Object.Instantiate(door, location.position, location.rotation);
-                }
-                if (baselineManager != null)
-                {
-                    var door = baselineManager.door;
-                    var doorSpawnLocations = baselineManager.doorSpawnLocations;
                     var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
                     Object.Instantiate(door, location.position, location.rotation);
                 }
@@ -134,48 +133,6 @@ namespace Paranoia
             cat2.CreateFunctionElement("FireGun", Color.cyan, FireGun.Activate);
             cat2.CreateFunctionElement("FlickerFlashlight", Color.yellow, FlickerFlashlights.Activate);
             cat2.CreateFunctionElement("FlingRandomObject", Color.magenta, FlingRandomObject.Activate);
-            cat2.CreateFunctionElement("GrabPlayer", Color.green, delegate
-            {
-                var manager = GameObject.Find("ParanoiaManager").GetComponent<ParanoiaManager>();
-                var museumManager = GameObject.Find("MuseumManager").GetComponent<MuseumManager>();
-                var baselineManager = GameObject.Find("BaselineManager").GetComponent<BaselineManager>();
-                if (manager != null)
-                {
-                    var clips = manager.grabSounds;
-                    GrabPlayer.Activate(clips);
-                }
-                if (museumManager != null)
-                {
-                    var clips = museumManager.grabSounds;
-                    GrabPlayer.Activate(clips);
-                }
-                if (baselineManager != null)
-                {
-                    var clips = baselineManager.grabSounds;
-                    GrabPlayer.Activate(clips);
-                }
-            });
-            cat2.CreateFunctionElement("DragRandomNPC", Color.cyan, delegate
-            {
-                var manager = GameObject.Find("ParanoiaManager").GetComponent<ParanoiaManager>();
-                var museumManager = GameObject.Find("MuseumManager").GetComponent<MuseumManager>();
-                var baselineManager = GameObject.Find("BaselineManager").GetComponent<BaselineManager>();
-                if (manager != null)
-                {
-                    var clips = manager.grabSounds;
-                    DragRandomNpc.Activate(clips);
-                }
-                if (museumManager != null)
-                {
-                    var clips = museumManager.grabSounds;
-                    DragRandomNpc.Activate(clips);
-                }
-                if (baselineManager != null)
-                {
-                    var clips = baselineManager.grabSounds;
-                    DragRandomNpc.Activate(clips);
-                }
-            });
             cat2.CreateFunctionElement("Crash Game", Color.red, Utilities.CrashGame, "This will crash the game!");
         }
 #endif

@@ -17,12 +17,19 @@ namespace Paranoia.Events
             sign.material.mainTexture = texture;
         }
         /// <summary>
-        /// Deletes the sign.
+        /// Hides the sign.
         /// </summary>
         /// <param name="sign">The sign to delete</param>
-        public static void DeleteSign(MeshRenderer sign)
+        public static void HideSign(MeshRenderer sign)
         {
-            Object.Destroy(sign.gameObject);
+            sign.enabled = false;
+        }
+        /// <summary>
+        /// Unhides the sign.
+        /// </summary>
+        public static void UnhideSign(MeshRenderer sign)
+        {
+            sign.enabled = true;
         }
         /// <summary>
         /// Activates the fog.
