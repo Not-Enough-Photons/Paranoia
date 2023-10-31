@@ -63,7 +63,7 @@ namespace Paranoia.Managers
         }
         /// <summary>
         /// Entity Tick runs every X seconds, where X is generated from a random range between serialized fields entityTimerMin and entityTimerMax.
-        /// <br/>Once that time is up, a random entity crate is chosen from the serialized field "entities" and is spawned through Warehouse.<see cref="Warehouse.Spawn"/>.
+        /// <br/>Once that time is up, a random entity crate is chosen from the serialized field "entities" and is spawned as a crate.
         /// </summary>
         private IEnumerator EntityTick()
         {
