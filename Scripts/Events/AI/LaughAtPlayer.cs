@@ -9,8 +9,6 @@ namespace Paranoia.Events
     /// </summary>
     public static class LaughAtPlayer
     {
-        // TODO: Make this work, bonelab must of changed SOMETHING to break this.
-        // Powerlegs comes up as null, maybe there's a better way to get it?
         public static void Activate()
         {
             var brains = Utilities.FindAIBrains();
@@ -30,7 +28,7 @@ namespace Paranoia.Events
                     ModConsole.Error("Power legs is null!");
                     return;
                 }
-
+                // TODO: This doesn't work. Maybe it changed in BL?
                 powerLegs.faceAnim.Attack1(Random.Range(1, 3));
             }
         }

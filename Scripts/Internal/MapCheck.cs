@@ -70,11 +70,15 @@ namespace Paranoia.Internal
         private static void SpecCamSetup()
         {
             var cameras = Object.FindObjectsOfType<SmoothFollower>();
+            ModConsole.Msg($"Got cameras: {cameras}", LoggingMode.DEBUG);
             foreach (var obj in cameras)
             {
                 var camera = obj.gameObject.GetComponent<Camera>();
-                if (camera == null) return;
-                CameraHelper.LayerCullingHide(camera, "Water");
+                if (camera != null)
+                {
+                    ModConsole.Msg($"Got camera: {camera}", LoggingMode.DEBUG);
+                    CameraHelper.LayerCullingHide(camera, "Water");
+                }
             }
         }
         

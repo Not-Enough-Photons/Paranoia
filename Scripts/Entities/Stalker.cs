@@ -20,20 +20,20 @@ namespace Paranoia.Entities
         private void Start()
         {
             ModConsole.Msg("Stalker spawned", LoggingMode.DEBUG);
-            _player = Player.physicsRig.m_chest;
+            _player = Player.rigManager.artOutputRig.transform;
             _playerHead = Player.playerHead;
             var randint = Random.Range(0, 1);
             switch (randint)
             {
                 case 0:
-                    This.position = _player.position + _player.forward * 10f;
+                    This.position = _player.position + _player.forward * 10f + Vector3.up * 5f;
                     break;
                 case 1:
-                    This.position = _player.position + _player.right * 10f;
+                    This.position = _player.position + _player.right * 10f + Vector3.up * 5f;
                     break;
                 default:
                     MelonLogger.Error("Somehow, the random was not 0 or 1. Defaulting to forward.");
-                    This.position = _player.position + _player.forward * 10f;
+                    This.position = _player.position + _player.forward * 10f + Vector3.up * 5f;
                     break;
             }
             MelonCoroutines.Start(DespawnSelf(timeToDespawn));

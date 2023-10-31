@@ -134,6 +134,48 @@ namespace Paranoia
             cat2.CreateFunctionElement("FireGun", Color.cyan, FireGun.Activate);
             cat2.CreateFunctionElement("FlickerFlashlight", Color.yellow, FlickerFlashlights.Activate);
             cat2.CreateFunctionElement("FlingRandomObject", Color.magenta, FlingRandomObject.Activate);
+            cat2.CreateFunctionElement("GrabPlayer", Color.green, delegate
+            {
+                var manager = GameObject.Find("ParanoiaManager").GetComponent<ParanoiaManager>();
+                var museumManager = GameObject.Find("MuseumManager").GetComponent<MuseumManager>();
+                var baselineManager = GameObject.Find("BaselineManager").GetComponent<BaselineManager>();
+                if (manager != null)
+                {
+                    var clips = manager.grabSounds;
+                    GrabPlayer.Activate(clips);
+                }
+                if (museumManager != null)
+                {
+                    var clips = museumManager.grabSounds;
+                    GrabPlayer.Activate(clips);
+                }
+                if (baselineManager != null)
+                {
+                    var clips = baselineManager.grabSounds;
+                    GrabPlayer.Activate(clips);
+                }
+            });
+            cat2.CreateFunctionElement("DragRandomNPC", Color.cyan, delegate
+            {
+                var manager = GameObject.Find("ParanoiaManager").GetComponent<ParanoiaManager>();
+                var museumManager = GameObject.Find("MuseumManager").GetComponent<MuseumManager>();
+                var baselineManager = GameObject.Find("BaselineManager").GetComponent<BaselineManager>();
+                if (manager != null)
+                {
+                    var clips = manager.grabSounds;
+                    DragRandomNpc.Activate(clips);
+                }
+                if (museumManager != null)
+                {
+                    var clips = museumManager.grabSounds;
+                    DragRandomNpc.Activate(clips);
+                }
+                if (baselineManager != null)
+                {
+                    var clips = baselineManager.grabSounds;
+                    DragRandomNpc.Activate(clips);
+                }
+            });
             cat2.CreateFunctionElement("Crash Game", Color.red, Utilities.CrashGame, "This will crash the game!");
         }
 #endif

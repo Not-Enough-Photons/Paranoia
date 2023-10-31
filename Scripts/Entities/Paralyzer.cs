@@ -13,17 +13,19 @@ namespace Paranoia.Entities
     public class Paralyzer : MonoBehaviour
     {
         public AudioSource paralysisSound;
+        private Transform _playerHead;
         private Transform _player;
         private Transform This => transform;
 
         private void Start()
         {
             ModConsole.Msg("Paralyzer spawned", LoggingMode.DEBUG);
-            _player = Player.physicsRig.m_chest;
-            This.position = _player.position + _player.forward * 25f;
+            _player = Player.rigManager.artOutputRig.transform;
+            _playerHead = Player.playerHead;
+            This.position = _player.position + _player.forward * 25f + Vector3.up * 1.5f;
             Utilities.FreezePlayer(true);
             paralysisSound.Play();
-            This.LookAt(_player);
+            This.LookAt(_playerHead);
             MelonCoroutines.Start(MoveCloser());
         }
 
@@ -31,12 +33,12 @@ namespace Paranoia.Entities
         {
             for (var i = 0; i < 3; i++)
             {
-                This.position = Vector3.MoveTowards(This.position, _player.position, 5f);
+                This.position = Vector3.MoveTowards(This.position, _playerHead.position, 5f);
                 paralysisSound.Play();
                 yield return new WaitForSeconds(5f);
                 if (i == 2)
                 {
-                    This.position = Vector3.MoveTowards(This.position, _player.position, 5f);
+                    This.position = Vector3.MoveTowards(This.position, _playerHead.position, 5f);
                     paralysisSound.Play();
                     MelonCoroutines.Start(DespawnSelf());
                 }
