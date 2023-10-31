@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using BoneLib;
 using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
+using SLZ.SFX;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
@@ -18,6 +19,7 @@ namespace Paranoia.Managers
         public Texture2D signTexture;
         public Texture2D signWarningTexture;
         public AudioSource warningSound;
+        public ZoneMusic zoneMusic;
         public GameObject globalVolume;
         public GameObject door;
         public Transform doorSpawnLocation;
@@ -58,12 +60,15 @@ namespace Paranoia.Managers
         private IEnumerator MuseumTick()
         {
             yield return new WaitForSeconds(phase1Timer);
+            zoneMusic.StopMusic(3f);
             Events.MuseumEvents.ChangeSign(signMesh, signTexture);
             globalVolume.SetActive(true);
             yield return new WaitForSeconds(phase2Timer);
+            zoneMusic.PlayMusic(3f);
             Events.MuseumEvents.HideSign(signMesh);
             globalVolume.SetActive(false);
             yield return new WaitForSeconds(phase3Timer);
+            zoneMusic.StopMusic(3f);
             globalVolume.SetActive(true);
             warningSound.Play();
             Events.MuseumEvents.UnhideSign(signMesh);

@@ -116,6 +116,9 @@ namespace Paranoia.Internal
             // Get museum basement's sign
             var sign = GameObject.Find("holographic_sign_SandboxMuseum").GetComponent<MeshRenderer>();
             ModConsole.Msg($"Got sign: {sign}", LoggingMode.DEBUG);
+            // Get zone music
+            var zoneMusic = Object.FindObjectOfType<ZoneMusic>();
+            ModConsole.Msg($"Got zone music: {zoneMusic}", LoggingMode.DEBUG);
             // Spawn and setup
             ModConsole.Msg("Spawning MuseumParanoia.", LoggingMode.DEBUG);
             var location = new Vector3(-20, 0, 20);
@@ -126,6 +129,8 @@ namespace Paranoia.Internal
                 ModConsole.Msg($"Got manager: {manager}", LoggingMode.DEBUG);
                 manager.signMesh = sign;
                 ModConsole.Msg("Added sign to field.", LoggingMode.DEBUG);
+                manager.zoneMusic = zoneMusic;
+                ModConsole.Msg("Added zone music to field.", LoggingMode.DEBUG);
                 manager.Enable();
                 ModConsole.Msg("Have fun :)");
             });

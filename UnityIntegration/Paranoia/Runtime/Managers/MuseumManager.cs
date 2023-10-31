@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
+using SLZ.SFX;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,6 +22,8 @@ namespace Paranoia.Managers
         public Texture2D signWarningTexture;
         [Tooltip("The sound to draw the player's attention to the sign.")]
         public AudioSource warningSound;
+        [Tooltip("The museum's zone music")]
+        public ZoneMusic zoneMusic;
         [Tooltip("The global volume with the fog.")]
         public GameObject globalVolume;
         [Tooltip("The door prefab that will spawn.")]
