@@ -2,6 +2,7 @@
 using MelonLoader;
 using System.Collections;
 using System.Collections.Generic;
+using BoneLib;
 using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
 using UnityEngine;
@@ -129,27 +130,27 @@ namespace Paranoia.Managers
                     {
                         ModConsole.Msg("Entity had Air tag", LoggingMode.DEBUG);
                         var location = airSpawns[Random.Range(0, airSpawns.Length)];
-                        Warehouse.Spawn(entity, location.position, Quaternion.identity, false, go => { });
+                        HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
                         break;
                     }
                     case "Ground":
                     {
                         ModConsole.Msg("Entity had Ground tag", LoggingMode.DEBUG);
                         var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
-                        Warehouse.Spawn(entity, location.position, Quaternion.identity, false, go => { });
+                        HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
                         break;
                     }
                     case "Special":
                     {
                         ModConsole.Msg("Entity had Special tag", LoggingMode.DEBUG);
-                        Warehouse.Spawn(entity, mirageSpawn.position, Quaternion.identity, false, go => { });
+                        HelperMethods.SpawnCrate(entity, mirageSpawn.position, Quaternion.identity, Vector3.one,  false, go => { });
                         break;
                     }
                     case "Audio":
                     {
                         ModConsole.Msg("Entity had Audio tag", LoggingMode.DEBUG);
                         var location = audioSpawns[Random.Range(0, audioSpawns.Length)];
-                        Warehouse.Spawn(entity, location.position, Quaternion.identity, false, go => { });
+                        HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
                         break;
                     }
                     case "None":
@@ -157,7 +158,7 @@ namespace Paranoia.Managers
                         ModConsole.Warning("You idiot. You absolute buffoon. You have a crate with no tag. It has no way of spawning. You moron.");
                         ModConsole.Warning("I'm gonna slap this guy at a random ground spawn. I hope you're happy.");
                         var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
-                        Warehouse.Spawn(entity, location.position, Quaternion.identity, false, go => { });
+                        HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
                         break;
                     }
                     default:

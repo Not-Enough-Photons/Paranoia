@@ -75,7 +75,6 @@
         <Compile Include="Scripts\Events\World\LightFlicker.cs" />
         <Compile Include="Scripts\Helpers\FreezePlayer.cs" />
         <Compile Include="Scripts\Helpers\SeasonalEntity.cs" />
-        <Compile Include="Scripts\Helpers\Warehouse.cs" />
         <Compile Include="Scripts\Internal\MapCheck.cs" />
         <Compile Include="Scripts\Internal\ParanoiaEvent.cs" />
         <Compile Include="Scripts\Managers\BaselineManager.cs" />

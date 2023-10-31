@@ -1,4 +1,5 @@
-﻿using Paranoia.Helpers;
+﻿using BoneLib;
+using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace Paranoia.Events
         public static void Activate(string barcode, Transform location)
         {
             var radio = new SpawnableCrateReference(barcode);
-            Warehouse.Spawn(radio, location.position, Quaternion.identity, false, go =>
+            HelperMethods.SpawnCrate(radio, location.position, Quaternion.identity, Vector3.one, false, go =>
             {
                 _radioObj = go;
             });

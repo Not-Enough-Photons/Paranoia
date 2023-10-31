@@ -82,7 +82,7 @@ namespace Paranoia.Internal
             var zoneMusic = Object.FindObjectOfType<ZoneMusic>();
             // Spawn and setup
             ModConsole.Msg("Spawning BaselineParanoia.", LoggingMode.DEBUG);
-            Warehouse.Spawn(managerCrate, Vector3.zero, Quaternion.identity, false, go =>
+            HelperMethods.SpawnCrate(managerCrate, Vector3.zero, Quaternion.identity, Vector3.one, false, go =>
             {
                 var manager = go.GetComponent<BaselineManager>();
                 if (manager == null) return;
@@ -108,7 +108,7 @@ namespace Paranoia.Internal
             // Spawn and setup
             ModConsole.Msg("Spawning MuseumParanoia.", LoggingMode.DEBUG);
             var location = new Vector3(-20, 0, 20);
-            Warehouse.Spawn(managerCrate, location, Quaternion.identity, false, go =>
+            HelperMethods.SpawnCrate(managerCrate, location, Quaternion.identity, Vector3.one, false, go =>
             {
                 var manager = go.GetComponent<MuseumManager>();
                 if (manager == null) return;
