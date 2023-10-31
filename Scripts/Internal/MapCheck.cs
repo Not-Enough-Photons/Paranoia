@@ -69,7 +69,7 @@ namespace Paranoia.Internal
         /// </summary>
         private static void SpecCamSetup()
         {
-            var cameras = Object.FindObjectsOfType<SmoothFollower>();
+            var cameras = Resources.FindObjectsOfTypeAll<SmoothFollower>();
             ModConsole.Msg($"Got cameras: {cameras}", LoggingMode.DEBUG);
             foreach (var obj in cameras)
             {
