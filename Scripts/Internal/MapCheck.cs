@@ -41,17 +41,23 @@ namespace Paranoia.Internal
                         ModConsole.Msg("Paranoia detected.", LoggingMode.DEBUG);
                         SpecCamSetup();
                         break;
+                    case "Blank Box":
+                        ModConsole.Msg("Blank Box detected.", LoggingMode.DEBUG);
+                        SpecCamSetup();
+                        SetupBlankbox();
+                        break;
                     default:
                         ModConsole.Msg("Not in Baseline or Museum Basement.", LoggingMode.DEBUG);
                         ModConsole.Msg("Checking for ParanoiaManager...", LoggingMode.DEBUG);
-                        if (Object.FindObjectsOfType<ParanoiaManager>() == null)
+                        var manager = Object.FindObjectOfType<ParanoiaManager>();
+                        if (manager != null)
                         {
-                            ModConsole.Msg("ParanoiaManager not found, avoiding spectator cam setup", LoggingMode.DEBUG);
+                            ModConsole.Msg($"ParanoiaManager found: {manager}", LoggingMode.DEBUG);
+                            SpecCamSetup();
                         }
                         else
                         {
-                            ModConsole.Msg("ParanoiaManager found, spec cam setup", LoggingMode.DEBUG);
-                            SpecCamSetup();
+                            ModConsole.Msg("Manager not found.");
                         }
                         break;
                 }
@@ -115,6 +121,25 @@ namespace Paranoia.Internal
                 ModConsole.Msg($"Got manager: {manager}", LoggingMode.DEBUG);
                 manager.signMesh = sign;
                 ModConsole.Msg("Added sign to field.", LoggingMode.DEBUG);
+                manager.Enable();
+                ModConsole.Msg("Have fun :)");
+            });
+        }
+        
+        private static void SetupBlankbox()
+        {
+            // Get a crateref for the manager
+            var managerCrate = new SpawnableCrateReference("NotEnoughPhotons.Paranoia.Spawnable.BlankboxParanoia");
+            // Get baseline's lights
+            var lights = GameObject.Find("Lighting/REALTIMELIGHT").GetComponents<Light>();
+            // Spawn and setup
+            ModConsole.Msg("Spawning BlankboxParanoia.", LoggingMode.DEBUG);
+            HelperMethods.SpawnCrate(managerCrate, Vector3.zero, Quaternion.identity, Vector3.one, false, go =>
+            {
+                var manager = go.GetComponent<ParanoiaManager>();
+                if (manager == null) return;
+                ModConsole.Msg($"Got manager: {manager}", LoggingMode.DEBUG);
+                manager.AddLights(lights);
                 manager.Enable();
                 ModConsole.Msg("Have fun :)");
             });

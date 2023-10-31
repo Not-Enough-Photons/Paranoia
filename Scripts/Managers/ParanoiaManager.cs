@@ -6,6 +6,7 @@ using BoneLib;
 using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Paranoia.Managers
@@ -14,6 +15,7 @@ namespace Paranoia.Managers
     {
         public float eventTimerMin = 30f;
         public float eventTimerMax = 60f;
+        private readonly List<Light> flicker = new List<Light>();
         public Light[] lights;
         public Transform[] npcMoveLocations;
         public AudioClip[] grabSounds;
@@ -30,6 +32,12 @@ namespace Paranoia.Managers
         public Transform[] doorSpawnLocations;
         private bool _enabled;
         private bool _doorSpawned;
+
+        public void AddLights(Light[] newLights)
+        {
+            flicker.AddRange(newLights);
+            lights = flicker.ToArray();
+        }
         
         /// <summary>
         /// Enables all tick coroutines.
