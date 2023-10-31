@@ -10,6 +10,7 @@ namespace Paranoia.Events
     public static class LaughAtPlayer
     {
         // TODO: Make this work, bonelab must of changed SOMETHING to break this.
+        // Powerlegs comes up as null, maybe there's a better way to get it?
         public static void Activate()
         {
             var brains = Utilities.FindAIBrains();

@@ -10,6 +10,7 @@ namespace Paranoia.Entities
     /// </summary>
     public class Crying : MonoBehaviour
     {
+        // TODO: This is broken. Add logging, find why
         private readonly List<Crying> _cryings = new List<Crying>();
         public AudioClip cryingClip;
         public AudioSource cryingSource;

@@ -100,6 +100,8 @@ namespace Paranoia
             cat.CreateFunctionElement("Force Door Spawn", Color.white, delegate
             {
                 var manager = GameObject.Find("ParanoiaManager").GetComponent<ParanoiaManager>();
+                var museumManager = GameObject.Find("MuseumManager").GetComponent<MuseumManager>();
+                var baselineManager = GameObject.Find("BaselineManager").GetComponent<BaselineManager>();
                 if (manager != null)
                 {
                     var door = manager.door;
@@ -107,16 +109,19 @@ namespace Paranoia
                     var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
                     Object.Instantiate(door, location.position, location.rotation);
                 }
-                else
+                if (museumManager != null)
                 {
-                    var museumManager = GameObject.Find("MuseumParanoiaManager").GetComponent<MuseumManager>();
-                    if (museumManager != null)
-                    {
-                        var door = museumManager.door;
-                        var doorSpawnLocations = museumManager.doorSpawnLocations;
-                        var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
-                        Object.Instantiate(door, location.position, location.rotation);
-                    }
+                    var door = museumManager.door;
+                    var doorSpawnLocations = museumManager.doorSpawnLocations;
+                    var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
+                    Object.Instantiate(door, location.position, location.rotation);
+                }
+                if (baselineManager != null)
+                {
+                    var door = baselineManager.door;
+                    var doorSpawnLocations = baselineManager.doorSpawnLocations;
+                    var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
+                    Object.Instantiate(door, location.position, location.rotation);
                 }
             });
             var cat2 = cat.CreateCategory("Events", Color.white);
