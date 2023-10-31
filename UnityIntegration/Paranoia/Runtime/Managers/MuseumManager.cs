@@ -19,6 +19,8 @@ namespace Paranoia.Managers
         public Texture2D signTexture;
         [Tooltip("The texture of the sign when the door is open.")]
         public Texture2D signWarningTexture;
+        [Tooltip("The sound to draw the player's attention to the sign.")]
+        public AudioSource warningSound;
         [Tooltip("The global volume with the fog.")]
         public GameObject globalVolume;
         [Tooltip("The door prefab that will spawn.")]

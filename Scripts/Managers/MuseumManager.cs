@@ -17,6 +17,7 @@ namespace Paranoia.Managers
         public MeshRenderer signMesh;
         public Texture2D signTexture;
         public Texture2D signWarningTexture;
+        public AudioSource warningSound;
         public GameObject globalVolume;
         public GameObject door;
         public Transform doorSpawnLocation;
@@ -64,6 +65,7 @@ namespace Paranoia.Managers
             globalVolume.SetActive(false);
             yield return new WaitForSeconds(phase3Timer);
             globalVolume.SetActive(true);
+            warningSound.Play();
             Events.MuseumEvents.UnhideSign(signMesh);
             Events.MuseumEvents.ChangeSign(signMesh, signWarningTexture);
             Instantiate(door, doorSpawnLocation.position, doorSpawnLocation.rotation);
