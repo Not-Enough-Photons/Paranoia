@@ -1,4 +1,6 @@
 ﻿using BoneLib;
+using SLZ.Props.Weapons;
+using UnityEngine;
 
 namespace Paranoia.Events
 {
@@ -10,7 +12,15 @@ namespace Paranoia.Events
         public static void Activate()
         {
             var gun = Player.GetGunInHand(Player.rightHand);
-            gun.gunSFX.GunShot();
+            if (gun != null)
+            {
+                gun.gunSFX.GunShot();
+            }
+            else
+            {
+                var guns = Object.FindObjectsOfType<Gun>();
+                guns?[Random.Range(0, guns.Length)].gunSFX.GunShot();
+            }
         }
     }
 }

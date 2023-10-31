@@ -2,6 +2,7 @@
 using HarmonyLib;
 using Paranoia.Helpers;
 using Paranoia.Managers;
+using SLZ.Bonelab;
 using SLZ.Marrow.Warehouse;
 using SLZ.SFX;
 using UnityEngine;
@@ -43,14 +44,14 @@ namespace Paranoia.Internal
                     default:
                         ModConsole.Msg("Not in Baseline or Museum Basement.", LoggingMode.DEBUG);
                         ModConsole.Msg("Checking for ParanoiaManager...", LoggingMode.DEBUG);
-                        if (Object.FindObjectsOfType<ParanoiaManager>() != null)
+                        if (Object.FindObjectsOfType<ParanoiaManager>() == null)
                         {
-                            ModConsole.Msg("ParanoiaManager found, spec cam setup", LoggingMode.DEBUG);
-                            SpecCamSetup();
+                            ModConsole.Msg("ParanoiaManager not found, avoiding spectator cam setup", LoggingMode.DEBUG);
                         }
                         else
                         {
-                            ModConsole.Msg("ParanoiaManager not found, avoiding spectator cam setup", LoggingMode.DEBUG);
+                            ModConsole.Msg("ParanoiaManager found, spec cam setup", LoggingMode.DEBUG);
+                            SpecCamSetup();
                         }
                         break;
                 }
@@ -63,22 +64,10 @@ namespace Paranoia.Internal
         private static void SpecCamSetup()
         {
             LayerMask waterLayer = LayerMask.NameToLayer("Water");
-            Player.playerHead.GetComponent<Camera>().cullingMask &= ~waterLayer;
-            if (Paranoia.hasMonodirector)
+            var cameras = Object.FindObjectsOfType<SmoothFollower>();
+            foreach (var obj in cameras)
             {
-                ModConsole.Msg("Monodirector exists.");
-                var camera = GameObject.Find("Spectator Camera").GetComponent<Camera>();
-                camera.cullingMask &= ~waterLayer;
-            }
-            else if (Paranoia.levelTitle == "Museum Basement" || Paranoia.levelTitle == "Baseline")
-            {
-                var camera = GameObject.Find("[RigManager (Blank)]/Spectator Camera").GetComponent<Camera>();
-                camera.cullingMask &= ~waterLayer;
-            }
-            else
-            {
-                var camera = GameObject.Find("Default Player Rig [0]/[RigManager (Blank)]/Spectator Camera").GetComponent<Camera>();
-                camera.cullingMask &= ~waterLayer;
+                obj.gameObject.GetComponent<Camera>().cullingMask &= ~waterLayer;
             }
         }
         
