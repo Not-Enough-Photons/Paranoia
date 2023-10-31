@@ -25,23 +25,23 @@ namespace Paranoia.Internal
             public static void Postfix(Player_Health __instance)
             {
                 if (!enabled) return;
-                switch (Paranoia.levelTitle)
+                switch (Paranoia.levelBarcode)
                 {
-                    case "Baseline":
-                        ModConsole.Msg("Baseline detected.");
+                    case "c2534c5a-61b3-4f97-9059-79155363656e":
+                        ModConsole.Msg("Baseline detected.", LoggingMode.DEBUG);
                         SetupBaseline();
                         SpecCamSetup();
                         break;
-                    case "Museum Basement":
+                    case "fa534c5a83ee4ec6bd641fec424c4142.Level.LevelMuseumBasement":
                         ModConsole.Msg("Museum Basement detected.", LoggingMode.DEBUG);
                         SetupMuseum();
                         SpecCamSetup();
                         break;
-                    case "Paranoia":
+                    case "NotEnoughPhotons.Paranoia.Level.Paranoia":
                         ModConsole.Msg("Paranoia detected.", LoggingMode.DEBUG);
                         SpecCamSetup();
                         break;
-                    case "Blank Box":
+                    case "Atlas.96.BlankBox.Level.BlankBox":
                         ModConsole.Msg("Blank Box detected.", LoggingMode.DEBUG);
                         SpecCamSetup();
                         SetupBlankbox();
@@ -57,7 +57,7 @@ namespace Paranoia.Internal
                         }
                         else
                         {
-                            ModConsole.Msg("Manager not found.");
+                            ModConsole.Msg("Manager not found.", LoggingMode.DEBUG);
                         }
                         break;
                 }
@@ -69,11 +69,12 @@ namespace Paranoia.Internal
         /// </summary>
         private static void SpecCamSetup()
         {
-            LayerMask waterLayer = LayerMask.NameToLayer("Water");
             var cameras = Object.FindObjectsOfType<SmoothFollower>();
             foreach (var obj in cameras)
             {
-                obj.gameObject.GetComponent<Camera>().cullingMask &= ~waterLayer;
+                var camera = obj.gameObject.GetComponent<Camera>();
+                if (camera == null) return;
+                CameraHelper.LayerCullingHide(camera, "Water");
             }
         }
         

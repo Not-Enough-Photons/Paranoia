@@ -79,14 +79,14 @@ namespace Paranoia
         /// <summary>
         /// Set to be whatever level you're in. Used in <see cref="MapCheck"/>.
         /// </summary>
-        public static string levelTitle;
+        public static string levelBarcode;
         /// <summary>
-        /// Detects whatever level is loaded and sets <see cref="levelTitle"/> to it.
+        /// Detects whatever level is loaded and sets <see cref="levelBarcode"/> to it.
         /// </summary>
         private static void OnLevelLoaded(LevelInfo levelInfo)
         {
             ModConsole.Msg($"Level loaded: {levelInfo.title}", LoggingMode.DEBUG);
-            levelTitle = levelInfo.title;
+            levelBarcode = levelInfo.barcode;
         }
         
 #if DEBUG
