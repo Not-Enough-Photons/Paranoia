@@ -78,34 +78,6 @@ namespace Paranoia
         }
         
         /// <summary>
-        /// Checks for Monodirector later than normal in case it's loaded after Paranoia.
-        /// </summary>
-        public override void OnLateInitializeMelon()
-        {
-            CheckForMonodirector();
-        }
-        
-        /// <summary>
-        /// Whether Monodirector is installed or not
-        /// </summary>
-        public static bool hasMonodirector;
-        /// <summary>
-        /// Checks loaded assemblies for Monodirector, and sets <see cref="hasMonodirector"/> to true if it's loaded.
-        /// </summary>
-        private static void CheckForMonodirector()
-        {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var asm in assemblies)
-            {
-                if (asm.GetName().Name.ToLower().Equals("monodirector"))
-                {
-                    MelonLogger.Msg("Monodirector found!", LoggingMode.DEBUG);
-                    hasMonodirector = true;
-                }
-            }
-        }
-        
-        /// <summary>
         /// Set to be whatever level you're in. Used in <see cref="MapCheck"/>.
         /// </summary>
         public static string levelBarcode;
