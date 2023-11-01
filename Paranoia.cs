@@ -72,7 +72,7 @@ namespace Paranoia
 #else
             if (!AssetWarehouse.Instance.HasPallet("NotEnoughPhotons.Paranoia"))
             {
-                MelonLogger.Error("You do not have the required pallet for Paranoia.");
+                ModConsole.Error("You do not have the required pallet for Paranoia.");
             }
 #endif
         }
