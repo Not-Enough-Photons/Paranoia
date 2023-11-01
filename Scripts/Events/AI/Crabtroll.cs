@@ -15,7 +15,7 @@ namespace Paranoia.Events
         {
             var playerPos = Player.playerHead;
             var spawnPos = playerPos.position - playerPos.forward * 10f;
-            var crabCrate = new SpawnableCrateReference("c1534c5a-4583-48b5-ac3f-eb9543726162");
+            var crabCrate = new SpawnableCrateReference(CommonBarcodes.NPCs.Crablet);
             HelperMethods.SpawnCrate(crabCrate, spawnPos, Quaternion.identity, Vector3.one, false, go =>
             {
                 var crab = go.GetComponentInChildren<BehaviourCrablet>();

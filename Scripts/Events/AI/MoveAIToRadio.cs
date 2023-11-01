@@ -12,9 +12,9 @@ namespace Paranoia.Events
     {
         private static GameObject _radioObj;
         
-        public static void Activate(string barcode, Transform location)
+        public static void Activate(Transform location)
         {
-            var radio = new SpawnableCrateReference(barcode);
+            var radio = new SpawnableCrateReference(Pallet.Entities.Radio);
             HelperMethods.SpawnCrate(radio, location.position, Quaternion.identity, Vector3.one, false, go =>
             {
                 _radioObj = go;

@@ -1,13 +1,10 @@
 ﻿using System;
 using MelonLoader;
 using System.Collections;
-using System.Collections.Generic;
 using BoneLib;
-using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
 using SLZ.SFX;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Paranoia.Managers
@@ -173,7 +170,7 @@ namespace Paranoia.Managers
                     case 6:
                         ModConsole.Msg("Chosen event: MoveAIToRadio", LoggingMode.DEBUG);
                         var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
-                        Events.MoveAIToRadio.Activate("NotEnoughPhotons.Paranoia.Spawnable.Radio", location);
+                        Events.MoveAIToRadio.Activate(location);
                         break;
                     case 7:
                         ModConsole.Msg("Chosen event: FireGunInHand", LoggingMode.DEBUG);

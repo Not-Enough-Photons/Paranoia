@@ -27,17 +27,17 @@ namespace Paranoia.Internal
                 if (!enabled) return;
                 switch (Paranoia.levelBarcode)
                 {
-                    case "c2534c5a-61b3-4f97-9059-79155363656e":
+                    case CommonBarcodes.Maps.Baseline:
                         ModConsole.Msg("Baseline detected.", LoggingMode.DEBUG);
                         SetupBaseline();
                         SpecCamSetup();
                         break;
-                    case "fa534c5a83ee4ec6bd641fec424c4142.Level.LevelMuseumBasement":
+                    case CommonBarcodes.Maps.MuseumBasement:
                         ModConsole.Msg("Museum Basement detected.", LoggingMode.DEBUG);
                         SetupMuseum();
                         SpecCamSetup();
                         break;
-                    case "NotEnoughPhotons.Paranoia.Level.Paranoia":
+                    case Pallet.Maps.Paranoia:
                         ModConsole.Msg("Paranoia detected.", LoggingMode.DEBUG);
                         SpecCamSetup();
                         break;
@@ -88,7 +88,7 @@ namespace Paranoia.Internal
         private static void SetupBaseline()
         {
             // Get a crateref for the manager
-            var managerCrate = new SpawnableCrateReference("NotEnoughPhotons.Paranoia.Spawnable.BaselineParanoia");
+            var managerCrate = new SpawnableCrateReference(Pallet.Managers.BaselineManager);
             // Get baseline's lights
             var zoneMusic = Object.FindObjectOfType<ZoneMusic>();
             // Spawn and setup
@@ -111,7 +111,7 @@ namespace Paranoia.Internal
         private static void SetupMuseum()
         {
             // Get a crateref for the manager
-            var managerCrate = new SpawnableCrateReference("NotEnoughPhotons.Paranoia.Spawnable.MuseumParanoia");
+            var managerCrate = new SpawnableCrateReference(Pallet.Managers.MuseumManager);
             ModConsole.Msg($"Got crate: {managerCrate}", LoggingMode.DEBUG);
             // Get museum basement's sign
             var sign = GameObject.Find("holographic_sign_SandboxMuseum").GetComponent<MeshRenderer>();
@@ -139,7 +139,7 @@ namespace Paranoia.Internal
         private static void SetupBlankbox()
         {
             // Get a crateref for the manager
-            var managerCrate = new SpawnableCrateReference("NotEnoughPhotons.Paranoia.Spawnable.BlankboxParanoia");
+            var managerCrate = new SpawnableCrateReference(Pallet.Managers.BlankBoxManager);
             // Get baseline's lights
             var lights = GameObject.Find("Lighting/REALTIMELIGHT").GetComponents<Light>();
             // Spawn and setup

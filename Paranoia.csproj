@@ -42,6 +42,7 @@
     </Target>
     <ItemGroup>
         <Compile Include="FieldInjection.cs" />
+        <Compile Include="Pallet.cs" />
         <Compile Include="Paranoia.cs" />
         <Compile Include="Melon\ModConsole.cs" />
         <Compile Include="Melon\ModPref.cs" />

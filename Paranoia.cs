@@ -3,13 +3,12 @@ using BoneLib;
 using MelonLoader;
 using Paranoia.Internal;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 #if DEBUG
+using System.Collections.Generic;
 using BoneLib.BoneMenu;
 using Paranoia.Helpers;
 using Paranoia.Events;
-using Paranoia.Managers;
 #endif
 
 namespace Paranoia
@@ -97,35 +96,37 @@ namespace Paranoia
         {
             var maincat = MenuManager.CreateCategory("Not Enough Photons", Color.white);
             var cat = maincat.CreateCategory("Paranoia", Color.grey);
-            cat.CreateFunctionElement("Force Door Spawn", Color.white, delegate
-            {
-                var manager = GameObject.Find("ParanoiaManager").GetComponent<ParanoiaManager>();
-                try
-                {
-                    var baselineManager = GameObject.Find("BaselineManager").GetComponent<BaselineManager>();
-                    if (baselineManager != null)
-                    {
-                        var door = baselineManager.door;
-                        var doorSpawnLocations = baselineManager.doorSpawnLocations;
-                        var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
-                        Object.Instantiate(door, location.position, location.rotation);
-                    }
-                }
-                catch (Exception e)
-                {
-                    ModConsole.Error(e.ToString());
-                }
-                if (manager != null)
-                {
-                    var door = manager.door;
-                    var doorSpawnLocations = manager.doorSpawnLocations;
-                    var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
-                    Object.Instantiate(door, location.position, location.rotation);
-                }
-            });
-            var cat2 = cat.CreateCategory("Events", Color.white);
+            #region Entities
+            var cat1 = cat.CreateCategory("Entities", Color.cyan);
+            cat1.CreateFunctionElement("AudioEvent", Color.white, Entities.AudioEvent);
+            cat1.CreateFunctionElement("Ceilingman", Color.grey, Entities.Ceilingman);
+            cat1.CreateFunctionElement("Chaser", Color.red, Entities.Chaser);
+            cat1.CreateFunctionElement("Cisco", Color.red, Entities.Cisco);
+            cat1.CreateFunctionElement("Crying", Color.white, Entities.Crying);
+            cat1.CreateFunctionElement("Eyes", Color.white, Entities.Eyes);
+            cat1.CreateFunctionElement("Footsteps", Color.white, Entities.Footsteps);
+            cat1.CreateFunctionElement("Mirage", Color.grey, Entities.Mirage);
+            cat1.CreateFunctionElement("Observer", Color.black, Entities.Observer);
+            cat1.CreateFunctionElement("Paralyzer", Color.grey, Entities.Paralyzer);
+            cat1.CreateFunctionElement("Radio", Color.grey, Entities.Radio);
+            cat1.CreateFunctionElement("Stealer", Color.grey, Entities.Stealer);
+            cat1.CreateFunctionElement("Tak", Color.black, Entities.Tak);
+            cat1.CreateFunctionElement("Tak2", Color.black, Entities.Tak2);
+            cat1.CreateFunctionElement("Teeth", Color.white, Entities.Teeth);
+            cat1.CreateFunctionElement("Whiteface", Color.white, Entities.Whiteface, "This guy will crash the game.");
+            #endregion
+            #region Events
+            var cat2 = cat.CreateCategory("Events", Color.blue);
             cat2.CreateFunctionElement("Crabtroll", Color.red, Crabtroll.Activate);
             cat2.CreateFunctionElement("KillAI", Color.red, KillAI.Activate);
+            cat2.CreateFunctionElement("MoveAIToRadio", Color.red, () =>
+            {
+                var player = Player.playerHead.transform;
+                var go = new GameObject();
+                go.transform.position = player.position + player.forward * 5f;
+                var location = go.transform;
+                MoveAIToRadio.Activate(location);
+            });
             cat2.CreateFunctionElement("LaughAtPlayer", Color.red, LaughAtPlayer.Activate);
             cat2.CreateFunctionElement("MoveAIToPlayer", Color.green, MoveAIToPlayer.Activate);
             cat2.CreateFunctionElement("FakeFireGun", Color.blue, FakeFireGun.Activate);
@@ -134,6 +135,121 @@ namespace Paranoia
             cat2.CreateFunctionElement("FlickerFlashlight", Color.yellow, FlickerFlashlights.Activate);
             cat2.CreateFunctionElement("FlingRandomObject", Color.magenta, FlingRandomObject.Activate);
             cat2.CreateFunctionElement("Crash Game", Color.red, Utilities.CrashGame, "This will crash the game!");
+            #endregion
+        }
+
+        private static class Entities
+        {
+            public static void AudioEvent()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position + player.forward * 10f;
+                HelperMethods.SpawnCrate(Pallet.Entities.AudioEvent, location, Quaternion.identity, Vector3.one, false, null);
+            }
+            
+            public static void Ceilingman()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position + player.forward * 10f + Vector3.up * 10f;
+                HelperMethods.SpawnCrate(Pallet.Entities.Ceilingman, location, Quaternion.identity, Vector3.one, false, null);
+            }
+
+            public static void Chaser()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position + player.forward * 20f;
+                HelperMethods.SpawnCrate(Pallet.Entities.Chaser, location, Quaternion.identity, Vector3.one, false, null);
+            }
+
+            public static void Cisco()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position + player.forward * 10f + Vector3.up * 10f;
+                HelperMethods.SpawnCrate(Pallet.Entities.Cisco, location, Quaternion.identity, Vector3.one, false, null);
+            }
+
+            public static void Crying()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position + player.forward * 10f;
+                var crying = new List<string>() { Pallet.Entities.Crying1, Pallet.Entities.Crying2, Pallet.Entities.Crying3 };
+                HelperMethods.SpawnCrate(crying[Random.Range(0, crying.Count)], location, Quaternion.identity, Vector3.one, false, null);
+            }
+
+            public static void Eyes()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position + player.forward * 20f;
+                HelperMethods.SpawnCrate(Pallet.Entities.Eyes, location, Quaternion.identity, Vector3.one, false, null);
+            }
+            
+            public static void Footsteps()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position + player.forward * 20f;
+                HelperMethods.SpawnCrate(Pallet.Entities.Footsteps, location, Quaternion.identity, Vector3.one, false, null);
+            }
+            
+            public static void Mirage()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position;
+                HelperMethods.SpawnCrate(Pallet.Entities.Mirage, location, Quaternion.identity, Vector3.one, false, null);
+            }
+            
+            public static void Observer()
+            {
+                var location = Vector3.zero;
+                HelperMethods.SpawnCrate(Pallet.Entities.Observer, location, Quaternion.identity, Vector3.one, false, null);
+            }
+            
+            public static void Paralyzer()
+            {
+                var location = Vector3.zero;
+                HelperMethods.SpawnCrate(Pallet.Entities.Paralyzer, location, Quaternion.identity, Vector3.one, false, null);
+            }
+            
+            public static void Radio()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position + player.forward * 10f;
+                HelperMethods.SpawnCrate(Pallet.Entities.Radio, location, Quaternion.identity, Vector3.one, false, null);
+            }
+            
+            public static void Stealer()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position + player.forward * 20f;
+                HelperMethods.SpawnCrate(Pallet.Entities.Stealer, location, Quaternion.identity, Vector3.one, false, null);
+            }
+            
+            public static void Tak()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position;
+                HelperMethods.SpawnCrate(Pallet.Entities.Tak, location, Quaternion.identity, Vector3.one, false, null);
+            }
+            
+            public static void Tak2()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position;
+                HelperMethods.SpawnCrate(Pallet.Entities.Tak2, location, Quaternion.identity, Vector3.one, false, null);
+            }
+            
+            public static void Teeth()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position + player.forward * 20f;
+                HelperMethods.SpawnCrate(Pallet.Entities.Teeth, location, Quaternion.identity, Vector3.one, false, null);
+            }
+            
+            public static void Whiteface()
+            {
+                var player = Player.playerHead.transform;
+                var location = player.position + player.forward * 30f;
+                HelperMethods.SpawnCrate(Pallet.Entities.Whiteface, location, Quaternion.identity, Vector3.one, false, null);
+            }
         }
 #endif
     }
