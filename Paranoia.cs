@@ -55,7 +55,7 @@ namespace Paranoia
         {
             if (sceneName.ToUpper().Contains("BOOTSTRAP"))
             {
-                WarehouseReady();
+                AssetWarehouse.OnReady(new Action(WarehouseReady));
             }
         }
         
