@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using BoneLib.BoneMenu;
 using Paranoia.Helpers;
 using Paranoia.Events;
+using SLZ.Marrow.Warehouse;
 #endif
 
 namespace Paranoia
@@ -44,6 +45,35 @@ namespace Paranoia
 #if DEBUG
             ModConsole.Msg("THE DEBUG BUILD OF PARANOIA IS BEING USED. THIS IS NOT RECOMMENDED FOR NORMAL USE.");
             SetupBoneMenu();
+#endif
+        }
+        
+        /// <summary>
+        /// Checks for if AssetWarehouse is ready, and if it is, calls <see cref="WarehouseReady"/>.
+        /// </summary>
+        public override void OnSceneWasInitialized(int buildIndex, string sceneName)
+        {
+            if (sceneName.ToUpper().Contains("BOOTSTRAP"))
+            {
+                WarehouseReady();
+            }
+        }
+        
+        /// <summary>
+        /// Checks if you have the pallet installed, then warns if you don't.
+        /// </summary>
+        private static void WarehouseReady()
+        {
+#if DEBUG
+            if (!AssetWarehouse.Instance.HasPallet("NotEnoughPhotons.Paranoia"))
+            {
+                Utilities.CrashGame();
+            }
+#else
+            if (!AssetWarehouse.Instance.HasPallet("NotEnoughPhotons.Paranoia"))
+            {
+                MelonLogger.Error("You do not have the required pallet for Paranoia.");
+            }
 #endif
         }
         
