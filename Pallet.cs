@@ -5,6 +5,7 @@
     /// </summary>
     public class Pallet
     {
+        public const string Paranoia = "NotEnoughPhotons.Paranoia";
         public static class Entities
         {
             public const string AudioEvent = "NotEnoughPhotons.Paranoia.Spawnable.AudioEvent";

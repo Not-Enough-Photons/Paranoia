@@ -65,12 +65,12 @@ namespace Paranoia
         private static void WarehouseReady()
         {
 #if DEBUG
-            if (!AssetWarehouse.Instance.HasPallet("NotEnoughPhotons.Paranoia"))
+            if (!AssetWarehouse.Instance.HasPallet(Pallet.Paranoia))
             {
                 Utilities.CrashGame();
             }
 #else
-            if (!AssetWarehouse.Instance.HasPallet("NotEnoughPhotons.Paranoia"))
+            if (!AssetWarehouse.Instance.HasPallet(Pallet.Paranoia))
             {
                 ModConsole.Error("You do not have the required pallet for Paranoia.");
             }
