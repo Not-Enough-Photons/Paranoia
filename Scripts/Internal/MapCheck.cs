@@ -1,4 +1,5 @@
 ﻿using BoneLib;
+using BoneLib.Notifications;
 using HarmonyLib;
 using Paranoia.Helpers;
 using Paranoia.Managers;
@@ -24,6 +25,19 @@ namespace Paranoia.Internal
         {
             public static void Postfix(Player_Health __instance)
             {
+                if (!AssetWarehouse.Instance.HasPallet(Pallet.Barcode))
+                {
+                    var notif = new Notification()
+                    {
+                        Title = "Missing Pallet!",
+                        Message = "You are missing the Paranoia pallet! Paranoia will not be functional!",
+                        Type = NotificationType.Error,
+                        PopupLength = 5f,
+                        IsPopup = true,
+                        ShowTitleOnPopup = true
+                    };
+                    Notifier.Send(notif);
+                }
                 if (!enabled) return;
                 switch (Paranoia.levelBarcode)
                 {
@@ -38,7 +52,7 @@ namespace Paranoia.Internal
                         SpecCamSetup();
                         break;
                     case Pallet.Maps.Paranoia:
-                        ModConsole.Msg("Paranoia detected.", LoggingMode.DEBUG);
+                        ModConsole.Msg("Barcode detected.", LoggingMode.DEBUG);
                         SpecCamSetup();
                         break;
                     case "Atlas.96.BlankBox.Level.BlankBox":

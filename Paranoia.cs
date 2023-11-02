@@ -65,14 +65,14 @@ namespace Paranoia
         private static void WarehouseReady()
         {
 #if DEBUG
-            if (!AssetWarehouse.Instance.HasPallet(Pallet.Paranoia))
+            if (!AssetWarehouse.Instance.HasPallet(Pallet.Barcode))
             {
                 Utilities.CrashGame();
             }
 #else
-            if (!AssetWarehouse.Instance.HasPallet(Pallet.Paranoia))
+            if (!AssetWarehouse.Instance.HasPallet(Pallet.Barcode))
             {
-                ModConsole.Error("You do not have the required pallet for Paranoia.");
+                ModConsole.Error("You do not have the required pallet for Barcode.");
             }
 #endif
         }
@@ -97,7 +97,7 @@ namespace Paranoia
         private static void SetupBoneMenu()
         {
             var maincat = MenuManager.CreateCategory("Not Enough Photons", Color.white);
-            var cat = maincat.CreateCategory("Paranoia", Color.grey);
+            var cat = maincat.CreateCategory("Barcode", Color.grey);
             #region Entities
             var cat1 = cat.CreateCategory("Entities", Color.cyan);
             cat1.CreateFunctionElement("AudioEvent", Color.white, Entities.AudioEvent);

@@ -13,7 +13,7 @@ using Object = UnityEngine.Object;
 namespace Paranoia.Helpers
 {
     /// <summary>
-    /// A collection of helper methods for Paranoia.
+    /// A collection of helper methods for Barcode.
     /// </summary>
     public static class Utilities
     {
