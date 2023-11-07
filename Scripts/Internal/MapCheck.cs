@@ -33,7 +33,6 @@ namespace Paranoia.Internal
                         Message = "You are missing the Paranoia pallet! Paranoia will not be functional!",
                         Type = NotificationType.Error,
                         PopupLength = 5f,
-                        IsPopup = true,
                         ShowTitleOnPopup = true
                     };
                     Notifier.Send(notif);
