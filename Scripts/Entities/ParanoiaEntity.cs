@@ -1,4 +1,5 @@
-﻿using SLZ.Marrow.Warehouse;
+﻿using System;
+using SLZ.Marrow.Warehouse;
 using UnityEngine;
 
 namespace Paranoia.Entities
@@ -18,5 +19,7 @@ namespace Paranoia.Entities
         public SpawnableCrateReference crateReference;
         public EntityType entityType;
         public int percentChance = 100;
+
+        public ParanoiaEntity(IntPtr ptr) : base(ptr) {}
     }
 }
