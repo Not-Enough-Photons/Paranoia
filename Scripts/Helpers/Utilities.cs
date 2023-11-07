@@ -4,6 +4,7 @@ using UnhollowerBaseLib;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Paranoia.Entities;
 using PuppetMasta;
 using SLZ.AI;
 using UnityEngine;
@@ -130,6 +131,33 @@ namespace Paranoia.Helpers
             }
             ModConsole.Msg("No recording software detected.", LoggingMode.DEBUG);
             return false;
+        }
+        
+        public static ParanoiaEntity GetRandomEntity(ParanoiaEntity[] entities)
+        {
+            var validEntities = entities.Where(entity => entity.percentChance > 0).ToList();
+
+            if (validEntities.Count == 0)
+            {
+                ModConsole.Error("No valid entities to spawn!");
+                return null;
+            }
+            
+            int totalPercentage = validEntities.Sum(entity => entity.percentChance);
+
+            int randomValue = UnityEngine.Random.Range(0, totalPercentage);
+            
+            int cumulativePercentage = 0;
+            foreach (ParanoiaEntity entity in validEntities)
+            {
+                cumulativePercentage += entity.percentChance;
+                if (randomValue < cumulativePercentage)
+                {
+                    return entity;
+                }
+            }
+            
+            return null;
         }
     }
 }

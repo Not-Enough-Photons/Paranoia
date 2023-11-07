@@ -3,7 +3,8 @@ using MelonLoader;
 using System.Collections;
 using System.Collections.Generic;
 using BoneLib;
-using SLZ.Marrow.Warehouse;
+using Paranoia.Helpers;
+using Paranoia.Entities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,7 +20,7 @@ namespace Paranoia.Managers
         public AudioClip[] grabSounds;
         public float entityTimerMin = 60f;
         public float entityTimerMax = 80f;
-        public SpawnableCrateReference[] entities;
+        public ParanoiaEntity[] entities;
         public Transform[] airSpawns;
         public Transform[] groundSpawns;
         public Transform[] audioSpawns;
@@ -75,49 +76,41 @@ namespace Paranoia.Managers
                 var time = Random.Range(entityTimerMin, entityTimerMax);
                 yield return new WaitForSeconds(time);
                 ModConsole.Msg("Entity tick spawn phase", LoggingMode.DEBUG);
-                var entity = entities[Random.Range(0, entities.Length)];
-                ModConsole.Msg($"Chosen entity: {entity.Crate.name}", LoggingMode.DEBUG);
-                var crateTag = entity.Crate.Tags;
-                switch (crateTag.Contains("Air") ? "Air" : crateTag.Contains("Ground") ? "Ground" : crateTag.Contains("Special") ? "Special" : crateTag.Contains("Audio") ? "Audio" : "None")
+                var entity = Utilities.GetRandomEntity(entities);
+                var entityCrate = entity.crateReference;
+                ModConsole.Msg($"Chosen entity: {entityCrate.Crate.name}", LoggingMode.DEBUG);
+                switch (entity.entityType)
                 {
-                    case "Air":
+                    case ParanoiaEntity.EntityType.Air:
                     {
                         ModConsole.Msg("Entity had Air tag", LoggingMode.DEBUG);
                         var location = airSpawns[Random.Range(0, airSpawns.Length)];
-                        HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
+                        HelperMethods.SpawnCrate(entityCrate, location.position, Quaternion.identity, Vector3.one, false, go => { });
                         break;
                     }
-                    case "Ground":
+                    case ParanoiaEntity.EntityType.Ground:
                     {
                         ModConsole.Msg("Entity had Ground tag", LoggingMode.DEBUG);
                         var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
-                        HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
+                        HelperMethods.SpawnCrate(entityCrate, location.position, Quaternion.identity, Vector3.one, false, go => { });
                         break;
                     }
-                    case "Special":
+                    case ParanoiaEntity.EntityType.Special:
                     {
                         ModConsole.Msg("Entity had Special tag", LoggingMode.DEBUG);
-                        HelperMethods.SpawnCrate(entity, mirageSpawn.position, Quaternion.identity, Vector3.one,  false, go => { });
+                        HelperMethods.SpawnCrate(entityCrate, mirageSpawn.position, Quaternion.identity, Vector3.one,  false, go => { });
                         break;
                     }
-                    case "Audio":
+                    case ParanoiaEntity.EntityType.Audio:
                     {
                         ModConsole.Msg("Entity had Audio tag", LoggingMode.DEBUG);
                         var location = audioSpawns[Random.Range(0, audioSpawns.Length)];
-                        HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
-                        break;
-                    }
-                    case "None":
-                    {
-                        ModConsole.Warning("You idiot. You absolute buffoon. You have a crate with no tag. It has no way of spawning. You moron.");
-                        ModConsole.Warning("I'm gonna slap this guy at a random ground spawn. I hope you're happy.");
-                        var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
-                        HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
+                        HelperMethods.SpawnCrate(entityCrate, location.position, Quaternion.identity, Vector3.one, false, go => { });
                         break;
                     }
                     default:
                     {
-                        MelonLogger.Error("Something broke. Tag was set, but wasn't read.");
+                        MelonLogger.Error("Something broke. Couldn't read the entity type.");
                         break;
                     } 
                 }

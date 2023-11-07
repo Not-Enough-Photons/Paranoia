@@ -22,8 +22,7 @@
             public const string Paralyzer = "NotEnoughPhotons.Barcode.Spawnable.Paralyzer";
             public const string Radio = "NotEnoughPhotons.Barcode.Spawnable.Radio";
             public const string Stealer = "NotEnoughPhotons.Barcode.Spawnable.Stealer";
-            public const string Tak = "NotEnoughPhotons.Barcode.Spawnable.Tak";
-            public const string Tak2 = "NotEnoughPhotons.Barcode.Spawnable.Tak2";
+            public const string FastMirage = "NotEnoughPhotons.Barcode.Spawnable.FastMirage";
             public const string Teeth = "NotEnoughPhotons.Barcode.Spawnable.Teeth";
             public const string Whiteface = "NotEnoughPhotons.Barcode.Spawnable.Whiteface";
         }

@@ -112,8 +112,7 @@ namespace Paranoia
             cat1.CreateFunctionElement("Paralyzer", Color.grey, Entities.Paralyzer);
             cat1.CreateFunctionElement("Radio", Color.grey, Entities.Radio);
             cat1.CreateFunctionElement("Stealer", Color.grey, Entities.Stealer);
-            cat1.CreateFunctionElement("Tak", Color.black, Entities.Tak);
-            cat1.CreateFunctionElement("Tak2", Color.black, Entities.Tak2);
+            cat1.CreateFunctionElement("FastMirage", Color.black, Entities.FastMirage);
             cat1.CreateFunctionElement("Teeth", Color.white, Entities.Teeth);
             cat1.CreateFunctionElement("Whiteface", Color.white, Entities.Whiteface, "This guy will crash the game.");
             #endregion
@@ -225,18 +224,11 @@ namespace Paranoia
                 HelperMethods.SpawnCrate(Pallet.Entities.Stealer, location, Quaternion.identity, Vector3.one, false, null);
             }
             
-            public static void Tak()
+            public static void FastMirage()
             {
                 var player = Player.playerHead.transform;
                 var location = player.position;
-                HelperMethods.SpawnCrate(Pallet.Entities.Tak, location, Quaternion.identity, Vector3.one, false, null);
-            }
-            
-            public static void Tak2()
-            {
-                var player = Player.playerHead.transform;
-                var location = player.position;
-                HelperMethods.SpawnCrate(Pallet.Entities.Tak2, location, Quaternion.identity, Vector3.one, false, null);
+                HelperMethods.SpawnCrate(Pallet.Entities.FastMirage, location, Quaternion.identity, Vector3.one, false, null);
             }
             
             public static void Teeth()

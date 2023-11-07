@@ -54,6 +54,7 @@
         <Compile Include="Scripts\Entities\Follower.cs" />
         <Compile Include="Scripts\Entities\Chaser.cs" />
         <Compile Include="Scripts\Entities\Mirage.cs" />
+        <Compile Include="Scripts\Entities\ParanoiaEntity.cs" />
         <Compile Include="Scripts\Entities\Stalker.cs" />
         <Compile Include="Scripts\Entities\Watcher.cs" />
         <Compile Include="Scripts\Entities\Paralyzer.cs" />

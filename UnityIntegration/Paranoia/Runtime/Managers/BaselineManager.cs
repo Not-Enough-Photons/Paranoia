@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
+using Paranoia.Entities;
 using SLZ.SFX;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -36,7 +37,7 @@ namespace Paranoia.Managers
         [Tooltip("The maximum amount of time between entities spawning.")]
         public float entityTimerMax = 80f;
         [Tooltip("The list of entities that might spawn.")]
-        public SpawnableCrateReference[] entities;
+        public ParanoiaEntity[] entities;
         [Tooltip("The list of locations that entities may spawn in the air.")]
         public Transform[] airSpawns;
         [Tooltip("The list of locations that entities may spawn on the ground.")]

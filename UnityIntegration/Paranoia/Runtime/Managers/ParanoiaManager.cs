@@ -2,6 +2,7 @@
 using Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
 using System.Collections.Generic;
+using Paranoia.Entities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,6 +17,7 @@ namespace Paranoia.Managers
         public float eventTimerMin = 30f;
         [Tooltip("The maximum amount of time between events.")]
         public float eventTimerMax = 60f;
+        private readonly List<Light> flicker = new List<Light>();
         [Tooltip("The lights that will flicker during the LightFlicker event.")]
         public Light[] lights;
         [HideInInspector]
@@ -30,7 +32,7 @@ namespace Paranoia.Managers
         [Tooltip("The maximum amount of time between entities spawning.")]
         public float entityTimerMax = 80f;
         [Tooltip("The list of entities that might spawn.")]
-        public SpawnableCrateReference[] entities;
+        public ParanoiaEntity[] entities;
         [Tooltip("The list of locations that entities may spawn in the air.")]
         public Transform[] airSpawns;
         [Tooltip("The list of locations that entities may spawn on the ground.")]
@@ -51,7 +53,7 @@ namespace Paranoia.Managers
         private bool _enabled;
         private bool _doorSpawned;
 
-        public void AddLightsToArray()
+        public void AddLights(Light[] newLights)
         {
 
         }
