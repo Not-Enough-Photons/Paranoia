@@ -16,7 +16,7 @@ namespace Paranoia.Entities
         public AudioSource cryingSource;
         private void Start()
         {
-            var cryings = FindObjectsOfType<Crying>();
+            var cryings = Resources.FindObjectsOfTypeAll<Crying>();
             foreach (var crying in cryings)
             {
                 _cryings.Add(crying);
