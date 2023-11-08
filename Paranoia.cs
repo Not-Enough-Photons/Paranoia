@@ -64,17 +64,10 @@ namespace Paranoia
         /// </summary>
         private static void WarehouseReady()
         {
-#if DEBUG
-            if (!AssetWarehouse.Instance.HasPallet(Pallet.Barcode))
-            {
-                Utilities.CrashGame();
-            }
-#else
             if (!AssetWarehouse.Instance.HasPallet(Pallet.Barcode))
             {
                 ModConsole.Error("You do not have the required pallet for Barcode.");
             }
-#endif
         }
         
         /// <summary>

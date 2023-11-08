@@ -51,7 +51,7 @@ namespace Paranoia.Internal
                         SpecCamSetup();
                         break;
                     case Pallet.Maps.Paranoia:
-                        ModConsole.Msg("Barcode detected.", LoggingMode.DEBUG);
+                        ModConsole.Msg("Paranoia detected.", LoggingMode.DEBUG);
                         SpecCamSetup();
                         break;
                     case "Atlas.96.BlankBox.Level.BlankBox":
@@ -100,13 +100,11 @@ namespace Paranoia.Internal
         /// </summary>
         private static void SetupBaseline()
         {
-            // Get a crateref for the manager
-            var managerCrate = new SpawnableCrateReference(Pallet.Managers.BaselineManager);
             // Get baseline's lights
             var zoneMusic = Object.FindObjectOfType<ZoneMusic>();
             // Spawn and setup
             ModConsole.Msg("Spawning BaselineParanoia.", LoggingMode.DEBUG);
-            HelperMethods.SpawnCrate(managerCrate, Vector3.zero, Quaternion.identity, Vector3.one, false, go =>
+            HelperMethods.SpawnCrate(Pallet.Managers.BaselineManager, Vector3.zero, Quaternion.identity, Vector3.one, false, go =>
             {
                 var manager = go.GetComponent<BaselineManager>();
                 if (manager == null) return;
@@ -123,9 +121,6 @@ namespace Paranoia.Internal
         /// </summary>
         private static void SetupMuseum()
         {
-            // Get a crateref for the manager
-            var managerCrate = new SpawnableCrateReference(Pallet.Managers.MuseumManager);
-            ModConsole.Msg($"Got crate: {managerCrate}", LoggingMode.DEBUG);
             // Get museum basement's sign
             var sign = GameObject.Find("holographic_sign_SandboxMuseum").GetComponent<MeshRenderer>();
             ModConsole.Msg($"Got sign: {sign}", LoggingMode.DEBUG);
@@ -135,7 +130,7 @@ namespace Paranoia.Internal
             // Spawn and setup
             ModConsole.Msg("Spawning MuseumParanoia.", LoggingMode.DEBUG);
             var location = new Vector3(-20, 0, 20);
-            HelperMethods.SpawnCrate(managerCrate, location, Quaternion.identity, Vector3.one, false, go =>
+            HelperMethods.SpawnCrate(Pallet.Managers.MuseumManager, location, Quaternion.identity, Vector3.one, false, go =>
             {
                 var manager = go.GetComponent<MuseumManager>();
                 if (manager == null) return;
@@ -151,13 +146,11 @@ namespace Paranoia.Internal
         
         private static void SetupBlankbox()
         {
-            // Get a crateref for the manager
-            var managerCrate = new SpawnableCrateReference(Pallet.Managers.BlankBoxManager);
             // Get baseline's lights
             var lights = GameObject.Find("Lighting/REALTIMELIGHT").GetComponents<Light>();
             // Spawn and setup
             ModConsole.Msg("Spawning BlankboxParanoia.", LoggingMode.DEBUG);
-            HelperMethods.SpawnCrate(managerCrate, Vector3.zero, Quaternion.identity, Vector3.one, false, go =>
+            HelperMethods.SpawnCrate(Pallet.Managers.BlankBoxManager, Vector3.zero, Quaternion.identity, Vector3.one, false, go =>
             {
                 var manager = go.GetComponent<ParanoiaManager>();
                 if (manager == null) return;

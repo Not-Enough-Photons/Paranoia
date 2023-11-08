@@ -41,6 +41,12 @@ namespace Paranoia.Managers
         {
             if (_enabled) return;
             _enabled = true;
+#if DEBUG
+            foreach (var entity in entities)
+            {
+                ModConsole.Msg($"Entity: {entity.crateReference.Crate.name} | Type: {entity.entityType} | Chance: {entity.percentChance}%", LoggingMode.DEBUG);
+            }
+#endif
             MelonCoroutines.Start(EntityTick());
             MelonCoroutines.Start(EventTick());
             if (_doorSpawned) return;
