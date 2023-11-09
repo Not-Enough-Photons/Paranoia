@@ -4,6 +4,7 @@ using UnhollowerBaseLib;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Paranoia.Entities;
 using PuppetMasta;
 using SLZ.AI;
@@ -93,9 +94,10 @@ namespace Paranoia.Helpers
         /// Crashes the game in a truely Unity fashion: Access Violation
         /// <br/>Used in Crasher.<see cref="Entities.Crasher.OnTriggerEnter"/>
         /// </summary>
-        public static void CrashGame()
+        public static async void CrashGame()
         {
             ModConsole.Warning("THIS IS THAT LATER WARNING. THIS WAS CAUSED BY INTENTIONAL MOD DESIGN. THIS IS NOT A BUG. THIS LOG IS VOID!");
+            await ModStats.IncrementEntryAsync("ClaimedByWhiteface");
             Utils.ForceCrash(ForcedCrashCategory.AccessViolation);
         }
 

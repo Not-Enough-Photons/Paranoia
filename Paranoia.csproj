@@ -43,6 +43,7 @@
     </Target>
     <ItemGroup>
         <Compile Include="FieldInjection.cs" />
+        <Compile Include="ModStats.cs" />
         <Compile Include="Pallet.cs" />
         <Compile Include="Paranoia.cs" />
         <Compile Include="Melon\ModConsole.cs" />
@@ -102,6 +103,9 @@
         </Reference>
         <Reference Include="Il2Cppmscorlib">
             <HintPath>References\Il2Cppmscorlib.dll</HintPath>
+        </Reference>
+        <Reference Include="JeviLib">
+          <HintPath>References\JeviLib.dll</HintPath>
         </Reference>
         <Reference Include="MelonLoader">
             <HintPath>References\MelonLoader.dll</HintPath>

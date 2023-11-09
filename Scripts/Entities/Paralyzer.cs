@@ -19,6 +19,7 @@ namespace Paranoia.Entities
 
         private void Start()
         {
+            ModStats.IncrementEntry("PlayersParalyzed");
             ModConsole.Msg("Paralyzer spawned", LoggingMode.DEBUG);
             _player = Player.rigManager.artOutputRig.transform;
             _playerHead = Player.playerHead;

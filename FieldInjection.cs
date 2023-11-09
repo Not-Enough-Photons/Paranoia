@@ -13,7 +13,7 @@ namespace Paranoia
         public static void Inject()
         {
             // Required
-            SerialisationHandler.Inject<ParanoiaEntity>();
+            SerialisationHandler.Inject(typeof(ParanoiaEntity));
             // Entities
             SerialisationHandler.Inject<AudioEvent>();
             SerialisationHandler.Inject<Crasher>();

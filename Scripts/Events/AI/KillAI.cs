@@ -15,6 +15,7 @@ namespace Paranoia.Events
 
             foreach(var brain in brains)
             {
+                ModStats.IncrementEntry("FordsKilled");
                 var puppetMaster = brain.puppetMaster;
                 var health = brain.behaviour.health;
 

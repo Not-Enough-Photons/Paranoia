@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using BoneLib;
 using MelonLoader;
 using Paranoia.Internal;
@@ -81,6 +82,21 @@ namespace Paranoia
         {
             ModConsole.Msg($"Level loaded: {levelInfo.title}", LoggingMode.DEBUG);
             levelBarcode = levelInfo.barcode;
+        }
+        
+        /// <summary>
+        /// Sends the stats request for launch/user.
+        /// </summary>
+        public override void OnLateInitializeMelon()
+        {
+            var initializationThread = new Thread(new ThreadStart(async () =>
+            {
+                await ModStats.IncrementLaunch();
+                if (!PlayerPrefs.HasKey("TheLibraryElectricLaunch"))
+                    await ModStats.IncrementUser();
+                PlayerPrefs.TrySetInt("TheLibraryElectricLaunch", 1);
+            }));
+            initializationThread.Start();
         }
         
 #if DEBUG

@@ -41,6 +41,7 @@ namespace Paranoia.Events
             }
             rand.puppetMaster.muscleWeight = 0f;
             MelonCoroutines.Start(CoGrabRoutine(rand, targetRB, clips));
+            ModStats.IncrementEntry("FordsGrabbed");
         }
 
         private static IEnumerator CoGrabRoutine(AIBrain brain, Rigidbody part, AudioClip[] grabClips)
