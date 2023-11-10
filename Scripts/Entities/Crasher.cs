@@ -39,7 +39,7 @@ namespace Paranoia.Entities
         {
             if (other.GetComponentInParent<RigManager>() != null)
             {
-                ModStats.IncrementEntry("ClaimedByWhiteface");
+                ModStats.IncrementEntry("PlayersTrolled");
                 Utilities.CrashGame();
             }
         }

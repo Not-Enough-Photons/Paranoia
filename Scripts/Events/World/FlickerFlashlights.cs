@@ -17,6 +17,7 @@ namespace Paranoia.Events
 
             foreach (var t in flashlights)
             {
+                ModStats.IncrementEntry("LightsFlickered");
                 MelonLoader.MelonCoroutines.Start(CoLightFlicker(t, Random.Range(15, 25)));
             }
         }

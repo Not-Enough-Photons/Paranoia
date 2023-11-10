@@ -12,6 +12,7 @@ namespace Paranoia.Events
         {
             var guns = Object.FindObjectsOfType<Gun>();
             guns?[Random.Range(0, guns.Length)].Fire();
+            ModStats.IncrementEntry("GunsForceFired");
         }
     }
 }

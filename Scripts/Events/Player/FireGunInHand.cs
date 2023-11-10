@@ -17,6 +17,7 @@ namespace Paranoia.Events
             var gun = Player.GetGunInHand(Player.rightHand);
 
             gun.Fire();
+            ModStats.IncrementEntry("GunsForceFired");
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Paranoia.Events
         {
             if(lights == null) { return; }
             FlickerFlashlights.Activate();
+            ModStats.IncrementEntry("LightsFlickered");
             MelonLoader.MelonCoroutines.Start(CoLightFlicker(lights, Random.Range(30, 45)));
         }
 
