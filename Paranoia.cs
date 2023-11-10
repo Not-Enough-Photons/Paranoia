@@ -68,6 +68,7 @@ namespace Paranoia
             if (!AssetWarehouse.Instance.HasPallet(Pallet.Barcode))
             {
                 ModConsole.Error("You do not have the required pallet for Barcode.");
+                ModStats.IncrementEntry("IdiotsWhoDidntInstallThePallet");
             }
         }
         

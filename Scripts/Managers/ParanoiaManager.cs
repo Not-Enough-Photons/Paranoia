@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using BoneLib;
 using Paranoia.Helpers;
-using Paranoia.Entities;
 using SLZ.Marrow.Warehouse;
 using UnityEngine;
 using Random = UnityEngine.Random;
