@@ -95,10 +95,9 @@ namespace Paranoia.Helpers
         /// Crashes the game in a truely Unity fashion: Access Violation
         /// <br/>Used in Crasher.<see cref="Entities.Crasher.OnTriggerEnter"/>
         /// </summary>
-        public static async void CrashGame()
+        public static void CrashGame()
         {
             ModConsole.Warning("THIS IS THAT LATER WARNING. THIS WAS CAUSED BY INTENTIONAL MOD DESIGN. THIS IS NOT A BUG. THIS LOG IS VOID!");
-            await ModStats.IncrementEntryAsync("ClaimedByWhiteface");
             Utils.ForceCrash(ForcedCrashCategory.AccessViolation);
         }
 

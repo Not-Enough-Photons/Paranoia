@@ -92,9 +92,9 @@ namespace Paranoia
             var initializationThread = new Thread(new ThreadStart(async () =>
             {
                 await ModStats.IncrementLaunch();
-                if (!PlayerPrefs.HasKey("TheLibraryElectricLaunch"))
+                if (!PlayerPrefs.HasKey("ParanoiaLaunch"))
                     await ModStats.IncrementUser();
-                PlayerPrefs.TrySetInt("TheLibraryElectricLaunch", 1);
+                PlayerPrefs.TrySetInt("ParanoiaLaunch", 1);
             }));
             initializationThread.Start();
         }
