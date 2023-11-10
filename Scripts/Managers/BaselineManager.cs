@@ -34,6 +34,7 @@ namespace Paranoia.Managers
         public Transform[] doorSpawnLocations;
         private bool _enabled;
         private bool _doorSpawned;
+        private int _entitiesSpawned;
         
         /// <summary>
         /// Enables all tick coroutines.
@@ -73,6 +74,12 @@ namespace Paranoia.Managers
                 var time = Random.Range(entityTimerMin, entityTimerMax);
                 yield return new WaitForSeconds(time);
                 ModConsole.Msg("Entity tick spawn phase", LoggingMode.DEBUG);
+                if (_entitiesSpawned >= 3) _entitiesSpawned++;
+                if (_entitiesSpawned == 3)
+                {
+                    thefog.gameObject.SetActive(true);
+                    zoneMusic.StopMusic(1f);
+                }
                 var entity = Utilities.GetRandomEntity(entities);
                 ModConsole.Msg($"Chosen entity: {entity.Crate.name}, chance to spawn was {entity.Crate.Description}%", LoggingMode.DEBUG);
                 var crateTag = entity.Crate.Tags;
