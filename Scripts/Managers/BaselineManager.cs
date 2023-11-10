@@ -74,7 +74,7 @@ namespace Paranoia.Managers
                 yield return new WaitForSeconds(time);
                 ModConsole.Msg("Entity tick spawn phase", LoggingMode.DEBUG);
                 var entity = Utilities.GetRandomEntity(entities);
-                ModConsole.Msg($"Chosen entity: {entity.Crate.name}", LoggingMode.DEBUG);
+                ModConsole.Msg($"Chosen entity: {entity.Crate.name}, chance to spawn was {entity.Crate.Description}%", LoggingMode.DEBUG);
                 var crateTag = entity.Crate.Tags;
                 switch (crateTag.Contains("Air") ? "Air" : crateTag.Contains("Ground") ? "Ground" : crateTag.Contains("Special") ? "Special" : crateTag.Contains("Audio") ? "Audio" : "None")
                 {

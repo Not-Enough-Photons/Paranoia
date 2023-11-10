@@ -4,7 +4,7 @@ namespace Paranoia
 {
     internal static class Preferences
     {
-        private static MelonPreferences_Category category = MelonPreferences.CreateCategory("Barcode");
+        private static MelonPreferences_Category category = MelonPreferences.CreateCategory("Paranoia");
 
         public static ModPref<LoggingMode> loggingMode;
 

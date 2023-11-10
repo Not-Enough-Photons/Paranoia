@@ -107,7 +107,7 @@ namespace Paranoia
         private static void SetupBoneMenu()
         {
             var maincat = MenuManager.CreateCategory("Not Enough Photons", Color.white);
-            var cat = maincat.CreateCategory("Barcode", Color.grey);
+            var cat = maincat.CreateCategory("Paranoia", Color.grey);
             #region Entities
             var cat1 = cat.CreateCategory("Entities", Color.cyan);
             cat1.CreateFunctionElement("AudioEvent", Color.white, Entities.AudioEvent);
