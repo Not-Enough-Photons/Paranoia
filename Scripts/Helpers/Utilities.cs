@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Paranoia.Entities;
 using PuppetMasta;
 using SLZ.AI;
+using SLZ.Marrow.Warehouse;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using Object = UnityEngine.Object;
@@ -135,9 +136,9 @@ namespace Paranoia.Helpers
             return false;
         }
         
-        public static ParanoiaEntity GetRandomEntity(ParanoiaEntity[] entities)
+        public static SpawnableCrateReference GetRandomEntity(SpawnableCrateReference[] entities)
         {
-            var validEntities = entities.Where(entity => entity.percentChance > 0).ToList();
+            var validEntities = entities.Where(entity => int.Parse(entity.Crate.Description) > 0).ToList();
 
             if (validEntities.Count == 0)
             {
@@ -145,14 +146,14 @@ namespace Paranoia.Helpers
                 return null;
             }
             
-            int totalPercentage = validEntities.Sum(entity => entity.percentChance);
+            int totalPercentage = validEntities.Sum(entity => int.Parse(entity.Crate.Description));
 
             int randomValue = UnityEngine.Random.Range(0, totalPercentage);
             
             int cumulativePercentage = 0;
-            foreach (ParanoiaEntity entity in validEntities)
+            foreach (SpawnableCrateReference entity in validEntities)
             {
-                cumulativePercentage += entity.percentChance;
+                cumulativePercentage += int.Parse(entity.Crate.Description);
                 if (randomValue < cumulativePercentage)
                 {
                     return entity;

@@ -32,7 +32,7 @@ namespace Paranoia.Managers
         [Tooltip("The maximum amount of time between entities spawning.")]
         public float entityTimerMax = 80f;
         [Tooltip("The list of entities that might spawn.")]
-        public ParanoiaEntity[] entities;
+        public SpawnableCrateReference[] entities;
         [Tooltip("The list of locations that entities may spawn in the air.")]
         public Transform[] airSpawns;
         [Tooltip("The list of locations that entities may spawn on the ground.")]

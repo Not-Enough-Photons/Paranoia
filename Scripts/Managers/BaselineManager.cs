@@ -4,6 +4,7 @@ using System.Collections;
 using BoneLib;
 using Paranoia.Entities;
 using Paranoia.Helpers;
+using SLZ.Marrow.Warehouse;
 using SLZ.SFX;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -22,7 +23,7 @@ namespace Paranoia.Managers
         public AudioClip[] grabSounds;
         public float entityTimerMin = 60f;
         public float entityTimerMax = 80f;
-        public ParanoiaEntity[] entities;
+        public SpawnableCrateReference[] entities;
         public Transform[] airSpawns;
         public Transform[] groundSpawns;
         public Transform[] audioSpawns;
@@ -41,12 +42,6 @@ namespace Paranoia.Managers
         {
             if (_enabled) return;
             _enabled = true;
-#if DEBUG
-            foreach (var entity in entities)
-            {
-                ModConsole.Msg($"Entity: {entity.crateReference.Crate.name} | Type: {entity.entityType} | Chance: {entity.percentChance}%", LoggingMode.DEBUG);
-            }
-#endif
             MelonCoroutines.Start(EntityTick());
             MelonCoroutines.Start(EventTick());
             if (_doorSpawned) return;
@@ -79,35 +74,42 @@ namespace Paranoia.Managers
                 yield return new WaitForSeconds(time);
                 ModConsole.Msg("Entity tick spawn phase", LoggingMode.DEBUG);
                 var entity = Utilities.GetRandomEntity(entities);
-                var entityCrate = entity.crateReference;
-                ModConsole.Msg($"Chosen entity: {entityCrate.Crate.name}", LoggingMode.DEBUG);
-                switch (entity.entityType)
+                ModConsole.Msg($"Chosen entity: {entity.Crate.name}", LoggingMode.DEBUG);
+                var crateTag = entity.Crate.Tags;
+                switch (crateTag.Contains("Air") ? "Air" : crateTag.Contains("Ground") ? "Ground" : crateTag.Contains("Special") ? "Special" : crateTag.Contains("Audio") ? "Audio" : "None")
                 {
-                    case ParanoiaEntity.EntityType.Air:
+                    case "Air":
                     {
                         ModConsole.Msg("Entity had Air tag", LoggingMode.DEBUG);
                         var location = airSpawns[Random.Range(0, airSpawns.Length)];
-                        HelperMethods.SpawnCrate(entityCrate, location.position, Quaternion.identity, Vector3.one, false, go => { });
+                        HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
                         break;
                     }
-                    case ParanoiaEntity.EntityType.Ground:
+                    case "Ground":
                     {
                         ModConsole.Msg("Entity had Ground tag", LoggingMode.DEBUG);
                         var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
-                        HelperMethods.SpawnCrate(entityCrate, location.position, Quaternion.identity, Vector3.one, false, go => { });
+                        HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
                         break;
                     }
-                    case ParanoiaEntity.EntityType.Special:
+                    case "Special":
                     {
                         ModConsole.Msg("Entity had Special tag", LoggingMode.DEBUG);
-                        HelperMethods.SpawnCrate(entityCrate, mirageSpawn.position, Quaternion.identity, Vector3.one,  false, go => { });
+                        HelperMethods.SpawnCrate(entity, mirageSpawn.position, Quaternion.identity, Vector3.one,  false, go => { });
                         break;
                     }
-                    case ParanoiaEntity.EntityType.Audio:
+                    case "Audio":
                     {
                         ModConsole.Msg("Entity had Audio tag", LoggingMode.DEBUG);
                         var location = audioSpawns[Random.Range(0, audioSpawns.Length)];
-                        HelperMethods.SpawnCrate(entityCrate, location.position, Quaternion.identity, Vector3.one, false, go => { });
+                        HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
+                        break;
+                    }
+                    case "None":
+                    {
+                        ModConsole.Error($"You forgot to tag Entity {entity.Crate.name}! Spawning at a ground location. Your fault if it's wrong.");
+                        var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
+                        HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
                         break;
                     }
                     default:
