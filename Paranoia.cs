@@ -20,11 +20,11 @@ namespace Paranoia
     /// </summary>
     public class Paranoia : MelonMod
     {
-        internal const string Name = "Paranoia"; // Required
-        internal const string Description = "There's something hostile out there."; // Required
-        internal const string Author = "Not Enough Photons, adamdev, SoulWithMae"; // Required
+        internal const string Name = "Paranoia";
+        internal const string Description = "There's something hostile out there.";
+        internal const string Author = "Not Enough Photons, adamdev, SoulWithMae";
         internal const string Company = "Not Enough Photons";
-        internal const string Version = "1.0.0";
+        internal const string Version = "0.0.1";
         internal const string DownloadLink = "null";
         
         /// <summary>
@@ -133,8 +133,13 @@ namespace Paranoia
             cat2.CreateFunctionElement("MoveAIToRadio", Color.red, () =>
             {
                 var player = Player.playerHead.transform;
-                var go = new GameObject();
-                go.transform.position = player.position + player.forward * 5f;
+                var go = new GameObject
+                {
+                    transform =
+                    {
+                        position = player.position + player.forward * 5f
+                    }
+                };
                 var location = go.transform;
                 MoveAIToRadio.Activate(location);
             });
