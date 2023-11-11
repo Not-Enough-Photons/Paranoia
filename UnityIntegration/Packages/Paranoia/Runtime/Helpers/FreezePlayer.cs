@@ -8,12 +8,12 @@ namespace Paranoia.Helpers
         public override string Comment => "Freezes the player, useful for freezing the player during the end scene.";
         public void Freeze()
         {
-            Utilities.FreezePlayer(true);
+
         }
         
         public void Unfreeze()
         {
-            Utilities.FreezePlayer(false);
+
         }
     }
 }

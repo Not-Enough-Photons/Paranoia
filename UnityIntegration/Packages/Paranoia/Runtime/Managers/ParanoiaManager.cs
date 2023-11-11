@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using Paranoia.Entities;
 using UnityEngine;
 using Random = UnityEngine.Random;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Paranoia.Managers
 {
@@ -82,5 +85,32 @@ namespace Paranoia.Managers
         {
             yield return null;
         }
+#if UNITY_EDITOR
+		private void OnDrawGizmos()
+		{
+			DrawGizmosForArray(airSpawns, Color.blue);
+			DrawGizmosForArray(groundSpawns, Color.green);
+			DrawGizmosForArray(audioSpawns, Color.red);
+			DrawGizmosForArray(doorSpawnLocations, Color.yellow);
+
+			if (mirageSpawn != null)
+			{
+				Gizmos.color = Color.cyan;
+				Gizmos.DrawSphere(mirageSpawn.position, 0.3f);
+			}
+
+			DrawGizmosForArray(npcMoveLocations, Color.magenta);
+		}
+
+		private void DrawGizmosForArray(Transform[] array, Color color)
+		{
+			Gizmos.color = color;
+
+			foreach (Transform t in array)
+			{
+				Gizmos.DrawSphere(t.position, 0.3f);
+			}
+		}
+#endif
     }
 }
