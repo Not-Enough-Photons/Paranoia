@@ -22,6 +22,7 @@ namespace Paranoia
             SerialisationHandler.Inject<Paralyzer>();
             SerialisationHandler.Inject<Radio>();
             SerialisationHandler.Inject<Stalker>();
+            SerialisationHandler.Inject<CryingMarker>();
             SerialisationHandler.Inject<Crying>();
             SerialisationHandler.Inject<WeepingAngel>();
             // Helpers
