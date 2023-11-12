@@ -65,9 +65,15 @@ namespace Paranoia
         /// </summary>
         private static void WarehouseReady()
         {
+            var deps = DependencyCheck.CheckForDependencies();
+            if (!deps)
+            {
+                var missing = DependencyCheck.GetMissingDependency();
+                ModConsole.Error($"You do not have {missing}!");
+            }
             if (!AssetWarehouse.Instance.HasPallet(Pallet.Barcode))
             {
-                ModConsole.Error("You do not have the required pallet for Barcode.");
+                ModConsole.Error("You do not have the required pallet for Paranoia.");
                 ModStats.IncrementEntry("IdiotsWhoDidntInstallThePallet");
             }
         }

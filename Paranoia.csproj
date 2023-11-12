@@ -42,6 +42,7 @@
         <Exec Command="COPY &quot;$(TargetPath)&quot; &quot;I:\Steam\steamapps\common\BONELAB\Mods&quot;" />
     </Target>
     <ItemGroup>
+        <Compile Include="DependencyCheck.cs" />
         <Compile Include="FieldInjection.cs" />
         <Compile Include="ModStats.cs" />
         <Compile Include="Pallet.cs" />
