@@ -39,7 +39,7 @@ namespace Paranoia
             var recording = Utilities.CheckIfRecording();
             ModConsole.Msg($"Recording software running = {recording}", LoggingMode.DEBUG);
 #endif
-            MapCheck.enabled = Preferences.enabledInBaseGameMaps.entry.Value;
+            MapCheck.enabled = Preferences.enabledInBaseGameMaps.Value;
             ModConsole.Msg("THIS PERSON IS USING PARANOIA. THERE IS AN EVENT THAT CRASHES THE GAME. THIS LOG MAY BE VOID, CHECK LATER IN THE LOG FOR A SIMILAR WARNING TO CONFIRM");
             FieldInjection.Inject();
             Hooking.OnLevelInitialized += OnLevelLoaded;
@@ -106,14 +106,15 @@ namespace Paranoia
             initializationThread.Start();
         }
         
-#if DEBUG
         /// <summary>
-        /// Debug menu for testing various things.
+        /// Bonemenu options, some are debug only, some will be in the release build.
         /// </summary>
         private static void SetupBoneMenu()
         {
             var maincat = MenuManager.CreateCategory("Not Enough Photons", Color.white);
             var cat = maincat.CreateCategory("Paranoia", Color.grey);
+            cat.CreateBoolElement("Base Game Map Activation", Color.white, Preferences.enabledInBaseGameMaps.Value, OnBoolUpdate);
+#if DEBUG
             #region Entities
             var cat1 = cat.CreateCategory("Entities", Color.cyan);
             cat1.CreateFunctionElement("AudioEvent", Color.white, Entities.AudioEvent);
@@ -158,8 +159,16 @@ namespace Paranoia
             cat2.CreateFunctionElement("FlingRandomObject", Color.magenta, FlingRandomObject.Activate);
             cat2.CreateFunctionElement("Crash Game", Color.red, Utilities.CrashGame, "This will crash the game!");
             #endregion
+#endif
         }
 
+        private static void OnBoolUpdate(bool value)
+        {
+            MapCheck.enabled = value;
+            Preferences.enabledInBaseGameMaps.Value = value;
+            Preferences.Category.SaveToFile(false);
+        }
+#if DEBUG
         private static class Entities
         {
             public static void AudioEvent()

@@ -25,7 +25,6 @@ namespace Paranoia.Internal
         {
             public static void Postfix(Player_Health __instance)
             {
-                /*
                 if (!AssetWarehouse.Instance.HasPallet(Pallet.Barcode))
                 {
                     var notif = new Notification()
@@ -38,7 +37,6 @@ namespace Paranoia.Internal
                     };
                     Notifier.Send(notif);
                 }
-                */
                 if (!enabled) return;
                 switch (Paranoia.levelBarcode)
                 {

@@ -48,7 +48,6 @@
         <Compile Include="Pallet.cs" />
         <Compile Include="Paranoia.cs" />
         <Compile Include="Melon\ModConsole.cs" />
-        <Compile Include="Melon\ModPref.cs" />
         <Compile Include="Melon\Preferences.cs" />
         <Compile Include="Scripts\Entities\AudioEvent.cs" />
         <Compile Include="Scripts\Entities\Crasher.cs" />
