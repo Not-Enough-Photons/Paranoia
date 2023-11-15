@@ -24,7 +24,7 @@ namespace Paranoia
         internal const string Description = "There's something hostile out there.";
         internal const string Author = "Not Enough Photons, adamdev, SoulWithMae";
         internal const string Company = "Not Enough Photons";
-        internal const string Version = "0.0.1";
+        internal const string Version = "0.0.2";
         internal const string DownloadLink = "null";
         
         /// <summary>
