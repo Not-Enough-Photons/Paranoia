@@ -104,7 +104,7 @@ namespace Paranoia.Internal
             var zoneMusic = Object.FindObjectOfType<ZoneMusic>();
             // Spawn and setup
             ModConsole.Msg("Spawning BaselineParanoia.", LoggingMode.DEBUG);
-            HelperMethods.SpawnCrate(Pallet.Managers.BaselineManager, Vector3.zero, Quaternion.identity, Vector3.one, false, go =>
+            HelperMethods.SpawnCrate(Preferences.baselineManager.Value, Vector3.zero, Quaternion.identity, Vector3.one, false, go =>
             {
                 var manager = go.GetComponent<BaselineManager>();
                 if (manager == null) return;
@@ -130,7 +130,7 @@ namespace Paranoia.Internal
             // Spawn and setup
             ModConsole.Msg("Spawning MuseumParanoia.", LoggingMode.DEBUG);
             var location = new Vector3(-20, 0, 20);
-            HelperMethods.SpawnCrate(Pallet.Managers.MuseumManager, location, Quaternion.identity, Vector3.one, false, go =>
+            HelperMethods.SpawnCrate(Preferences.museumManager.Value, location, Quaternion.identity, Vector3.one, false, go =>
             {
                 var manager = go.GetComponent<MuseumManager>();
                 if (manager == null) return;
@@ -150,7 +150,7 @@ namespace Paranoia.Internal
             var lights = GameObject.Find("Lighting/REALTIMELIGHT").GetComponents<Light>();
             // Spawn and setup
             ModConsole.Msg("Spawning BlankboxParanoia.", LoggingMode.DEBUG);
-            HelperMethods.SpawnCrate(Pallet.Managers.BlankBoxManager, Vector3.zero, Quaternion.identity, Vector3.one, false, go =>
+            HelperMethods.SpawnCrate(Preferences.blankboxManager.Value, Vector3.zero, Quaternion.identity, Vector3.one, false, go =>
             {
                 var manager = go.GetComponent<ParanoiaManager>();
                 if (manager == null) return;
