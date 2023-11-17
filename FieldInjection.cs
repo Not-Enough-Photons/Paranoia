@@ -1,6 +1,4 @@
-﻿using FieldInjector;
-
-namespace Paranoia;
+﻿namespace Paranoia;
 
 public static class FieldInjection
 {

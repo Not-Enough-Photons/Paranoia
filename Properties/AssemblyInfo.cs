@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-[assembly: AssemblyTitle(Paranoia.Paranoia.Description)]
+﻿[assembly: AssemblyTitle(Paranoia.Paranoia.Description)]
 [assembly: AssemblyDescription(Paranoia.Paranoia.Description)]
 [assembly: AssemblyCompany(Paranoia.Paranoia.Company)]
 [assembly: AssemblyProduct(Paranoia.Paranoia.Name)]

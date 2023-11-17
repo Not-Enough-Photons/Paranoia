@@ -1,7 +1,4 @@
-﻿using System.Threading.Tasks;
-using Jevil.ModStats;
-
-namespace Paranoia;
+﻿namespace Paranoia;
 
 internal static class ModStats
 {
