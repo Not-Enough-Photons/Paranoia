@@ -1,37 +1,34 @@
-﻿using UnityEngine;
+﻿namespace Paranoia.Helpers;
 
-namespace Paranoia.Helpers
+public static class CameraHelper
 {
-    public static class CameraHelper
+    private static void LayerCullingShow(Camera cam, int layerMask)
     {
-        private static void LayerCullingShow(Camera cam, int layerMask)
-        {
-            cam.cullingMask |= layerMask;
-        }
+        cam.cullingMask |= layerMask;
+    }
 
-        public static void LayerCullingShow(Camera cam, string layer)
-        {
-            LayerCullingShow(cam, 1 << LayerMask.NameToLayer(layer));
-        }
+    public static void LayerCullingShow(Camera cam, string layer)
+    {
+        LayerCullingShow(cam, 1 << LayerMask.NameToLayer(layer));
+    }
 
-        private static void LayerCullingHide(Camera cam, int layerMask)
-        {
-            cam.cullingMask &= ~layerMask;
-        }
+    private static void LayerCullingHide(Camera cam, int layerMask)
+    {
+        cam.cullingMask &= ~layerMask;
+    }
 
-        public static void LayerCullingHide(Camera cam, string layer)
-        {
-            LayerCullingHide(cam, 1 << LayerMask.NameToLayer(layer));
-        }
+    public static void LayerCullingHide(Camera cam, string layer)
+    {
+        LayerCullingHide(cam, 1 << LayerMask.NameToLayer(layer));
+    }
         
-        private static bool LayerCullingIncludes(Camera cam, int layerMask)
-        {
-            return (cam.cullingMask & layerMask) > 0;
-        }
+    private static bool LayerCullingIncludes(Camera cam, int layerMask)
+    {
+        return (cam.cullingMask & layerMask) > 0;
+    }
 
-        public static bool LayerCullingIncludes(Camera cam, string layer)
-        {
-            return LayerCullingIncludes(cam, 1 << LayerMask.NameToLayer(layer));
-        }
+    public static bool LayerCullingIncludes(Camera cam, string layer)
+    {
+        return LayerCullingIncludes(cam, 1 << LayerMask.NameToLayer(layer));
     }
 }

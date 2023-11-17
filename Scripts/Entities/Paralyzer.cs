@@ -1,59 +1,51 @@
-﻿using System;
-using BoneLib;
-using MelonLoader;
-using System.Collections;
-using Paranoia.Helpers;
-using UnityEngine;
+﻿namespace Paranoia.Entities;
 
-namespace Paranoia.Entities
+/// <summary>
+/// Freezes the player in place and moves towards them.
+/// </summary>
+public class Paralyzer : MonoBehaviour
 {
-    /// <summary>
-    /// Freezes the player in place and moves towards them.
-    /// </summary>
-    public class Paralyzer : MonoBehaviour
+    public AudioSource paralysisSound;
+    private Transform _playerHead;
+    private Transform _player;
+    private Transform This => transform;
+
+    private void Start()
     {
-        public AudioSource paralysisSound;
-        private Transform _playerHead;
-        private Transform _player;
-        private Transform This => transform;
+        ModStats.IncrementEntry("PlayersParalyzed");
+        ModConsole.Msg("Paralyzer spawned", LoggingMode.Debug);
+        _player = Player.rigManager.artOutputRig.transform;
+        _playerHead = Player.playerHead;
+        This.position = _player.position + _player.forward * 25f + Vector3.up * 1.5f;
+        Utilities.FreezePlayer(true);
+        paralysisSound.Play();
+        This.LookAt(_playerHead);
+        MelonCoroutines.Start(MoveCloser());
+    }
 
-        private void Start()
+    private IEnumerator MoveCloser()
+    {
+        for (var i = 0; i < 3; i++)
         {
-            ModStats.IncrementEntry("PlayersParalyzed");
-            ModConsole.Msg("Paralyzer spawned", LoggingMode.DEBUG);
-            _player = Player.rigManager.artOutputRig.transform;
-            _playerHead = Player.playerHead;
-            This.position = _player.position + _player.forward * 25f + Vector3.up * 1.5f;
-            Utilities.FreezePlayer(true);
+            This.position = Vector3.MoveTowards(This.position, _playerHead.position, 5f);
             paralysisSound.Play();
-            This.LookAt(_playerHead);
-            MelonCoroutines.Start(MoveCloser());
-        }
-
-        private IEnumerator MoveCloser()
-        {
-            for (var i = 0; i < 3; i++)
+            yield return new WaitForSeconds(5f);
+            if (i == 2)
             {
                 This.position = Vector3.MoveTowards(This.position, _playerHead.position, 5f);
                 paralysisSound.Play();
-                yield return new WaitForSeconds(5f);
-                if (i == 2)
-                {
-                    This.position = Vector3.MoveTowards(This.position, _playerHead.position, 5f);
-                    paralysisSound.Play();
-                    MelonCoroutines.Start(DespawnSelf());
-                }
+                MelonCoroutines.Start(DespawnSelf());
             }
         }
-        
-        private IEnumerator DespawnSelf()
-        {
-            yield return new WaitForSeconds(5f);
-            ModConsole.Msg("Paralyzer despawned", LoggingMode.DEBUG);
-            Utilities.FreezePlayer(false);
-            Destroy(gameObject);
-        }
-
-        public Paralyzer(IntPtr ptr) : base(ptr) { }
     }
+        
+    private IEnumerator DespawnSelf()
+    {
+        yield return new WaitForSeconds(5f);
+        ModConsole.Msg("Paralyzer despawned", LoggingMode.Debug);
+        Utilities.FreezePlayer(false);
+        Destroy(gameObject);
+    }
+
+    public Paralyzer(IntPtr ptr) : base(ptr) { }
 }

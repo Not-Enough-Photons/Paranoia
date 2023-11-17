@@ -44,6 +44,7 @@
     <ItemGroup>
         <Compile Include="DependencyCheck.cs" />
         <Compile Include="FieldInjection.cs" />
+        <Compile Include="GlobalUsings.cs" />
         <Compile Include="ModStats.cs" />
         <Compile Include="Pallet.cs" />
         <Compile Include="Paranoia.cs" />

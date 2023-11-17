@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using MelonLoader;
 
 [assembly: AssemblyTitle(Paranoia.Paranoia.Description)]
 [assembly: AssemblyDescription(Paranoia.Paranoia.Description)]

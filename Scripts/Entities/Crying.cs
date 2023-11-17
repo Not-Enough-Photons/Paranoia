@@ -1,25 +1,21 @@
-﻿using System;
-using UnityEngine;
+﻿namespace Paranoia.Entities;
 
-namespace Paranoia.Entities
+/// <summary>
+/// Prevents duplicates of this entity from spawning.
+/// </summary>
+public class Crying : MonoBehaviour
 {
-    /// <summary>
-    /// Prevents duplicates of this entity from spawning.
-    /// </summary>
-    public class Crying : MonoBehaviour
+    private void Start()
     {
-        private void Start()
+        var othercryers = Resources.FindObjectsOfTypeAll<CryingMarker>();
+        if (othercryers.Length > 0)
         {
-            var othercryers = Resources.FindObjectsOfTypeAll<CryingMarker>();
-            if (othercryers.Length > 0)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                gameObject.AddComponent<CryingMarker>();
-            }
+            Destroy(gameObject);
         }
-        public Crying(IntPtr ptr) : base(ptr) { }
+        else
+        {
+            gameObject.AddComponent<CryingMarker>();
+        }
     }
+    public Crying(IntPtr ptr) : base(ptr) { }
 }

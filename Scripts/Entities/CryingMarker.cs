@@ -1,13 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿namespace Paranoia.Entities;
 
-namespace Paranoia.Entities
+/// <summary>
+/// Just exists to mark a crying entity after it's spawned, assuming there isn't another crying entity.
+/// </summary>
+public class CryingMarker : MonoBehaviour
 {
-    /// <summary>
-    /// Just exists to mark a crying entity after it's spawned, assuming there isn't another crying entity.
-    /// </summary>
-    public class CryingMarker : MonoBehaviour
-    {
-        public CryingMarker(IntPtr ptr) : base(ptr) { }
-    }
+    public CryingMarker(IntPtr ptr) : base(ptr) { }
 }

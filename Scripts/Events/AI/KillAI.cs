@@ -1,27 +1,24 @@
-﻿using Paranoia.Helpers;
+﻿namespace Paranoia.Events;
 
-namespace Paranoia.Events
+/// <summary>
+/// Kills all NPCs.
+/// </summary>
+public static class KillAI
 {
-    /// <summary>
-    /// Kills all NPCs.
-    /// </summary>
-    public static class KillAI
+    public static void Activate()
     {
-        public static void Activate()
+        var brains = Utilities.FindAIBrains();
+
+        if(brains == null) { return; }
+
+        foreach(var brain in brains)
         {
-            var brains = Utilities.FindAIBrains();
+            ModStats.IncrementEntry("FordsKilled");
+            var puppetMaster = brain.puppetMaster;
+            var health = brain.behaviour.health;
 
-            if(brains == null) { return; }
-
-            foreach(var brain in brains)
-            {
-                ModStats.IncrementEntry("FordsKilled");
-                var puppetMaster = brain.puppetMaster;
-                var health = brain.behaviour.health;
-
-                health.Kill();
-                puppetMaster.Kill();
-            }
+            health.Kill();
+            puppetMaster.Kill();
         }
     }
 }
