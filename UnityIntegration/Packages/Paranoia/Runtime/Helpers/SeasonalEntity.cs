@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UltEvents;
 
 namespace Paranoia.Helpers
 {
@@ -13,8 +14,10 @@ namespace Paranoia.Helpers
         public Material christmasMaterial;
         [Tooltip("The material to use on April Fools.")]
         public Material aprilfoolsMaterial;
-        [Tooltip("The material to use on any other day.")]
-        public Material defaultMaterial;
+        [Tooltip("The event to invoke on Christmas.")]
+        public UltEvent onChristmas;
+        [Tooltip("The event to invoke on April Fools.")]
+        public UltEvent onAprilFools;
 
         private void Start()
         {

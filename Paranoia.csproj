@@ -58,6 +58,7 @@
         <Compile Include="Scripts\Entities\Chaser.cs" />
         <Compile Include="Scripts\Entities\Mirage.cs" />
         <Compile Include="Scripts\Entities\Stalker.cs" />
+        <Compile Include="Scripts\Entities\Vanisher.cs" />
         <Compile Include="Scripts\Entities\Watcher.cs" />
         <Compile Include="Scripts\Entities\Paralyzer.cs" />
         <Compile Include="Scripts\Entities\Radio.cs" />
@@ -129,6 +130,9 @@
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
           <HintPath>References\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.ParticleSystemModule">
+          <HintPath>References\UnityEngine.ParticleSystemModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.PhysicsModule">
           <HintPath>References\UnityEngine.PhysicsModule.dll</HintPath>

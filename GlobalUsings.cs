@@ -27,6 +27,7 @@ global using System.Linq;
 global using System.Reflection;
 global using System.Threading.Tasks;
 global using Jevil.ModStats;
+global using UltEvents;
 global using UnhollowerBaseLib;
 global using UnityEngine;
 global using UnityEngine.Diagnostics;

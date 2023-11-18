@@ -9,7 +9,8 @@ public class SeasonalEntity : MonoBehaviour
     public MeshRenderer renderer;
     public Material christmasMaterial;
     public Material aprilfoolsMaterial;
-    public Material defaultMaterial;
+    public UltEvent onChristmas;
+    public UltEvent onAprilFools;
         
     private void Start()
     {
@@ -18,14 +19,12 @@ public class SeasonalEntity : MonoBehaviour
         if (isChristmas)
         {
             renderer.material = christmasMaterial;
+            onChristmas.Invoke();
         }
         else if (isAprilFools)
         {
             renderer.material = aprilfoolsMaterial;
-        }
-        else
-        {
-            renderer.material = defaultMaterial;
+            onAprilFools.Invoke();
         }
     }
 
