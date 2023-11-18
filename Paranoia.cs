@@ -265,8 +265,12 @@ public class Paranoia : MelonMod
             var location = player.position - player.forward * 50f;
             HelperMethods.SpawnCrate(Pallet.Entities.Vanisher, location, Quaternion.identity, Vector3.one, false, go =>
             {
+                var vanisher = go.GetComponent<Vanisher>();
+                vanisher.lookThreshold = 0.1f;
+                vanisher.movementSpeed = 5f;
                 var seasonalentity = go.GetComponent<SeasonalEntity>();
                 seasonalentity.onAprilFools.Invoke();
+                vanisher.vanishSound.volume = 1.0f;
             });
         }
     }
