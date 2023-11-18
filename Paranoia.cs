@@ -115,6 +115,7 @@ public class Paranoia : MelonMod
         cat1.CreateFunctionElement("FastMirage", Color.black, Entities.FastMirage);
         cat1.CreateFunctionElement("Teeth", Color.white, Entities.Teeth);
         cat1.CreateFunctionElement("Whiteface", Color.white, Entities.Whiteface, "This guy will crash the game.");
+        cat1.CreateFunctionElement("Vanish", Color.cyan, Entities.Vanish);
         cat1.CreateFunctionElement("Obama Vanish", Color.cyan, Entities.ObamaVanish);
         #endregion
         #region Events
@@ -259,18 +260,21 @@ public class Paranoia : MelonMod
             HelperMethods.SpawnCrate(Pallet.Entities.Whiteface, location, Quaternion.identity, Vector3.one, false, null);
         }
 
+        public static void Vanish()
+        {
+            var player = Player.playerHead.transform;
+            var location = player.position + player.forward * 50f;
+            HelperMethods.SpawnCrate(Pallet.Entities.Vanisher, location, Quaternion.identity, Vector3.one, false, null);
+        }
+
         public static void ObamaVanish()
         {
             var player = Player.playerHead.transform;
             var location = player.position - player.forward * 50f;
             HelperMethods.SpawnCrate(Pallet.Entities.Vanisher, location, Quaternion.identity, Vector3.one, false, go =>
             {
-                var vanisher = go.GetComponent<Vanisher>();
-                vanisher.lookThreshold = 0.1f;
-                vanisher.movementSpeed = 5f;
                 var seasonalentity = go.GetComponent<SeasonalEntity>();
                 seasonalentity.onAprilFools.Invoke();
-                vanisher.vanishSound.volume = 1.0f;
             });
         }
     }
