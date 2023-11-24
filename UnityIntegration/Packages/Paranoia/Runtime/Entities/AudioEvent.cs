@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 namespace Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Audio Event")]
+    [HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#audioevent")]
     public class AudioEvent : ParanoiaEvent
     {
         public override string Comment => "Plays a random audio clip from a list of audio clips.";

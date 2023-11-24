@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Paralyzer")]
+	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#paralyzer")]
     public class Paralyzer : ParanoiaEvent
     {
         public override string Comment => "Freezes the player in place for 15 seconds and slowly approaches.";

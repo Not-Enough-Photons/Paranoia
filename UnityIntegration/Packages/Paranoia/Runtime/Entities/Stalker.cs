@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 namespace Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Stalker")]
+	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#stalker")]
     public class Stalker : ParanoiaEvent
     {
         public override string Comment => "Spawns in a random position near the player then disappears after the set time.";

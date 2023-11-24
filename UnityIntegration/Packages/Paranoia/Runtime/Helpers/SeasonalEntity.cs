@@ -4,6 +4,7 @@ using UltEvents;
 namespace Paranoia.Helpers
 {
     [AddComponentMenu("Paranoia/Helpers/Seasonal Entity")]
+	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#seasonal-entity")]
     public class SeasonalEntity : ParanoiaEvent
     {
         public override string Comment => "Changes the material of the object depending on the date.";

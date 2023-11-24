@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 namespace Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Chaser")]
+    [HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#chaser")]
     public class Chaser : ParanoiaEvent
     {
         public override string Comment => "Chases the player with a random sound playing.";

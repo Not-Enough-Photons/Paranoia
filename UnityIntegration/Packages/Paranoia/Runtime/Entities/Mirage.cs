@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Mirage")]
+	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#mirage")]
     public class Mirage : ParanoiaEvent
     {
         public override string Comment => "Randomly moves around the map. Should be initially spawned at the center of the map, Y value does not matter as long as X and Z are 0.";

@@ -11,6 +11,7 @@ namespace Paranoia.Entities
     [RequireComponent(typeof(CollisionEnterSensor))]
     [RequireComponent(typeof(UltEventHolder))]
     [AddComponentMenu("Paranoia/Entities/Crasher")]
+    [HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#crasher")]
     public class Crasher : ParanoiaEvent
     {
         public override string Comment => "A chaser that crashes the game when it gets close.";

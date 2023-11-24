@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 namespace Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Radio")]
+	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#radio")]
     public class Radio : ParanoiaEvent
     {
         public override string Comment => "Plays a random audio clip from the list and is used as the radio for radio events.";

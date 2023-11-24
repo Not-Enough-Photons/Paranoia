@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Watcher")]
+	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#watcher")]
     public class Watcher : ParanoiaEvent
     {
         public override string Comment => "Looks at the player then disappears after the set time.";

@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Weeping Angel")]
+	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#weepingangel")]
     public class WeepingAngel : ParanoiaEvent
     {
         public override string Comment => "If the player is not looking, it will move towards the player. If the player is looking, it will not move.";

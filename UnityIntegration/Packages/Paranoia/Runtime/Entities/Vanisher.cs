@@ -6,6 +6,7 @@ namespace Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Vanisher")]
     [RequireComponent(typeof(Collider))]
+	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#vanisher")]
     public class Vanisher : ParanoiaEvent
     {
         public override string Comment => "Moves to the player until the player looks at it.";

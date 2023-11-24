@@ -6,6 +6,7 @@ using Object = UnityEngine.Object;
 namespace Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Follower")]
+    [HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#follower")]
     public class Follower : ParanoiaEvent
     {
         public override string Comment => "Follows the player.";
