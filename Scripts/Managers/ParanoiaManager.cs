@@ -2,6 +2,8 @@
 
 public class ParanoiaManager : MonoBehaviour
 {
+    public static ParanoiaManager Instance { get; private set; }
+    
     public float eventTimerMin = 30f;
     public float eventTimerMax = 60f;
     private readonly List<Light> flicker = new List<Light>();
@@ -21,6 +23,11 @@ public class ParanoiaManager : MonoBehaviour
     public Transform[] doorSpawnLocations;
     private bool _enabled;
     private bool _doorSpawned;
+    
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     public void AddLights(Light[] newLights)
     {

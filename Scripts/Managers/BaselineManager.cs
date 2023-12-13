@@ -2,6 +2,8 @@
 
 public class BaselineManager : MonoBehaviour
 {
+    public static BaselineManager Instance { get; private set; }
+    
     public GameObject thefog;
     public ZoneMusic zoneMusic;
     private int _eventsCaused;
@@ -24,6 +26,11 @@ public class BaselineManager : MonoBehaviour
     private bool _enabled;
     private bool _doorSpawned;
     private int _entitiesSpawned;
+    
+    private void Awake()
+    {
+        Instance = this;
+    }
         
     /// <summary>
     /// Enables all tick coroutines.

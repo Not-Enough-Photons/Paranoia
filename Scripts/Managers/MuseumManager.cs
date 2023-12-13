@@ -2,6 +2,8 @@
 
 public class MuseumManager : MonoBehaviour
 {
+    public static MuseumManager Instance { get; private set; }
+    
     public MeshRenderer signMesh;
     public Texture2D signTexture;
     public Texture2D signWarningTexture;
@@ -19,6 +21,11 @@ public class MuseumManager : MonoBehaviour
     public Transform[] npcMoveLocations;
     public AudioClip[] grabSounds;
     private bool _enabled;
+    
+    private void Awake()
+    {
+        Instance = this;
+    }
         
     /// <summary>
     /// Enables all tick coroutines.
