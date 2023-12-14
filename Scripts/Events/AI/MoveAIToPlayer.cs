@@ -1,11 +1,13 @@
-﻿namespace Paranoia.Events;
+﻿using NEP.Paranoia.Helpers;
+
+namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Moves all NPCs to the player's position.
 /// </summary>
-public static class MoveAIToPlayer
+public class MoveAIToPlayer : Event
 {
-    public static void Activate()
+    public override void Invoke()
     {
         Utilities.FindAIBrains(out var navs);
         var player = Player.playerHead;

@@ -2,7 +2,7 @@
 using UltEvents;
 using System.Collections;
 
-namespace Paranoia.Entities
+namespace NEP.Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Vanisher")]
     [RequireComponent(typeof(Collider))]

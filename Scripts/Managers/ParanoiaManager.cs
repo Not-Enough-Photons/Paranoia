@@ -1,12 +1,15 @@
-﻿namespace Paranoia.Managers;
+﻿namespace NEP.Paranoia.Managers;
 
 public class ParanoiaManager : MonoBehaviour
 {
     public static ParanoiaManager Instance { get; private set; }
+    private readonly List<Event> _events = new();
     
+    #region Main Settings
+    
+    public ManagerType managerType;
     public float eventTimerMin = 30f;
     public float eventTimerMax = 60f;
-    private readonly List<Light> flicker = new List<Light>();
     public Light[] lights;
     public Transform[] npcMoveLocations;
     public AudioClip[] grabSounds;
@@ -24,46 +27,128 @@ public class ParanoiaManager : MonoBehaviour
     private bool _enabled;
     private bool _doorSpawned;
     
+    #endregion
+    
+    #region Museum Settings
+    
+    public MeshRenderer signMesh;
+    public Texture2D signTexture;
+    public Texture2D signWarningTexture;
+    public AudioSource warningSound;
+    public ZoneMusic zoneMusic;
+    public GameObject globalVolume;
+    public Transform doorSpawnLocation;
+    public float phase1Timer = 120f;
+    public float phase2Timer = 15f;
+    public float phase3Timer = 600f;
+    
+    #endregion
+    
+    #region Baseline Settings
+    
+    public GameObject thefog;
+    private int _eventsCaused;
+    private bool _musicDisabled;
+    private int _entitiesSpawned;
+    
+    #endregion
+    
     private void Awake()
     {
         Instance = this;
+        
+        #region AI
+        
+        _events.Add(new Crabtroll());
+        _events.Add(new DragNpcToCeiling());
+        _events.Add(new DragRandomNpc());
+        _events.Add(new KillAI());
+        _events.Add(new LaughAtPlayer());
+        _events.Add(new MoveAIToPlayer());
+        _events.Add(new MoveAIToRadio());
+        _events.Add(new MoveAIToSpecificLocation());
+        
+        #endregion
+        
+        #region Player
+        
+        _events.Add(new FakeFireGun());
+        _events.Add(new FireGunInHand());
+        _events.Add(new GrabPlayer());
+        
+        #endregion
+        
+        #region World
+        
+        _events.Add(new FireGun());
+        _events.Add(new FlickerFlashlights());
+        _events.Add(new FlingRandomObject());
+        _events.Add(new LightFlicker());
+        
+        #endregion world
+        
     }
 
-    public void AddLights(Light[] newLights)
-    {
-        flicker.AddRange(newLights);
-        lights = flicker.ToArray();
-    }
-        
-    /// <summary>
-    /// Enables all tick coroutines.
-    /// </summary>
     public void Enable()
     {
-        if (_enabled) return;
-        _enabled = true;
-        MelonCoroutines.Start(EntityTick());
-        MelonCoroutines.Start(EventTick());
-        if (_doorSpawned) return;
-        MelonCoroutines.Start(DoorTick());
+        switch (managerType)
+        {
+            case ManagerType.Paranoia:
+                if (_enabled) return;
+                MelonCoroutines.Start(EventTick());
+                MelonCoroutines.Start(EntityTick());
+                MelonCoroutines.Start(DoorTick());
+                _enabled = true;
+                break;
+            case ManagerType.Baseline:
+                if (_enabled) return;
+                MelonCoroutines.Start(EventTick());
+                MelonCoroutines.Start(BaselineEntityTick());
+                MelonCoroutines.Start(DoorTick());
+                _enabled = true;
+                break;
+            case ManagerType.Museum:
+                if (_enabled) return;
+                MelonCoroutines.Start(EventTick());
+                MelonCoroutines.Start(MuseumTick());
+                _enabled = true;
+                break;
+            default:
+                ModConsole.Error("Manager type not set!");
+                break;
+        }
     }
-    /// <summary>
-    /// Disables all tick coroutines.
-    /// <br/>This is generally not needed, as the manager is gone when the level is unloaded, but it's just there for further control.
-    /// </summary>
+    
     public void Disable()
     {
-        if (!_enabled) return;
-        _enabled = false;
-        MelonCoroutines.Stop(EntityTick());
-        MelonCoroutines.Stop(EventTick());
-        if (_doorSpawned) return;
-        MelonCoroutines.Stop(DoorTick());
+        switch (managerType)
+        {
+            case ManagerType.Paranoia:
+                if (!_enabled) return;
+                MelonCoroutines.Stop(EventTick());
+                MelonCoroutines.Stop(EntityTick());
+                MelonCoroutines.Stop(DoorTick());
+                _enabled = false;
+                break;
+            case ManagerType.Baseline:
+                if (!_enabled) return;
+                MelonCoroutines.Stop(EventTick());
+                MelonCoroutines.Stop(BaselineEntityTick());
+                MelonCoroutines.Stop(DoorTick());
+                _enabled = false;
+                break;
+            case ManagerType.Museum:
+                if (!_enabled) return;
+                MelonCoroutines.Stop(EventTick());
+                MelonCoroutines.Stop(MuseumTick());
+                _enabled = false;
+                break;
+            default:
+                ModConsole.Error("Manager type not set!");
+                break;
+        }
     }
-    /// <summary>
-    /// Entity Tick runs every X seconds, where X is generated from a random range between serialized fields entityTimerMin and entityTimerMax.
-    /// <br/>Once that time is up, a random entity crate is chosen from the serialized field "entities" and is spawned as a crate.
-    /// </summary>
+    
     private IEnumerator EntityTick()
     {
         ModConsole.Msg("Entity tick started", LoggingMode.Debug);
@@ -82,34 +167,34 @@ public class ParanoiaManager : MonoBehaviour
                 {
                     ModConsole.Msg("Entity had Air tag", LoggingMode.Debug);
                     var location = airSpawns[Random.Range(0, airSpawns.Length)];
-                    HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
+                    HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
                     break;
                 }
                 case "Ground":
                 {
                     ModConsole.Msg("Entity had Ground tag", LoggingMode.Debug);
                     var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
-                    HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
+                    HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
                     break;
                 }
                 case "Special":
                 {
                     ModConsole.Msg("Entity had Special tag", LoggingMode.Debug);
-                    HelperMethods.SpawnCrate(entity, mirageSpawn.position, Quaternion.identity, Vector3.one,  false, go => { });
+                    HelperMethods.SpawnCrate(entity, mirageSpawn.position, Quaternion.identity, Vector3.one,  false, _ => { });
                     break;
                 }
                 case "Audio":
                 {
                     ModConsole.Msg("Entity had Audio tag", LoggingMode.Debug);
                     var location = audioSpawns[Random.Range(0, audioSpawns.Length)];
-                    HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
+                    HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
                     break;
                 }
                 case "None":
                 {
                     ModConsole.Error($"You forgot to tag Entity {entity.Crate.name}! Spawning at a ground location. Your fault if it's wrong.");
                     var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
-                    HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, go => { });
+                    HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
                     break;
                 }
                 default:
@@ -120,10 +205,7 @@ public class ParanoiaManager : MonoBehaviour
             }
         }
     }
-    /// <summary>
-    ///  Event Tick runs every X seconds, where X is generated from a random range between serialized fields eventTimerMin and eventTimerMax.
-    ///  <br/>Once that time is up, a random event is chosen from the switch statement below.
-    /// </summary>
+    
     private IEnumerator EventTick()
     {
         ModConsole.Msg("Event tick started", LoggingMode.Debug);
@@ -133,83 +215,12 @@ public class ParanoiaManager : MonoBehaviour
             var time = Random.Range(eventTimerMin, eventTimerMax);
             yield return new WaitForSeconds(time);
             ModConsole.Msg("Event tick event phase", LoggingMode.Debug);
-            // When adding new events, make sure to add them to the switch statement below. Increment the random range by 1, and add a new case.
-            var rand = Random.Range(1, 15);
-            switch (rand)
-            {
-                case 1:
-                    ModConsole.Msg("Chosen event: DragRandomNpc", LoggingMode.Debug);
-                    Events.DragRandomNpc.Activate(grabSounds);
-                    break;
-                case 2:
-                    ModConsole.Msg("Chosen event: DragNpcToCeiling", LoggingMode.Debug);
-                    Events.DragNpcToCeiling.Activate(grabSounds);
-                    break;
-                case 3:
-                    ModConsole.Msg("Chosen event: KillAI", LoggingMode.Debug);
-                    Events.KillAI.Activate();
-                    break;
-                case 4:
-                    ModConsole.Msg("Chosen event: LaughAtPlayer", LoggingMode.Debug);
-                    Events.LaughAtPlayer.Activate();
-                    break;
-                case 5:
-                    ModConsole.Msg("Chosen event: MoveAIToPlayer", LoggingMode.Debug);
-                    Events.MoveAIToPlayer.Activate();
-                    break;
-                case 6:
-                    ModConsole.Msg("Chosen event: MoveAIToRadio", LoggingMode.Debug);
-                    var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
-                    Events.MoveAIToRadio.Activate(location);
-                    break;
-                case 7:
-                    ModConsole.Msg("Chosen event: FireGunInHand", LoggingMode.Debug);
-                    Events.FireGunInHand.Activate();
-                    break;
-                case 8:
-                    ModConsole.Msg("Chosen event: FireGun", LoggingMode.Debug);
-                    Events.FireGun.Activate();
-                    break;
-                case 9:
-                    ModConsole.Msg("Chosen Event: FlickerFlashlights", LoggingMode.Debug);
-                    Events.FlickerFlashlights.Activate();
-                    break;
-                case 10:
-                    ModConsole.Msg("Chosen event: FlingRandomObject", LoggingMode.Debug);
-                    Events.FlingRandomObject.Activate();
-                    break;
-                case 11:
-                    ModConsole.Msg("Chosen event: LightFlicker", LoggingMode.Debug);
-                    Events.LightFlicker.Activate(lights);
-                    break;
-                case 12:
-                    ModConsole.Msg("Chosen event: GrabPlayer", LoggingMode.Debug);
-                    Events.GrabPlayer.Activate(grabSounds);
-                    break;
-                case 13:
-                    ModConsole.Msg("Chosen event: Crabtroll", LoggingMode.Debug);
-                    Events.Crabtroll.Activate();
-                    break;
-                case 14:
-                    ModConsole.Msg("Chosen event: MoveAIToSpecificLocation", LoggingMode.Debug);
-                    var location3 = npcMoveLocations[Random.Range(0, npcMoveLocations.Length)];
-                    Events.MoveAIToSpecificLocation.Activate(location3);
-                    break;
-                case 15:
-                    ModConsole.Msg("Chosen event: FakeFireGun", LoggingMode.Debug);
-                    Events.FakeFireGun.Activate();
-                    break;
-                default:
-                    ModConsole.Error("Something broke. Random number couldn't be read. Falling back to DragRandomNpc.");
-                    Events.DragRandomNpc.Activate(grabSounds);
-                    break;
-            }
+            var rand = Random.Range(0, _events.Count);
+            var chosenEvent = _events[rand];
+            chosenEvent.Invoke();
         }
     }
-    /// <summary>
-    /// Door Tick runs every X seconds, where X is generated from a random range between serialized fields doorTimerMin and doorTimerMax.
-    /// <br/>Once that time is up, the door prefab (serialized as "door") is spawned at a random location from the serialized field "doorSpawnLocations".
-    /// </summary>
+    
     private IEnumerator DoorTick()
     {
         ModConsole.Msg("Door tick started", LoggingMode.Debug);
@@ -220,6 +231,95 @@ public class ParanoiaManager : MonoBehaviour
         Instantiate(door, location.position, location.rotation);
         _doorSpawned = true;
     }
-
-    public ParanoiaManager(IntPtr ptr) : base(ptr) { }
+    
+    private void OnDestroy()
+    {
+        Instance = null;
+    }
+    
+    #region Other Managers
+    
+    private IEnumerator MuseumTick()
+    {
+        yield return new WaitForSeconds(phase1Timer);
+        zoneMusic.StopMusic(3f);
+        MuseumEvents.ChangeSign(signMesh, signTexture);
+        globalVolume.SetActive(true);
+        yield return new WaitForSeconds(phase2Timer);
+        zoneMusic.PlayMusic(3f);
+        MuseumEvents.HideSign(signMesh);
+        globalVolume.SetActive(false);
+        yield return new WaitForSeconds(phase3Timer);
+        zoneMusic.StopMusic(3f);
+        globalVolume.SetActive(true);
+        warningSound.Play();
+        MuseumEvents.UnhideSign(signMesh);
+        MuseumEvents.ChangeSign(signMesh, signWarningTexture);
+        Instantiate(door, doorSpawnLocation.position, doorSpawnLocation.rotation);
+    }
+    
+    private IEnumerator BaselineEntityTick()
+    {
+        ModConsole.Msg("Entity tick started", LoggingMode.Debug);
+        while (_enabled)
+        {
+            ModConsole.Msg("Entity tick begin", LoggingMode.Debug);
+            var time = Random.Range(entityTimerMin, entityTimerMax);
+            yield return new WaitForSeconds(time);
+            ModConsole.Msg("Entity tick spawn phase", LoggingMode.Debug);
+            if (_entitiesSpawned >= 3) _entitiesSpawned++;
+            if (_entitiesSpawned == 3)
+            {
+                thefog.gameObject.SetActive(true);
+                zoneMusic.StopMusic(1f);
+            }
+            var entity = Utilities.GetRandomEntity(entities);
+            ModConsole.Msg($"Chosen entity: {entity.Crate.name}", LoggingMode.Debug);
+            var crateTag = entity.Crate.Tags;
+            switch (crateTag.Contains("Air") ? "Air" : crateTag.Contains("Ground") ? "Ground" : crateTag.Contains("Special") ? "Special" : crateTag.Contains("Audio") ? "Audio" : "None")
+            {
+                case "Air":
+                {
+                    ModConsole.Msg("Entity had Air tag", LoggingMode.Debug);
+                    var location = airSpawns[Random.Range(0, airSpawns.Length)];
+                    HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
+                    break;
+                }
+                case "Ground":
+                {
+                    ModConsole.Msg("Entity had Ground tag", LoggingMode.Debug);
+                    var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
+                    HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
+                    break;
+                }
+                case "Special":
+                {
+                    ModConsole.Msg("Entity had Special tag", LoggingMode.Debug);
+                    HelperMethods.SpawnCrate(entity, mirageSpawn.position, Quaternion.identity, Vector3.one,  false, _ => { });
+                    break;
+                }
+                case "Audio":
+                {
+                    ModConsole.Msg("Entity had Audio tag", LoggingMode.Debug);
+                    var location = audioSpawns[Random.Range(0, audioSpawns.Length)];
+                    HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
+                    break;
+                }
+                case "None":
+                {
+                    ModConsole.Error($"You forgot to tag Entity {entity.Crate.name}! Spawning at a ground location. Your fault if it's wrong.");
+                    var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
+                    HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
+                    break;
+                }
+                default:
+                {
+                    MelonLogger.Error("Something broke. Couldn't read the entity type.");
+                    break;
+                } 
+            }
+        }
+    }
+    
+    #endregion
 }

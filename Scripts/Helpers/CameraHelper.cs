@@ -1,4 +1,4 @@
-﻿namespace Paranoia.Helpers;
+﻿namespace NEP.Paranoia.Helpers;
 
 public static class CameraHelper
 {

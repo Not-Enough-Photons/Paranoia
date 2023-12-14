@@ -1,11 +1,11 @@
-﻿namespace Paranoia.Events;
+﻿namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Spawns a Crablet behind the player. Lol
 /// </summary>
-public static class Crabtroll
+public class Crabtroll : Event
 {
-    public static void Activate()
+    public override void Invoke()
     {
         var playerPos = Player.playerHead;
         var spawnPos = playerPos.position - playerPos.forward * 10f;

@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Paranoia.Entities
+namespace NEP.Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Chaser")]
     [HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#chaser")]

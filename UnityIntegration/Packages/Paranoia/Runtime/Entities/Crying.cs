@@ -2,7 +2,7 @@
 using SLZ.Rig;
 using UnityEngine;
 
-namespace Paranoia.Entities
+namespace NEP.Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Crying")]
 [HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#crying")]

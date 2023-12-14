@@ -1,11 +1,13 @@
-﻿namespace Paranoia.Events;
+﻿using NEP.Paranoia.Helpers;
+
+namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Kills all NPCs.
 /// </summary>
-public static class KillAI
+public  class KillAI : Event
 {
-    public static void Activate()
+    public override void Invoke()
     {
         var brains = Utilities.FindAIBrains();
 

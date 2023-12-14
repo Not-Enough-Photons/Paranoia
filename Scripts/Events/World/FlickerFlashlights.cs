@@ -1,11 +1,11 @@
-﻿namespace Paranoia.Events;
+﻿namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Flicker all flashlights in the scene.
 /// </summary>
-public static class FlickerFlashlights
+public class FlickerFlashlights : Event
 {
-    public static void Activate()
+    public override void Invoke()
     {
         PropFlashlight[] flashlights = Object.FindObjectsOfType<PropFlashlight>();
 

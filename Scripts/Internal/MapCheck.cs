@@ -1,4 +1,6 @@
-﻿namespace Paranoia.Internal;
+﻿using NEP.Paranoia.Helpers;
+
+namespace NEP.Paranoia.Internal;
 
 /// <summary>
 /// Checks if the player is in the Baseline or Museum Basement level, then sets up what's needed.
@@ -52,7 +54,7 @@ public static class MapCheck
                 default:
                     ModConsole.Msg("Not in Baseline or Museum Basement.", LoggingMode.Debug);
                     ModConsole.Msg("Checking for ParanoiaManager...", LoggingMode.Debug);
-                    var manager = Object.FindObjectOfType<ParanoiaManager>();
+                    var manager = ParanoiaManager.Instance;
                     if (manager != null)
                     {
                         ModConsole.Msg($"ParanoiaManager found: {manager}", LoggingMode.Debug);
@@ -96,7 +98,7 @@ public static class MapCheck
         ModConsole.Msg("Spawning BaselineParanoia.", LoggingMode.Debug);
         HelperMethods.SpawnCrate(Preferences.BaselineManager.Value, Vector3.zero, Quaternion.identity, Vector3.one, false, go =>
         {
-            var manager = go.GetComponent<BaselineManager>();
+            var manager = ParanoiaManager.Instance;
             if (manager == null) return;
             ModConsole.Msg($"Got manager: {manager}", LoggingMode.Debug);
             manager.zoneMusic = zoneMusic;
@@ -122,7 +124,7 @@ public static class MapCheck
         var location = new Vector3(-20, 0, 20);
         HelperMethods.SpawnCrate(Preferences.MuseumManager.Value, location, Quaternion.identity, Vector3.one, false, go =>
         {
-            var manager = go.GetComponent<MuseumManager>();
+            var manager = ParanoiaManager.Instance;
             if (manager == null) return;
             ModConsole.Msg($"Got manager: {manager}", LoggingMode.Debug);
             manager.signMesh = sign;
@@ -133,7 +135,10 @@ public static class MapCheck
             ModConsole.Msg("Have fun :)");
         });
     }
-        
+    
+    /// <summary>
+    /// Setup the BlankboxManager and sets the lights field.
+    /// </summary>
     private static void SetupBlankbox()
     {
         // Get baseline's lights
@@ -142,10 +147,10 @@ public static class MapCheck
         ModConsole.Msg("Spawning BlankboxParanoia.", LoggingMode.Debug);
         HelperMethods.SpawnCrate(Preferences.BlankboxManager.Value, Vector3.zero, Quaternion.identity, Vector3.one, false, go =>
         {
-            var manager = go.GetComponent<ParanoiaManager>();
+            var manager = ParanoiaManager.Instance;
             if (manager == null) return;
             ModConsole.Msg($"Got manager: {manager}", LoggingMode.Debug);
-            manager.AddLights(lights);
+            manager.lights = lights;
             manager.Enable();
             ModConsole.Msg("Have fun :)");
         });

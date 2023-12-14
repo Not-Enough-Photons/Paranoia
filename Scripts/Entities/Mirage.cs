@@ -1,4 +1,4 @@
-﻿namespace Paranoia.Entities;
+﻿namespace NEP.Paranoia.Entities;
 
 /// <summary>
 /// Rapidly darts around the map.

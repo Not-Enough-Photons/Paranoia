@@ -1,4 +1,4 @@
-﻿namespace Paranoia;
+﻿namespace NEP.Paranoia;
 
 /// <summary>
 /// A wrapper for MelonLoader's MelonLogger.

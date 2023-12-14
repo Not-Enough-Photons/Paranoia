@@ -1,4 +1,4 @@
-﻿namespace Paranoia.Events;
+﻿namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Handles the events for the museum.

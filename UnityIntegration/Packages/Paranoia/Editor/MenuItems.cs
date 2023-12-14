@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using Paranoia.Managers;
+using NEP.Paranoia.Managers;
 
-namespace Paranoia
+namespace NEP.Paranoia
 {
     public class MenuItems
     {

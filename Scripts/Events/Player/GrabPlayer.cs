@@ -1,13 +1,13 @@
-﻿namespace Paranoia.Events;
+﻿namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Grabs the player and moves them around for a bit.
 /// </summary>
-public static class GrabPlayer
+public class GrabPlayer : Event
 {
-    public static void Activate(AudioClip[] grabClips)
+    public override void Invoke()
     {
-            
+        var grabClips = ParanoiaManager.Instance.grabSounds;
         var rig = Player.physicsRig;
 
         Rigidbody[] rbs = {
@@ -15,7 +15,7 @@ public static class GrabPlayer
             rig.rightHand.rb
         };
 
-        MelonLoader.MelonCoroutines.Start(CoGrabRoutine(rbs[Random.Range(0, rbs.Length)], grabClips));
+        MelonCoroutines.Start(CoGrabRoutine(rbs[Random.Range(0, rbs.Length)], grabClips));
     }
 
     private static IEnumerator CoGrabRoutine(Rigidbody part, AudioClip[] grabClips)

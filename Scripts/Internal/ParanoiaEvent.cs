@@ -1,4 +1,4 @@
-﻿namespace Paranoia.Internal;
+﻿namespace NEP.Paranoia.Internal;
 
 /// <summary>
 /// Used for Unity Editor, kept in built code just in case.

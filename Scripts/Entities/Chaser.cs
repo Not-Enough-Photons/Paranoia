@@ -1,4 +1,4 @@
-﻿namespace Paranoia.Entities;
+﻿namespace NEP.Paranoia.Entities;
 
 /// <summary>
 /// Chases the player. Very similar to Follower, but plays a random sound.

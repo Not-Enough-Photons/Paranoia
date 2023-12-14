@@ -1,4 +1,4 @@
-﻿namespace Paranoia.Entities;
+﻿namespace NEP.Paranoia.Entities;
 
 /// <summary>
 /// Follows the player.

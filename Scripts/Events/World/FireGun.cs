@@ -1,11 +1,11 @@
-﻿namespace Paranoia.Events;
+﻿namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Fires a random gun in the scene.
 /// </summary>
-public static class FireGun
+public class FireGun : Event
 {
-    public static void Activate()
+    public override void Invoke()
     {
         var guns = Object.FindObjectsOfType<Gun>();
         guns?[Random.Range(0, guns.Length)].Fire();

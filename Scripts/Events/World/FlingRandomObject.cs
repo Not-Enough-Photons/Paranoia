@@ -1,11 +1,11 @@
-﻿namespace Paranoia.Events;
+﻿namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Flings a random object.
 /// </summary>
-public static class FlingRandomObject
+public class FlingRandomObject : Event
 {
-    public static void Activate()
+    public override void Invoke()
     {
         Rigidbody[] rbs = Object.FindObjectsOfType<Rigidbody>();
         var player = Player.playerHead;

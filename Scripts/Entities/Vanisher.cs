@@ -1,4 +1,4 @@
-﻿namespace Paranoia.Entities;
+﻿namespace NEP.Paranoia.Entities;
 
 /// <summary>
 /// Moves to the player until the player looks at it.

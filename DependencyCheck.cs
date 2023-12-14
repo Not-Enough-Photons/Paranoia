@@ -1,4 +1,4 @@
-﻿namespace Paranoia;
+﻿namespace NEP.Paranoia;
 
 public static class DependencyCheck
 {

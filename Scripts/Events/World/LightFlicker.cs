@@ -1,17 +1,17 @@
-﻿namespace Paranoia.Events;
+﻿namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Flickers the given lights by toggling the gameobject over and over.
 /// <br/>Parent your lights to the gameobject given to this script.
 /// </summary>
-public static class LightFlicker
+public class LightFlicker : Event
 {
-    public static void Activate(Light[] lights)
+    public override void Invoke()
     {
+        var lights = ParanoiaManager.Instance.lights;
         if(lights == null) { return; }
-        FlickerFlashlights.Activate();
         ModStats.IncrementEntry("LightsFlickered");
-        MelonLoader.MelonCoroutines.Start(CoLightFlicker(lights, Random.Range(30, 45)));
+        MelonCoroutines.Start(CoLightFlicker(lights, Random.Range(30, 45)));
     }
 
     private static IEnumerator CoLightFlicker(Light[] lights, int iterations)

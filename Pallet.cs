@@ -1,4 +1,4 @@
-﻿namespace Paranoia;
+﻿namespace NEP.Paranoia;
 
 /// <summary>
 /// Holds barcodes from the Paranoia pallet for easy access.

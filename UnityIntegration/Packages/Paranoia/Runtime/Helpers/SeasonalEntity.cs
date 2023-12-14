@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UltEvents;
 
-namespace Paranoia.Helpers
+namespace NEP.Paranoia.Helpers
 {
     [AddComponentMenu("Paranoia/Helpers/Seasonal Entity")]
 	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#seasonal-entity")]

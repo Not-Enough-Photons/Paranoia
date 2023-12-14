@@ -1,11 +1,13 @@
-﻿namespace Paranoia.Events;
+﻿using NEP.Paranoia.Helpers;
+
+namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Makes all NPCs laugh at the player.
 /// </summary>
-public static class LaughAtPlayer
+public class LaughAtPlayer : Event
 {
-    public static void Activate()
+    public override void Invoke()
     {
         var brains = Utilities.FindAIBrains();
 

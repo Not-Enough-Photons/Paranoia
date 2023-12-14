@@ -1,4 +1,7 @@
-﻿namespace Paranoia;
+﻿using NEP.Paranoia.Entities;
+using NEP.Paranoia.Helpers;
+
+namespace NEP.Paranoia;
 
 public static class FieldInjection
 {
@@ -26,7 +29,5 @@ public static class FieldInjection
         SerialisationHandler.Inject<FreezePlayer>();
         // Managers
         SerialisationHandler.Inject<ParanoiaManager>();
-        SerialisationHandler.Inject<MuseumManager>();
-        SerialisationHandler.Inject<BaselineManager>();
     }
 }

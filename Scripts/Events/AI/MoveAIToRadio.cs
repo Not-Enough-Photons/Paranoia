@@ -1,16 +1,19 @@
-﻿namespace Paranoia.Events;
+﻿using NEP.Paranoia.Helpers;
+
+namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Spawns a radio and sends all AI to the radio.
 /// </summary>
-public static class MoveAIToRadio
+public class MoveAIToRadio : Event
 {
     private static GameObject _radioObj;
         
-    public static void Activate(Transform location)
+    public override void Invoke()
     {
+        var radiopos = ParanoiaManager.Instance.groundSpawns[Random.Range(0, ParanoiaManager.Instance.groundSpawns.Length)].position;
         var radio = new SpawnableCrateReference(Pallet.Entities.Radio);
-        HelperMethods.SpawnCrate(radio, location.position, Quaternion.identity, Vector3.one, false, go =>
+        HelperMethods.SpawnCrate(radio, radiopos, Quaternion.identity, Vector3.one, false, go =>
         {
             _radioObj = go;
         });

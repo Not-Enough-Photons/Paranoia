@@ -1,11 +1,11 @@
-﻿namespace Paranoia.Events;
+﻿namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// "Fires" the gun in the player's hand, it'll make the noise but it didn't actually fire.
 /// </summary>
-public static class FakeFireGun
+public class FakeFireGun : Event
 {
-    public static void Activate()
+    public override void Invoke()
     {
         var gun = Player.GetGunInHand(Player.rightHand);
         if (gun != null)

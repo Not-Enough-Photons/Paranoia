@@ -1,4 +1,4 @@
-﻿namespace Paranoia.Helpers;
+﻿namespace NEP.Paranoia.Helpers;
 
 /// <summary>
 /// A collection of helper methods for Barcode.

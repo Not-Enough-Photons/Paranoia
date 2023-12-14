@@ -1,4 +1,7 @@
-﻿namespace Paranoia;
+﻿using NEP.Paranoia.Helpers;
+using NEP.Paranoia.Internal;
+
+namespace NEP.Paranoia;
 
 /// <summary>
 /// <see cref="MelonMod"/>
@@ -99,6 +102,7 @@ public class Paranoia : MelonMod
         cat.CreateBoolElement("Base Game Map Activation", Color.white, Preferences.EnabledInBaseGameMaps.Value, OnBoolUpdate);
 #if DEBUG
         #region Entities
+        
         var cat1 = cat.CreateCategory("Entities", Color.cyan);
         cat1.CreateFunctionElement("AudioEvent", Color.white, Entities.AudioEvent);
         cat1.CreateFunctionElement("Ceilingman", Color.grey, Entities.Ceilingman);
@@ -117,32 +121,7 @@ public class Paranoia : MelonMod
         cat1.CreateFunctionElement("Whiteface", Color.white, Entities.Whiteface, "This guy will crash the game.");
         cat1.CreateFunctionElement("Vanish", Color.cyan, Entities.Vanish);
         cat1.CreateFunctionElement("Obama Vanish", Color.cyan, Entities.ObamaVanish);
-        #endregion
-        #region Events
-        var cat2 = cat.CreateCategory("Events", Color.blue);
-        cat2.CreateFunctionElement("Crabtroll", Color.red, Crabtroll.Activate);
-        cat2.CreateFunctionElement("KillAI", Color.red, KillAI.Activate);
-        cat2.CreateFunctionElement("MoveAIToRadio", Color.red, () =>
-        {
-            var player = Player.playerHead.transform;
-            var go = new GameObject
-            {
-                transform =
-                {
-                    position = player.position + player.forward * 5f
-                }
-            };
-            var location = go.transform;
-            MoveAIToRadio.Activate(location);
-        });
-        cat2.CreateFunctionElement("LaughAtPlayer", Color.red, LaughAtPlayer.Activate);
-        cat2.CreateFunctionElement("MoveAIToPlayer", Color.green, MoveAIToPlayer.Activate);
-        cat2.CreateFunctionElement("FakeFireGun", Color.blue, FakeFireGun.Activate);
-        cat2.CreateFunctionElement("FireGunInHand", Color.cyan, FireGunInHand.Activate);
-        cat2.CreateFunctionElement("FireGun", Color.cyan, FireGun.Activate);
-        cat2.CreateFunctionElement("FlickerFlashlight", Color.yellow, FlickerFlashlights.Activate);
-        cat2.CreateFunctionElement("FlingRandomObject", Color.magenta, FlingRandomObject.Activate);
-        cat2.CreateFunctionElement("Crash Game", Color.red, Utilities.CrashGame, "This will crash the game!");
+        
         #endregion
 #endif
     }

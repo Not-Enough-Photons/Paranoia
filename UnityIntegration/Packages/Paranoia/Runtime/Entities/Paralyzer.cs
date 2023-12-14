@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using Paranoia.Helpers;
+using NEP.Paranoia.Helpers;
 using UnityEngine;
 
-namespace Paranoia.Entities
+namespace NEP.Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Paralyzer")]
 	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#paralyzer")]

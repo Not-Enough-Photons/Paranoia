@@ -1,12 +1,15 @@
-﻿namespace Paranoia.Events;
+﻿using NEP.Paranoia.Helpers;
+
+namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Drags a random NPC to a random place.
 /// </summary>
-public static class DragRandomNpc
+public class DragRandomNpc : Event
 {
-    public static void Activate(AudioClip[] grabClips)
+    public override void Invoke()
     {
+        var grabClips = ParanoiaManager.Instance.grabSounds;
         var brains = Utilities.FindAIBrains();
 
         if (brains == null || brains.Length == 0)

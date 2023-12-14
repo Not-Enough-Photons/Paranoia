@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Paranoia.Entities
+namespace NEP.Paranoia.Entities
 {
     [HideInInspector]
     public class CryingMarker : MonoBehaviour

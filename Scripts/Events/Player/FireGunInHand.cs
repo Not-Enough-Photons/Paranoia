@@ -1,11 +1,11 @@
-﻿namespace Paranoia.Events;
+﻿namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Actually fires the gun in the player's hand.
 /// </summary>
-public static class FireGunInHand
+public class FireGunInHand : Event
 {
-    public static void Activate()
+    public override void Invoke()
     {
         if (Player.GetGunInHand(Player.rightHand) == null)
         {

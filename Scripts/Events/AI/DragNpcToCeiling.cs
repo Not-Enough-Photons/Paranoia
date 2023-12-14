@@ -1,12 +1,15 @@
-﻿namespace Paranoia.Events;
+﻿using NEP.Paranoia.Helpers;
+
+namespace NEP.Paranoia.Events;
 
 /// <summary>
 /// Drags a random NPC to the ceiling.
 /// </summary>
-public static class DragNpcToCeiling
+public class DragNpcToCeiling : Event
 {
-    public static void Activate(AudioClip[] clips)
+    public override void Invoke()
     {
+        var clips = ParanoiaManager.Instance.grabSounds;
         var brains = Utilities.FindAIBrains();
         if (brains == null || brains.Length == 0)
         {

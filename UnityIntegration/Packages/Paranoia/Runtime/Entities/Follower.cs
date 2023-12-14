@@ -3,7 +3,7 @@ using SLZ.Rig;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Paranoia.Entities
+namespace NEP.Paranoia.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Follower")]
     [HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#follower")]
