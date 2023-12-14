@@ -38,8 +38,6 @@ namespace NEP.Paranoia
             mirageSpawn1.transform.parent = mirageSpawn.transform;
             var walkLocation1 = new GameObject("Location1");
             walkLocation1.transform.parent = walkLocations.transform;
-            // Setting manager settings
-            manager.mirageSpawn = mirageSpawn1.transform;
             Undo.RegisterCreatedObjectUndo(go, "Create " + go.name);
             Selection.activeObject = go;
         }

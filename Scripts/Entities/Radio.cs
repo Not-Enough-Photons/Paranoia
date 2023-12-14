@@ -2,7 +2,7 @@
 
 /// <summary>
 /// Very similar to AudioEvent, but is seperate for one reason:
-/// <br/>It's used to determine where the radio is in MoveAIToRadio.<see cref="Events.MoveAIToRadio.Activate"/>
+/// <br/>It's used to determine where the radio is in MoveAIToRadio.<see cref="Events.MoveAIToRadio.Invoke"/>
 /// </summary>
 public class Radio : MonoBehaviour
 {

@@ -9,7 +9,7 @@ public class MoveAIToSpecificLocation : Event
 {
     public override void Invoke()
     {
-        var location = ParanoiaManager.Instance.npcMoveLocations[Random.Range(0, ParanoiaManager.Instance.npcMoveLocations.Length)];
+        var location = ParanoiaManager.Instance.eventSettings.npcMoveLocations[Random.Range(0, ParanoiaManager.Instance.eventSettings.npcMoveLocations.Length)];
         Utilities.FindAIBrains(out var navs);
         
         if(navs == null) { return; }

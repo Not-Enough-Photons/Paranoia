@@ -7,7 +7,7 @@ public class GrabPlayer : Event
 {
     public override void Invoke()
     {
-        var grabClips = ParanoiaManager.Instance.grabSounds;
+        var grabClips = ParanoiaManager.Instance.eventSettings.grabSounds;
         var rig = Player.physicsRig;
 
         Rigidbody[] rbs = {

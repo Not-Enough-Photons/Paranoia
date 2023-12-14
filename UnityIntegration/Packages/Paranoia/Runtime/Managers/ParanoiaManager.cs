@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using NEP.Paranoia.Entities;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System;
 using SLZ.SFX;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,114 +13,90 @@ using UnityEditor;
 
 namespace NEP.Paranoia.Managers
 {
+	[Serializable]
+	public class EventSettings
+	{
+		[Tooltip("The minimum time between events.")]
+		public float eventTimerMin = 30f;
+		[Tooltip("The maximum time between events.")]
+		public float eventTimerMax = 60f;
+		[Tooltip("All realtime lights in the scene.")]
+		public Light[] lights;
+		[Tooltip("Possible locations for NPCs to randomly walk to.")]
+		public Transform[] npcMoveLocations;
+		[Tooltip("Sounds that play when an NPC gets grabbed.")]
+		public AudioClip[] grabSounds;
+	}
+
+	[Serializable]
+	public class EntitySettings
+	{
+		[Tooltip("The minimum time between entitiy spawns.")]
+		public float entityTimerMin = 60f;
+		[Tooltip("The maximum time between entity spawns.")]
+		public float entityTimerMax = 80f;
+		[Tooltip("All possible entities that can spawn.")]
+		public SpawnableCrateReference[] entities;
+		[Tooltip("Spawn locations for air entities.")]
+		public Transform[] airSpawns;
+		[Tooltip("Spawn locations for ground entities.")]
+		public Transform[] groundSpawns;
+		[Tooltip("Spawn locations for audio entities.")]
+		public Transform[] audioSpawns;
+		[Tooltip("The mirage spawn location.")]
+		public Transform mirageSpawn;
+	}
+
+	[Serializable]
+	public class DoorSettings
+	{
+		[Tooltip("The minimum time for the door spawn.")]
+		public float doorTimerMin = 480f;
+		[Tooltip("The maximum time for the door spawn.")]
+		public float doorTimerMax = 600f;
+		[Tooltip("The door object.")]
+		public GameObject door;
+		[Tooltip("The door spawn locations.")]
+		public Transform[] doorSpawnLocations;
+	}
+
+	[Serializable]
+	public class ExtraSettings
+	{
+		public MeshRenderer signMesh;
+		public Texture2D signTexture;
+		public Texture2D signWarningTexture;
+		public AudioSource warningSound;
+		public ZoneMusic zoneMusic;
+		public GameObject thefog;
+		public Transform doorSpawnLocation;
+		public float phase1Timer = 120f;
+		public float phase2Timer = 15f;
+		public float phase3Timer = 600f;
+	}
+	
     [AddComponentMenu("Paranoia/Managers/Paranoia Manager")]
     public class ParanoiaManager : ParanoiaEvent
     {
         public override string Warning => "EVERY VALUE MUST BE SET!";
-        public override string Comment => "DO NOT BOTHER WITH MUSEUM/BASELINE SETTINGS!";
+        public override string Comment => "KEEP MANAGER TYPE AS PARANOIA!";
         
-        [HideInInspector]
         public static ParanoiaManager Instance { get; private set; }
         private readonly List<Event> _events = new();
     
-        #region Main Settings
-		[Header("Main Settings")]
-		public string warning = "You should leave this as Paranoia.";
-		[Tooltip("The manager type. Generally, you should only pick Paranoia. The others are internally used and aren't meant for public use.")]
         public ManagerType managerType;
-        
-        [Space]
-        
-        [Header("Event Settings")]
-        [Tooltip("Minimum time before an event happens.")]
-        public float eventTimerMin = 30f;
-        [Tooltip("Maximum time before an event happens.")]
-        public float eventTimerMax = 60f;
-        [Tooltip("All realtime lights.")]
-        public Light[] lights;
-        [Tooltip("Places where NPCs may move to randomly.")]
-        public Transform[] npcMoveLocations;
-        [Tooltip("Sounds for when an NPC gets grabbed.")]
-        public AudioClip[] grabSounds;
-        
-        [Space]
-        
-        [Header("Entity Settings")]
-        [Tooltip("Minimum time before an entity spawns.")]
-        public float entityTimerMin = 60f;
-        [Tooltip("Maximum time before an entity spawns.")]
-        public float entityTimerMax = 80f;
-        [Tooltip("All entities that can spawn.")]
-        public SpawnableCrateReference[] entities;
-        [Tooltip("Spawn locations for air entities.")]
-        public Transform[] airSpawns;
-        [Tooltip("Spawn locations for ground entities.")]
-        public Transform[] groundSpawns;
-        [Tooltip("Spawn locations for audio entities.")]
-        public Transform[] audioSpawns;
-        [Tooltip("Spawn locations for mirages.")]
-        public Transform mirageSpawn;
-        
-		[Space]
-        
-        [Header("Door Settings")]
-        [Tooltip("Minimum time before the door spawns.")]
-        public float doorTimerMin = 480f;
-        [Tooltip("Maximum time before the door spawns.")]
-        public float doorTimerMax = 600f;
-        [Tooltip("The door object.")]
-        public GameObject door;
-        [Tooltip("Spawn locations for the door.")]
-        public Transform[] doorSpawnLocations;
+        public EventSettings eventSettings;
+        public EntitySettings entitySettings;
+        public DoorSettings doorSettings;
+        [Header("IGNORE THESE!")]
+        public ExtraSettings extraSettings;
+    
         private bool _enabled;
         private bool _doorSpawned;
     
-        #endregion
-
-        [Space] 
-        
-        public string warning2 = "You don't need to touch anything below this warning.";
-        
-        [Space]
-        
-        #region Museum Settings
-        [HideInInspector]
-        public MeshRenderer signMesh;
-        [Header("Museum Settings")]
-        [Tooltip("The texture to change the sign to.")]
-        public Texture2D signTexture;
-        [Tooltip("The texture to change the sign to when the door spawns.")]
-        public Texture2D signWarningTexture;
-        [Tooltip("The sound that plays when the door spawns.")]
-        public AudioSource warningSound;
-        [HideInInspector]
-        public ZoneMusic zoneMusic;
-        [Tooltip("The object with the global volume with the fog.")]
-        public GameObject globalVolume;
-        [Tooltip("The door spawn location.")]
-        public Transform doorSpawnLocation;
-        [Tooltip("Time until phase 1 (eye appear), in seconds")]
-        public float phase1Timer = 120f;
-        [Tooltip("Time until phase 2 (eye disappear), in seconds")]
-        public float phase2Timer = 15f;
-        [Tooltip("Time until phase 3 (door spawn), in seconds")]
-        public float phase3Timer = 600f;
-    
-        #endregion
-    
-        [Space]
-        
-        #region Baseline Settings
-        
-        [Header("Baseline Settings")]
-        
-        [Tooltip("The fog object.")]
-        public GameObject thefog;
         private int _eventsCaused;
         private bool _musicDisabled;
         private int _entitiesSpawned;
-    
-        #endregion
         
         private void Awake()
         {
@@ -173,18 +150,18 @@ namespace NEP.Paranoia.Managers
 #if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
-			DrawGizmosForArray(airSpawns, Color.blue);
-			DrawGizmosForArray(groundSpawns, Color.green);
-			DrawGizmosForArray(audioSpawns, Color.red);
-			DrawGizmosForArray(doorSpawnLocations, Color.yellow);
+			DrawGizmosForArray(entitySettings.airSpawns, Color.blue);
+			DrawGizmosForArray(entitySettings.groundSpawns, Color.green);
+			DrawGizmosForArray(entitySettings.audioSpawns, Color.red);
+			DrawGizmosForArray(doorSettings.doorSpawnLocations, Color.yellow);
 
-			if (mirageSpawn != null)
+			if (entitySettings.mirageSpawn != null)
 			{
 				Gizmos.color = Color.cyan;
-				Gizmos.DrawSphere(mirageSpawn.position, 0.3f);
+				Gizmos.DrawSphere(entitySettings.mirageSpawn.position, 0.3f);
 			}
 
-			DrawGizmosForArray(npcMoveLocations, Color.magenta);
+			DrawGizmosForArray(eventSettings.npcMoveLocations, Color.magenta);
 		}
 
 		private void DrawGizmosForArray(Transform[] array, Color color)

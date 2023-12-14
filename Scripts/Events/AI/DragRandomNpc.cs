@@ -9,7 +9,7 @@ public class DragRandomNpc : Event
 {
     public override void Invoke()
     {
-        var grabClips = ParanoiaManager.Instance.grabSounds;
+        var grabClips = ParanoiaManager.Instance.eventSettings.grabSounds;
         var brains = Utilities.FindAIBrains();
 
         if (brains == null || brains.Length == 0)

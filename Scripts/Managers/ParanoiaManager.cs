@@ -1,18 +1,18 @@
 ﻿namespace NEP.Paranoia.Managers;
 
-public class ParanoiaManager : MonoBehaviour
+[Serializable]
+public class EventSettings
 {
-    public static ParanoiaManager Instance { get; private set; }
-    private readonly List<Event> _events = new();
-    
-    #region Main Settings
-    
-    public ManagerType managerType;
     public float eventTimerMin = 30f;
     public float eventTimerMax = 60f;
     public Light[] lights;
     public Transform[] npcMoveLocations;
     public AudioClip[] grabSounds;
+}
+
+[Serializable]
+public class EntitySettings
+{
     public float entityTimerMin = 60f;
     public float entityTimerMax = 80f;
     public SpawnableCrateReference[] entities;
@@ -20,38 +20,49 @@ public class ParanoiaManager : MonoBehaviour
     public Transform[] groundSpawns;
     public Transform[] audioSpawns;
     public Transform mirageSpawn;
+}
+
+[Serializable]
+public class DoorSettings
+{
     public float doorTimerMin = 480f;
     public float doorTimerMax = 600f;
     public GameObject door;
     public Transform[] doorSpawnLocations;
-    private bool _enabled;
-    private bool _doorSpawned;
-    
-    #endregion
-    
-    #region Museum Settings
-    
+}
+
+[Serializable]
+public class ExtraSettings
+{
     public MeshRenderer signMesh;
     public Texture2D signTexture;
     public Texture2D signWarningTexture;
     public AudioSource warningSound;
     public ZoneMusic zoneMusic;
-    public GameObject globalVolume;
+    public GameObject thefog;
     public Transform doorSpawnLocation;
     public float phase1Timer = 120f;
     public float phase2Timer = 15f;
     public float phase3Timer = 600f;
+}
+
+public class ParanoiaManager : MonoBehaviour
+{
+    public static ParanoiaManager Instance { get; private set; }
+    private readonly List<Event> _events = new();
     
-    #endregion
+    public ManagerType managerType;
+    public EventSettings eventSettings;
+    public EntitySettings entitySettings;
+    public DoorSettings doorSettings;
+    public ExtraSettings extraSettings;
     
-    #region Baseline Settings
+    private bool _enabled;
+    private bool _doorSpawned;
     
-    public GameObject thefog;
     private int _eventsCaused;
     private bool _musicDisabled;
     private int _entitiesSpawned;
-    
-    #endregion
     
     private void Awake()
     {
@@ -155,10 +166,10 @@ public class ParanoiaManager : MonoBehaviour
         while (_enabled)
         {
             ModConsole.Msg("Entity tick begin", LoggingMode.Debug);
-            var time = Random.Range(entityTimerMin, entityTimerMax);
+            var time = Random.Range(entitySettings.entityTimerMin, entitySettings.entityTimerMax);
             yield return new WaitForSeconds(time);
             ModConsole.Msg("Entity tick spawn phase", LoggingMode.Debug);
-            var entity = Utilities.GetRandomEntity(entities);
+            var entity = Utilities.GetRandomEntity(entitySettings.entities);
             ModConsole.Msg($"Chosen entity: {entity.Crate.name}", LoggingMode.Debug);
             var crateTag = entity.Crate.Tags;
             switch (crateTag.Contains("Air") ? "Air" : crateTag.Contains("Ground") ? "Ground" : crateTag.Contains("Special") ? "Special" : crateTag.Contains("Audio") ? "Audio" : "None")
@@ -166,34 +177,34 @@ public class ParanoiaManager : MonoBehaviour
                 case "Air":
                 {
                     ModConsole.Msg("Entity had Air tag", LoggingMode.Debug);
-                    var location = airSpawns[Random.Range(0, airSpawns.Length)];
+                    var location = entitySettings.airSpawns[Random.Range(0, entitySettings.airSpawns.Length)];
                     HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
                     break;
                 }
                 case "Ground":
                 {
                     ModConsole.Msg("Entity had Ground tag", LoggingMode.Debug);
-                    var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
+                    var location = entitySettings.groundSpawns[Random.Range(0, entitySettings.groundSpawns.Length)];
                     HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
                     break;
                 }
                 case "Special":
                 {
                     ModConsole.Msg("Entity had Special tag", LoggingMode.Debug);
-                    HelperMethods.SpawnCrate(entity, mirageSpawn.position, Quaternion.identity, Vector3.one,  false, _ => { });
+                    HelperMethods.SpawnCrate(entity, entitySettings.mirageSpawn.position, Quaternion.identity, Vector3.one,  false, _ => { });
                     break;
                 }
                 case "Audio":
                 {
                     ModConsole.Msg("Entity had Audio tag", LoggingMode.Debug);
-                    var location = audioSpawns[Random.Range(0, audioSpawns.Length)];
+                    var location = entitySettings.audioSpawns[Random.Range(0, entitySettings.audioSpawns.Length)];
                     HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
                     break;
                 }
                 case "None":
                 {
                     ModConsole.Error($"You forgot to tag Entity {entity.Crate.name}! Spawning at a ground location. Your fault if it's wrong.");
-                    var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
+                    var location = entitySettings.groundSpawns[Random.Range(0, entitySettings.groundSpawns.Length)];
                     HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
                     break;
                 }
@@ -212,7 +223,7 @@ public class ParanoiaManager : MonoBehaviour
         while (_enabled)
         {
             ModConsole.Msg("Event tick begin", LoggingMode.Debug);
-            var time = Random.Range(eventTimerMin, eventTimerMax);
+            var time = Random.Range(eventSettings.eventTimerMin, eventSettings.eventTimerMax);
             yield return new WaitForSeconds(time);
             ModConsole.Msg("Event tick event phase", LoggingMode.Debug);
             var rand = Random.Range(0, _events.Count);
@@ -224,11 +235,11 @@ public class ParanoiaManager : MonoBehaviour
     private IEnumerator DoorTick()
     {
         ModConsole.Msg("Door tick started", LoggingMode.Debug);
-        var time = Random.Range(doorTimerMin, doorTimerMax);
+        var time = Random.Range(doorSettings.doorTimerMin, doorSettings.doorTimerMax);
         yield return new WaitForSeconds(time);
         ModConsole.Msg("Door tick door phase", LoggingMode.Debug);
-        var location = doorSpawnLocations[Random.Range(0, doorSpawnLocations.Length)];
-        Instantiate(door, location.position, location.rotation);
+        var location = doorSettings.doorSpawnLocations[Random.Range(0, doorSettings.doorSpawnLocations.Length)];
+        Instantiate(doorSettings.door, location.position, location.rotation);
         _doorSpawned = true;
     }
     
@@ -241,21 +252,21 @@ public class ParanoiaManager : MonoBehaviour
     
     private IEnumerator MuseumTick()
     {
-        yield return new WaitForSeconds(phase1Timer);
-        zoneMusic.StopMusic(3f);
-        MuseumEvents.ChangeSign(signMesh, signTexture);
-        globalVolume.SetActive(true);
-        yield return new WaitForSeconds(phase2Timer);
-        zoneMusic.PlayMusic(3f);
-        MuseumEvents.HideSign(signMesh);
-        globalVolume.SetActive(false);
-        yield return new WaitForSeconds(phase3Timer);
-        zoneMusic.StopMusic(3f);
-        globalVolume.SetActive(true);
-        warningSound.Play();
-        MuseumEvents.UnhideSign(signMesh);
-        MuseumEvents.ChangeSign(signMesh, signWarningTexture);
-        Instantiate(door, doorSpawnLocation.position, doorSpawnLocation.rotation);
+        yield return new WaitForSeconds(extraSettings.phase1Timer);
+        extraSettings.zoneMusic.StopMusic(3f);
+        MuseumEvents.ChangeSign(extraSettings.signMesh, extraSettings.signTexture);
+        extraSettings.thefog.SetActive(true);
+        yield return new WaitForSeconds(extraSettings.phase2Timer);
+        extraSettings.zoneMusic.PlayMusic(3f);
+        MuseumEvents.HideSign(extraSettings.signMesh);
+        extraSettings.thefog.SetActive(false);
+        yield return new WaitForSeconds(extraSettings.phase3Timer);
+        extraSettings.zoneMusic.StopMusic(3f);
+        extraSettings.thefog.SetActive(true);
+        extraSettings.warningSound.Play();
+        MuseumEvents.UnhideSign(extraSettings.signMesh);
+        MuseumEvents.ChangeSign(extraSettings.signMesh, extraSettings.signWarningTexture);
+        Instantiate(doorSettings.door, extraSettings.doorSpawnLocation.position, extraSettings.doorSpawnLocation.rotation);
     }
     
     private IEnumerator BaselineEntityTick()
@@ -264,16 +275,16 @@ public class ParanoiaManager : MonoBehaviour
         while (_enabled)
         {
             ModConsole.Msg("Entity tick begin", LoggingMode.Debug);
-            var time = Random.Range(entityTimerMin, entityTimerMax);
+            var time = Random.Range(entitySettings.entityTimerMin, entitySettings.entityTimerMax);
             yield return new WaitForSeconds(time);
             ModConsole.Msg("Entity tick spawn phase", LoggingMode.Debug);
             if (_entitiesSpawned >= 3) _entitiesSpawned++;
             if (_entitiesSpawned == 3)
             {
-                thefog.gameObject.SetActive(true);
-                zoneMusic.StopMusic(1f);
+                extraSettings.thefog.gameObject.SetActive(true);
+                extraSettings.zoneMusic.StopMusic(1f);
             }
-            var entity = Utilities.GetRandomEntity(entities);
+            var entity = Utilities.GetRandomEntity(entitySettings.entities);
             ModConsole.Msg($"Chosen entity: {entity.Crate.name}", LoggingMode.Debug);
             var crateTag = entity.Crate.Tags;
             switch (crateTag.Contains("Air") ? "Air" : crateTag.Contains("Ground") ? "Ground" : crateTag.Contains("Special") ? "Special" : crateTag.Contains("Audio") ? "Audio" : "None")
@@ -281,34 +292,34 @@ public class ParanoiaManager : MonoBehaviour
                 case "Air":
                 {
                     ModConsole.Msg("Entity had Air tag", LoggingMode.Debug);
-                    var location = airSpawns[Random.Range(0, airSpawns.Length)];
+                    var location = entitySettings.airSpawns[Random.Range(0, entitySettings.airSpawns.Length)];
                     HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
                     break;
                 }
                 case "Ground":
                 {
                     ModConsole.Msg("Entity had Ground tag", LoggingMode.Debug);
-                    var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
+                    var location = entitySettings.groundSpawns[Random.Range(0, entitySettings.groundSpawns.Length)];
                     HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
                     break;
                 }
                 case "Special":
                 {
                     ModConsole.Msg("Entity had Special tag", LoggingMode.Debug);
-                    HelperMethods.SpawnCrate(entity, mirageSpawn.position, Quaternion.identity, Vector3.one,  false, _ => { });
+                    HelperMethods.SpawnCrate(entity, entitySettings.mirageSpawn.position, Quaternion.identity, Vector3.one,  false, _ => { });
                     break;
                 }
                 case "Audio":
                 {
                     ModConsole.Msg("Entity had Audio tag", LoggingMode.Debug);
-                    var location = audioSpawns[Random.Range(0, audioSpawns.Length)];
+                    var location = entitySettings.audioSpawns[Random.Range(0, entitySettings.audioSpawns.Length)];
                     HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
                     break;
                 }
                 case "None":
                 {
                     ModConsole.Error($"You forgot to tag Entity {entity.Crate.name}! Spawning at a ground location. Your fault if it's wrong.");
-                    var location = groundSpawns[Random.Range(0, groundSpawns.Length)];
+                    var location = entitySettings.groundSpawns[Random.Range(0, entitySettings.groundSpawns.Length)];
                     HelperMethods.SpawnCrate(entity, location.position, Quaternion.identity, Vector3.one, false, _ => { });
                     break;
                 }

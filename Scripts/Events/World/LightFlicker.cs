@@ -8,7 +8,7 @@ public class LightFlicker : Event
 {
     public override void Invoke()
     {
-        var lights = ParanoiaManager.Instance.lights;
+        var lights = ParanoiaManager.Instance.eventSettings.lights;
         if(lights == null) { return; }
         ModStats.IncrementEntry("LightsFlickered");
         MelonCoroutines.Start(CoLightFlicker(lights, Random.Range(30, 45)));

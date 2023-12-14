@@ -1,6 +1,4 @@
-﻿using NEP.Paranoia.Helpers;
-
-namespace NEP.Paranoia.Internal;
+﻿namespace NEP.Paranoia.Internal;
 
 /// <summary>
 /// Checks if the player is in the Baseline or Museum Basement level, then sets up what's needed.
@@ -101,7 +99,7 @@ public static class MapCheck
             var manager = ParanoiaManager.Instance;
             if (manager == null) return;
             ModConsole.Msg($"Got manager: {manager}", LoggingMode.Debug);
-            manager.zoneMusic = zoneMusic;
+            manager.extraSettings.zoneMusic = zoneMusic;
             ModConsole.Msg("Set zone music field", LoggingMode.Debug);
             manager.Enable();
             ModConsole.Msg("Have fun :)");
@@ -127,9 +125,9 @@ public static class MapCheck
             var manager = ParanoiaManager.Instance;
             if (manager == null) return;
             ModConsole.Msg($"Got manager: {manager}", LoggingMode.Debug);
-            manager.signMesh = sign;
+            manager.extraSettings.signMesh = sign;
             ModConsole.Msg("Added sign to field.", LoggingMode.Debug);
-            manager.zoneMusic = zoneMusic;
+            manager.extraSettings.zoneMusic = zoneMusic;
             ModConsole.Msg("Added zone music to field.", LoggingMode.Debug);
             manager.Enable();
             ModConsole.Msg("Have fun :)");
@@ -150,7 +148,7 @@ public static class MapCheck
             var manager = ParanoiaManager.Instance;
             if (manager == null) return;
             ModConsole.Msg($"Got manager: {manager}", LoggingMode.Debug);
-            manager.lights = lights;
+            manager.eventSettings.lights = lights;
             manager.Enable();
             ModConsole.Msg("Have fun :)");
         });

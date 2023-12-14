@@ -11,7 +11,7 @@ public class MoveAIToRadio : Event
         
     public override void Invoke()
     {
-        var radiopos = ParanoiaManager.Instance.groundSpawns[Random.Range(0, ParanoiaManager.Instance.groundSpawns.Length)].position;
+        var radiopos = ParanoiaManager.Instance.entitySettings.groundSpawns[Random.Range(0, ParanoiaManager.Instance.entitySettings.groundSpawns.Length)].position;
         var radio = new SpawnableCrateReference(Pallet.Entities.Radio);
         HelperMethods.SpawnCrate(radio, radiopos, Quaternion.identity, Vector3.one, false, go =>
         {

@@ -9,7 +9,7 @@ public class DragNpcToCeiling : Event
 {
     public override void Invoke()
     {
-        var clips = ParanoiaManager.Instance.grabSounds;
+        var clips = ParanoiaManager.Instance.eventSettings.grabSounds;
         var brains = Utilities.FindAIBrains();
         if (brains == null || brains.Length == 0)
         {
