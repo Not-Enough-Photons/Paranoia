@@ -138,8 +138,5 @@
           <HintPath>References\UnityEngine.PhysicsModule.dll</HintPath>
         </Reference>
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="UnityIntegration\Packages\Paranoia\Runtime\Managers\" />
-    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>

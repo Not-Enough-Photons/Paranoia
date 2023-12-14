@@ -123,6 +123,39 @@ public class Paranoia : MelonMod
         cat1.CreateFunctionElement("Obama Vanish", Color.cyan, Entities.ObamaVanish);
         
         #endregion
+        #region Managers
+        
+        var cat2 = cat.CreateCategory("Managers", Color.cyan);
+        cat2.CreateFunctionElement("Force Event Tick", Color.white, () =>
+        {
+            if (ParanoiaManager.Instance == null) return;
+            var chosenEvent = ParanoiaManager.Instance.events[Random.Range(0, ParanoiaManager.Instance.events.Count)];
+            chosenEvent.Invoke();
+        });
+        cat2.CreateFunctionElement("Force Door Spawn", Color.white, () =>
+        {
+            if (ParanoiaManager.Instance == null) return;
+            var spawnLocation = ParanoiaManager.Instance.doorSettings.doorSpawnLocations[Random.Range(0, ParanoiaManager.Instance.doorSettings.doorSpawnLocations.Length)];
+            switch (ParanoiaManager.Instance.managerType)
+            {
+                case ManagerType.Paranoia:
+                    Object.Instantiate(ParanoiaManager.Instance.doorSettings.door, spawnLocation.position, spawnLocation.rotation);
+                    break;
+                case ManagerType.Baseline:
+                    var spawnLocation2 = ParanoiaManager.Instance.doorSettings.doorSpawnLocations[Random.Range(0, ParanoiaManager.Instance.doorSettings.doorSpawnLocations.Length)];
+                    Object.Instantiate(ParanoiaManager.Instance.doorSettings.door, spawnLocation2.position, spawnLocation2.rotation);
+                    break;
+                case ManagerType.Museum:
+                    var museumSpawnLocation = ParanoiaManager.Instance.extraSettings.doorSpawnLocation;
+                    Object.Instantiate(ParanoiaManager.Instance.doorSettings.door, museumSpawnLocation.position, museumSpawnLocation.rotation);
+                    break; 
+                default:
+                    ModConsole.Error("Invalid manager type!");
+                    break;
+            }
+        });
+        
+        #endregion
 #endif
     }
 

@@ -23,4 +23,9 @@ public  class KillAI : Event
             puppetMaster.Kill();
         }
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 }

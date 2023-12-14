@@ -15,4 +15,9 @@ public class FlingRandomObject : Event
         randomRb.AddForce((player.position - randomRb.transform.position) * Random.Range(100f, 200f), ForceMode.Impulse);
         ModStats.IncrementEntry("ObjectsFlung");
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 }

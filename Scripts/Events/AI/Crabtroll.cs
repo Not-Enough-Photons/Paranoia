@@ -17,4 +17,10 @@ public class Crabtroll : Event
             crab.Activate();
         });
     }
+    
+    public override bool CanInvoke()
+    {
+        // JUST HOW DEEP DO YOU BELIEVE?
+        return true;
+    }
 }

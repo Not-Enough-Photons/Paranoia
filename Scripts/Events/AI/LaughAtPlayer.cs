@@ -30,4 +30,9 @@ public class LaughAtPlayer : Event
             powerLegs.faceAnim.Attack1(Random.Range(1, 3));
         }
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 }

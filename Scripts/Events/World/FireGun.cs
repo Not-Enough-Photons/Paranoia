@@ -11,4 +11,9 @@ public class FireGun : Event
         guns?[Random.Range(0, guns.Length)].Fire();
         ModStats.IncrementEntry("GunsForceFired");
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 }

@@ -20,4 +20,9 @@ public class MoveAIToPlayer : Event
             Utilities.MoveAIToPoint(nav, player.position);
         }
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 }

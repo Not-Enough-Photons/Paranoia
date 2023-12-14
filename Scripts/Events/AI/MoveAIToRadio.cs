@@ -29,4 +29,9 @@ public class MoveAIToRadio : Event
 
         _radioObj = null;
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 }

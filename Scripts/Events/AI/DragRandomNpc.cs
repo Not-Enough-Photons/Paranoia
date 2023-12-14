@@ -53,6 +53,11 @@ public class DragRandomNpc : Event
         MelonLoader.MelonCoroutines.Start(CoGrabRoutine(rand, targetRb, grabClips));
         ModStats.IncrementEntry("FordsGrabbed");
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 
     private static IEnumerator CoGrabRoutine(AIBrain brain, Rigidbody part, AudioClip[] grabClips)
     {

@@ -49,7 +49,7 @@ public class ExtraSettings
 public class ParanoiaManager : MonoBehaviour
 {
     public static ParanoiaManager Instance { get; private set; }
-    private readonly List<Event> _events = new();
+    internal readonly List<Event> events = new();
     
     public ManagerType managerType;
     public EventSettings eventSettings;
@@ -70,31 +70,31 @@ public class ParanoiaManager : MonoBehaviour
         
         #region AI
         
-        _events.Add(new Crabtroll());
-        _events.Add(new DragNpcToCeiling());
-        _events.Add(new DragRandomNpc());
-        _events.Add(new KillAI());
-        _events.Add(new LaughAtPlayer());
-        _events.Add(new MoveAIToPlayer());
-        _events.Add(new MoveAIToRadio());
-        _events.Add(new MoveAIToSpecificLocation());
+        events.Add(new Crabtroll());
+        events.Add(new DragNpcToCeiling());
+        events.Add(new DragRandomNpc());
+        events.Add(new KillAI());
+        events.Add(new LaughAtPlayer());
+        events.Add(new MoveAIToPlayer());
+        events.Add(new MoveAIToRadio());
+        events.Add(new MoveAIToSpecificLocation());
         
         #endregion
         
         #region Player
         
-        _events.Add(new FakeFireGun());
-        _events.Add(new FireGunInHand());
-        _events.Add(new GrabPlayer());
+        events.Add(new FakeFireGun());
+        events.Add(new FireGunInHand());
+        events.Add(new GrabPlayer());
         
         #endregion
         
         #region World
         
-        _events.Add(new FireGun());
-        _events.Add(new FlickerFlashlights());
-        _events.Add(new FlingRandomObject());
-        _events.Add(new LightFlicker());
+        events.Add(new FireGun());
+        events.Add(new FlickerFlashlights());
+        events.Add(new FlingRandomObject());
+        events.Add(new LightFlicker());
         
         #endregion world
         
@@ -223,12 +223,27 @@ public class ParanoiaManager : MonoBehaviour
         while (_enabled)
         {
             ModConsole.Msg("Event tick begin", LoggingMode.Debug);
+            // Set a random time between the event timer settings
             var time = Random.Range(eventSettings.eventTimerMin, eventSettings.eventTimerMax);
+            // Wait for that time
             yield return new WaitForSeconds(time);
             ModConsole.Msg("Event tick event phase", LoggingMode.Debug);
-            var rand = Random.Range(0, _events.Count);
-            var chosenEvent = _events[rand];
-            chosenEvent.Invoke();
+            // Choose a random event
+            var rand = Random.Range(0, events.Count);
+            var chosenEvent = events[rand];
+            if (chosenEvent.CanInvoke()) chosenEvent.Invoke();
+            else
+            {
+                // if it can't invoke, try to get one that can.
+                while (!chosenEvent.CanInvoke())
+                {
+                    var randAgain = Random.Range(0, events.Count);
+                    // ensure that it's not just picking the same one again
+                    while (randAgain == rand) randAgain = Random.Range(0, events.Count);
+                    chosenEvent = events[randAgain];
+                    chosenEvent.Invoke();
+                }
+            }
         }
     }
     

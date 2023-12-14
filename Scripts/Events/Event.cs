@@ -2,7 +2,7 @@
 
 public abstract class Event
 {
-    protected Event() { }
-
     public abstract void Invoke();
+    
+    public abstract bool CanInvoke();
 }

@@ -13,6 +13,11 @@ public class LightFlicker : Event
         ModStats.IncrementEntry("LightsFlickered");
         MelonCoroutines.Start(CoLightFlicker(lights, Random.Range(30, 45)));
     }
+    
+    public override bool CanInvoke()
+    {
+        return ParanoiaManager.Instance.managerType == ManagerType.Paranoia;
+    }
 
     private static IEnumerator CoLightFlicker(Light[] lights, int iterations)
     {

@@ -19,4 +19,9 @@ public class MoveAIToSpecificLocation : Event
             Utilities.MoveAIToPoint(nav, location.position);
         }
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 }

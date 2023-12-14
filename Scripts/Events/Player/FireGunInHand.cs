@@ -17,4 +17,9 @@ public class FireGunInHand : Event
         gun.Fire();
         ModStats.IncrementEntry("GunsForceFired");
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 }

@@ -38,6 +38,11 @@ public class DragNpcToCeiling : Event
         MelonCoroutines.Start(CoGrabRoutine(rand, targetRB, clips));
         ModStats.IncrementEntry("FordsGrabbed");
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 
     private static IEnumerator CoGrabRoutine(AIBrain brain, Rigidbody part, AudioClip[] grabClips)
     {

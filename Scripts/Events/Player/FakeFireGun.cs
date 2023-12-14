@@ -18,4 +18,9 @@ public class FakeFireGun : Event
             guns?[Random.Range(0, guns.Length)].gunSFX.GunShot();
         }
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 }

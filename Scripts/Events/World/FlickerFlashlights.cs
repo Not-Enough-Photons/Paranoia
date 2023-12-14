@@ -15,6 +15,11 @@ public class FlickerFlashlights : Event
             MelonLoader.MelonCoroutines.Start(CoLightFlicker(t, Random.Range(15, 25)));
         }
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 
     private static IEnumerator CoLightFlicker(PropFlashlight light, int iterations)
     {

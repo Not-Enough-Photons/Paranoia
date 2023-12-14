@@ -17,6 +17,11 @@ public class GrabPlayer : Event
 
         MelonCoroutines.Start(CoGrabRoutine(rbs[Random.Range(0, rbs.Length)], grabClips));
     }
+    
+    public override bool CanInvoke()
+    {
+        return true;
+    }
 
     private static IEnumerator CoGrabRoutine(Rigidbody part, AudioClip[] grabClips)
     {
