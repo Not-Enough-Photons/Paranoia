@@ -76,6 +76,7 @@ namespace NEP.Paranoia.Managers
 	}
 	
     [AddComponentMenu("Paranoia/Managers/Paranoia Manager")]
+	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Managers#paranoia-manager")]
     public class ParanoiaManager : ParanoiaEvent
     {
         public override string Warning => "EVERY VALUE MUST BE SET!";
