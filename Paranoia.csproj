@@ -84,6 +84,7 @@
         <Compile Include="Scripts\Helpers\SeasonalEntity.cs" />
         <Compile Include="Scripts\Internal\MapCheck.cs" />
         <Compile Include="Scripts\Internal\ParanoiaEvent.cs" />
+        <Compile Include="Scripts\Internal\WorldBlocker.cs" />
         <Compile Include="Scripts\Managers\ManagerType.cs" />
         <Compile Include="Scripts\Helpers\Utilities.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />

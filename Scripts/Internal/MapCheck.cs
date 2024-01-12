@@ -44,6 +44,10 @@ public static class MapCheck
                     ModConsole.Msg("Paranoia detected.", LoggingMode.Debug);
                     SpecCamSetup();
                     break;
+                case Pallet.Maps.OldParanoia:
+                    ModConsole.Msg("Paranoia detected.", LoggingMode.Debug);
+                    SpecCamSetup();
+                    break;
                 case "Atlas.96.BlankBox.Level.BlankBox":
                     ModConsole.Msg("Blank Box detected.", LoggingMode.Debug);
                     SpecCamSetup();

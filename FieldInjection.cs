@@ -26,6 +26,8 @@ public static class FieldInjection
         // Helpers
         SerialisationHandler.Inject<SeasonalEntity>();
         SerialisationHandler.Inject<FreezePlayer>();
+        // Internal
+        SerialisationHandler.Inject<WorldBlocker>();
         // Managers
         SerialisationHandler.Inject<ParanoiaManager>();
     }

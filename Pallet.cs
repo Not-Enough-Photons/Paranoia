@@ -29,7 +29,8 @@ public static class Pallet
 
     public static class Maps
     {
-        public const string Paranoia = "NotEnoughPhotons.Paranoia.Level.Paranoia";
+        public const string Paranoia = "NotEnoughPhotons.Paranoia.Level.GAMEEXE";
+        public const string OldParanoia = "NotEnoughPhotons.Paranoia.Level.Paranoia";
         public const string Redacted = "NotEnoughPhotons.Paranoia.Level.REDACTED";
         public const string ParanoiaLoading = "NotEnoughPhotons.Paranoia.Level.ParanoiaLoading";
     }
