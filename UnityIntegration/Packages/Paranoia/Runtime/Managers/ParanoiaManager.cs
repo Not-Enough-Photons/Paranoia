@@ -82,7 +82,6 @@ namespace NEP.Paranoia.Managers
         public override string Comment => "KEEP MANAGER TYPE AS PARANOIA!";
         
         public static ParanoiaManager Instance { get; private set; }
-        private readonly List<Event> _events = new();
     
         public ManagerType managerType;
         public EventSettings eventSettings;

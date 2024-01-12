@@ -7,7 +7,7 @@ public class Crying : MonoBehaviour
 {
     private void Start()
     {
-        var othercryers = Resources.FindObjectsOfTypeAll<CryingMarker>();
+        var othercryers = FindObjectsOfType<CryingMarker>();
         if (othercryers.Length > 0)
         {
             Destroy(gameObject);

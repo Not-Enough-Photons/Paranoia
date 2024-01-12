@@ -23,7 +23,6 @@ public static class FieldInjection
         SerialisationHandler.Inject<CryingMarker>();
         SerialisationHandler.Inject<Crying>();
         SerialisationHandler.Inject<WeepingAngel>();
-        SerialisationHandler.Inject<Vanisher>();
         // Helpers
         SerialisationHandler.Inject<SeasonalEntity>();
         SerialisationHandler.Inject<FreezePlayer>();

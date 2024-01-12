@@ -50,7 +50,7 @@ public class DragRandomNpc : Event
             return;
         }
 
-        MelonLoader.MelonCoroutines.Start(CoGrabRoutine(rand, targetRb, grabClips));
+        MelonCoroutines.Start(CoGrabRoutine(rand, targetRb, grabClips));
         ModStats.IncrementEntry("FordsGrabbed");
     }
     

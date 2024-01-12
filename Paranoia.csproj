@@ -58,7 +58,6 @@
         <Compile Include="Scripts\Entities\Chaser.cs" />
         <Compile Include="Scripts\Entities\Mirage.cs" />
         <Compile Include="Scripts\Entities\Stalker.cs" />
-        <Compile Include="Scripts\Entities\Vanisher.cs" />
         <Compile Include="Scripts\Entities\Watcher.cs" />
         <Compile Include="Scripts\Entities\Paralyzer.cs" />
         <Compile Include="Scripts\Entities\Radio.cs" />

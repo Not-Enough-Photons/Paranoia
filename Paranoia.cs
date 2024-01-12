@@ -1,7 +1,4 @@
-﻿using NEP.Paranoia.Helpers;
-using NEP.Paranoia.Internal;
-
-namespace NEP.Paranoia;
+﻿namespace NEP.Paranoia;
 
 /// <summary>
 /// <see cref="MelonMod"/>
@@ -14,6 +11,8 @@ public class Paranoia : MelonMod
     internal const string Company = "Not Enough Photons";
     internal const string Version = "0.0.2";
     internal const string DownloadLink = "null";
+    
+    internal static Assembly CurrAsm => Assembly.GetExecutingAssembly();
         
     /// <summary>
     /// Sets up the logger, preferences, fieldinjection, and hooks.
@@ -23,6 +22,8 @@ public class Paranoia : MelonMod
     {
         ModConsole.Setup(LoggerInstance);
         Preferences.Setup();
+        SetupBoneMenu();
+        Event.Initialize();
 #if DEBUG
         var recording = Utilities.CheckIfRecording();
         ModConsole.Msg($"Recording software running = {recording}", LoggingMode.Debug);
@@ -33,7 +34,6 @@ public class Paranoia : MelonMod
         Hooking.OnLevelInitialized += OnLevelLoaded;
 #if DEBUG
         ModConsole.Msg("THE DEBUG BUILD OF PARANOIA IS BEING USED. THIS IS NOT RECOMMENDED FOR NORMAL USE.");
-        SetupBoneMenu();
 #endif
     }
         
@@ -91,7 +91,7 @@ public class Paranoia : MelonMod
         }
         ModStats.IncrementUser();
     }
-        
+    
     /// <summary>
     /// Bonemenu options, some are debug only, some will be in the release build.
     /// </summary>
@@ -119,8 +119,6 @@ public class Paranoia : MelonMod
         cat1.CreateFunctionElement("FastMirage", Color.black, Entities.FastMirage);
         cat1.CreateFunctionElement("Teeth", Color.white, Entities.Teeth);
         cat1.CreateFunctionElement("Whiteface", Color.white, Entities.Whiteface, "This guy will crash the game.");
-        cat1.CreateFunctionElement("Vanish", Color.cyan, Entities.Vanish);
-        cat1.CreateFunctionElement("Obama Vanish", Color.cyan, Entities.ObamaVanish);
         
         #endregion
         #region Managers
@@ -129,7 +127,7 @@ public class Paranoia : MelonMod
         cat2.CreateFunctionElement("Force Event Tick", Color.white, () =>
         {
             if (ParanoiaManager.Instance == null) return;
-            var chosenEvent = ParanoiaManager.Instance.events[Random.Range(0, ParanoiaManager.Instance.events.Count)];
+            var chosenEvent = Event.Events[Random.Range(0, Event.Events.Count)];
             chosenEvent.Invoke();
         });
         cat2.CreateFunctionElement("Force Door Spawn", Color.white, () =>
@@ -270,24 +268,6 @@ public class Paranoia : MelonMod
             var player = Player.playerHead.transform;
             var location = player.position + player.forward * 30f;
             HelperMethods.SpawnCrate(Pallet.Entities.Whiteface, location, Quaternion.identity, Vector3.one, false, null);
-        }
-
-        public static void Vanish()
-        {
-            var player = Player.playerHead.transform;
-            var location = player.position + player.forward * 50f;
-            HelperMethods.SpawnCrate(Pallet.Entities.Vanisher, location, Quaternion.identity, Vector3.one, false, null);
-        }
-
-        public static void ObamaVanish()
-        {
-            var player = Player.playerHead.transform;
-            var location = player.position - player.forward * 50f;
-            HelperMethods.SpawnCrate(Pallet.Entities.Vanisher, location, Quaternion.identity, Vector3.one, false, go =>
-            {
-                var seasonalentity = go.GetComponent<SeasonalEntity>();
-                seasonalentity.onAprilFools.Invoke();
-            });
         }
     }
 #endif

@@ -49,7 +49,6 @@ public class ExtraSettings
 public class ParanoiaManager : MonoBehaviour
 {
     public static ParanoiaManager Instance { get; private set; }
-    internal readonly List<Event> events = new();
     
     public ManagerType managerType;
     public EventSettings eventSettings;
@@ -67,37 +66,6 @@ public class ParanoiaManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        
-        #region AI
-        
-        events.Add(new Crabtroll());
-        events.Add(new DragNpcToCeiling());
-        events.Add(new DragRandomNpc());
-        events.Add(new KillAI());
-        events.Add(new LaughAtPlayer());
-        events.Add(new MoveAIToPlayer());
-        events.Add(new MoveAIToRadio());
-        events.Add(new MoveAIToSpecificLocation());
-        
-        #endregion
-        
-        #region Player
-        
-        events.Add(new FakeFireGun());
-        events.Add(new FireGunInHand());
-        events.Add(new GrabPlayer());
-        
-        #endregion
-        
-        #region World
-        
-        events.Add(new FireGun());
-        events.Add(new FlickerFlashlights());
-        events.Add(new FlingRandomObject());
-        events.Add(new LightFlicker());
-        
-        #endregion world
-        
     }
 
     public void Enable()
@@ -229,18 +197,18 @@ public class ParanoiaManager : MonoBehaviour
             yield return new WaitForSeconds(time);
             ModConsole.Msg("Event tick event phase", LoggingMode.Debug);
             // Choose a random event
-            var rand = Random.Range(0, events.Count);
-            var chosenEvent = events[rand];
+            var rand = Random.Range(0, Event.Events.Count);
+            var chosenEvent = Event.Events[rand];
             if (chosenEvent.CanInvoke()) chosenEvent.Invoke();
             else
             {
                 // if it can't invoke, try to get one that can.
                 while (!chosenEvent.CanInvoke())
                 {
-                    var randAgain = Random.Range(0, events.Count);
+                    var randAgain = Random.Range(0, Event.Events.Count);
                     // ensure that it's not just picking the same one again
-                    while (randAgain == rand) randAgain = Random.Range(0, events.Count);
-                    chosenEvent = events[randAgain];
+                    while (randAgain == rand) randAgain = Random.Range(0, Event.Events.Count);
+                    chosenEvent = Event.Events[randAgain];
                     chosenEvent.Invoke();
                 }
             }

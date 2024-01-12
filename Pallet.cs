@@ -25,7 +25,6 @@ public static class Pallet
         public const string FastMirage = "NotEnoughPhotons.Paranoia.Spawnable.FastMirage";
         public const string Teeth = "NotEnoughPhotons.Paranoia.Spawnable.Teeth";
         public const string Whiteface = "NotEnoughPhotons.Paranoia.Spawnable.Whiteface";
-        public const string Vanisher = "NotEnoughPhotons.Paranoia.Spawnable.Vanisher";
     }
 
     public static class Maps
