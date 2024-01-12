@@ -172,7 +172,7 @@ namespace NEP.Paranoia.Managers
 			{
 				Gizmos.DrawSphere(t.position, 0.3f);
 			}
-		}		
+		}	
+#endif		
     }
-#endif
 }
