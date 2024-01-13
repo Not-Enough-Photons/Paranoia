@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Helpers;
+﻿namespace NEP.Paranoia.Scripts.HelperBehaviours;
 
 /// <summary>
 /// A way to freeze the player through UltEvents.

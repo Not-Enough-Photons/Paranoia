@@ -3,7 +3,7 @@
 /// <summary>
 /// <see cref="MelonMod"/>
 /// </summary>
-public class Paranoia : MelonMod
+public class Main : MelonMod
 {
     internal const string Name = "Paranoia";
     internal const string Description = "There's something hostile out there.";
@@ -64,6 +64,7 @@ public class Paranoia : MelonMod
             ModConsole.Error("You do not have the required pallet for Paranoia.");
             ModStats.IncrementEntry("IdiotsWhoDidntInstallThePallet");
         }
+        EntityLoader.CheckEntities();
     }
         
     /// <summary>

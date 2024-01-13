@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Events;
+﻿namespace NEP.Paranoia.Scripts.Events;
 
 /// <summary>
 /// Spawns a Crablet behind the player. Lol

@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia;
+﻿namespace NEP.Paranoia.Scripts.Internal;
 
 internal static class ModStats
 {

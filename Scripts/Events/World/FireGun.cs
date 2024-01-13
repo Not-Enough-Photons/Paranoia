@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Events;
+﻿namespace NEP.Paranoia.Scripts.Events;
 
 /// <summary>
 /// Fires a random gun in the scene.

@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Events;
+﻿namespace NEP.Paranoia.Scripts.Events;
 
 /// <summary>
 /// Grabs the player and moves them around for a bit.

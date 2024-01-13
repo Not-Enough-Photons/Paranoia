@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Events;
+﻿namespace NEP.Paranoia.Scripts.Events;
 
 /// <summary>
 /// Flickers the given lights by toggling the gameobject over and over.

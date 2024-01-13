@@ -1,6 +1,4 @@
-﻿using NEP.Paranoia.Helpers;
-
-namespace NEP.Paranoia.Entities;
+﻿namespace NEP.Paranoia.Scripts.Entities;
 
 /// <summary>
 /// Crashes the game if it gets too close.

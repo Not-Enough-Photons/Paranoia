@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace NEP.Paranoia.Entities
+namespace NEP.Paranoia.Scripts.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Radio")]
 	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#radio")]

@@ -1,6 +1,4 @@
-﻿using NEP.Paranoia.Helpers;
-
-namespace NEP.Paranoia.Events;
+﻿namespace NEP.Paranoia.Scripts.Events;
 
 /// <summary>
 /// Spawns a radio and sends all AI to the radio.

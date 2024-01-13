@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace NEP.Paranoia.Entities
+namespace NEP.Paranoia.Scripts.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Watcher")]
 	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#watcher")]

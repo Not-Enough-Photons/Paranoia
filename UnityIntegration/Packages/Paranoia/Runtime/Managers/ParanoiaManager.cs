@@ -11,7 +11,7 @@ using SLZ.SFX;
 using UnityEditor;
 #endif
 
-namespace NEP.Paranoia.Managers
+namespace NEP.Paranoia.Scripts.Managers
 {
 	[Serializable]
 	public class EventSettings
@@ -35,8 +35,10 @@ namespace NEP.Paranoia.Managers
 		public float entityTimerMin = 60f;
 		[Tooltip("The maximum time between entity spawns.")]
 		public float entityTimerMax = 80f;
+		[Tooltip("Whether or not to include entities from extension mods.")]
+		public bool allowExtensionEntities = true;
 		[Tooltip("All possible entities that can spawn.")]
-		public SpawnableCrateReference[] entities;
+		public List<SpawnableCrateReference> entities;
 		[Tooltip("Spawn locations for air entities.")]
 		public Transform[] airSpawns;
 		[Tooltip("Spawn locations for ground entities.")]

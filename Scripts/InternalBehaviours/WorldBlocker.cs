@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Internal;
+﻿namespace NEP.Paranoia.Scripts.InternalBehaviours;
 
 public class WorldBlocker : MonoBehaviour
 {

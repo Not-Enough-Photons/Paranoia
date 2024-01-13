@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Managers;
+﻿namespace NEP.Paranoia.Scripts.Managers;
 
 [Serializable]
 public class EventSettings
@@ -15,7 +15,8 @@ public class EntitySettings
 {
     public float entityTimerMin = 60f;
     public float entityTimerMax = 80f;
-    public SpawnableCrateReference[] entities;
+    public bool allowExtensionEntities = true;
+    public List<SpawnableCrateReference> entities;
     public Transform[] airSpawns;
     public Transform[] groundSpawns;
     public Transform[] audioSpawns;
@@ -66,6 +67,12 @@ public class ParanoiaManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        if (!entitySettings.allowExtensionEntities) return;
+        entitySettings.entities.AddRange(EntityLoader.EntityCrates);
     }
 
     public void Enable()

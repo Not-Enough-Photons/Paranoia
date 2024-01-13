@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Events;
+﻿namespace NEP.Paranoia.Scripts.Events;
 
 /// <summary>
 /// Base class for all events.
@@ -36,7 +36,7 @@ public abstract class Event
     /// </summary>
     public static void Initialize()
     {
-        foreach (var type in Paranoia.CurrAsm.GetTypes())
+        foreach (var type in Main.CurrAsm.GetTypes())
         {
             if (type.IsAbstract || !type.IsSubclassOf(typeof(Event))) continue;
             Activator.CreateInstance(type);

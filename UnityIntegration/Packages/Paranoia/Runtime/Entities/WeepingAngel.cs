@@ -1,7 +1,7 @@
 ﻿using SLZ.Rig;
 using UnityEngine;
 
-namespace NEP.Paranoia.Entities
+namespace NEP.Paranoia.Scripts.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Weeping Angel")]
 	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#weepingangel")]

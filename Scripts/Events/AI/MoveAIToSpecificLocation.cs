@@ -1,6 +1,4 @@
-﻿using NEP.Paranoia.Helpers;
-
-namespace NEP.Paranoia.Events;
+﻿namespace NEP.Paranoia.Scripts.Events;
 
 /// <summary>
 /// Moves all NPCs to a given location.

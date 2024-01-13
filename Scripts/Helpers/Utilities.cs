@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Helpers;
+﻿namespace NEP.Paranoia.Scripts.Helpers;
 
 /// <summary>
 /// A collection of helper methods for Barcode.
@@ -120,7 +120,7 @@ public static class Utilities
         return false;
     }
         
-    public static SpawnableCrateReference GetRandomEntity(SpawnableCrateReference[] entities)
+    public static SpawnableCrateReference GetRandomEntity(List<SpawnableCrateReference> entities)
     {
         var validEntities = entities.Where(entity => int.Parse(entity.Crate.Description) > 0).ToList();
 

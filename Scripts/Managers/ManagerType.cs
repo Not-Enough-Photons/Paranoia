@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Managers;
+﻿namespace NEP.Paranoia.Scripts.Managers;
 
 public enum ManagerType
 {

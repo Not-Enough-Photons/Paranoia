@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace NEP.Paranoia
+namespace NEP.Paranoia.Scripts.InternalBehaviours
 {
     public abstract class ParanoiaEvent : MonoBehaviour
     {

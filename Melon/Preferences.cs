@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia;
+﻿namespace NEP.Paranoia.Melon;
 
 internal static class Preferences
 {
@@ -12,12 +12,12 @@ internal static class Preferences
 
     public static void Setup()
     {
-        LoggingMode = Category.CreateEntry("LoggingMode", global::NEP.Paranoia.LoggingMode.Normal, "Logging Mode", "The logging mode to use: NORMAL, DEBUG");
+        LoggingMode = Category.CreateEntry("LoggingMode", global::NEP.Paranoia.Melon.LoggingMode.Normal, "Logging Mode", "The logging mode to use: NORMAL, DEBUG");
         EnabledInBaseGameMaps = Category.CreateEntry("EnabledInBaseGameMaps", true, "Baseline/Museum Basement/Blankbox Activation", "Whether to activate Paranoia in Baseline/Museum Basement or not.");
         BaselineManager = Category.CreateEntry("BaselineManager", Pallet.Managers.BaselineManager, "Baseline Manager Barcode", "The barcode of the manager to use in Baseline. Default: NotEnoughPhotons.Paranoia.Spawnable.BaselineParanoia");
         MuseumManager = Category.CreateEntry("MuseumManager", Pallet.Managers.MuseumManager, "Museum Basement Manager Barcode", "The barcode of the manager to use in Museum Basement. Default: NotEnoughPhotons.Paranoia.Spawnable.MuseumParanoia");
         BlankboxManager = Category.CreateEntry("BlankboxManager", Pallet.Managers.BlankBoxManager, "BlankBox Manager Barcode", "The barcode of the manager to use in BlankBox. Default: NotEnoughPhotons.Paranoia.Spawnable.BlankboxParanoia");
         Category.SaveToFile(false);
-        ModConsole.Msg("Finished preferences setup", global::NEP.Paranoia.LoggingMode.Debug);
+        ModConsole.Msg("Finished preferences setup", global::NEP.Paranoia.Melon.LoggingMode.Debug);
     }
 }

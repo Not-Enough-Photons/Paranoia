@@ -42,25 +42,23 @@
         <Exec Command="COPY &quot;$(TargetPath)&quot; &quot;I:\Steam\steamapps\common\BONELAB\Mods&quot;" />
     </Target>
     <ItemGroup>
-        <Compile Include="DependencyCheck.cs" />
-        <Compile Include="FieldInjection.cs" />
         <Compile Include="GlobalUsings.cs" />
-        <Compile Include="ModStats.cs" />
         <Compile Include="Pallet.cs" />
-        <Compile Include="Paranoia.cs" />
+        <Compile Include="Main.cs" />
         <Compile Include="Melon\ModConsole.cs" />
         <Compile Include="Melon\Preferences.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Scripts\Entities\AudioEvent.cs" />
+        <Compile Include="Scripts\Entities\Chaser.cs" />
         <Compile Include="Scripts\Entities\Crasher.cs" />
         <Compile Include="Scripts\Entities\Crying.cs" />
         <Compile Include="Scripts\Entities\CryingMarker.cs" />
         <Compile Include="Scripts\Entities\Follower.cs" />
-        <Compile Include="Scripts\Entities\Chaser.cs" />
         <Compile Include="Scripts\Entities\Mirage.cs" />
-        <Compile Include="Scripts\Entities\Stalker.cs" />
-        <Compile Include="Scripts\Entities\Watcher.cs" />
         <Compile Include="Scripts\Entities\Paralyzer.cs" />
         <Compile Include="Scripts\Entities\Radio.cs" />
+        <Compile Include="Scripts\Entities\Stalker.cs" />
+        <Compile Include="Scripts\Entities\Watcher.cs" />
         <Compile Include="Scripts\Entities\WeepingAngel.cs" />
         <Compile Include="Scripts\Events\AI\Crabtroll.cs" />
         <Compile Include="Scripts\Events\AI\DragNpcToCeiling.cs" />
@@ -74,20 +72,23 @@
         <Compile Include="Scripts\Events\Player\FakeFireGun.cs" />
         <Compile Include="Scripts\Events\Player\FireGunInHand.cs" />
         <Compile Include="Scripts\Events\Player\GrabPlayer.cs" />
-        <Compile Include="Scripts\Events\World\MuseumEvents.cs" />
         <Compile Include="Scripts\Events\World\FireGun.cs" />
         <Compile Include="Scripts\Events\World\FlickerFlashlights.cs" />
         <Compile Include="Scripts\Events\World\FlingRandomObject.cs" />
         <Compile Include="Scripts\Events\World\LightFlicker.cs" />
+        <Compile Include="Scripts\Events\World\MuseumEvents.cs" />
+        <Compile Include="Scripts\HelperBehaviours\FreezePlayer.cs" />
+        <Compile Include="Scripts\HelperBehaviours\SeasonalEntity.cs" />
         <Compile Include="Scripts\Helpers\CameraHelper.cs" />
-        <Compile Include="Scripts\Helpers\FreezePlayer.cs" />
-        <Compile Include="Scripts\Helpers\SeasonalEntity.cs" />
-        <Compile Include="Scripts\Internal\MapCheck.cs" />
-        <Compile Include="Scripts\Internal\ParanoiaEvent.cs" />
-        <Compile Include="Scripts\Internal\WorldBlocker.cs" />
-        <Compile Include="Scripts\Managers\ManagerType.cs" />
         <Compile Include="Scripts\Helpers\Utilities.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Scripts\InternalBehaviours\ParanoiaEvent.cs" />
+        <Compile Include="Scripts\InternalBehaviours\WorldBlocker.cs" />
+        <Compile Include="Scripts\Internal\DependencyCheck.cs" />
+        <Compile Include="Scripts\Internal\FieldInjection.cs" />
+        <Compile Include="Scripts\Internal\MapCheck.cs" />
+        <Compile Include="Scripts\Internal\ModStats.cs" />
+        <Compile Include="Scripts\Managers\EntityLoader.cs" />
+        <Compile Include="Scripts\Managers\ManagerType.cs" />
         <Compile Include="Scripts\Managers\ParanoiaManager.cs" />
     </ItemGroup>
     <ItemGroup>

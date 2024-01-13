@@ -5,7 +5,7 @@ using UltEvents;
 
 using Random = UnityEngine.Random;
 
-namespace NEP.Paranoia.Entities
+namespace NEP.Paranoia.Scripts.Entities
 {
     [RequireComponent(typeof(GenericAttackReceiver))]
     [RequireComponent(typeof(CollisionEnterSensor))]

@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Entities;
+﻿namespace NEP.Paranoia.Scripts.Entities;
 
 /// <summary>
 /// Just exists to mark a crying entity after it's spawned, assuming there isn't another crying entity.

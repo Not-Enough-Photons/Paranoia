@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Entities;
+﻿namespace NEP.Paranoia.Scripts.Entities;
 
 /// <summary>
 /// Prevents duplicates of this entity from spawning.

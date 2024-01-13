@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Helpers;
+﻿namespace NEP.Paranoia.Scripts.HelperBehaviours;
 
 /// <summary>
 /// Changes the entity's material based on the holiday.

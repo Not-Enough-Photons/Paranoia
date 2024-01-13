@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Entities;
+﻿namespace NEP.Paranoia.Scripts.Entities;
 
 /// <summary>
 /// Moves when the player isn't looking at it.

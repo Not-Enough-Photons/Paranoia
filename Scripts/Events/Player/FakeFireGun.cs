@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Events;
+﻿namespace NEP.Paranoia.Scripts.Events;
 
 /// <summary>
 /// "Fires" the gun in the player's hand, it'll make the noise but it didn't actually fire.

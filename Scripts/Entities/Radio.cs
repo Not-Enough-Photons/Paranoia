@@ -1,8 +1,8 @@
-﻿namespace NEP.Paranoia.Entities;
+﻿namespace NEP.Paranoia.Scripts.Entities;
 
 /// <summary>
 /// Very similar to AudioEvent, but is seperate for one reason:
-/// <br/>It's used to determine where the radio is in MoveAIToRadio.<see cref="Events.MoveAIToRadio.Invoke"/>
+/// <br/>It's used to determine where the radio is in MoveAIToRadio.<see cref="MoveAIToRadio.Invoke"/>
 /// </summary>
 public class Radio : MonoBehaviour
 {

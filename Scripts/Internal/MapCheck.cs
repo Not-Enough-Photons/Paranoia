@@ -1,4 +1,4 @@
-﻿namespace NEP.Paranoia.Internal;
+﻿namespace NEP.Paranoia.Scripts.Internal;
 
 /// <summary>
 /// Checks if the player is in the Baseline or Museum Basement level, then sets up what's needed.
@@ -28,7 +28,7 @@ public static class MapCheck
                 Notifier.Send(notif);
             }
             if (!enabled) return;
-            switch (Paranoia.levelBarcode)
+            switch (Main.levelBarcode)
             {
                 case CommonBarcodes.Maps.Baseline:
                     ModConsole.Msg("Baseline detected.", LoggingMode.Debug);

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace NEP.Paranoia.Helpers
+namespace NEP.Paranoia.Scripts.HelperBehaviours
 {
     [AddComponentMenu("Paranoia/Helpers/Freeze Player")]
     public class FreezePlayer : ParanoiaEvent

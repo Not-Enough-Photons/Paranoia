@@ -1,6 +1,6 @@
-﻿namespace NEP.Paranoia;
+﻿namespace NEP.Paranoia.Scripts.Internal;
 
-public static class DependencyCheck
+internal static class DependencyCheck
 {
     private static bool _hasFieldInjector;
     private static bool _hasJevilib;

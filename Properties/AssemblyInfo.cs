@@ -1,15 +1,13 @@
-﻿[assembly: AssemblyTitle(NEP.Paranoia.Paranoia.Description)]
-[assembly: AssemblyDescription(NEP.Paranoia.Paranoia.Description)]
-[assembly: AssemblyCompany(NEP.Paranoia.Paranoia.Company)]
-[assembly: AssemblyProduct(NEP.Paranoia.Paranoia.Name)]
-[assembly: AssemblyCopyright("Developed by " + NEP.Paranoia.Paranoia.Author)]
-[assembly: AssemblyTrademark(NEP.Paranoia.Paranoia.Company)]
-[assembly: AssemblyVersion(NEP.Paranoia.Paranoia.Version)]
-[assembly: AssemblyFileVersion(NEP.Paranoia.Paranoia.Version)]
-[assembly:
-    MelonInfo(typeof(NEP.Paranoia.Paranoia), NEP.Paranoia.Paranoia.Name, NEP.Paranoia.Paranoia.Version,
-        NEP.Paranoia.Paranoia.Author, NEP.Paranoia.Paranoia.DownloadLink)]
-[assembly: MelonColor(System.ConsoleColor.White)]
+﻿[assembly: AssemblyTitle(NEP.Paranoia.Main.Description)]
+[assembly: AssemblyDescription(NEP.Paranoia.Main.Description)]
+[assembly: AssemblyCompany(NEP.Paranoia.Main.Company)]
+[assembly: AssemblyProduct(NEP.Paranoia.Main.Name)]
+[assembly: AssemblyCopyright("Developed by " + NEP.Paranoia.Main.Author)]
+[assembly: AssemblyTrademark(NEP.Paranoia.Main.Company)]
+[assembly: AssemblyVersion(NEP.Paranoia.Main.Version)]
+[assembly: AssemblyFileVersion(NEP.Paranoia.Main.Version)]
+[assembly: MelonInfo(typeof(NEP.Paranoia.Main), NEP.Paranoia.Main.Name, NEP.Paranoia.Main.Version, NEP.Paranoia.Main.Author, NEP.Paranoia.Main.DownloadLink)]
+[assembly: MelonColor(ConsoleColor.White)]
 
 // Create and Setup a MelonGame Attribute to mark a Melon as Universal or Compatible with specific Games.
 // If no MelonGame Attribute is found or any of the Values for any MelonGame Attribute on the Melon is null or empty it will be assumed the Melon is Universal.

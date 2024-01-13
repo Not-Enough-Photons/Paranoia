@@ -1,8 +1,8 @@
-﻿using NEP.Paranoia;
+﻿using NEP.Paranoia.Scripts.InternalBehaviours;
 using UnityEngine;
 using UnityEditor;
 
-namespace NEP.Paranoia
+namespace NEP.Paranoia.Editor
 {
     [CustomEditor(typeof(ParanoiaEvent), editorForChildClasses: true)]
     public class ParanoiaEventEditor : Editor

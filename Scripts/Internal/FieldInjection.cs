@@ -1,9 +1,6 @@
-﻿using NEP.Paranoia.Entities;
-using NEP.Paranoia.Helpers;
+﻿namespace NEP.Paranoia.Scripts.Internal;
 
-namespace NEP.Paranoia;
-
-public static class FieldInjection
+internal static class FieldInjection
 {
     /// <summary>
     /// Handles the injection of fields.
