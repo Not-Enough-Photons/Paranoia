@@ -2,6 +2,7 @@
 using SLZ.Rig;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using NEP.Paranoia.Scripts.InternalBehaviours;
 
 namespace NEP.Paranoia.Scripts.Entities
 {

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UltEvents;
+using NEP.Paranoia.Scripts.InternalBehaviours;
 
 namespace NEP.Paranoia.Scripts.HelperBehaviours
 {

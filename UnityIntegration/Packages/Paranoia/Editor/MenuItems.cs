@@ -2,7 +2,7 @@
 using UnityEditor;
 using NEP.Paranoia.Scripts.Managers;
 
-namespace NEP.Paranoia.Editor
+namespace NEP.Paranoia
 {
     public class MenuItems
     {

@@ -2,6 +2,7 @@
 using SLZ.Rig;
 using UnityEngine;
 using UltEvents;
+using NEP.Paranoia.Scripts.InternalBehaviours;
 
 using Random = UnityEngine.Random;
 

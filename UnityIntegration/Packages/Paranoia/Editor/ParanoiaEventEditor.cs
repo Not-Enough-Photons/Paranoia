@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace NEP.Paranoia.Editor
+namespace NEP.Paranoia
 {
     [CustomEditor(typeof(ParanoiaEvent), editorForChildClasses: true)]
     public class ParanoiaEventEditor : Editor

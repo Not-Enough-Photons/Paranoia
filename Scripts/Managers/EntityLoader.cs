@@ -10,7 +10,7 @@ internal static class EntityLoader
         var pallets = AssetWarehouse.Instance.GetPallets();
         foreach (var pallet in pallets)
         {
-            if (pallet.Description.Contains("ParanoiaExtension"))
+            if (pallet.Description.Contains("[ParanoiaExtension]"))
             {
                 SupportedPallets.Add(pallet);
             }

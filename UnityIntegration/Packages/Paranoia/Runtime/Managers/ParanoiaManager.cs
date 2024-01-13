@@ -1,12 +1,12 @@
 ﻿using System.Collections;
-using NEP.Paranoia.Helpers;
 using SLZ.Marrow.Warehouse;
 using System.Collections.Generic;
-using NEP.Paranoia.Entities;
+using NEP.Paranoia.Scripts.Entities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using System;
 using SLZ.SFX;
+using NEP.Paranoia.Scripts.InternalBehaviours;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -152,10 +152,10 @@ namespace NEP.Paranoia.Scripts.Managers
 #if UNITY_EDITOR
 		private void OnDrawGizmos()
 		{
-			DrawGizmosForArray(entitySettings.airSpawns, Color.blue);
-			DrawGizmosForArray(entitySettings.groundSpawns, Color.green);
-			DrawGizmosForArray(entitySettings.audioSpawns, Color.red);
-			DrawGizmosForArray(doorSettings.doorSpawnLocations, Color.yellow);
+			if (entitySettings.airSpawns.Count > 0) DrawGizmosForArray(entitySettings.airSpawns, Color.blue);
+			if (entitySettings.groundSpawns.Count > 0) DrawGizmosForArray(entitySettings.groundSpawns, Color.green);
+			if (entitySettings.audioSpawns.Count > 0) DrawGizmosForArray(entitySettings.audioSpawns, Color.red);
+			if (entitySettings.doorSpawnLocations.Coumt > 0) DrawGizmosForArray(doorSettings.doorSpawnLocations, Color.yellow);
 
 			if (entitySettings.mirageSpawn != null)
 			{

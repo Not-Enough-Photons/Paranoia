@@ -1,6 +1,7 @@
 ﻿using SLZ.Rig;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using NEP.Paranoia.Scripts.InternalBehaviours;
 
 namespace NEP.Paranoia.Scripts.Entities
 {
