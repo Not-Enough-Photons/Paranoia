@@ -12,6 +12,7 @@ internal static class EntityLoader
         {
             if (pallet.Description.Contains("[ParanoiaExtension]"))
             {
+                ModConsole.Msg("Found Paranoia Extension Pallet: " + pallet.Barcode, LoggingMode.Debug);
                 SupportedPallets.Add(pallet);
             }
         }
@@ -25,6 +26,7 @@ internal static class EntityLoader
             {
                 if (crate.Tags.Contains("ParanoiaEntity"))
                 {
+                    ModConsole.Msg("Found Paranoia Extension Entity: " + crate.Barcode, LoggingMode.Debug);
                     EntityCrates.Add(new SpawnableCrateReference(crate.Barcode));
                 }
             }
