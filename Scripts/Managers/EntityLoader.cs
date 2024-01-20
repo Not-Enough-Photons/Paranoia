@@ -8,6 +8,9 @@ internal static class EntityLoader
     public static void CheckEntities()
     {
         var pallets = AssetWarehouse.Instance.GetPallets();
+
+        if (pallets.Count == 0) return; // how tf would someone not be installing mods in a modding based game?? just in case though
+        
         foreach (var pallet in pallets)
         {
             if (pallet.Description.Contains("[ParanoiaExtension]"))

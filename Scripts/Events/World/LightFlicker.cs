@@ -8,7 +8,8 @@ public class LightFlicker : Event
 {
     public override void Invoke()
     {
-        var lights = ParanoiaManager.Instance.eventSettings.lights;
+        var manager = ParanoiaManager.Instance;
+        var lights = manager.lights;
         if(lights == null) { return; }
         ModStats.IncrementEntry("LightsFlickered");
         MelonCoroutines.Start(CoLightFlicker(lights, Random.Range(30, 45)));
@@ -16,7 +17,8 @@ public class LightFlicker : Event
     
     public override bool CanInvoke()
     {
-        return ParanoiaManager.Instance.managerType == ManagerType.Paranoia;
+        var manager = Object.FindObjectOfType<ParanoiaManager>();
+        return manager.managerType == ManagerType.Paranoia;
     }
 
     private static IEnumerator CoLightFlicker(Light[] lights, int iterations)

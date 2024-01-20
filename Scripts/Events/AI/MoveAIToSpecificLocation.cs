@@ -7,7 +7,8 @@ public class MoveAIToSpecificLocation : Event
 {
     public override void Invoke()
     {
-        var location = ParanoiaManager.Instance.eventSettings.npcMoveLocations[Random.Range(0, ParanoiaManager.Instance.eventSettings.npcMoveLocations.Length)];
+        var manager = ParanoiaManager.Instance;
+        var location = manager.npcMoveLocations[Random.Range(0, manager.npcMoveLocations.Length)];
         Utilities.FindAIBrains(out var navs);
         
         if(navs == null) { return; }

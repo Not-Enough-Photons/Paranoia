@@ -36,6 +36,7 @@ public abstract class Event
     /// </summary>
     public static void Initialize()
     {
+        // reflection is weird
         foreach (var type in Main.CurrAsm.GetTypes())
         {
             if (type.IsAbstract || !type.IsSubclassOf(typeof(Event))) continue;

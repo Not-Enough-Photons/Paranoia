@@ -132,7 +132,7 @@ public static class Utilities
             
         int totalPercentage = validEntities.Sum(entity => int.Parse(entity.Crate.Description));
 
-        int randomValue = UnityEngine.Random.Range(0, totalPercentage);
+        int randomValue = Random.Range(0, totalPercentage);
             
         int cumulativePercentage = 0;
         foreach (SpawnableCrateReference entity in validEntities)

@@ -103,7 +103,7 @@ public static class MapCheck
             var manager = ParanoiaManager.Instance;
             if (manager == null) return;
             ModConsole.Msg($"Got manager: {manager}", LoggingMode.Debug);
-            manager.extraSettings.zoneMusic = zoneMusic;
+            manager.zoneMusic = zoneMusic;
             ModConsole.Msg("Set zone music field", LoggingMode.Debug);
             manager.Enable();
             ModConsole.Msg("Have fun :)");
@@ -129,9 +129,9 @@ public static class MapCheck
             var manager = ParanoiaManager.Instance;
             if (manager == null) return;
             ModConsole.Msg($"Got manager: {manager}", LoggingMode.Debug);
-            manager.extraSettings.signMesh = sign;
+            manager.signMesh = sign;
             ModConsole.Msg("Added sign to field.", LoggingMode.Debug);
-            manager.extraSettings.zoneMusic = zoneMusic;
+            manager.zoneMusic = zoneMusic;
             ModConsole.Msg("Added zone music to field.", LoggingMode.Debug);
             manager.Enable();
             ModConsole.Msg("Have fun :)");
@@ -152,7 +152,7 @@ public static class MapCheck
             var manager = ParanoiaManager.Instance;
             if (manager == null) return;
             ModConsole.Msg($"Got manager: {manager}", LoggingMode.Debug);
-            manager.eventSettings.lights = lights;
+            manager.lights = lights;
             manager.Enable();
             ModConsole.Msg("Have fun :)");
         });
