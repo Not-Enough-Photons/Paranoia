@@ -87,10 +87,12 @@ public class Main : MelonMod
     {
         if (!PlayerPrefs.HasKey("ParanoiaLaunch"))
         {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             ModStats.IncrementLaunch();
             PlayerPrefs.TrySetInt("ParanoiaLaunch", 1);
         }
         ModStats.IncrementUser();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
     }
     
     /// <summary>

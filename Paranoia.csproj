@@ -38,6 +38,7 @@
     <PropertyGroup>
         <StartupObject/>
     </PropertyGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <PropertyGroup>
       <PostBuildEvent>COPY "$(TargetPath)" "I:\Steam\steamapps\common\BONELAB\Mods"
 COPY "$(TargetPath)" "$(ProjectDir)\Staging\Mods"</PostBuildEvent>
@@ -143,5 +144,4 @@ COPY "$(TargetPath)" "$(ProjectDir)\Staging\Mods"</PostBuildEvent>
           <HintPath>References\UnityEngine.PhysicsModule.dll</HintPath>
         </Reference>
     </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
