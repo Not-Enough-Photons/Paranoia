@@ -98,50 +98,50 @@ COPY "$(TargetPath)" "$(ProjectDir)\Staging\Mods"</PostBuildEvent>
     </ItemGroup>
     <ItemGroup>
         <Reference Include="0Harmony">
-          <HintPath>References\0Harmony.dll</HintPath>
+          <HintPath>Links\MelonLoader\0Harmony.dll</HintPath>
         </Reference>
         <Reference Include="Assembly-CSharp">
-          <HintPath>References\Assembly-CSharp.dll</HintPath>
+          <HintPath>Links\MelonLoader\Managed\Assembly-CSharp.dll</HintPath>
         </Reference>
         <Reference Include="BoneLib">
-          <HintPath>References\BoneLib.dll</HintPath>
+          <HintPath>Links\Mods\BoneLib.dll</HintPath>
         </Reference>
         <Reference Include="FieldInjector">
-          <HintPath>References\FieldInjector.dll</HintPath>
+          <HintPath>Links\Mods\FieldInjector.dll</HintPath>
         </Reference>
         <Reference Include="Il2Cppmscorlib">
-            <HintPath>References\Il2Cppmscorlib.dll</HintPath>
+            <HintPath>Links\MelonLoader\Managed\Il2Cppmscorlib.dll</HintPath>
         </Reference>
         <Reference Include="JeviLib">
-          <HintPath>References\JeviLib.dll</HintPath>
+          <HintPath>Links\Mods\JeviLib.dll</HintPath>
         </Reference>
         <Reference Include="MelonLoader">
-            <HintPath>References\MelonLoader.dll</HintPath>
+            <HintPath>Links\MelonLoader\MelonLoader.dll</HintPath>
         </Reference>
         <Reference Include="SLZ.Marrow">
-          <HintPath>References\SLZ.Marrow.dll</HintPath>
+          <HintPath>Links\MelonLoader\Managed\SLZ.Marrow.dll</HintPath>
         </Reference>
         <Reference Include="SLZ.Marrow.SDK">
-          <HintPath>References\SLZ.Marrow.SDK.dll</HintPath>
+          <HintPath>Links\MelonLoader\Managed\SLZ.Marrow.SDK.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="UltEvents">
-          <HintPath>References\UltEvents.dll</HintPath>
+          <HintPath>Links\MelonLoader\Managed\UltEvents.dll</HintPath>
         </Reference>
         <Reference Include="UnhollowerBaseLib">
-            <HintPath>References\UnhollowerBaseLib.dll</HintPath>
+            <HintPath>Links\MelonLoader\Managed\UnhollowerBaseLib.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.AudioModule">
-          <HintPath>References\UnityEngine.AudioModule.dll</HintPath>
+          <HintPath>Links\MelonLoader\Managed\UnityEngine.AudioModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
-          <HintPath>References\UnityEngine.CoreModule.dll</HintPath>
+          <HintPath>Links\MelonLoader\Managed\UnityEngine.CoreModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.ParticleSystemModule">
-          <HintPath>References\UnityEngine.ParticleSystemModule.dll</HintPath>
+          <HintPath>Links\MelonLoader\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.PhysicsModule">
-          <HintPath>References\UnityEngine.PhysicsModule.dll</HintPath>
+          <HintPath>Links\MelonLoader\Managed\UnityEngine.PhysicsModule.dll</HintPath>
         </Reference>
     </ItemGroup>
 </Project>
