@@ -5,17 +5,24 @@
 /// </summary>
 public class Crying : MonoBehaviour
 {
+    private static readonly List<Crying> Cryers = new();
+    
     private void Start()
     {
-        var othercryers = FindObjectsOfType<CryingMarker>();
-        if (othercryers.Length > 0)
+        if (Cryers.Count > 0)
         {
             Destroy(gameObject);
         }
         else
         {
-            gameObject.AddComponent<CryingMarker>();
+            Cryers.Add(this);
         }
     }
+    
+    private void OnDestroy()
+    {
+        Cryers.Remove(this);
+    }
+    
     public Crying(IntPtr ptr) : base(ptr) { }
 }

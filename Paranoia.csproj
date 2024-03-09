@@ -56,7 +56,6 @@
         <Compile Include="Scripts\Entities\Chaser.cs" />
         <Compile Include="Scripts\Entities\Crasher.cs" />
         <Compile Include="Scripts\Entities\Crying.cs" />
-        <Compile Include="Scripts\Entities\CryingMarker.cs" />
         <Compile Include="Scripts\Entities\Follower.cs" />
         <Compile Include="Scripts\Entities\Mirage.cs" />
         <Compile Include="Scripts\Entities\Paralyzer.cs" />
