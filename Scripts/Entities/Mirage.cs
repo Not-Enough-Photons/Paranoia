@@ -37,8 +37,8 @@ public class Mirage : MonoBehaviour
 
     private void SetTargetPosition()
     {
-        var randX = UnityEngine.Random.Range(minX, maxX);
-        var randZ = UnityEngine.Random.Range(minZ, maxZ);
+        var randX = Random.Range(minX, maxX);
+        var randZ = Random.Range(minZ, maxZ);
         _targetPosition = new Vector3(randX, transform.position.y, randZ);
     }
         

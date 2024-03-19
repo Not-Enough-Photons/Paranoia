@@ -1,4 +1,6 @@
-﻿namespace NEP.Paranoia.Scripts.Entities;
+﻿using SLZ.Marrow.SceneStreaming;
+
+namespace NEP.Paranoia.Scripts.Entities;
 
 /// <summary>
 /// Crashes the game if it gets too close.
@@ -31,7 +33,8 @@ public class Crasher : MonoBehaviour
         if (other.GetComponentInParent<RigManager>() != null)
         {
             ModStats.IncrementEntry("PlayersTrolled");
-            Utilities.CrashGame();
+            if (Preferences.AllowCrashing.Value) Utilities.CrashGame();
+            else SceneStreamer.Load(CommonBarcodes.Maps.VoidG114);
         }
     }
 
