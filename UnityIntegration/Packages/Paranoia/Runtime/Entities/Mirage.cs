@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
 using NEP.Paranoia.Scripts.InternalBehaviours;
+using UnityEngine.AI;
 
 namespace NEP.Paranoia.Scripts.Entities
 {
     [AddComponentMenu("Paranoia/Entities/Mirage")]
 	[HelpURL("https://github.com/Not-Enough-Photons/Paranoia/wiki/Entities#mirage")]
+    [RequireComponent(typeof(NavMeshAgent))]
     public class Mirage : ParanoiaEvent
     {
         public override string Comment => "Randomly moves around the map. Should be initially spawned at the center of the map, Y value does not matter as long as X and Z are 0.";
@@ -16,39 +18,23 @@ namespace NEP.Paranoia.Scripts.Entities
         public float despawnTime;
         [Tooltip("If this is enabled, the mirage will not despawn after the amounted time. You will have to implement shooting events yourself with a generic attack reciever.")]
         public bool shootable;
-        [Header("Bounds Settings")]
-        [Tooltip("The minimum X value the mirage can move to")]
-        public float minX = -195f;
-        [Tooltip("The minimum Z value the mirage can move to")]
-        public float minZ = -195f;
-        [Tooltip("The maximum X value the mirage can move to")]
-        public float maxX = 195f;
-        [Tooltip("The maximum Z value the mirage can move to")]
-        public float maxZ = 195f;
-        private Transform _player;
-        private Transform This => transform;
-        private Vector3 _targetPosition;
+        private NavMeshAgent _agent;
 
         private void Start()
         {
-            SetTargetPosition();
+            _agent = GetComponent<NavMeshAgent>();
+            _agent.speed = movementSpeed;
+            Move();
         }
 
-        private void Update()
+        private void Move()
         {
-            This.position = Vector3.Lerp(transform.position, _targetPosition, movementSpeed * Time.deltaTime);
-            This.LookAt(_player);
-            if (Vector3.Distance(transform.position, _targetPosition) < 0.1f)
-            {
-                SetTargetPosition();
-            }
+            _agent.SetDestination(Utilities.GetRandomPointFromNavmesh());
         }
 
-        private void SetTargetPosition()
+        private void FixedUpdate()
         {
-            var randX = UnityEngine.Random.Range(minX, maxX);
-            var randZ = UnityEngine.Random.Range(minZ, maxZ);
-            _targetPosition = new Vector3(randX, transform.position.y, randZ);
+            if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance) Move();
         }
 
         private IEnumerator DespawnSelf(float delay)

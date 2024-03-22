@@ -1,4 +1,6 @@
-﻿namespace NEP.Paranoia.Scripts.Entities;
+﻿using UnityEngine.AI;
+
+namespace NEP.Paranoia.Scripts.Entities;
 
 /// <summary>
 /// Rapidly darts around the map.
@@ -8,40 +10,28 @@ public class Mirage : MonoBehaviour
     public float movementSpeed;
     public float despawnTime;
     public bool shootable;
-    public float minX = -195f;
-    public float minZ = -195f;
-    public float maxX = 195f;
-    public float maxZ = 195f;
-    private Transform _player;
-    private Transform This => transform;
-    private Vector3 _targetPosition;
+    private NavMeshAgent _agent;
 
     private void Start()
     {
         ModConsole.Msg("Mirage spawned", LoggingMode.Debug);
-        _player = Player.playerHead;
-        SetTargetPosition();
+        _agent = GetComponent<NavMeshAgent>();
+        _agent.speed = movementSpeed;
+        Move();
         if (shootable) return;
         MelonCoroutines.Start(DespawnSelf(despawnTime));
     }
 
-    private void Update()
+    private void Move()
     {
-        This.position = Vector3.Lerp(transform.position, _targetPosition, movementSpeed * Time.deltaTime);
-        This.LookAt(_player);
-        if (Vector3.Distance(transform.position, _targetPosition) < 0.1f)
-        {
-            SetTargetPosition();
-        }
+        _agent.SetDestination(Utilities.GetRandomPointFromNavmesh());
     }
 
-    private void SetTargetPosition()
+    private void FixedUpdate()
     {
-        var randX = Random.Range(minX, maxX);
-        var randZ = Random.Range(minZ, maxZ);
-        _targetPosition = new Vector3(randX, transform.position.y, randZ);
+        if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance) Move();
     }
-        
+    
     private IEnumerator DespawnSelf(float delay)
     {
         yield return new WaitForSeconds(delay);

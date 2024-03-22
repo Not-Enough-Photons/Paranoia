@@ -1,4 +1,5 @@
 ﻿using SLZ.Marrow.SceneStreaming;
+using UnityEngine.AI;
 
 namespace NEP.Paranoia.Scripts.Entities;
 
@@ -12,7 +13,7 @@ public class Crasher : MonoBehaviour
     public AudioClip[] possibleSounds;
     public AudioSource audioSource;
     private Transform _player;
-    private Transform This => transform;
+    private NavMeshAgent _agent;
         
     private void Start()
     {
@@ -20,12 +21,13 @@ public class Crasher : MonoBehaviour
         audioSource.clip = possibleSounds[Random.Range(0, possibleSounds.Length)];
         audioSource.Play();
         _player = Player.playerHead;
+        _agent.speed = movementSpeed;
+        _agent.speed = movementSpeed;
     }
         
     private void FixedUpdate()
     {
-        This.localPosition += This.forward * (movementSpeed * Time.deltaTime);
-        This.LookAt(_player);
+        _agent.SetDestination(_player.position);
     }
 
     private void OnTriggerEnter(Collider other)

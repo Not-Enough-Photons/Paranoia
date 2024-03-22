@@ -129,6 +129,9 @@
         <Reference Include="UnhollowerBaseLib">
             <HintPath>Links\MelonLoader\Managed\UnhollowerBaseLib.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.AIModule">
+          <HintPath>..\..\Weather Electric\TrentBehaviour\Links\MelonLoader\Managed\UnityEngine.AIModule.dll</HintPath>
+        </Reference>
         <Reference Include="UnityEngine.AudioModule">
           <HintPath>Links\MelonLoader\Managed\UnityEngine.AudioModule.dll</HintPath>
         </Reference>

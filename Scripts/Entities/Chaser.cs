@@ -1,4 +1,6 @@
-﻿namespace NEP.Paranoia.Scripts.Entities;
+﻿using UnityEngine.AI;
+
+namespace NEP.Paranoia.Scripts.Entities;
 
 /// <summary>
 /// Chases the player. Very similar to Follower, but plays a random sound.
@@ -10,7 +12,7 @@ public class Chaser : MonoBehaviour
     public AudioClip[] possibleSounds;
     public AudioSource audioSource;
     private Transform _player;
-    private Transform This => transform;
+    private NavMeshAgent _agent;
 
     private void Start()
     {
@@ -18,12 +20,13 @@ public class Chaser : MonoBehaviour
         audioSource.clip = possibleSounds[Random.Range(0, possibleSounds.Length)];
         audioSource.Play();
         _player = Player.playerHead;
+        _agent = GetComponent<NavMeshAgent>();
+        _agent.speed = movementSpeed;
     }
         
     private void FixedUpdate()
     {
-        This.localPosition += This.forward * (movementSpeed * Time.deltaTime);
-        This.LookAt(_player);
+        _agent.SetDestination(_player.position);
     }
         
     private void OnTriggerEnter(Collider other)

@@ -1,4 +1,6 @@
-﻿namespace NEP.Paranoia.Scripts.Entities;
+﻿using UnityEngine.AI;
+
+namespace NEP.Paranoia.Scripts.Entities;
 
 /// <summary>
 /// Follows the player.
@@ -8,18 +10,19 @@ public class Follower : MonoBehaviour
     public float movementSpeed;
     public bool shootable;
     private Transform _player;
-    private Transform This => transform;
+    private NavMeshAgent _agent;
         
     private void Start()
     {
         ModConsole.Msg("Follower spawned", LoggingMode.Debug);
         _player = Player.playerHead;
+        _agent = GetComponent<NavMeshAgent>();
+        _agent.speed = movementSpeed;
     }
         
     private void FixedUpdate()
     {
-        This.localPosition += This.forward * (movementSpeed * Time.deltaTime);
-        This.LookAt(_player);
+        _agent.SetDestination(_player.position);
     }
         
     private void OnTriggerEnter(Collider other)

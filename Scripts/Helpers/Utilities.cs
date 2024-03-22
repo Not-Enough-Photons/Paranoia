@@ -1,4 +1,6 @@
-﻿namespace NEP.Paranoia.Scripts.Helpers;
+﻿using UnityEngine.AI;
+
+namespace NEP.Paranoia.Scripts.Helpers;
 
 /// <summary>
 /// A collection of helper methods for Barcode.
@@ -25,6 +27,7 @@ public static class Utilities
 
         return result;
     }
+    
 
     private static BehaviourBaseNav[] FindBaseNavs(AIBrain[] brains)
     {
@@ -36,6 +39,17 @@ public static class Utilities
         });
 
         return baseNavs.ToArray();
+    }
+    
+    /// <summary>
+    /// Gets a random point from the navmesh.
+    /// </summary>
+    /// <returns>Vector3 position of the random point</returns>
+    public static Vector3 GetRandomPointFromNavmesh()
+    {
+        NavMeshTriangulation navMeshData = NavMesh.CalculateTriangulation();
+        int randomIndex = Random.Range(0, navMeshData.vertices.Length);
+        return navMeshData.vertices[randomIndex];
     }
         
     /// <summary>
