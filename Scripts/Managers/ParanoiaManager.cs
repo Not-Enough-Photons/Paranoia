@@ -2,7 +2,7 @@
 
 public class ParanoiaManager : MonoBehaviour
 {
-    public static ParanoiaManager Instance;
+    public static ParanoiaManager Instance { get; private set; }
     
     public ManagerType managerType;
     
